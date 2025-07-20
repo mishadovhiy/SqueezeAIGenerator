@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct SqueezeGeneratorApp: App {
+    @StateObject var db: AppData = .init()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(db)
         }
     }
 }
