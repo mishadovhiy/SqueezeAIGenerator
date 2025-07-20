@@ -5,7 +5,7 @@ enum NavRout: Hashable {
     case question(NetworkResponse.AdviceResponse.QuestionResponse)
 }
 
-struct ContentView: View {
+struct HomeView: View {
     @State var appResponse: NetworkResponse.CategoriesResponse? {
         didSet {
             appDataLoading = false
@@ -47,7 +47,9 @@ struct ContentView: View {
                 Text("Error loading app data")
             }
         }
+        
         .padding()
+        .background(content: {HomeBackgroundView()})
         .sheet(isPresented: $textPresenting, content: {
             TextView(text: response?.response.textHolder ?? "??", needScroll: true)
         })
@@ -56,6 +58,7 @@ struct ContentView: View {
         }
         .task(priority: .userInitiated) {
             NetworkModel().appData { response in
+                db.db.network.settings = response?.appData.settings
                 DispatchQueue.main.async {
                     self.appResponse = response
                     self.collectionData = (response?.categories ?? []).compactMap({
@@ -259,9 +262,7 @@ struct ContentView: View {
                         fatalError()
                     }
                 })
-                .background(.red)
             }
-            .background(.orange)
             .frame(height: contentHeight)
         }
         .frame(maxHeight: .infinity)
@@ -366,7 +367,6 @@ struct SqueezeView: View, Hashable {
             Text(response.questionName)
             Spacer()
         }
-        .background(.red)
         .onAppear {
             print(response.questionName, " uyhtyrgtefrd ")
         }

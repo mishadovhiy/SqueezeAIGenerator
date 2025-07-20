@@ -58,4 +58,9 @@ class AppData:ObservableObject {
 
 struct DataBase: Codable {
     var responses: [AdviceQuestionModel] = []
+    var network: Network = .init()
+    
+    struct Network: Codable {
+        var settings: NetworkResponse.CategoriesResponse.AppData.Settings? = nil
+    }
 }

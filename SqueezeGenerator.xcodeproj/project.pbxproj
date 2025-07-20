@@ -18,12 +18,14 @@
 		82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B732E2D2C4000CC3FAD /* NetworkModel.swift */; };
 		82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B752E2D2C4000CC3FAD /* CollectionView.swift */; };
 		82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B762E2D2C4000CC3FAD /* CollectionViewCell.swift */; };
-		82AF8B8D2E2D2C4000CC3FAD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B792E2D2C4000CC3FAD /* ContentView.swift */; };
+		82AF8B8D2E2D2C4000CC3FAD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B792E2D2C4000CC3FAD /* HomeView.swift */; };
 		82AF8B8E2E2D2C4000CC3FAD /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B7B2E2D2C4000CC3FAD /* AppData.swift */; };
 		82AF8B8F2E2D2C4000CC3FAD /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B7D2E2D2C4000CC3FAD /* Keys.swift */; };
 		82AF8B902E2D2C4000CC3FAD /* SqueezeGeneratorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B7F2E2D2C4000CC3FAD /* SqueezeGeneratorApp.swift */; };
 		82AF8B912E2D2C4000CC3FAD /* StorekitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B802E2D2C4000CC3FAD /* StorekitModel.swift */; };
 		82AF8B922E2D2C4000CC3FAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82AF8B7C2E2D2C4000CC3FAD /* Assets.xcassets */; };
+		82AF8B942E2D515300CC3FAD /* DifficultyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B932E2D515300CC3FAD /* DifficultyPickerView.swift */; };
+		82AF8B962E2D51D900CC3FAD /* HomeBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,13 +60,15 @@
 		82AF8B732E2D2C4000CC3FAD /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		82AF8B752E2D2C4000CC3FAD /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		82AF8B762E2D2C4000CC3FAD /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		82AF8B792E2D2C4000CC3FAD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		82AF8B792E2D2C4000CC3FAD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		82AF8B7B2E2D2C4000CC3FAD /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		82AF8B7C2E2D2C4000CC3FAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		82AF8B7D2E2D2C4000CC3FAD /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		82AF8B7E2E2D2C4000CC3FAD /* SqueezeGenerator.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SqueezeGenerator.entitlements; sourceTree = "<group>"; };
 		82AF8B7F2E2D2C4000CC3FAD /* SqueezeGeneratorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SqueezeGeneratorApp.swift; sourceTree = "<group>"; };
 		82AF8B802E2D2C4000CC3FAD /* StorekitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorekitModel.swift; sourceTree = "<group>"; };
+		82AF8B932E2D515300CC3FAD /* DifficultyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyPickerView.swift; sourceTree = "<group>"; };
+		82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBackgroundView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -176,7 +180,6 @@
 		82AF8B782E2D2C4000CC3FAD /* ComponentView */ = {
 			isa = PBXGroup;
 			children = (
-				82AF8B792E2D2C4000CC3FAD /* ContentView.swift */,
 				82AF8B772E2D2C4000CC3FAD /* CollectionView */,
 			);
 			path = ComponentView;
@@ -185,6 +188,8 @@
 		82AF8B7A2E2D2C4000CC3FAD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				82AF8B972E2D584600CC3FAD /* HomeView */,
+				82AF8B932E2D515300CC3FAD /* DifficultyPickerView.swift */,
 				82AF8B782E2D2C4000CC3FAD /* ComponentView */,
 			);
 			path = View;
@@ -204,6 +209,15 @@
 				82AF8B802E2D2C4000CC3FAD /* StorekitModel.swift */,
 			);
 			path = SqueezeGenerator;
+			sourceTree = "<group>";
+		};
+		82AF8B972E2D584600CC3FAD /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				82AF8B792E2D2C4000CC3FAD /* HomeView.swift */,
+				82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */,
+			);
+			path = HomeView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82AF8B962E2D51D900CC3FAD /* HomeBackgroundView.swift in Sources */,
 				82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */,
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
 				82AF8B842E2D2C4000CC3FAD /* AdviceResponse.swift in Sources */,
@@ -358,8 +373,9 @@
 				82AF8B892E2D2C4000CC3FAD /* SqueezeRequest.swift in Sources */,
 				82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */,
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,
+				82AF8B942E2D515300CC3FAD /* DifficultyPickerView.swift in Sources */,
 				82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */,
-				82AF8B8D2E2D2C4000CC3FAD /* ContentView.swift in Sources */,
+				82AF8B8D2E2D2C4000CC3FAD /* HomeView.swift in Sources */,
 				82AF8B8E2E2D2C4000CC3FAD /* AppData.swift in Sources */,
 				82AF8B8F2E2D2C4000CC3FAD /* Keys.swift in Sources */,
 				82AF8B902E2D2C4000CC3FAD /* SqueezeGeneratorApp.swift in Sources */,
