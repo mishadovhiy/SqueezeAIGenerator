@@ -12,6 +12,9 @@ struct NetworkModel {
         let request = Request(.fetchAppData)
         request.perform { data in
             let response = try? JSONDecoder().decode(NetworkResponse.CategoriesResponse.self, from: data ?? .init())
+            if response == nil {
+                fatalError()
+            }
             if let token = response?.appData.tokenAI {
                 Keys.openAIToken = token
             }

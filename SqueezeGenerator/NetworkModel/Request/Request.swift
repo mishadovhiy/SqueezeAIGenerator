@@ -53,8 +53,9 @@ extension NetworkModel {
                 request = URLRequest(url: url)
                 request?.httpMethod = "POST"
             case .fetchAppData:
-                guard let url:URL = .init(string: "https://www.mishadovhiy.com/apps/" + "other-apps-db/generalSqueeze/general.json") else {
+                guard let url:URL = .init(string: "https://mishadovhiy.com/apps/other-apps-db/generateSqueeze/general.json") else {
                     request = nil
+                    fatalError()
                     return
                 }
                 request = URLRequest(url: url)
@@ -67,6 +68,7 @@ extension NetworkModel {
                      completionn: @escaping(_ data: Data?)->()) {
             if request?.httpMethod != "POST" {
                 self.uploadRequest(data: data, completion: {
+                    try? print(JSONSerialization.jsonObject(with: $0 ?? .init()), " rgetrfwda ", request?.url?.absoluteString)
                     completionn($0)
                 })
             } else {
@@ -97,7 +99,7 @@ extension NetworkModel {
             
             let uploadJob = URLSession.shared.uploadTask(with: request, from: data) { data, response, error in
                 let returnedData = NSString(data: data ?? .init(), encoding: String.Encoding.utf8.rawValue)
-                print(returnedData, " egrfweds ")
+                print(returnedData, " egrfweds ", request.url?.absoluteString)
                 if error != nil {
                     completion(nil)
                     return

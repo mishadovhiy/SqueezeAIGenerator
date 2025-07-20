@@ -22,6 +22,13 @@ struct ContentView: View {
     @State var rqStarted: Bool = false
     @State var textPresenting: Bool = false
     @State var dbPresenting: Bool = false
+    @State var selectedIDs: [String] = [] {
+        didSet {
+            print(selectedIDs, " tgerfwd ")
+            self.updateTableData()
+        }
+    }
+    @State var appDataLoading: Bool = true
     
     var body: some View {
         VStack(spacing: 15) {
@@ -51,13 +58,75 @@ struct ContentView: View {
             NetworkModel().appData { response in
                 DispatchQueue.main.async {
                     self.appResponse = response
-                    self.coll
+                    self.collectionData = (response?.categories ?? []).compactMap({
+                        self.performAddTableData($0)
+                    })
+                    
                 }
             }
         }
     }
-    @State var selectedIDs: [String] = []
-    @State var appDataLoading: Bool = true
+    func updateTableData() {
+        var collectionData = collectionData
+        collectionData = (appResponse?.categories ?? []).compactMap({ .init(title: $0.name , id: $0.id) })
+        self.selectedIDs.forEach { id in
+            let items = self.findSelectedCategory(cats: appResponse?.categories ?? [], selectedID: id)
+            let index = collectionData.firstIndex(where: {
+                $0.id == id
+            })
+            let newItems = items?.list?.compactMap({
+                self.performAddTableData($0)
+            }) ?? []
+            if let index {
+                collectionData.insert(contentsOf: newItems, at: index + 1)
+
+            } else {
+                selectedIDs.removeAll(where: {
+                    id == $0
+                })
+//                collectionData.append(contentsOf: newItems)
+            }
+            
+        }
+//        appResponse?.categories.forEach { category in
+//            if let cats = category.list {
+//                self.checkTableDataIDs(cats, parentID: category.id, collectionData: &collectionData)
+//            }
+//        }
+        withAnimation(.bouncy) {
+            self.collectionData = collectionData
+        }
+    }
+    func checkTableDataIDs(_ response: [NetworkResponse.CategoriesResponse.Categories], parentID: String, collectionData: inout [CollectionViewController.CollectionData]) {
+        if selectedIDs.isEmpty {
+            return
+        }
+        if selectedIDs.contains(parentID) {
+            if let parentIndex = collectionData.firstIndex(where: {
+                $0.id == parentID
+            }) {
+                collectionData.insert(contentsOf: response.compactMap({
+                    self.performAddTableData($0)
+                }), at: parentIndex + 1)
+            } else {
+                print("appdend: ", parentID)
+                collectionData.append(contentsOf: response.compactMap({
+                    self.performAddTableData($0)
+                }))
+            }
+        } else {
+            response.forEach { category in
+                if let categories = category.list {
+                    self.checkTableDataIDs(categories, parentID: category.id, collectionData: &collectionData)
+                }
+            }
+        }
+    }
+    
+    func performAddTableData(_ response: NetworkResponse.CategoriesResponse.Categories) -> CollectionViewController.CollectionData {
+        .init(title: response.name, id: response.id)
+    }
+    
     var buttonsView: some View {
         VStack {
             if currentQuestion == nil {
@@ -135,6 +204,30 @@ struct ContentView: View {
     }
     @State var dataCount: Int = 5
     @State var contentHeight: CGFloat = 0
+    func findSelectedCategory(cats: [NetworkResponse.CategoriesResponse.Categories], selectedID: String) -> NetworkResponse.CategoriesResponse.Categories? {
+        if let selectedCat = cats.first(where: {
+            $0.id == selectedID
+        }) {
+            return selectedCat
+        } else {
+            if let selected = cats.first(where: {
+                $0.list?.contains(where: {
+                    $0.id == selectedID
+                }) ?? false
+            }) {
+                return selected.list?.first(where: {
+                    $0.id == selectedID
+                })
+            } else {
+                let array = cats.compactMap({$0.list}).flatMap({$0})
+                if !array.isEmpty {
+                    return findSelectedCategory(cats: array, selectedID: selectedID)
+                } else {
+                    return nil
+                }
+            }
+        }
+    }
     @ViewBuilder
     var requestEditorView: some View {
         let `default` = NetworkRequest.SqueezeRequest.default
@@ -144,9 +237,28 @@ struct ContentView: View {
         Spacer().frame(height: 15)
         ScrollView(.vertical) {
             VStack {
-                CollectionView(contentHeight: $contentHeight, data: Array(0..<dataCount).compactMap({
-                    .init(title: "adsasd\($0)")
-                }))
+                CollectionView(contentHeight: $contentHeight, data: collectionData, didSelect: { at in
+                    let category = collectionData[at!]
+                    if let response = self.findSelectedCategory(cats: self.appResponse?.categories ?? [], selectedID: category.id) {
+                        if response.list != nil {
+                            if selectedIDs.contains(response.id) {
+                                selectedIDs.removeAll(where: {
+                                    $0 == response.id
+                                })
+                            } else {
+                                self.selectedIDs.append(response.id)
+                            }
+                            
+                            print(response.list, " grfsd")
+                        } else {
+                            print(category)
+                            fatalError()
+                            //go to difficulty
+                        }
+                    } else {
+                        fatalError()
+                    }
+                })
                 .background(.red)
             }
             .background(.orange)

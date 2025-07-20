@@ -34,7 +34,14 @@ struct CollectionView: UIViewControllerRepresentable {
         uiViewController.dataUpdated = false
         uiViewController.data = data
         uiViewController.collectionView.reloadData()
-        self.contentHeight = uiViewController.collectionView.contentSize.height
+        uiViewController.collectionView.performBatchUpdates {
+            UIView.animate(withDuration: 0.3) {
+                uiViewController.collectionView.reloadSections(.init(integer: 0))
+            }
+        } completion: { _ in
+            
+        }
+
     }
 }
 
@@ -55,6 +62,7 @@ class CollectionViewController: UICollectionViewController {
         var description:String? = nil
         var cellBackground:UIColor? = nil
         var isSelected:Bool = false
+        var id: String = UUID().uuidString
     }
     var contentHeightUpdated:((_ newHeight:CGFloat)->())?
     private var heightHolder:CGFloat = 0 {

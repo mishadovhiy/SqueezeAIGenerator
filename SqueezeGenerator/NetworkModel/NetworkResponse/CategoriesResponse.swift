@@ -17,10 +17,11 @@ extension NetworkResponse {
             let description: String
             let list: [Categories]?
             let resultType: String?
-            var id: UUID = .init()
-            var resultValueType: ResultType? {
-                .init(rawValue: resultType ?? "")
-            }
+            var id: String
+            
+//            var resultValueType: ResultType? {
+//                .init(rawValue: resultType ?? "")
+//            }
             enum ResultType: String {
                 case grade
             }
