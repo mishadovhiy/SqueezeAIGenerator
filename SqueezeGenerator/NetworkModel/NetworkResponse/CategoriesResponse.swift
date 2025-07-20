@@ -29,6 +29,11 @@ extension NetworkResponse {
         
         struct AppData: Codable {
             let tokenAI: String
+            let settings: Settings
+            
+            struct Settings: Codable {
+                let canShowAdds: Bool
+            }
         }
     }
 }
