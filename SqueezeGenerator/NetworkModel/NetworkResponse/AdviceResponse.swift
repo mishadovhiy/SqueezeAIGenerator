@@ -8,7 +8,7 @@
 import Foundation
 
 struct AdviceQuestionModel: Codable {
-    let response: NetworkResponse.AdviceResponse
+    let response: NetworkResponse.AdviceResponse//no need
     var save: SaveModel
     var id: UUID = .init()
     struct SaveModel:Codable {
@@ -20,7 +20,7 @@ struct AdviceQuestionModel: Codable {
             return grade
         }
         /// change cat, after implementing cat from API json model
-        var category: String = ""
+        var category: String = ""//no need
         
         var request: NetworkRequest.SqueezeRequest?
         var questionResults: [NetworkResponse.AdviceResponse.QuestionResponse: NetworkResponse.AdviceResponse.QuestionResponse.Option] = [:]

@@ -13,7 +13,6 @@ struct HomeView: View {
     }
     @State var collectionData: [CollectionViewController.CollectionData] = []
     @State var response: AdviceQuestionModel?
-    @State var totalGrade: Int = 0
     @State var category: String = ""
     @State var description: String = ""
     @State var type: String = ""
@@ -47,14 +46,17 @@ struct HomeView: View {
                 Text("Error loading app data")
             }
         }
-        
+        .opacity(dbPresenting ? 0 : 1)
+        .animation(.smooth(duration: 1.2), value: dbPresenting)
+        .frame(maxWidth: .infinity,
+               maxHeight: .infinity)
         .padding()
         .background(content: {HomeBackgroundView()})
-        .sheet(isPresented: $textPresenting, content: {
-            TextView(text: response?.response.textHolder ?? "??", needScroll: true)
-        })
-        .sheet(isPresented: $dbPresenting) {
+        .fullScreenCover(isPresented: $dbPresenting, content: {
             DBView()
+        })
+        .sheet(isPresented: $textPresenting) {
+            TextView(text: response?.response.textHolder ?? "??", needScroll: true)
         }
         .task(priority: .userInitiated) {
             NetworkModel().appData { response in
@@ -188,9 +190,8 @@ struct HomeView: View {
     var navigationStack: some View {
         NavigationStack(path: $navValues) {
             VStack(content: {
-                Color.clear
+                Text("request is ready")
             })
-            .background(.clear)
             .background {
                 ClearBackgroundView()
             }
@@ -199,6 +200,9 @@ struct HomeView: View {
                     .background {
                         ClearBackgroundView()
                     }
+            }
+            .background {
+                ClearBackgroundView()
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -298,71 +302,65 @@ struct HomeView: View {
     }
     @ViewBuilder
     var requestEditorView: some View {
-        let `default` = NetworkRequest.SqueezeRequest.default
-        TextField(`default`.category, text: $category)
-        TextField(`default`.type, text: $type)
-        TextField(`default`.description, text: $description)
-        Spacer().frame(height: 15)
-        ScrollView(.vertical) {
-            VStack {
-                CollectionView(contentHeight: $contentHeight, data: collectionData, didSelect: { at in
-                    let category = collectionData[at!]
-                    if let response = self.findSelectedCategory(cats: self.appResponse?.categories ?? [], selectedID: category.id) {
-                        if response.list != nil {
-                            if selectedIDs.contains(response.id) {
-                                selectedIDs.removeAll(where: {
-                                    $0 == response.id
+        GeometryReader { proxy in
+            ScrollView(.vertical) {
+                VStack {
+                    Spacer().frame(height: proxy.size.height * 0.8)
+                    CollectionView(contentHeight: $contentHeight, data: collectionData, didSelect: { at in
+                        let category = collectionData[at!]
+                        if let response = self.findSelectedCategory(cats: self.appResponse?.categories ?? [], selectedID: category.id) {
+                            if response.list != nil {
+                                if selectedIDs.contains(response.id) {
+                                    selectedIDs.removeAll(where: {
+                                        $0 == response.id
+                                    })
+                                } else {
+                                    self.selectedIDs.append(response.id)
+                                }
+                                
+                                print(response.list, " grfsd")
+                            } else {
+                                print(category)
+                                let resp = self.convertToAllLists(list: self.appResponse?.categories ?? [])
+                                print("gterfweads")
+                                let selected = response
+                                let parent = resp.first(where: {
+                                    $0.id == category.parentID
                                 })
-                            } else {
-                                self.selectedIDs.append(response.id)
+                                let parents:[NetworkResponse.CategoriesResponse.Categories]
+                                print(parent?.id, " tegrfwed")
+                                if let parent {
+                                    parents = findParents(id: parent.id, found: [], totalList: resp).reversed()
+                                } else {
+                                    parents = []
+                                }
+                                var parentTitle:String? = parents.compactMap({
+                                    $0.name
+                                }).joined(separator: ", ")
+                                print(parentTitle, " gterfw", parent?.id)
+                                print(selected, " yrhtegrfse ", category.parentID)
+                                if parentTitle?.isEmpty ?? false {
+                                    parentTitle = nil
+                                }
+                                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
+                                //go to difficulty
                             }
-                            
-                            print(response.list, " grfsd")
                         } else {
-                            print(category)
-                            let resp = self.convertToAllLists(list: self.appResponse?.categories ?? [])
-                            print("gterfweads")
-                            let selected = response
-                            let parent = resp.first(where: {
-                                $0.id == category.parentID
-                            })
-                            let parents:[NetworkResponse.CategoriesResponse.Categories]
-                            print(parent?.id, " tegrfwed")
-                            if let parent {
-                                parents = findParents(id: parent.id, found: [], totalList: resp).reversed()
-                            } else {
-                                parents = []
-                            }
-                            var parentTitle:String? = parents.compactMap({
-                                $0.name
-                            }).joined(separator: ", ")
-                            print(parentTitle, " gterfw", parent?.id)
-                            print(selected, " yrhtegrfse ", category.parentID)
-                            if parentTitle?.isEmpty ?? false {
-                                parentTitle = nil
-                            }
-                            self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
-                            //go to difficulty
+                            fatalError()
                         }
-                    } else {
-                        fatalError()
-                    }
-                })
-                
+                    })
+                    .frame(height: contentHeight)
+                }
             }
-            .frame(height: contentHeight)
-        }
-        .frame(maxHeight: .infinity)
-        Button("squuze") {
-            startGenerationRequest(type, category: category, description: description)
         }
     }
     
     func startGenerationRequest(_ type: String, category: String, description: String) {
         self.rqStarted = true
         Task(priority: .userInitiated) {
-            NetworkModel().advice(.init(type: type, category: category, description: description)) { response in
-                self.response = .init(response: response!, save: .init())
+            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
+            NetworkModel().advice(request) { response in
+                self.response = .init(response: response!, save: .init(category: category, request: request, questionResults: [:]))
             }
         }
     }
@@ -405,44 +403,132 @@ struct TextView: View {
     }
 }
 
+struct DBCategoriyView: View {
+    @EnvironmentObject var db: AppData
+    let selectedCategory: String
+    var data: [AdviceQuestionModel] {
+        db.db.responses.filter({
+            $0.save.request?.category == selectedCategory
+        })
+    }
+    var body: some View {
+        ScrollView {
+            VStack {
+                if data.isEmpty {
+                    Text("no saved data")
+                }
+                ForEach(data, id: \.id) { response in
+                    NavigationLink {
+                        DBDetailView(item: response)
+                    } label: {
+                        VStack {
+                            Text("\(response.save.category ?? "") = \(response.save.grade ?? 0)")
+                        }
+                    }
+                    .background(.white)
+                }
+            }
+        }
+        .background {
+            ClearBackgroundView()
+        }
+    }
+}
+
 struct DBView: View {
     @EnvironmentObject var db: AppData
-    
+    @Environment(\.dismiss) var dismiss
     var body: some View {
         NavigationStack {
             VStack {
-                if db.db.responses.isEmpty {
-                    Text("No values")
-                }
                 ScrollView {
-                    VStack {
-                        ForEach(db.db.responses, id: \.id) { response in
-                            NavigationLink("\(response.save.category ?? "") = \(response.save.grade ?? 0)") {
-                                DBDetailView(item: response)
+                    VStack(spacing: 20) {
+                        HStack {
+                            Button("close") {
+                                dismiss.callAsFunction()
                             }
+                            Spacer()
+                        }
+                        Spacer().frame(height: 10)
+                        if db.db.responses.isEmpty {
+                            Text("No values")
+                        }
+                        ForEach(Array(Set(db.db.responses.compactMap({
+                            $0.save.request?.category ?? ""
+                        }))), id: \.self) { response in
+                            NavigationLink {
+                                DBCategoriyView(selectedCategory: response)
+                            } label: {
+                                VStack {
+                                    Text(response + "d")
+                                }
+                            }
+                            .background(.white)
+
                         }
                     }
                 }
             }
+            .background {
+                ClearBackgroundView()
+            }
+        }
+        .background {
+            ClearBackgroundView()
         }
     }
 }
 
 struct DBDetailView: View {
     let item: AdviceQuestionModel
+    @State var collectionHeights: [String: CGFloat] = [:]
     var body: some View {
         ScrollView(.vertical) {
             VStack {
                 HStack {
-                    Text("\(item.save.grade ?? 0)")
-                    Spacer()
-                    Text("\(item.save.category ?? "")")
+                    VStack {
+                        Text("Type")
+                        Text(item.save.request?.type ?? "-")
+                    }
+                    .frame(maxWidth: .infinity)
+                    VStack {
+                        Text("Category")
+                        Text(item.save.request?.category ?? "-")
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                VStack {
+                    Text("Description")
+                    Text(item.save.request?.description ?? "-")
+                }
+                HStack {
+                    Text("\(item.save.grade)/\(item.response.questions.totalGrade)")
+                    Text("questions: \(item.response.questions.count)")
                 }
                 Divider()
-                TextView(text: item.response.textHolder, needScroll: false)
-                
+                ForEach(Array(item.save.questionResults.keys), id:\.id) { key in
+                    VStack {
+                        Text(key.questionName)
+                        Text(key.description)
+                        CollectionView(contentHeight: .init(get: {
+                            collectionHeights[key.id.uuidString] ?? 0
+                        }, set: {
+                            collectionHeights.updateValue($0, forKey: key.id.uuidString)
+                        }), data: key.options.compactMap({
+                            .init(title: $0.optionName)
+                        }))
+                    }
+                    Divider()
+                }
                 
             }
+            .padding(10)
+            .background(.black.opacity(0.2))
+            .cornerRadius(12)
+            .padding(10)
+        }
+        .background {
+            ClearBackgroundView()
         }
     }
     
