@@ -83,22 +83,22 @@ struct HomeView: View {
             }) ?? []
             if let index {
                 collectionData.insert(contentsOf: newItems, at: index + 1)
-
+                
             } else {
                 selectedIDs.removeAll(where: {
                     id == $0
                 })
-//                collectionData.append(contentsOf: newItems)
+                //                collectionData.append(contentsOf: newItems)
             }
             
         }
         print(collectionData.compactMap({$0.parentID}).joined(separator: ", "), " juyhfvddvs ")
-
-//        appResponse?.categories.forEach { category in
-//            if let cats = category.list {
-//                self.checkTableDataIDs(cats, parentID: category.id, collectionData: &collectionData)
-//            }
-//        }
+        
+        //        appResponse?.categories.forEach { category in
+        //            if let cats = category.list {
+        //                self.checkTableDataIDs(cats, parentID: category.id, collectionData: &collectionData)
+        //            }
+        //        }
         withAnimation(.bouncy) {
             self.collectionData = collectionData
         }
@@ -138,7 +138,7 @@ struct HomeView: View {
             if currentQuestion == nil {
                 Button("Start") {
                     navValues.append(.question(response!.response.questions.first!))
-
+                    
                 }
             }
             actionButtonsView
@@ -148,7 +148,7 @@ struct HomeView: View {
     var actionButtonsView: some View {
         ForEach(currentQuestion?.options ?? [], id: \.id) { option in
             Button(option.optionName + " (\(option.grade))") {
-//                totalGrade += option.grade
+                //                totalGrade += option.grade
                 response?.save.questionResults.updateValue(option, forKey: currentQuestion!)
                 let i = navValues.count
                 if response!.response.questions.count > i {
@@ -187,10 +187,23 @@ struct HomeView: View {
     
     var navigationStack: some View {
         NavigationStack(path: $navValues) {
-            EmptyView()
-                .navigationDestination(for: NavRout.self) { navRout in
-                    navigationDestination(for: navRout)
-                }
+            VStack(content: {
+                Color.clear
+            })
+            .background(.clear)
+            .background {
+                ClearBackgroundView()
+            }
+            .navigationDestination(for: NavRout.self) { navRout in
+                navigationDestination(for: navRout)
+                    .background {
+                        ClearBackgroundView()
+                    }
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .background {
+            ClearBackgroundView()
         }
     }
     
@@ -368,9 +381,9 @@ struct HomeView: View {
     }
     
     func savePressed() {
-//        response?.save = .init(grade: totalGrade, category: "Shiz")
+        //        response?.save = .init(grade: totalGrade, category: "Shiz")
         db.db.responses.append(response!)
-       // navValues = []
+        // navValues = []
         navValues.removeAll()
         response = nil
         rqStarted = false
@@ -394,7 +407,7 @@ struct TextView: View {
 
 struct DBView: View {
     @EnvironmentObject var db: AppData
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -402,13 +415,13 @@ struct DBView: View {
                     Text("No values")
                 }
                 ScrollView {
-//                    VStack {
-//                        ForEach(db.db.responses, id: \.id) { response in
-//                            NavigationLink("\(response.save?.category ?? "") = \(response.save?.grade ?? 0)") {
-//                                DBDetailView(item: response)
-//                            }
-//                        }
-//                    }
+                    VStack {
+                        ForEach(db.db.responses, id: \.id) { response in
+                            NavigationLink("\(response.save.category ?? "") = \(response.save.grade ?? 0)") {
+                                DBDetailView(item: response)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -416,25 +429,23 @@ struct DBView: View {
 }
 
 struct DBDetailView: View {
-//    let item:NetworkResponse.AdviceResponse
-//    var body: some View {
-//        ScrollView(.vertical) {
-//            VStack {
-//                HStack {
-//                    Text("\(item.save?.grade ?? 0)")
-//                    Spacer()
-//                    Text("\(item.save?.category ?? "")")
-//                }
-//                Divider()
-//                TextView(text: item.textHolder, needScroll: false)
-//                
-//                
-//            }
-//        }
-//    }
+    let item: AdviceQuestionModel
     var body: some View {
-        Text("")
+        ScrollView(.vertical) {
+            VStack {
+                HStack {
+                    Text("\(item.save.grade ?? 0)")
+                    Spacer()
+                    Text("\(item.save.category ?? "")")
+                }
+                Divider()
+                TextView(text: item.response.textHolder, needScroll: false)
+                
+                
+            }
+        }
     }
+    
 }
 
 struct SqueezeView: View, Hashable {
@@ -457,17 +468,17 @@ struct SqueezeView: View, Hashable {
 
 struct ResultView: View, Hashable, Equatable {
     static func == (lhs: ResultView, rhs: ResultView) -> Bool {
-            // Comparing the state that matters for equality
-            return lhs.savePressed == rhs.savePressed
-        }
-        
-        // Hashing function
-        func hash(into hasher: inout Hasher) {
-            // Hash the properties that define uniqueness
-            hasher.combine(savePressed)
-        }
+        // Comparing the state that matters for equality
+        return lhs.savePressed == rhs.savePressed
+    }
     
-
+    // Hashing function
+    func hash(into hasher: inout Hasher) {
+        // Hash the properties that define uniqueness
+        hasher.combine(savePressed)
+    }
+    
+    
     @Binding var savePressed: Bool
     var body: some View {
         Button("save", action: {

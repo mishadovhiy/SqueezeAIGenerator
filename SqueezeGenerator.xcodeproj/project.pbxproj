@@ -26,6 +26,7 @@
 		82AF8B922E2D2C4000CC3FAD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82AF8B7C2E2D2C4000CC3FAD /* Assets.xcassets */; };
 		82AF8B942E2D515300CC3FAD /* DifficultyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B932E2D515300CC3FAD /* DifficultyPickerView.swift */; };
 		82AF8B962E2D51D900CC3FAD /* HomeBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */; };
+		82AF8B992E2DCE2600CC3FAD /* ClearBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		82AF8B802E2D2C4000CC3FAD /* StorekitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorekitModel.swift; sourceTree = "<group>"; };
 		82AF8B932E2D515300CC3FAD /* DifficultyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyPickerView.swift; sourceTree = "<group>"; };
 		82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBackgroundView.swift; sourceTree = "<group>"; };
+		82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearBackgroundView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -180,6 +182,7 @@
 		82AF8B782E2D2C4000CC3FAD /* ComponentView */ = {
 			isa = PBXGroup;
 			children = (
+				82AF8B9E2E2DD20500CC3FAD /* BaseView */,
 				82AF8B772E2D2C4000CC3FAD /* CollectionView */,
 			);
 			path = ComponentView;
@@ -218,6 +221,14 @@
 				82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */,
 			);
 			path = HomeView;
+			sourceTree = "<group>";
+		};
+		82AF8B9E2E2DD20500CC3FAD /* BaseView */ = {
+			isa = PBXGroup;
+			children = (
+				82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */,
+			);
+			path = BaseView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -362,6 +373,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82AF8B992E2DCE2600CC3FAD /* ClearBackgroundView.swift in Sources */,
 				82AF8B962E2D51D900CC3FAD /* HomeBackgroundView.swift in Sources */,
 				82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */,
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
