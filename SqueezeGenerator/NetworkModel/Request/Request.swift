@@ -58,7 +58,7 @@ extension NetworkModel {
                     fatalError()
                     return
                 }
-                request = URLRequest(url: url)
+                request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
                 request?.httpMethod = "GET"
             }
             

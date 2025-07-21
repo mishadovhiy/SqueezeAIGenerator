@@ -63,6 +63,7 @@ class CollectionViewController: UICollectionViewController {
         var cellBackground:UIColor? = nil
         var isSelected:Bool = false
         var id: String = UUID().uuidString
+        var parentID: String
     }
     var contentHeightUpdated:((_ newHeight:CGFloat)->())?
     private var heightHolder:CGFloat = 0 {

@@ -12,13 +12,18 @@ struct AdviceQuestionModel: Codable {
     var save: SaveModel
     var id: UUID = .init()
     struct SaveModel:Codable {
-        //getter
-        var grade: Int = 0
+        var grade: Int {
+            var grade: Int = 0
+            questionResults.forEach { (key: NetworkResponse.AdviceResponse.QuestionResponse, value: NetworkResponse.AdviceResponse.QuestionResponse.Option) in
+                grade += value.grade
+            }
+            return grade
+        }
         /// change cat, after implementing cat from API json model
         var category: String = ""
         
         var request: NetworkRequest.SqueezeRequest?
-        var questionResults: [NetworkRequest.SqueezeRequest.Question: NetworkRequest.SqueezeRequest.Question.Option] = [:]
+        var questionResults: [NetworkResponse.AdviceResponse.QuestionResponse: NetworkResponse.AdviceResponse.QuestionResponse.Option] = [:]
     }
 }
 
@@ -89,6 +94,17 @@ extension NetworkResponse.AdviceResponse {
             let optionName: String
             let grade: Int
             var id: UUID = .init()
+        }
+    }
+}
+
+extension [NetworkResponse.AdviceResponse.QuestionResponse] {
+    var totalGrade: Int {
+        reduce(0) { partialResult, new in
+            let sorted = new.options.sorted(by: {
+                $0.grade >= $1.grade
+            })
+            return partialResult + (sorted.first?.grade ?? 0)
         }
     }
 }

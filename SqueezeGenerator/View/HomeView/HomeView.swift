@@ -61,9 +61,7 @@ struct HomeView: View {
                 db.db.network.settings = response?.appData.settings
                 DispatchQueue.main.async {
                     self.appResponse = response
-                    self.collectionData = (response?.categories ?? []).compactMap({
-                        self.performAddTableData($0)
-                    })
+                    self.updateTableData()
                     
                 }
             }
@@ -71,14 +69,17 @@ struct HomeView: View {
     }
     func updateTableData() {
         var collectionData = collectionData
-        collectionData = (appResponse?.categories ?? []).compactMap({ .init(title: $0.name , id: $0.id) })
+        collectionData = (appResponse?.categories ?? []).compactMap({
+            self.performAddTableData($0, parentID: "")
+        })
+        print(collectionData.compactMap({$0.parentID}).joined(separator: ", "), " rewfedaws ")
         self.selectedIDs.forEach { id in
             let items = self.findSelectedCategory(cats: appResponse?.categories ?? [], selectedID: id)
             let index = collectionData.firstIndex(where: {
                 $0.id == id
             })
             let newItems = items?.list?.compactMap({
-                self.performAddTableData($0)
+                self.performAddTableData($0, parentID: id)
             }) ?? []
             if let index {
                 collectionData.insert(contentsOf: newItems, at: index + 1)
@@ -91,6 +92,8 @@ struct HomeView: View {
             }
             
         }
+        print(collectionData.compactMap({$0.parentID}).joined(separator: ", "), " juyhfvddvs ")
+
 //        appResponse?.categories.forEach { category in
 //            if let cats = category.list {
 //                self.checkTableDataIDs(cats, parentID: category.id, collectionData: &collectionData)
@@ -109,12 +112,12 @@ struct HomeView: View {
                 $0.id == parentID
             }) {
                 collectionData.insert(contentsOf: response.compactMap({
-                    self.performAddTableData($0)
+                    self.performAddTableData($0, parentID: parentID)
                 }), at: parentIndex + 1)
             } else {
                 print("appdend: ", parentID)
                 collectionData.append(contentsOf: response.compactMap({
-                    self.performAddTableData($0)
+                    self.performAddTableData($0, parentID: parentID)
                 }))
             }
         } else {
@@ -126,12 +129,12 @@ struct HomeView: View {
         }
     }
     
-    func performAddTableData(_ response: NetworkResponse.CategoriesResponse.Categories) -> CollectionViewController.CollectionData {
-        .init(title: response.name, id: response.id)
+    func performAddTableData(_ response: NetworkResponse.CategoriesResponse.Categories, parentID: String) -> CollectionViewController.CollectionData {
+        .init(title: response.name, id: response.id, parentID: parentID)
     }
     
     var buttonsView: some View {
-        VStack {
+        VStack(spacing: 10) {
             if currentQuestion == nil {
                 Button("Start") {
                     navValues.append(.question(response!.response.questions.first!))
@@ -145,7 +148,8 @@ struct HomeView: View {
     var actionButtonsView: some View {
         ForEach(currentQuestion?.options ?? [], id: \.id) { option in
             Button(option.optionName + " (\(option.grade))") {
-                totalGrade += option.grade
+//                totalGrade += option.grade
+                response?.save.questionResults.updateValue(option, forKey: currentQuestion!)
                 let i = navValues.count
                 if response!.response.questions.count > i {
                     navValues.append(.question(response!.response.questions[i]))
@@ -172,7 +176,7 @@ struct HomeView: View {
     
     var headerView: some View {
         HStack {
-            Text("\(totalGrade)")
+            Text("\(response?.save.grade ?? 0) / \(response?.response.questions.totalGrade ?? 0)")
             Spacer()
             Button("text") {
                 textPresenting = true
@@ -231,6 +235,54 @@ struct HomeView: View {
             }
         }
     }
+    
+    func convertToAllLists(list: [NetworkResponse.CategoriesResponse.Categories], checkedIDs: [String] = []) -> [NetworkResponse.CategoriesResponse.Categories] {
+        var checkedIDs = checkedIDs
+        var newList = list.compactMap({
+            $0.list
+        }).flatMap({$0})
+        checkedIDs.append(contentsOf: newList.compactMap({
+            $0.id
+        }))
+        if newList.contains(where: {
+            $0.list != nil && !checkedIDs.contains($0.id)
+        }) {
+            newList.append(contentsOf: list)
+            return convertToAllLists(list: newList, checkedIDs: checkedIDs)
+        } else {
+            newList.append(contentsOf: list)
+            return newList
+        }
+    }
+    
+    func findParents(id: String, found: [NetworkResponse.CategoriesResponse.Categories], totalList: [NetworkResponse.CategoriesResponse.Categories]) -> [NetworkResponse.CategoriesResponse.Categories] {
+        print(id, " lookingfsd")
+        if id.isEmpty {
+            return found
+        }
+        if let parent = totalList.first(where: {
+            $0.id == id
+        }) {
+            var found = found
+            found.append(parent)
+            
+            if let collection = collectionData.first(where: {
+                $0.id == parent.id
+            }) {
+                
+                if !collection.parentID.isEmpty {
+                    
+                    return findParents(id: collection.parentID, found: found, totalList: totalList)
+                } else {
+                    return found
+                }
+            } else {
+                return found
+            }
+        } else {
+            return found
+        }
+    }
     @ViewBuilder
     var requestEditorView: some View {
         let `default` = NetworkRequest.SqueezeRequest.default
@@ -255,23 +307,49 @@ struct HomeView: View {
                             print(response.list, " grfsd")
                         } else {
                             print(category)
-                            fatalError()
+                            let resp = self.convertToAllLists(list: self.appResponse?.categories ?? [])
+                            print("gterfweads")
+                            let selected = response
+                            let parent = resp.first(where: {
+                                $0.id == category.parentID
+                            })
+                            let parents:[NetworkResponse.CategoriesResponse.Categories]
+                            print(parent?.id, " tegrfwed")
+                            if let parent {
+                                parents = findParents(id: parent.id, found: [], totalList: resp).reversed()
+                            } else {
+                                parents = []
+                            }
+                            var parentTitle:String? = parents.compactMap({
+                                $0.name
+                            }).joined(separator: ", ")
+                            print(parentTitle, " gterfw", parent?.id)
+                            print(selected, " yrhtegrfse ", category.parentID)
+                            if parentTitle?.isEmpty ?? false {
+                                parentTitle = nil
+                            }
+                            self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
                             //go to difficulty
                         }
                     } else {
                         fatalError()
                     }
                 })
+                
             }
             .frame(height: contentHeight)
         }
         .frame(maxHeight: .infinity)
         Button("squuze") {
-            self.rqStarted = true
-            Task(priority: .userInitiated) {
-                NetworkModel().advice(.init(type: type, category: category, description: description)) { response in
-                    self.response = .init(response: response!, save: .init())
-                }
+            startGenerationRequest(type, category: category, description: description)
+        }
+    }
+    
+    func startGenerationRequest(_ type: String, category: String, description: String) {
+        self.rqStarted = true
+        Task(priority: .userInitiated) {
+            NetworkModel().advice(.init(type: type, category: category, description: description)) { response in
+                self.response = .init(response: response!, save: .init())
             }
         }
     }
@@ -364,7 +442,11 @@ struct SqueezeView: View, Hashable {
     var body: some View {
         VStack {
             Spacer()
-            Text(response.questionName)
+            VStack {
+                Text(response.questionName)
+                Text(response.description)
+                    .opacity(0.5)
+            }
             Spacer()
         }
         .onAppear {
