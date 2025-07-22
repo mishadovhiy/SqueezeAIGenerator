@@ -14,6 +14,7 @@ struct ClearBackgroundView: UIViewRepresentable {
             view.superview?.superview?.backgroundColor = .clear
             view.superview?.superview?.superview?.backgroundColor = .clear
             view.superview?.backgroundColor = .clear
+            view.backgroundColor = .clear
         }
         return view
     }

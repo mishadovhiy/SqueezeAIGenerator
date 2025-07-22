@@ -15,6 +15,15 @@ struct SqueezeGeneratorApp: App {
         WindowGroup {
             HomeView()
                 .environmentObject(db)
+                .onAppear {
+                    let appearance = UINavigationBarAppearance()
+                    appearance.configureWithTransparentBackground()
+                    appearance.backgroundColor = .clear
+                    appearance.shadowColor = .clear
+                    
+                    UINavigationBar.appearance().standardAppearance = appearance
+                    UINavigationBar.appearance().scrollEdgeAppearance = appearance
+                }
         }
     }
 }

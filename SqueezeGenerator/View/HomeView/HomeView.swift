@@ -5,21 +5,23 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel = .init()
     
     var body: some View {
-        VStack(spacing: 15) {
-            if let _ = viewModel.appResponse {
-                if let _ = viewModel.response {
-                    headerView
-                    navigationStack
-                    buttonsView
-                } else {
-                    homeView
-                }
-            } else if viewModel.appDataLoading {
-                ProgressView()
-                    .progressViewStyle(.circular)
-            } else {
-                Text("Error loading app data")
+        ZStack() {
+            VStack {
+                headerView
+                navigationStack
+                buttonsView
             }
+            .frame(maxHeight: viewModel.response != nil && viewModel.appResponse != nil ? .infinity : 0)
+            .clipped()
+            .animation(.smooth, value: viewModel.response != nil && viewModel.appResponse != nil)
+            homeView
+                .frame(maxHeight: .infinity)
+                .opacity(viewModel.appResponse != nil && viewModel.response == nil ? 1 : 0)
+                .animation(.smooth, value: viewModel.appResponse != nil && viewModel.response == nil)
+
+        }
+        .overlay {
+            networkResponseView
         }
         .opacity(viewModel.dbPresenting ? 0 : 1)
         .animation(.smooth(duration: 1.2), value: viewModel.dbPresenting)
@@ -43,16 +45,26 @@ struct HomeView: View {
         }
     }
     
-    var buttonsView: some View {
-        VStack(spacing: 10) {
-            if viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true {
-                Button("Start") {
-                    viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
-                    
-                }
-            }
-            actionButtonsView
+    @ViewBuilder
+    var networkResponseView: some View {
+        
+        if viewModel.appDataLoading {
+            ProgressView()
+                .progressViewStyle(.circular)
+        } else if viewModel.appResponse == nil {
+            Text("Error loading app data")
         }
+    }
+    
+    @ViewBuilder
+    var buttonsView: some View {
+        if viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true {
+            Button("Start") {
+                viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
+                
+            }
+        }
+        actionButtonsView
     }
     
     var actionButtonsView: some View {
@@ -63,18 +75,20 @@ struct HomeView: View {
         }
     }
     
+    @ViewBuilder
     var homeView: some View {
-        VStack {
-            if viewModel.rqStarted {
-                ProgressView().progressViewStyle(.circular)
-            } else {
+        if viewModel.rqStarted {
+            ProgressView().progressViewStyle(.circular)
+        } else {
+            VStack {
                 Button("db") {
                     self.viewModel.dbPresenting = true
                 }
 
                 Spacer()
-                requestEditorView
+                collectionView
             }
+            .frame(maxHeight: .infinity)
         }
     }
     
@@ -94,13 +108,7 @@ struct HomeView: View {
         NavigationStack(path: $viewModel.navValues) {
             VStack(content: {
                 Text("request is ready")
-                    .background {
-                        ClearBackgroundView()
-                    }
             })
-            .background {
-                ClearBackgroundView()
-            }
             .navigationDestination(for: NavRout.self) { navRout in
                 navigationDestination(for: navRout)
                     .background {
@@ -115,6 +123,7 @@ struct HomeView: View {
         .background {
             ClearBackgroundView()
         }
+
     }
     
     @ViewBuilder
@@ -132,21 +141,16 @@ struct HomeView: View {
             }))
         }
     }
-    
+
     var collectionView: some View {
-        CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionData, didSelect: { at in
-            viewModel.collectionViewSelected(at: at ?? 0)
-        })
-        .frame(height: viewModel.contentHeight)
-        .opacity(1)
-    }
-    
-    var requestEditorView: some View {
         GeometryReader { proxy in
             ScrollView(.vertical) {
                 VStack {
                     Spacer().frame(height: proxy.size.height * 0.8)
-                    collectionView
+                    CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionData, didSelect: { at in
+                        viewModel.collectionViewSelected(at: at ?? 0)
+                    })
+                    .frame(height: viewModel.contentHeight)
                 }
             }
         }
