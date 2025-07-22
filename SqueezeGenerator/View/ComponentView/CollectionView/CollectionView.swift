@@ -25,8 +25,6 @@ struct CollectionView: UIViewControllerRepresentable {
         }
         vc.didSelectRow = didSelect
         vc.view.translatesAutoresizingMaskIntoConstraints = false
-
-        print("makecollectionview")
         return vc
     }
     

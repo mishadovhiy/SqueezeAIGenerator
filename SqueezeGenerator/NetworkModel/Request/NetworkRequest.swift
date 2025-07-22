@@ -36,7 +36,7 @@ enum NetworkRequest:Codable {
                 result.description = SqueezeRequest.default.description
             }
             let pro =  """
-             generate squeeze for \(result.type) test on \(result.category), representing questions - \(result.description). structure: <requstStart> each question wrapp in structure:\(SqueezeRequest.Question.prompt).</requstStart>. min 20 questions.
+             generate squeeze for \(result.type) test on \(result.category), representing questions - \(result.description). structure: <requstStart> each question wrapp in structure:\(SqueezeRequest.Question.prompt).</requstStart>. minimum 20 questions.
              """
             print(pro)
             return pro
