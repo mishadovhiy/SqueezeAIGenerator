@@ -10,4 +10,6 @@ import Foundation
 enum NavRout: Hashable {
     case result
     case question(NetworkResponse.AdviceResponse.QuestionResponse)
+    case requestToGenerateParameters(NetworkRequest.SqueezeRequest)
+    case requestGenerated
 }

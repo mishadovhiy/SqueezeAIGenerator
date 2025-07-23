@@ -5,21 +5,14 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel = .init()
     
     var body: some View {
-        ZStack() {
-            VStack {
-                headerView
-                navigationStack
-                buttonsView
-            }
-            .frame(maxHeight: viewModel.response != nil && viewModel.appResponse != nil ? .infinity : 0)
-            .clipped()
-            .animation(.smooth, value: viewModel.response != nil && viewModel.appResponse != nil)
-            homeView
-                .frame(maxHeight: .infinity)
-                .opacity(viewModel.appResponse != nil && viewModel.response == nil ? 1 : 0)
-                .animation(.smooth, value: viewModel.appResponse != nil && viewModel.response == nil)
-
+        VStack {
+            headerView
+            navigationStack
+            buttonsView
         }
+        .frame(maxHeight: !viewModel.requestLoading ? .infinity : 0)
+        .clipped()
+        .animation(.smooth, value: viewModel.response != nil && viewModel.appResponse != nil)
         .overlay {
             networkResponseView
         }
@@ -27,7 +20,6 @@ struct HomeView: View {
         .animation(.smooth(duration: 1.2), value: viewModel.dbPresenting)
         .frame(maxWidth: .infinity,
                maxHeight: .infinity)
-        .padding()
         .background(content: {
             HomeBackgroundView()
         })
@@ -47,8 +39,7 @@ struct HomeView: View {
     
     @ViewBuilder
     var networkResponseView: some View {
-        
-        if viewModel.appDataLoading {
+        if viewModel.appDataLoading || (viewModel.rqStarted && viewModel.response == nil) {
             ProgressView()
                 .progressViewStyle(.circular)
         } else if viewModel.appResponse == nil {
@@ -58,7 +49,7 @@ struct HomeView: View {
     
     @ViewBuilder
     var buttonsView: some View {
-        if viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true {
+        if viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true && viewModel.rqStarted && !viewModel.requestLoading {
             Button("Start") {
                 viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
                 
@@ -74,23 +65,7 @@ struct HomeView: View {
             }
         }
     }
-    
-    @ViewBuilder
-    var homeView: some View {
-        if viewModel.rqStarted {
-            ProgressView().progressViewStyle(.circular)
-        } else {
-            VStack {
-                Button("db") {
-                    self.viewModel.dbPresenting = true
-                }
 
-                Spacer()
-                collectionView
-            }
-            .frame(maxHeight: .infinity)
-        }
-    }
     
     var headerView: some View {
         HStack {
@@ -101,14 +76,30 @@ struct HomeView: View {
                 viewModel.textPresenting = true
             }
         }
-        .frame(height: 44)
+        .frame(height: viewModel.selectedRequest != nil ? 44 : 0)
+        .animation(.smooth, value: viewModel.selectedRequest != nil)
+        .clipped()
     }
     
     var navigationStack: some View {
         NavigationStack(path: $viewModel.navValues) {
-            VStack(content: {
-                Text("request is ready")
-            })
+            VStack {
+                if viewModel.response != nil {
+                    ReadyView {
+                        viewModel.response = nil
+                        viewModel.rqStarted = false
+                        viewModel.selectedRequest = nil
+                    }
+                } else {
+                    Button("db") {
+                        self.viewModel.dbPresenting = true
+                    }
+
+                    Spacer()
+                    collectionView
+                }
+                
+            }
             .navigationDestination(for: NavRout.self) { navRout in
                 navigationDestination(for: navRout)
                     .background {
@@ -139,6 +130,17 @@ struct HomeView: View {
                     viewModel.savePressed(db: db)
                 }
             }))
+        case .requestToGenerateParameters(let request):
+            RequestParametersView(request: request) { request in
+                viewModel.selectedRequest = request
+                viewModel.startGenerationRequest()
+            }
+        case .requestGenerated:
+            ReadyView(cancelPressed:{
+                viewModel.navValues.removeAll()
+                viewModel.selectedRequest = nil
+                viewModel.rqStarted = false
+            })
         }
     }
 

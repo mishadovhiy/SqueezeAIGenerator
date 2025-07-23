@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8242881D2E305730000E12EB /* RequestParametersView.swift */; };
 		82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */; };
 		82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B692E2D2C4000CC3FAD /* String.swift */; };
 		82AF8B842E2D2C4000CC3FAD /* AdviceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B6B2E2D2C4000CC3FAD /* AdviceResponse.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8242881D2E305730000E12EB /* RequestParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestParametersView.swift; sourceTree = "<group>"; };
 		82A441FB2E256DD80086D5CE /* SqueezeGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqueezeGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442092E256DD90086D5CE /* SqueezeGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442132E256DD90086D5CE /* SqueezeGeneratorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +212,7 @@
 				82AF8B972E2D584600CC3FAD /* HomeView */,
 				82AF8B932E2D515300CC3FAD /* DifficultyPickerView.swift */,
 				82BA59452E301F12009B8913 /* DBCategoriyView.swift */,
+				8242881D2E305730000E12EB /* RequestParametersView.swift */,
 				82BA59492E301F3C009B8913 /* DBDetailView.swift */,
 				82BA594B2E301F54009B8913 /* SqueezeView.swift */,
 				82BA594D2E301F7C009B8913 /* ResultView.swift */,
@@ -407,6 +410,7 @@
 				82BA59502E301FD1009B8913 /* NavRout.swift in Sources */,
 				82AF8B872E2D2C4000CC3FAD /* NetworkRequest.swift in Sources */,
 				82BA59482E301F29009B8913 /* DBView.swift in Sources */,
+				8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */,
 				82BA59522E30222D009B8913 /* HomeViewModel.swift in Sources */,
 				82AF8B882E2D2C4000CC3FAD /* Request.swift in Sources */,
 				82BA59442E301EFB009B8913 /* TextView.swift in Sources */,

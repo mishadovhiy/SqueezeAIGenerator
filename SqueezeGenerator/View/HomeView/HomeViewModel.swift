@@ -182,12 +182,17 @@ class HomeViewModel: ObservableObject {
         rqStarted = false
     }
     
-    func startGenerationRequest(_ type: String, category: String, description: String) {
+    var requestLoading: Bool {
+        rqStarted && response == nil
+    }
+    
+    func startGenerationRequest() {
         self.rqStarted = true
         Task(priority: .userInitiated) {
-            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
-            NetworkModel().advice(request) { response in
-                self.response = .init(response: response!, save: .init(category: category, request: request, questionResults: [:]))
+//            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
+            NetworkModel().advice(self.selectedRequest!) { response in
+                self.response = .init(response: response!, save: .init(category: self.selectedRequest!.category, request: self.selectedRequest!, questionResults: [:]))
+                self.navValues.removeAll()
             }
         }
     }
@@ -206,10 +211,9 @@ class HomeViewModel: ObservableObject {
     var currentQuestion: NetworkResponse.AdviceResponse.QuestionResponse? {
         if let last = navValues.last {
             return switch last {
-            case .result:
-                nil
             case .question(let questionResponse):
                 questionResponse
+            default: nil
             }
         } else {
             return nil
@@ -252,11 +256,14 @@ class HomeViewModel: ObservableObject {
                 if parentTitle?.isEmpty ?? false {
                     parentTitle = nil
                 }
-                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
+//                selectedRequest = .init(type: selected.name, category: parentTitle ?? self.category, description: selected.description)
+                navValues.append(.requestToGenerateParameters(.init(type: selected.name, category: parentTitle ?? self.category, description: selected.description)))
+//                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
                 //go to difficulty
             }
         } else {
             fatalError()
         }
     }
+    @Published var selectedRequest: NetworkRequest.SqueezeRequest?
 }

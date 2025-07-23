@@ -10,7 +10,7 @@ import Foundation
 extension NetworkRequest {
     static let reqStart = "requstStart"
 
-    struct SqueezeRequest:Codable {
+    struct SqueezeRequest:Codable, Equatable, Hashable {
         var type: String
         var category: String
         var description: String
