@@ -32,9 +32,13 @@ class HomeViewModel: ObservableObject {
             if !(response?.response.questions.isEmpty ?? true) {
                 return .topBig
             }
+            return .regular
+        } else {
+            if response != nil {
+                return .regular
+            }
             return .topRegular
         }
-        return .default
     }
     func findSelectedCategory(cats: [NetworkResponse.CategoriesResponse.Categories], selectedID: String) -> NetworkResponse.CategoriesResponse.Categories? {
         if let selectedCat = cats.first(where: {
@@ -190,10 +194,12 @@ class HomeViewModel: ObservableObject {
         //        response?.save = .init(grade: totalGrade, category: "Shiz")
         db.db.responses.append(response!)
         // navValues = []
-        navValues.removeAll()
-        response = nil
-        rqStarted = false
-        selectedRequest = nil
+        withAnimation {
+            navValues.removeAll()
+            response = nil
+            rqStarted = false
+            selectedRequest = nil
+        }
     }
     
     var requestLoading: Bool {
@@ -201,14 +207,20 @@ class HomeViewModel: ObservableObject {
     }
     
     func startGenerationRequest() {
-        self.rqStarted = true
-        Task(priority: .userInitiated) {
-//            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
-            NetworkModel().advice(self.selectedRequest!) { response in
-                self.response = .init(response: response!, save: .init(category: self.selectedRequest!.category, request: self.selectedRequest!, questionResults: [:]))
-                self.navValues.removeAll()
-            }
+        withAnimation(.smooth(duration: 0.3)) {
+            self.rqStarted = true
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
+            Task(priority: .userInitiated) {
+    //            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
+                NetworkModel().advice(self.selectedRequest!) { response in
+                    withAnimation {
+                        self.response = .init(response: response!, save: .init(category: self.selectedRequest!.category, request: self.selectedRequest!, questionResults: [:]))
+                        self.navValues.removeAll()
+                    }
+                }
+            }
+        })
     }
     
     func loadAppSettings(db: AppData) {
@@ -217,7 +229,9 @@ class HomeViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.appResponse = response
                 self.updateTableData()
-                self.appDataLoading = false
+                withAnimation {
+                    self.appDataLoading = false
+                }
             }
         }
     }

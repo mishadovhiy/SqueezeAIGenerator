@@ -18,7 +18,7 @@ struct HomeView: View {
         .opacity(viewModel.dbPresenting ? 0 : 1)
         .animation(.smooth(duration: 1.2), value: viewModel.dbPresenting)
         .background(content: {
-            HomeBackgroundView(type: viewModel.circleType)
+            HomeBackgroundView(type: .constant(viewModel.circleType))
         })
         .fullScreenCover(isPresented: $viewModel.dbPresenting, content: {
             DBView()
@@ -87,9 +87,11 @@ struct HomeView: View {
             VStack {
                 if viewModel.response != nil {
                     ReadyView {
-                        viewModel.response = nil
-                        viewModel.rqStarted = false
-                        viewModel.selectedRequest = nil
+                        withAnimation {
+                            viewModel.response = nil
+                            viewModel.rqStarted = false
+                            viewModel.selectedRequest = nil
+                        }
                     }
 
                 } else {
@@ -133,18 +135,30 @@ struct HomeView: View {
             }))
         case .requestToGenerateParameters(let request):
             RequestParametersView(request: request) { request in
-                viewModel.navValues.append(.empty)
-                viewModel.selectedRequest = request
-                viewModel.startGenerationRequest()
+                withAnimation {
+                    viewModel.navValues.append(.empty)
+                    viewModel.selectedRequest = request
+                    viewModel.startGenerationRequest()
+                }
             }
         case .requestGenerated:
             ReadyView(cancelPressed:{
-                viewModel.navValues.removeAll()
-                viewModel.selectedRequest = nil
-                viewModel.rqStarted = false
+                withAnimation {
+                    viewModel.navValues.removeAll()
+                    viewModel.selectedRequest = nil
+                    viewModel.rqStarted = false
+                }
             })
         case .empty:
-            EmptyView()
+            VStack(content: {
+                Spacer()
+                    .frame(maxHeight: .infinity)
+                Spacer()
+                    .frame(maxHeight: .infinity)
+                Text("Generating")
+                Spacer()
+                    .frame(maxHeight: .infinity)
+            })
                 .onAppear(perform: {
                     print("sfdasvfasd")
                 })

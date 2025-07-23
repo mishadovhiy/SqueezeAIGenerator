@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeBackgroundView: View {
-    var type: `Type` = .regular
+    @Binding var type: `Type`
     enum `Type`:String {
         case big, loading, regular, topRegular, topBig
         static let `default`: Self = .regular
@@ -19,15 +19,9 @@ struct HomeBackgroundView: View {
     }
     var duration: TimeInterval {
         if type == .loading {
-            print("loadingfff grterfsd")
             return 1
         }
-        if type == .big {
-            print("bigg grterfsd")
-            return TimeInterval(20)
-        }
-        print("bigg grterfsd")
-        return TimeInterval(20)
+        return 5
     }
     var body: some View {
         LinearGradient(colors: [
@@ -41,9 +35,14 @@ struct HomeBackgroundView: View {
             .overlay {
                 VStack {
                     Spacer()
+                        .frame(maxHeight: (type.isTop ? (type == .topRegular ? .zero : .infinity) : .infinity))
+                        .animation(.bouncy, value: type)
+                    Spacer()
                         .frame(maxHeight: type.isTop ? 0 : .infinity)
                         .animation(.bouncy, value: type)
                     circles
+                    Spacer()
+                        .frame(maxHeight: .infinity)
                     Spacer()
                         .frame(maxHeight: .infinity)
                 }
@@ -54,10 +53,13 @@ struct HomeBackgroundView: View {
     let gradient: AngularGradient = .init(gradient: .init(colors: [.pink, .purple, .red, .yellow, .orange, .blue]), center: .center)
     @State var animate: Bool = false
     var circleScale: CGFloat {
-        animate ? 1.5 : 0.75
+        if type == .loading {
+            return animate ? 0.6 : 0.25
+        }
+        return animate ? 1.5 : 0.75
     }
     var opacity: CGFloat {
-        animate ? 0 : 1
+        animate ? (type == .loading ? 0.4 : (type.isTop ? 0 : 0.1)) : 1
     }
     var angle: Angle {
         .degrees(animate ? 0 : 360)
@@ -80,14 +82,24 @@ struct HomeBackgroundView: View {
                                value: animate)
             }
         }
-        .frame(width: type == .big ? 450 : 150)
+        .frame(width: type == .big ? 550 : 150)
         .animation(.bouncy, value: type)
         .aspectRatio(1, contentMode: .fit)
         .onAppear {
             animate.toggle()
         }
+        .onChange(of: type) { newValue in
+            if type != holder {
+                holder = type
+                animate = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5), execute: {
+                    animate = true
+                })
+            }
+            
+        }
     }
-    
+    @State var holder: Type?
     func axis(_ i: Int) -> (x: CGFloat, y: CGFloat, z: CGFloat) {
         switch i {
         case 0: (x: 1, y: 0, z: 0)
@@ -97,8 +109,4 @@ struct HomeBackgroundView: View {
         }
     }
 
-}
-
-#Preview {
-    HomeBackgroundView()
 }
