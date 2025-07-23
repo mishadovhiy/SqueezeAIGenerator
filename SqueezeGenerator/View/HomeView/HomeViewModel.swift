@@ -11,6 +11,7 @@ class HomeViewModel: ObservableObject {
     @Published var appResponse: NetworkResponse.CategoriesResponse?
     @Published var collectionData: [CollectionViewController.CollectionData] = []
     @Published var response: AdviceQuestionModel?
+    @Published var selectedRequest: NetworkRequest.SqueezeRequest?
     @Published var category: String = ""
     @Published var description: String = ""
     @Published var type: String = ""
@@ -22,7 +23,19 @@ class HomeViewModel: ObservableObject {
     @Published var appDataLoading: Bool = true
     @Published var dataCount: Int = 5
     @Published var contentHeight: CGFloat = 0
-    
+
+    var circleType: HomeBackgroundView.`Type` {
+        if appDataLoading || requestLoading {
+            return .loading
+        }
+        if !navValues.isEmpty {
+            if !(response?.response.questions.isEmpty ?? true) {
+                return .topBig
+            }
+            return .topRegular
+        }
+        return .default
+    }
     func findSelectedCategory(cats: [NetworkResponse.CategoriesResponse.Categories], selectedID: String) -> NetworkResponse.CategoriesResponse.Categories? {
         if let selectedCat = cats.first(where: {
             $0.id == selectedID
@@ -180,6 +193,7 @@ class HomeViewModel: ObservableObject {
         navValues.removeAll()
         response = nil
         rqStarted = false
+        selectedRequest = nil
     }
     
     var requestLoading: Bool {
@@ -265,5 +279,4 @@ class HomeViewModel: ObservableObject {
             fatalError()
         }
     }
-    @Published var selectedRequest: NetworkRequest.SqueezeRequest?
 }

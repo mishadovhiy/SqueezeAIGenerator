@@ -8,20 +8,17 @@ struct HomeView: View {
         VStack {
             headerView
             navigationStack
+                .ignoresSafeArea(.all)
             buttonsView
         }
-        .frame(maxHeight: !viewModel.requestLoading ? .infinity : 0)
-        .clipped()
         .animation(.smooth, value: viewModel.response != nil && viewModel.appResponse != nil)
         .overlay {
             networkResponseView
         }
         .opacity(viewModel.dbPresenting ? 0 : 1)
         .animation(.smooth(duration: 1.2), value: viewModel.dbPresenting)
-        .frame(maxWidth: .infinity,
-               maxHeight: .infinity)
         .background(content: {
-            HomeBackgroundView()
+            HomeBackgroundView(type: viewModel.circleType)
         })
         .fullScreenCover(isPresented: $viewModel.dbPresenting, content: {
             DBView()
@@ -52,8 +49,12 @@ struct HomeView: View {
         if viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true && viewModel.rqStarted && !viewModel.requestLoading {
             Button("Start") {
                 viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
-                
             }
+            .padding(.horizontal, 50)
+            .padding(.vertical, 10)
+            .background(.red)
+            .cornerRadius(8)
+            
         }
         actionButtonsView
     }
@@ -90,11 +91,11 @@ struct HomeView: View {
                         viewModel.rqStarted = false
                         viewModel.selectedRequest = nil
                     }
+
                 } else {
                     Button("db") {
                         self.viewModel.dbPresenting = true
                     }
-
                     Spacer()
                     collectionView
                 }
@@ -132,6 +133,7 @@ struct HomeView: View {
             }))
         case .requestToGenerateParameters(let request):
             RequestParametersView(request: request) { request in
+                viewModel.navValues.append(.empty)
                 viewModel.selectedRequest = request
                 viewModel.startGenerationRequest()
             }
@@ -141,6 +143,13 @@ struct HomeView: View {
                 viewModel.selectedRequest = nil
                 viewModel.rqStarted = false
             })
+        case .empty:
+            EmptyView()
+                .onAppear(perform: {
+                    print("sfdasvfasd")
+                })
+                .navigationBarHidden(true)
+                .navigationBarBackButtonHidden()
         }
     }
 

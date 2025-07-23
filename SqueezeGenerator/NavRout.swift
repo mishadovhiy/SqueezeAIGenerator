@@ -12,4 +12,5 @@ enum NavRout: Hashable {
     case question(NetworkResponse.AdviceResponse.QuestionResponse)
     case requestToGenerateParameters(NetworkRequest.SqueezeRequest)
     case requestGenerated
+    case empty
 }

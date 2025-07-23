@@ -8,7 +8,27 @@
 import SwiftUI
 
 struct HomeBackgroundView: View {
-    var duration: TimeInterval = 5
+    var type: `Type` = .regular
+    enum `Type`:String {
+        case big, loading, regular, topRegular, topBig
+        static let `default`: Self = .regular
+        
+        var isTop: Bool {
+            rawValue.lowercased().contains("top")
+        }
+    }
+    var duration: TimeInterval {
+        if type == .loading {
+            print("loadingfff grterfsd")
+            return 1
+        }
+        if type == .big {
+            print("bigg grterfsd")
+            return TimeInterval(20)
+        }
+        print("bigg grterfsd")
+        return TimeInterval(20)
+    }
     var body: some View {
         LinearGradient(colors: [
             .blue, .black, .purple
@@ -19,7 +39,14 @@ struct HomeBackgroundView: View {
         .blur(radius: 10)
         .ignoresSafeArea(.all)
             .overlay {
-                circles
+                VStack {
+                    Spacer()
+                        .frame(maxHeight: type.isTop ? 0 : .infinity)
+                        .animation(.bouncy, value: type)
+                    circles
+                    Spacer()
+                        .frame(maxHeight: .infinity)
+                }
             }
             
     }
@@ -53,7 +80,8 @@ struct HomeBackgroundView: View {
                                value: animate)
             }
         }
-        .frame(width: 150)
+        .frame(width: type == .big ? 450 : 150)
+        .animation(.bouncy, value: type)
         .aspectRatio(1, contentMode: .fit)
         .onAppear {
             animate.toggle()
