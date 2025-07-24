@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct DBCategoriyView: View {
-    @EnvironmentObject var db: AppData
+    
+    @EnvironmentObject private var db: AppData
     let selectedCategory: String
-    var data: [AdviceQuestionModel] {
+    private var data: [AdviceQuestionModel] {
         db.db.responses.filter({
             $0.save.request?.category == selectedCategory
         })
@@ -26,15 +27,29 @@ struct DBCategoriyView: View {
                         DBDetailView(item: response)
                     } label: {
                         VStack {
-                            Text("\(response.save.category ?? "") = \(response.save.grade ?? 0)")
+                            Text(response.save.request?.type ?? "")
+                            HStack {
+                                Text(response.save.date.stringDate)
+                                HStack {
+                                    Text("\(response.save.grade)")
+                                    Text("\(response.resultPercent)")
+                                    Text(response.save.request?.difficulty.rawValue ?? "")
+                                }
+                            }
                         }
-                        .background(.white)
                     }
+                    Divider()
                 }
+            }
+            .background {
+                Color.white.opacity(0.12)
+                    .blur(radius: 50)
+                    .cornerRadius(12)
             }
         }
         .background {
             ClearBackgroundView()
         }
+        .navigationTitle(selectedCategory)
     }
 }

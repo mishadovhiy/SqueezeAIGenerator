@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct DBView: View {
-    @EnvironmentObject var db: AppData
-    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject private var db: AppData
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         NavigationStack {
             VStack {

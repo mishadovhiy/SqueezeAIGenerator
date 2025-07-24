@@ -11,7 +11,12 @@ struct AdviceQuestionModel: Codable {
     let response: NetworkResponse.AdviceResponse//no need
     var save: SaveModel
     var id: UUID = .init()
+    
+    var resultPercent: CGFloat {
+        CGFloat(save.grade) / CGFloat(response.questions.totalGrade)
+    }
     struct SaveModel:Codable {
+        let date: Date
         var grade: Int {
             var grade: Int = 0
             questionResults.forEach { (key: NetworkResponse.AdviceResponse.QuestionResponse, value: NetworkResponse.AdviceResponse.QuestionResponse.Option) in
@@ -106,5 +111,11 @@ extension [NetworkResponse.AdviceResponse.QuestionResponse] {
             })
             return partialResult + (sorted.first?.grade ?? 0)
         }
+    }
+}
+
+extension Date {
+    var stringDate: String {
+        self.formatted(date: .abbreviated, time: .shortened)
     }
 }

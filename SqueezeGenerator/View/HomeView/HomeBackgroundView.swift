@@ -42,12 +42,6 @@ struct HomeBackgroundView: View {
             primaryGradient
             Color.black.opacity(0.4)
             curclesOverlayView
-
-//            VStack(content: {
-////                BlurView()
-//            })
-//                .opacity(0)
-//                .animation(.smooth, value: blurAlpha)
         })
         .blur(radius: blurAlpha)
         .ignoresSafeArea(.all)

@@ -10,10 +10,15 @@ import Foundation
 extension NetworkRequest {
     static let reqStart = "requstStart"
 
-    struct SqueezeRequest:Codable, Equatable, Hashable {
+    struct SqueezeRequest: Codable, Equatable, Hashable {
         var type: String
         var category: String
         var description: String
+        var difficulty: Difficulty = .medium
+        
+        enum Difficulty: String, Codable {
+            case easie, medium, hard
+        }
         
         static let `default`: Self = .init(type: "mental health", category: "Schizophrenia", description: "deep, obvious symptoms that strongly represents illness")
         
