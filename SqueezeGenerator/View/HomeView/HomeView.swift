@@ -108,6 +108,8 @@ struct HomeView: View {
                     .background {
                         ClearBackgroundView()
                     }
+                    .opacity(viewModel.navValues.last == navRout ? 1 : 0)
+                    .animation(.smooth, value: viewModel.navValues.last == navRout)
             }
             .background {
                 ClearBackgroundView()

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		82411F522E32B296004E4940 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82411F512E32B296004E4940 /* BlurView.swift */; };
 		8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8242881D2E305730000E12EB /* RequestParametersView.swift */; };
 		82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */; };
 		82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B692E2D2C4000CC3FAD /* String.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		82411F512E32B296004E4940 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		8242881D2E305730000E12EB /* RequestParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestParametersView.swift; sourceTree = "<group>"; };
 		82A441FB2E256DD80086D5CE /* SqueezeGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqueezeGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442092E256DD90086D5CE /* SqueezeGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -254,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */,
+				82411F512E32B296004E4940 /* BlurView.swift */,
 			);
 			path = BaseView;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 				82BA594E2E301F7C009B8913 /* ResultView.swift in Sources */,
 				82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */,
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,
+				82411F522E32B296004E4940 /* BlurView.swift in Sources */,
 				82AF8B942E2D515300CC3FAD /* DifficultyPickerView.swift in Sources */,
 				82BA59462E301F12009B8913 /* DBCategoriyView.swift in Sources */,
 				82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */,

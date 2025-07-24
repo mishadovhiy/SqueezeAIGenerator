@@ -11,7 +11,7 @@ struct RequestParametersView: View {
     let request: NetworkRequest.SqueezeRequest
     let okPressed: (NetworkRequest.SqueezeRequest) -> ()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Hello, World!")
         Button("ok") {
             okPressed(request)
         }

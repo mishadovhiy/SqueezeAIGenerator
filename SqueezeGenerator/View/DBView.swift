@@ -32,7 +32,7 @@ struct DBView: View {
                                 DBCategoriyView(selectedCategory: response)
                             } label: {
                                 VStack {
-                                    Text(response + "d")
+                                    Text(response)
                                 }
                                 .background(.white)
                             }

@@ -19,8 +19,5 @@ struct SqueezeView: View, Hashable {
             }
             Spacer()
         }
-        .onAppear {
-            print(response.questionName, " uyhtyrgtefrd ")
-        }
     }
 }

@@ -16,6 +16,10 @@ struct HomeBackgroundView: View {
         var isTop: Bool {
             rawValue.lowercased().contains("top")
         }
+        
+        var isBig: Bool {
+            rawValue.lowercased().contains("big")
+        }
     }
     var duration: TimeInterval {
         if type == .loading {
@@ -23,31 +27,37 @@ struct HomeBackgroundView: View {
         }
         return 5
     }
+    
+    var blurAlpha: CGFloat {
+        let ignorBlur: [Type] = [.loading, .regular, .topBig, .topRegular]
+        if ignorBlur.contains(type) {
+            return 0
+        }
+        
+        return type.isBig || type.isTop  ? 20 : 0
+    }
+    
     var body: some View {
+        ZStack(content: {
+            primaryGradient
+            Color.black.opacity(0.4)
+            curclesOverlayView
+
+//            VStack(content: {
+////                BlurView()
+//            })
+//                .opacity(0)
+//                .animation(.smooth, value: blurAlpha)
+        })
+        .blur(radius: blurAlpha)
+        .ignoresSafeArea(.all)
+            
+    }
+    
+    var primaryGradient: LinearGradient {
         LinearGradient(colors: [
             .blue, .black, .purple
         ], startPoint: .topLeading, endPoint: .bottomTrailing)
-        .overlay(content: {
-            Color.white.opacity(0.4)
-        })
-        .blur(radius: 10)
-        .ignoresSafeArea(.all)
-            .overlay {
-                VStack {
-                    Spacer()
-                        .frame(maxHeight: (type.isTop ? (type == .topRegular ? .zero : .infinity) : .infinity))
-                        .animation(.bouncy, value: type)
-                    Spacer()
-                        .frame(maxHeight: type.isTop ? 0 : .infinity)
-                        .animation(.bouncy, value: type)
-                    circles
-                    Spacer()
-                        .frame(maxHeight: .infinity)
-                    Spacer()
-                        .frame(maxHeight: .infinity)
-                }
-            }
-            
     }
     
     let gradient: AngularGradient = .init(gradient: .init(colors: [.pink, .purple, .red, .yellow, .orange, .blue]), center: .center)
@@ -65,6 +75,22 @@ struct HomeBackgroundView: View {
         .degrees(animate ? 0 : 360)
     }
     @State var circleCount: Int = 4
+    
+    @ViewBuilder
+    var curclesOverlayView: some View {
+        Spacer()
+            .frame(maxHeight: (type.isTop ? (type == .topRegular ? .zero : .infinity) : .infinity))
+            .animation(.bouncy, value: type)
+        Spacer()
+            .frame(maxHeight: type.isTop ? 0 : .infinity)
+            .animation(.bouncy, value: type)
+        circles
+        Spacer()
+            .frame(maxHeight: .infinity)
+        Spacer()
+            .frame(maxHeight: .infinity)
+    }
+    
     var circles: some View {
         ZStack {
             ForEach(0..<circleCount, id: \.self) { i in
