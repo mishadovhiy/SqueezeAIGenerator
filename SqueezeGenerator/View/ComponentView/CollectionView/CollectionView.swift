@@ -32,14 +32,6 @@ struct CollectionView: UIViewControllerRepresentable {
         uiViewController.dataUpdated = false
         uiViewController.data = data
         uiViewController.collectionView.reloadData()
-        uiViewController.collectionView.performBatchUpdates {
-            UIView.animate(withDuration: 0.3) {
-                uiViewController.collectionView.reloadSections(.init(integer: 0))
-            }
-        } completion: { _ in
-            
-        }
-
     }
 }
 
@@ -161,4 +153,19 @@ class FlowLayout: UICollectionViewFlowLayout {
         return layoutAttributes
     }
     
+}
+
+
+extension [CollectionViewController.CollectionData] {
+    static var demo: Self {
+        Array(self.demos.shuffled().prefix(3))
+    }
+    
+    fileprivate static var demos: Self {
+        [
+            .init(title: "Proffessional Skills"),
+            .init(title: "Nervious"),
+            .init(title: "Shizophrenia")
+        ]
+    }
 }

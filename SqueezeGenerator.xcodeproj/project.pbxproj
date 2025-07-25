@@ -36,6 +36,10 @@
 		82BA594E2E301F7C009B8913 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA594D2E301F7C009B8913 /* ResultView.swift */; };
 		82BA59502E301FD1009B8913 /* NavRout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA594F2E301FD1009B8913 /* NavRout.swift */; };
 		82BA59522E30222D009B8913 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59512E30222D009B8913 /* HomeViewModel.swift */; };
+		82E570652E34203F00922F5B /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E570642E34203E00922F5B /* CardsView.swift */; };
+		82E570672E342A7400922F5B /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E570662E342A7400922F5B /* CardData.swift */; };
+		82E5706A2E342AC100922F5B /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E570692E342AC100922F5B /* UIColor.swift */; };
+		82E5706D2E343A9100922F5B /* CardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E5706C2E343A9100922F5B /* CardsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +93,10 @@
 		82BA594D2E301F7C009B8913 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		82BA594F2E301FD1009B8913 /* NavRout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavRout.swift; sourceTree = "<group>"; };
 		82BA59512E30222D009B8913 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		82E570642E34203E00922F5B /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
+		82E570662E342A7400922F5B /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
+		82E570692E342AC100922F5B /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		82E5706C2E343A9100922F5B /* CardsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -153,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */,
+				82E570692E342AC100922F5B /* UIColor.swift */,
 				82AF8B692E2D2C4000CC3FAD /* String.swift */,
 			);
 			path = Extensions;
@@ -211,6 +220,7 @@
 			children = (
 				82AF8B972E2D584600CC3FAD /* HomeView */,
 				82AF8B932E2D515300CC3FAD /* DifficultyPickerView.swift */,
+				82E5706B2E343A8800922F5B /* CardsView */,
 				82BA59452E301F12009B8913 /* DBCategoriyView.swift */,
 				8242881D2E305730000E12EB /* RequestParametersView.swift */,
 				82BA59492E301F3C009B8913 /* DBDetailView.swift */,
@@ -228,6 +238,7 @@
 			children = (
 				82AF8B6A2E2D2C4000CC3FAD /* Extensions */,
 				82BA594F2E301FD1009B8913 /* NavRout.swift */,
+				82E570682E342A8100922F5B /* Model */,
 				82AF8B742E2D2C4000CC3FAD /* NetworkModel */,
 				82AF8B7A2E2D2C4000CC3FAD /* View */,
 				82AF8B7B2E2D2C4000CC3FAD /* AppData.swift */,
@@ -256,6 +267,23 @@
 				82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */,
 			);
 			path = BaseView;
+			sourceTree = "<group>";
+		};
+		82E570682E342A8100922F5B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				82E570662E342A7400922F5B /* CardData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		82E5706B2E343A8800922F5B /* CardsView */ = {
+			isa = PBXGroup;
+			children = (
+				82E570642E34203E00922F5B /* CardsView.swift */,
+				82E5706C2E343A9100922F5B /* CardsViewModel.swift */,
+			);
+			path = CardsView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -403,10 +431,12 @@
 				82AF8B992E2DCE2600CC3FAD /* ClearBackgroundView.swift in Sources */,
 				82AF8B962E2D51D900CC3FAD /* HomeBackgroundView.swift in Sources */,
 				82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */,
+				82E570652E34203F00922F5B /* CardsView.swift in Sources */,
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
 				82AF8B842E2D2C4000CC3FAD /* AdviceResponse.swift in Sources */,
 				82AF8B852E2D2C4000CC3FAD /* CategoriesResponse.swift in Sources */,
 				82AF8B862E2D2C4000CC3FAD /* NetworkResponse.swift in Sources */,
+				82E5706D2E343A9100922F5B /* CardsViewModel.swift in Sources */,
 				82BA59502E301FD1009B8913 /* NavRout.swift in Sources */,
 				82AF8B872E2D2C4000CC3FAD /* NetworkRequest.swift in Sources */,
 				82BA59482E301F29009B8913 /* DBView.swift in Sources */,
@@ -414,11 +444,13 @@
 				82BA59522E30222D009B8913 /* HomeViewModel.swift in Sources */,
 				82AF8B882E2D2C4000CC3FAD /* Request.swift in Sources */,
 				82BA59442E301EFB009B8913 /* TextView.swift in Sources */,
+				82E570672E342A7400922F5B /* CardData.swift in Sources */,
 				82AF8B892E2D2C4000CC3FAD /* SqueezeRequest.swift in Sources */,
 				82BA594E2E301F7C009B8913 /* ResultView.swift in Sources */,
 				82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */,
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,
 				82AF8B942E2D515300CC3FAD /* DifficultyPickerView.swift in Sources */,
+				82E5706A2E342AC100922F5B /* UIColor.swift in Sources */,
 				82BA59462E301F12009B8913 /* DBCategoriyView.swift in Sources */,
 				82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */,
 				82BA594C2E301F54009B8913 /* SqueezeView.swift in Sources */,

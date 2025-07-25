@@ -13,7 +13,7 @@ struct SqueezeGeneratorApp: App {
     
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            CardsView()
                 .environmentObject(db)
                 .onAppear {
                     let appearance = UINavigationBarAppearance()
