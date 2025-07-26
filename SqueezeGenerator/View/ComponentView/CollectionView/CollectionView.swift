@@ -47,7 +47,7 @@ class CollectionViewController: UICollectionViewController {
     var dataUpdated = false
     var dict:(CGFloat,Int) = (0,0)
 
-    struct CollectionData {
+    struct CollectionData: Hashable, Equatable {
         let title:String
         var description:String? = nil
         var cellBackground:UIColor? = nil

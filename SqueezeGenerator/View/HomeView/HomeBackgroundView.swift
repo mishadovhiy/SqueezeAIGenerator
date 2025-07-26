@@ -9,6 +9,8 @@ import SwiftUI
 
 struct HomeBackgroundView: View {
     @Binding var type: `Type`
+    @Binding var properties: BakcgroundProperties
+
     enum `Type`:String {
         case big, loading, regular, topRegular, topBig
         static let `default`: Self = .regular
@@ -28,7 +30,14 @@ struct HomeBackgroundView: View {
         return 5
     }
     
+    struct BakcgroundProperties {
+        var blurAlpha: CGFloat? = nil
+    }
+    
     var blurAlpha: CGFloat {
+        if let alpha = properties.blurAlpha {
+            return alpha
+        }
         let ignorBlur: [Type] = [.loading, .regular, .topBig, .topRegular]
         if ignorBlur.contains(type) {
             return 0

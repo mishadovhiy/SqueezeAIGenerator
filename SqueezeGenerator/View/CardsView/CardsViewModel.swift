@@ -15,8 +15,12 @@ class CardsViewModel: ObservableObject {
     @Published var scrollSized: [ScrollSized] = []
     @Published var selectedActions: [CollectionViewController.CollectionData] = []
     
-    init(data: [CardData]) {
-        self.data = data
+    struct ViewProperties: Hashable, Equatable {
+        let data: [CardData]
+    }
+    
+    init(_ proeprties: ViewProperties) {
+        self.data = proeprties.data
     }
     
     var currentData: CardData? {

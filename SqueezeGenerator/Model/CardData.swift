@@ -7,7 +7,17 @@
 
 import UIKit
 
-struct CardData {
+struct CardData: Hashable, Equatable {
+    static func == (lhs: CardData, rhs: CardData) -> Bool {
+        ![
+            lhs.title == rhs.title,
+            lhs.description == rhs.description,
+            lhs.color == rhs.color,
+            lhs.id == rhs.id,
+            lhs.buttons == rhs.buttons
+        ].contains(false)
+    }
+    
     let title: String
     let description: String
     let color: UIColor

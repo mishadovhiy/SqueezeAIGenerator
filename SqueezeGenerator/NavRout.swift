@@ -13,4 +13,5 @@ enum NavRout: Hashable {
     case requestToGenerateParameters(NetworkRequest.SqueezeRequest)
     case requestGenerated
     case empty
+    case cardView(CardsViewModel.ViewProperties)
 }

@@ -23,7 +23,15 @@ class HomeViewModel: ObservableObject {
     @Published var appDataLoading: Bool = true
     @Published var dataCount: Int = 5
     @Published var contentHeight: CGFloat = 0
-
+    @Published var scrollPosition: CGFloat = .zero
+    @Published var viewSize: CGFloat = .zero
+    var backgroundProperties: HomeBackgroundView.BakcgroundProperties {
+        if scrollPosition > .zero && navValues.isEmpty {
+            return  .init(blurAlpha: nil)
+        }
+        return .init()
+    }
+    
     var circleType: HomeBackgroundView.`Type` {
         if appDataLoading || requestLoading {
             return .loading

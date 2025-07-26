@@ -18,7 +18,7 @@ struct HomeView: View {
         .opacity(viewModel.dbPresenting ? 0 : 1)
         .animation(.smooth(duration: 1.2), value: viewModel.dbPresenting)
         .background(content: {
-            HomeBackgroundView(type: .constant(viewModel.circleType))
+            HomeBackgroundView(type: .constant(viewModel.circleType), properties: .constant(viewModel.backgroundProperties))
         })
         .fullScreenCover(isPresented: $viewModel.dbPresenting, content: {
             DBView()
@@ -95,8 +95,13 @@ struct HomeView: View {
                     }
 
                 } else {
-                    Button("db") {
-                        self.viewModel.dbPresenting = true
+                    HStack {
+                        Button("db") {
+                            self.viewModel.dbPresenting = true
+                        }
+                        Button("cards") {
+                            viewModel.navValues.append(.cardView(.init(data: .demo)))
+                        }
                     }
                     Spacer()
                     collectionView
@@ -166,6 +171,8 @@ struct HomeView: View {
                 })
                 .navigationBarHidden(true)
                 .navigationBarBackButtonHidden()
+        case .cardView(let properties):
+            CardsView(properties)
         }
     }
 
