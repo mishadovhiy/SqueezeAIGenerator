@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct CardsView: View {
-    @StateObject var viewModel: CardsViewModel = .init()
+    @StateObject var viewModel: CardsViewModel
+    
+    init(_ data: [CardData]) {
+        _viewModel = StateObject(wrappedValue: .init(data: data))
+    }
     
     var body: some View {
         GeometryReader { proxy in
@@ -42,7 +46,9 @@ struct CardsView: View {
     @ViewBuilder
     var scrollLabelOverlay: some View {
         VStack {
-            Text(viewModel.scrollSized.compactMap({$0.rawValue}).joined(separator: ", "))
+            Text(viewModel.scrollSized.compactMap({$0.rawValue}).joined(separator: ", ") + (viewModel.selectedActions.isEmpty ? "" : "\n\n") + viewModel.selectedActions.compactMap({
+                $0.title
+            }).joined(separator: ", "))
                 .font(.title)
                 .foregroundColor(.white)
                 .padding(.horizontal, 15)
@@ -117,5 +123,5 @@ struct CardsView: View {
 }
 
 #Preview {
-    CardsView()
+    CardsView(.demo)
 }

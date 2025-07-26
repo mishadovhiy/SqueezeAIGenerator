@@ -158,14 +158,19 @@ class FlowLayout: UICollectionViewFlowLayout {
 
 extension [CollectionViewController.CollectionData] {
     static var demo: Self {
-        Array(self.demos.shuffled().prefix(3))
+        Array(self.demos.shuffled().prefix([3, 4, 3, 6, 7].randomElement()!))
     }
     
     fileprivate static var demos: Self {
         [
             .init(title: "Proffessional Skills"),
             .init(title: "Nervious"),
-            .init(title: "Shizophrenia")
+            .init(title: "Shizophrenia"),
+            .init(title: "sdffd"),
+            .init(title: "cxvfasd"),
+            .init(title: "rtegf"),
+            .init(title: "5g4refw"),
+            .init(title: "dfvc")
         ]
     }
 }
