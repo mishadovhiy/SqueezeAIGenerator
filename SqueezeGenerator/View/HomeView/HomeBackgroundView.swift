@@ -81,17 +81,19 @@ struct HomeBackgroundView: View {
     
     @ViewBuilder
     var curclesOverlayView: some View {
-        Spacer()
-            .frame(maxHeight: (type.isTop ? (type == .topRegular ? .zero : .infinity) : .infinity))
-            .animation(.bouncy, value: type)
-        Spacer()
-            .frame(maxHeight: type.isTop ? 0 : .infinity)
-            .animation(.bouncy, value: type)
-        circles
-        Spacer()
-            .frame(maxHeight: .infinity)
-        Spacer()
-            .frame(maxHeight: .infinity)
+        VStack {
+            Spacer()
+                .frame(maxHeight: (type.isTop ? (type != .topRegular ? .zero : 150) : .infinity))
+                .animation(.bouncy, value: type)
+            Spacer()
+                .frame(maxHeight: type.isTop ? 0 : .infinity)
+                .animation(.bouncy, value: type)
+            circles
+            Spacer()
+                .frame(maxHeight: .infinity)
+            Spacer()
+                .frame(maxHeight: .infinity)
+        }
     }
     
     var circles: some View {

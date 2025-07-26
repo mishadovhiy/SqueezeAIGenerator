@@ -19,6 +19,18 @@ struct HomeView: View {
         .opacity(viewModel.dbPresenting ? 0 : 1)
         .animation(.smooth(duration: 1.2), value: viewModel.dbPresenting)
         .background(content: {
+            VStack {
+                Color.black
+                    .ignoresSafeArea(.all)
+                    .frame(height: 40, alignment: .top)
+                    .opacity(viewModel.gradientOpacity > 0.1 ? viewModel.gradientOpacity * 8 : viewModel.gradientOpacity)
+                    .animation(.smooth, value: viewModel.scrollPosition.y )
+                    
+                Spacer()
+            }
+            
+        })
+        .background(content: {
             HomeBackgroundView(type: .constant(viewModel.circleType), properties: .constant(viewModel.backgroundProperties))
         })
         .fullScreenCover(isPresented: $viewModel.dbPresenting, content: {
@@ -67,7 +79,7 @@ struct HomeView: View {
             }
         }
     }
-
+    
     
     var headerView: some View {
         HStack {
@@ -94,7 +106,7 @@ struct HomeView: View {
                             viewModel.selectedRequest = nil
                         }
                     }
-
+                    
                 } else {
                     HStack {
                         Button("db") {
@@ -125,7 +137,7 @@ struct HomeView: View {
         .background {
             ClearBackgroundView()
         }
-
+        
     }
     
     @ViewBuilder
@@ -167,25 +179,75 @@ struct HomeView: View {
                 Spacer()
                     .frame(maxHeight: .infinity)
             })
-                .onAppear(perform: {
-                    print("sfdasvfasd")
-                })
-                .navigationBarHidden(true)
-                .navigationBarBackButtonHidden()
+            .onAppear(perform: {
+                print("sfdasvfasd")
+            })
+            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden()
         case .cardView(let properties):
             CardsView(properties)
         }
     }
-
+    
     var collectionView: some View {
         GeometryReader { proxy in
-            ScrollView(.vertical) {
-                VStack {
-                    Spacer().frame(height: proxy.size.height * 0.8)
-                    CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionData, didSelect: { at in
-                        viewModel.collectionViewSelected(at: at ?? 0)
-                    })
-                    .frame(height: viewModel.contentHeight)
+            ScrollView {
+                
+                LazyVStack(pinnedViews: .sectionHeaders) {
+                    Spacer().frame(height: proxy.size.height * 0.4)
+                    Section {
+                        VStack {
+                            Spacer().frame(height: proxy.size.height * 0.2)
+                            
+                            CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionData, didSelect: { at in
+                                viewModel.collectionViewSelected(at: at ?? 0)
+                            })
+                            .background {
+                                GeometryReader { proxy in
+                                    Color.clear
+                                        .onChange(of: proxy.frame(in: .global).origin) { newValue in
+                                            viewModel.scrollPosition = newValue
+                                            print(viewModel.scrollPosition, "rtgerfwda")
+                                        }
+                                        .onAppear {
+                                            viewModel.scrollPosition = proxy.frame(in: .global).origin
+                                        }
+                                }
+                            }
+                            .frame(height: viewModel.contentHeight)
+                        }
+                    } header: {
+                        VStack {
+                            Text("Squeeze generator")
+                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity,
+                                       alignment: .leading)
+                                .padding(.horizontal, 15)
+                                .font(.system(size: 80 * (1 - (viewModel.gradientOpacity >= 0.8 ? 0.8 : viewModel.gradientOpacity)),
+                                              weight: .bold))
+                                .multilineTextAlignment(.leading)
+                            Spacer()
+                            
+                        }
+                        .frame(height: 220)
+
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(content: {
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    .black, .black, .clear, .clear
+                                ]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .offset(y: -50)
+                            .frame(maxHeight: .infinity, alignment: .top)
+                            .frame(height: 220)
+                            .opacity(viewModel.gradientOpacity)
+                            
+                        })
+                    }
+                    
                 }
             }
         }

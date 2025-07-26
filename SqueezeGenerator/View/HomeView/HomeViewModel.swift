@@ -23,13 +23,33 @@ class HomeViewModel: ObservableObject {
     @Published var appDataLoading: Bool = true
     @Published var dataCount: Int = 5
     @Published var contentHeight: CGFloat = 0
-    @Published var scrollPosition: CGFloat = .zero
+    @Published var scrollPosition: CGPoint = .zero
     @Published var viewSize: CGFloat = .zero
     var backgroundProperties: HomeBackgroundView.BakcgroundProperties {
-        if scrollPosition > .zero && navValues.isEmpty {
-            return  .init(blurAlpha: nil)
+        if scrollPosition.y - 250 <= .zero && navValues.isEmpty {
+            var alpha = 1 - ((scrollPosition.y - 250) / 10)
+            let max: CGFloat = 16
+            if alpha >= max {
+                alpha = max
+            }
+            return  .init(blurAlpha: alpha)
         }
         return .init()
+    }
+    
+    var gradientOpacity: CGFloat {
+        if scrollPosition.y <= 250 {
+            let calc = (250 - scrollPosition.y) / 100
+            if calc >= 1 {
+                return 1
+            }
+            if calc <= 0 {
+                return 1
+            }
+            return calc
+        } else {
+            return 0
+        }
     }
     
     var circleType: HomeBackgroundView.`Type` {
@@ -45,7 +65,7 @@ class HomeViewModel: ObservableObject {
             if response != nil {
                 return .regular
             }
-            return .topRegular
+            return scrollPosition.y <= 250 ? .regular : .topRegular
         }
     }
     func findSelectedCategory(cats: [NetworkResponse.CategoriesResponse.Categories], selectedID: String) -> NetworkResponse.CategoriesResponse.Categories? {
