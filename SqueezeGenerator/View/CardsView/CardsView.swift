@@ -85,9 +85,7 @@ struct CardsView: View {
             }, set: {
                 viewModel.collectionHeight.updateValue($0, forKey: data.id)
             }), data: data.buttons) { at in
-                withAnimation {
-                    viewModel.currentIndex += 1
-                }
+                viewModel.didSelectButton(button: data.buttons[at ?? 0])
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -115,9 +113,14 @@ struct CardsView: View {
                 viewModel.dragPosition = .init(x: value.translation.width, y: value.translation.height)
             })
             .onEnded({ value in
-                withAnimation(.bouncy(duration:0.4)) {
-                    viewModel.dragPosition = .zero
+                if let first = viewModel.selectedActions.first {
+                    viewModel.didSelectButton(button: first)
+                } else {
+                    withAnimation(.bouncy(duration: 0.4)) {
+                        viewModel.dragPosition = .zero
+                    }
                 }
+                
             })
     }
 }

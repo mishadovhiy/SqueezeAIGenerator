@@ -5,7 +5,7 @@
 //  Created by Mykhailo Dovhyi on 26.07.2025.
 //
 
-import Foundation
+import SwiftUI
 
 class CardsViewModel: ObservableObject {
     let data: [CardData]
@@ -28,6 +28,13 @@ class CardsViewModel: ObservableObject {
             return data[currentIndex]
         }
         return nil
+    }
+    
+    func didSelectButton(button: CollectionViewController.CollectionData) {
+        withAnimation {
+            currentIndex += 1
+            dragPosition = .zero
+        }
     }
     
     func cardPosition(_ data: CardData,
@@ -53,30 +60,37 @@ class CardsViewModel: ObservableObject {
         }
         var selectedActions = selectedActions
         selectedActions.removeAll()
-        var removedButtons = currentItem.buttons.prefix(4)
-        for i in 0..<removedButtons.count {
-            if scrollSized.contains(where: {
-                $0.index == i
-            }) {
-                selectedActions.append(removedButtons[i])
+        let buttons = currentItem.buttons.dropFirst(4)
+        if scrollSized.count >= 2 && currentItem.buttons.count >= 5 {
+
+            for i in 0..<4 {
+                let sizes = ScrollSized.additionalProperties(i + 4)
+                
+                if scrollSized.sorted(by: {
+                    $0.index <= $1.index
+                }) == sizes {
+                    if currentItem.buttons.count - 1 >= i + 3 {
+                        selectedActions.append(currentItem.buttons[i + 3])
+                    }
+                    
+                }
             }
         }
-        if scrollSized.count >= 2 && currentItem.buttons.count >= 5 {
-            
-            var buttons = currentItem.buttons.filter({ button in
-                !removedButtons.contains(where: {
-                    button.id == $0.id
-                })
-            })
-            
-            print(buttons, " rgterfwd ")
+        else {
+            for i in 0..<currentItem.buttons.count {
+                if scrollSized.contains(where: {
+                    $0.index == i
+                }) {
+                    selectedActions.append(currentItem.buttons[i])
+                }
+            }
         }
         self.selectedActions = selectedActions
     }
 }
 
 extension CardsViewModel {
-    enum ScrollSized: String, CaseIterable {
+    enum ScrollSized: String, Equatable, CaseIterable {
         case left, top, right, bottom
         
         var percent: CGFloat {
@@ -90,6 +104,24 @@ extension CardsViewModel {
         
         var index: Int {
             ScrollSized.allCases.firstIndex(of: self) ?? 0
+        }
+        
+        static func additionalProperties(_ i: Int) -> [Self]? {
+            return switch i {
+            case 5: [.left, .top].sorted(by: {
+                $0.index <= $1.index
+            })
+            case 6: [.right, .top].sorted(by: {
+                $0.index <= $1.index
+            })
+            case 7: [.bottom, .right].sorted(by: {
+                $0.index <= $1.index
+            })
+            case 8: [.bottom, .left].sorted(by: {
+                $0.index <= $1.index
+            })
+            default: nil
+            }
         }
         
         var isHorizontal: Bool {

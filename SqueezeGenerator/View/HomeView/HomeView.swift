@@ -11,6 +11,7 @@ struct HomeView: View {
                 .ignoresSafeArea(.all)
             buttonsView
         }
+        .foregroundColor(.white)
         .animation(.smooth, value: viewModel.response != nil && viewModel.appResponse != nil)
         .overlay {
             networkResponseView
