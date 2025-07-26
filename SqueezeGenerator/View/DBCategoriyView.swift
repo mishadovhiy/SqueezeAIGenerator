@@ -11,41 +11,63 @@ struct DBCategoriyView: View {
     
     @EnvironmentObject private var db: AppData
     let selectedCategory: String
+    let selectedType: String
     private var data: [AdviceQuestionModel] {
         db.db.responses.filter({
-            $0.save.request?.category == selectedCategory
+            $0.save.request?.type == selectedType
         })
     }
     var body: some View {
         ScrollView {
-            VStack {
-                if data.isEmpty {
-                    Text("no saved data")
-                }
-                ForEach(data, id: \.id) { response in
-                    NavigationLink {
-                        DBDetailView(item: response)
-                    } label: {
-                        VStack {
-                            Text(response.save.request?.type ?? "")
-                            HStack {
-                                Text(response.save.date.stringDate)
-                                HStack {
-                                    Text("\(response.save.grade)")
-                                    Text("\(response.resultPercent)")
-                                    Text(response.save.request?.difficulty.rawValue ?? "")
+            LazyVStack(pinnedViews:[.sectionHeaders], content: {
+                Section {
+                    VStack {
+                        if data.isEmpty {
+                            Text("no saved data")
+                        }
+                        ForEach(data, id: \.id) { response in
+                            NavigationLink {
+                                DBDetailView(item: response)
+                            } label: {
+                                VStack {
+                                    HStack {
+                                        Text(response.save.date.stringDate)
+
+                                        Spacer()
+                                        HStack {
+                                            Text("\(Int(response.resultPercent * 100))%")
+                                            Text(response.save.request?.difficulty.rawValue ?? "")
+                                        }
+                                    }
                                 }
+                                .padding(.horizontal, 20)
+                                .padding(.vertical, 5)
+                                .frame(maxWidth: .infinity)
+                                .tint(.white)
                             }
+                            Divider()
                         }
                     }
-                    Divider()
+                    .background {
+                        Color.black.opacity(0.12)
+                            .blur(radius: 50)
+                            .cornerRadius(12)
+                            
+                    }
+                } header: {
+                    HStack {
+                        Text("Date")
+                        Spacer()
+                        HStack {
+                            Text("Score")
+                            Text("Difficulty")
+                        }
+                    }
+                    .padding(.horizontal, 20)
                 }
-            }
-            .background {
-                Color.white.opacity(0.12)
-                    .blur(radius: 50)
-                    .cornerRadius(12)
-            }
+
+            })
+            .padding(.horizontal, 10)
         }
         .background {
             ClearBackgroundView()

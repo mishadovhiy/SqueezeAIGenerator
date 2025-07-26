@@ -11,6 +11,23 @@ struct DBView: View {
     @EnvironmentObject private var db: AppData
     @Environment(\.dismiss) private var dismiss
     
+    
+    
+    var responseList: some View {
+        ForEach(Array(Set(db.db.responses.compactMap({
+            $0.save.request?.type ?? ""
+        }))), id: \.self) { response in
+            NavigationLink {
+                DBCategoriyView(selectedCategory: db.db.responses.first(where: {$0.save.request?.type == response})?.save.category ?? "", selectedType: response)
+            } label: {
+                VStack {
+                    Text(response)
+                }
+                .background(.white)
+            }
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -26,18 +43,7 @@ struct DBView: View {
                         if db.db.responses.isEmpty {
                             Text("No values")
                         }
-                        ForEach(Array(Set(db.db.responses.compactMap({
-                            $0.save.request?.category ?? ""
-                        }))), id: \.self) { response in
-                            NavigationLink {
-                                DBCategoriyView(selectedCategory: response)
-                            } label: {
-                                VStack {
-                                    Text(response)
-                                }
-                                .background(.white)
-                            }
-                        }
+                        responseList
                     }
                 }
             }

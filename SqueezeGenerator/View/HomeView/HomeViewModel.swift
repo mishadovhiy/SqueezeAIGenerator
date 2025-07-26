@@ -242,9 +242,11 @@ class HomeViewModel: ObservableObject {
             Task(priority: .userInitiated) {
     //            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
                 NetworkModel().advice(self.selectedRequest!) { response in
-                    withAnimation {
-                        self.response = .init(response: response!, save: .init(date: .init(), category: self.selectedRequest!.category, request: self.selectedRequest!, questionResults: [:]))
-                        self.navValues.removeAll()
+                    DispatchQueue.main.async {                    
+                        withAnimation {
+                            self.response = .init(response: response!, save: .init(date: .init(), category: self.selectedRequest!.category, request: self.selectedRequest!, questionResults: [:]))
+                            self.navValues.removeAll()
+                        }
                     }
                 }
             }

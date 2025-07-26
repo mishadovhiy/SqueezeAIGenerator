@@ -18,7 +18,9 @@ struct NetworkModel {
             if let token = response?.appData.tokenAI {
                 Keys.openAIToken = token
             }
-            completion(response)
+            DispatchQueue.main.async {
+                completion(response)
+            }
         }
     }
     
