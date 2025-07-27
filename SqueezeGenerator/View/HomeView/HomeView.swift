@@ -19,15 +19,24 @@ struct HomeView: View {
         .opacity(viewModel.dbPresenting ? 0 : 1)
         .animation(.smooth(duration: 1.2), value: viewModel.dbPresenting)
         .background(content: {
-            VStack {
+            VStack(spacing: 0) {
                 Color.black
                     .ignoresSafeArea(.all)
-                    .frame(height: 40, alignment: .top)
-                    .opacity(viewModel.gradientOpacity > 0.1 ? viewModel.gradientOpacity * 8 : viewModel.gradientOpacity)
-                    .animation(.smooth, value: viewModel.scrollPosition.y )
+                    .frame(height: 33, alignment: .top)
+//                LinearGradient(
+//                    gradient: Gradient(colors: [
+//                        .black, .black.opacity(0)
+//                    ]),
+//                    startPoint: .top,
+//                    endPoint: .bottom
+//                )
+//                .frame(height: 80)
                     
                 Spacer()
             }
+            .opacity(viewModel.gradientOpacity)//viewModel.gradientOpacity > 0.1 ? viewModel.gradientOpacity * 6 : viewModel.gradientOpacity)
+            .animation(.smooth, value: viewModel.scrollPosition.y )
+
             
         })
         .background(content: {
@@ -217,39 +226,108 @@ struct HomeView: View {
                             .frame(height: viewModel.contentHeight)
                         }
                     } header: {
-                        VStack {
-                            Text("Squeeze generator")
-                                .multilineTextAlignment(.leading)
-                                .frame(maxWidth: .infinity,
-                                       alignment: .leading)
-                                .padding(.horizontal, 15)
-                                .font(.system(size: 80 * (1 - (viewModel.gradientOpacity >= 0.8 ? 0.8 : viewModel.gradientOpacity)),
-                                              weight: .bold))
-                                .multilineTextAlignment(.leading)
-                            Spacer()
-                            
-                        }
-                        .frame(height: 220)
-
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(content: {
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    .black, .black, .clear, .clear
-                                ]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                            .offset(y: -50)
-                            .frame(maxHeight: .infinity, alignment: .top)
-                            .frame(height: 220)
-                            .opacity(viewModel.gradientOpacity)
-                            
-                        })
+                        collectionHeader
                     }
                     
                 }
             }
         }
+    }
+    
+    var appTextMask: some View {
+        HStack {
+            VStack {
+                Circle()
+                    .frame(width: 120 * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                    .aspectRatio(1, contentMode: .fill)
+                Spacer()
+                    .overlay {
+                        ForEach([20, 5, 40], id:\.self) { i in
+                            Circle()
+                                .frame(width: (10 + (i / 10)) * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                                .aspectRatio(1, contentMode: .fill)
+                                .offset(x: i, y: i * -1)
+                        }
+                    }
+            }
+            Spacer()
+                .overlay {
+                    ForEach([-20, 50, 10], id:\.self) { i in
+                        Circle()
+                            .frame(width: (10 + (i / 10)) * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                            .aspectRatio(1, contentMode: .fill)
+                            .offset(x: i, y: (i == 50 ? i : -i) / 20)
+                    }
+                }
+            VStack {
+                Spacer()
+                    .overlay {
+                        ForEach([-60, -20, -40], id:\.self) { i in
+                            Circle()
+                                .frame(width: (10 + (i / 10)) * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                                .aspectRatio(1, contentMode: .fill)
+                                .offset(x: i, y: (i == -20 ? i : -i) / 20)
+                        }
+                    }
+                Circle()
+                    .frame(width: 150 * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                    .aspectRatio(1, contentMode: .fill)
+                    .offset(x: -65 * viewModel.gradientOpacity, y: -10 * viewModel.gradientOpacity)
+                
+            }
+        }
+        .padding(.top, 30 * (1 - (viewModel.gradientOpacity >= 0.5 ? 0.5 : viewModel.gradientOpacity)))
+        .padding(.leading, 30 * (1 - (viewModel.gradientOpacity >= 0.5 ? 0.5 : viewModel.gradientOpacity)))
+        .frame(maxWidth: .infinity)
+    }
+    
+    
+    
+    var collectionHeader: some View {
+        VStack {
+            ZStack(content: {
+                appTitle
+                appTitle
+                    .foregroundColor(.black)
+                    .background(.red)
+                    .mask {
+                        appTextMask
+                    }
+            })
+            .frame(maxWidth: .infinity,
+                       alignment: .leading)
+            Spacer()
+            
+        }
+        .frame(height: 220)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(content: {
+            headerGradient
+        })
+    }
+    
+    var headerGradient: some View {
+        LinearGradient(//here
+            gradient: Gradient(colors: [
+                .black, .black, .clear, .clear
+            ]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        .offset(y: -50)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .frame(height: 220)
+        .opacity(viewModel.gradientOpacity)
+        .animation(.smooth, value: viewModel.scrollPosition.y)
+    }
+    
+    var appTitle: some View {
+        Text("Squeeze generator")
+            .multilineTextAlignment(.leading)
+            .padding(.horizontal, 15)
+            .lineSpacing(0)
+            .lineLimit(nil)
+            .font(.system(size: 80 * (1 - (viewModel.gradientOpacity >= 0.8 ? 0.8 : viewModel.gradientOpacity)),
+                          weight: .bold))
     }
 }
