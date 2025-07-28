@@ -18,6 +18,9 @@ struct HomeView: View {
         }
         .opacity(viewModel.dbPresenting ? 0 : 1)
         .animation(.smooth(duration: 1.2), value: viewModel.dbPresenting)
+        .onChange(of: db.db.responses.count) { newValue in
+            viewModel.dbHolder = db.db.responses
+        }
         .background(content: {
             VStack(spacing: 0) {
                 Color.black
@@ -116,9 +119,6 @@ struct HomeView: View {
                     
                 } else {
                     HStack {
-                        Button("db") {
-                            self.viewModel.dbPresenting = true
-                        }
                         Button("cards") {
                             viewModel.navValues.append(.cardView(.init(data: .demo)))
                         }

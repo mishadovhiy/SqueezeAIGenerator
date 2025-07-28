@@ -9,7 +9,9 @@ import SwiftUI
 
 struct RequestParametersView: View {
     @Binding var request: NetworkRequest.SqueezeRequest?
-    
+    @State var statPresenting: Bool = false
+    @EnvironmentObject private var db: AppData
+
     var body: some View {
         VStack(spacing: 15) {
             VStack(alignment: .leading, spacing: 15) {
@@ -24,8 +26,31 @@ struct RequestParametersView: View {
         .padding(.horizontal, 12)
         .padding(.bottom, 20)
         .navigationTitle(request?.type ?? "")
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                if db.db.responses.last(where: {
+                    $0.save.request?.type == request?.type
+                }) != nil {
+                    Button("Score") {
+                        statPresenting = true
+                    }
+                    .font(.system(size: 11))
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(.black.opacity(0.25))
+                    .cornerRadius(8)
+                    .shadow(radius: 6)
+                }
+                
+            }
+        }
+        .opacity(statPresenting ? 0 : 1)
+        .animation(.smooth, value: statPresenting)
+        .fullScreenCover(isPresented: $statPresenting) {
+            DBCategoriyNavView(selectedType: request?.type ?? "")
+        }
     }
-    
+
     var difficutiesPicker: some View {
         ForEach(NetworkRequest.SqueezeRequest.Difficulty.allCases,
                 id:\.rawValue) { difficulty in

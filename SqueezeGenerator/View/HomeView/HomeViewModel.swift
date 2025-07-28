@@ -8,6 +8,7 @@
 import SwiftUI
 
 class HomeViewModel: ObservableObject {
+    var dbHolder: [AdviceQuestionModel] = []
     @Published var appResponse: NetworkResponse.CategoriesResponse?
     @Published var collectionData: [CollectionViewController.CollectionData] = []
     @Published var response: AdviceQuestionModel?
@@ -218,12 +219,23 @@ class HomeViewModel: ObservableObject {
     
     func performAddTableData(_ response: NetworkResponse.CategoriesResponse.Categories, parentID: String) -> CollectionViewController.CollectionData {
         let isListSelected: Bool
+        let db: String
         if response.list != nil {
             isListSelected = self.selectedIDs.contains(response.id)
+            db = ""
         } else {
             isListSelected = false
+            if let dbData = dbHolder.last(where: {
+                $0.save.request?.type == response.name
+            }) {
+                db = "\(dbData.resultPercent) " + "\(dbHolder.filter({$0.save.request?.type == response.name}).count)"
+            } else {
+                db = ""
+            }
+            
         }
-        return .init(title: response.name, cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray), id: response.id, parentID: parentID, isType: response.resultType != nil)
+        
+        return .init(title: response.name + " " + db, cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray), id: response.id, parentID: parentID, isType: response.resultType != nil)
     }
     
     
