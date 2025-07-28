@@ -15,18 +15,50 @@ struct CardsView: View {
     }
     
     var body: some View {
+        VStack {
+            header
+            Spacer()
+            cardsView
+            Spacer()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                Button("<") {
+                    withAnimation {
+                        viewModel.currentIndex -= 1
+                    }
+                }
+                .disabled(viewModel.currentIndex <= 0)
+            }
+        }
+    }
+    
+    var header: some View {
+        VStack {
+            
+            progressView
+        }
+    }
+    
+    var progressView: some View {
+        HStack {
+            ForEach(0..<viewModel.data.count, id: \.self) { i in
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(.red, lineWidth: 1)
+                    .background {
+                        Color(viewModel.currentIndex >= i ? .red : .clear)
+                    }
+                    .cornerRadius(4)
+                    
+            }
+        }
+        .frame(height: 10)
+    }
+    
+    var cardsView: some View {
         GeometryReader { proxy in
             VStack {
-                HStack {
-                    Button("<") {
-                        withAnimation {
-                            viewModel.currentIndex -= 1
-                        }
-                    }
-                    .disabled(viewModel.currentIndex <= 0)
-                    Spacer()
-                }
-                .frame(height: 100)
+                Spacer().frame(height: 100)
                 ZStack {
                     completionView
                     ForEach(viewModel.data.reversed(), id: \.id) { data in

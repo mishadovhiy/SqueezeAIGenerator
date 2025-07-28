@@ -228,7 +228,7 @@ class HomeViewModel: ObservableObject {
             if let dbData = dbHolder.last(where: {
                 $0.save.request?.type == response.name
             }) {
-                db = "\(dbData.resultPercent) " + "\(dbHolder.filter({$0.save.request?.type == response.name}).count)"
+                db = "\(Int(dbData.resultPercent * 100)) " + "\(dbHolder.filter({$0.save.request?.type == response.name}).count)"
             } else {
                 db = ""
             }
