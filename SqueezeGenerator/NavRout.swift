@@ -15,4 +15,15 @@ enum NavRout: Hashable {
     case requestGenerated
     case empty
     case cardView(CardsViewModel.ViewProperties)
+    
+    var needDoneButton: Bool {
+        switch self {
+        case .requestToGenerateParameters,
+                .requestGenerated, .requestToGenerateParameters
+            :
+            true
+        default:
+            false
+        }
+    }
 }

@@ -10,8 +10,9 @@ import SwiftUI
 struct CardsView: View {
     @StateObject var viewModel: CardsViewModel
     
-    init(_ properties: CardsViewModel.ViewProperties) {
-        _viewModel = StateObject(wrappedValue: .init(properties))
+    init(_ properties: CardsViewModel.ViewProperties,
+         done: @escaping(CardsViewModel.Selection)->()) {
+        _viewModel = StateObject(wrappedValue: .init(properties, donePressed: done))
     }
     
     var body: some View {
@@ -102,7 +103,12 @@ struct CardsView: View {
     
     @ViewBuilder
     var completionView: some View {
-        Text("No data")
+        VStack {
+            Text("No data")
+            Button("done") {
+                viewModel.donePressed(viewModel.selectedOptions)
+            }
+        }
     }
     
     private func cardContentView(_ data: CardData) -> some View {
@@ -159,5 +165,7 @@ struct CardsView: View {
 }
 
 #Preview {
-    CardsView(.init(data: .demo))
+    CardsView(.init(data: .demo), done: { _ in
+        
+    })
 }

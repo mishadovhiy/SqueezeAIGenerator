@@ -63,15 +63,15 @@ struct HomeView: View {
     
     @ViewBuilder
     var buttonsView: some View {
-        if (viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true && viewModel.rqStarted && !viewModel.requestLoading) || (viewModel.selectedRequest != nil && !viewModel.rqStarted) {
+        if viewModel.navValues.last?.needDoneButton ?? false || (viewModel.response != nil && viewModel.navValues.isEmpty) {
             Button(viewModel.response != nil ? "squeeze" : "Start") {
                 if viewModel.response != nil {
-                    viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
-                    //                    viewModel.navValues.append(.cardView(.init(data: viewModel.response!.response.questions.compactMap({
-                    //                        .init(title: $0.questionName, description: $0.description, buttons: $0.options.compactMap({
-                    //                            .init(title: $0.optionName, extraSmall: true)
-                    //                        }))
-                    //                    }))))
+//                    viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
+                    viewModel.navValues.append(.cardView(.init(data: viewModel.response!.response.questions.compactMap({
+                        .init(title: $0.questionName, description: $0.description, id: $0.id, buttons: $0.options.compactMap({
+                            .init(title: $0.optionName, id: $0.id.uuidString, extraSmall: true)
+                        }))
+                    }))))
                 } else {
                     withAnimation {
                         viewModel.navValues.append(.empty)
@@ -81,6 +81,8 @@ struct HomeView: View {
             }
             .padding(.horizontal, 50)
             .padding(.vertical, 10)
+            .frame(height: 44)
+            .clipped()
             .background(.red)
             .cornerRadius(8)
             .disabled(viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil))
@@ -121,7 +123,6 @@ struct HomeView: View {
                         withAnimation {
                             viewModel.response = nil
                             viewModel.rqStarted = false
-                            viewModel.selectedRequest = nil
                         }
                     }
                     
@@ -136,11 +137,6 @@ struct HomeView: View {
                 }
                 
             }
-            .onAppear(perform: {
-                withAnimation {
-                    viewModel.selectedRequest = nil
-                }
-            })
             .opacity(viewModel.navValues.isEmpty ? 1 : 0)
             .animation(.smooth, value: viewModel.navValues.isEmpty)
             .navigationDestination(for: NavRout.self) { navRout in
@@ -188,7 +184,6 @@ struct HomeView: View {
             ReadyView(cancelPressed:{
                 withAnimation {
                     viewModel.navValues.removeAll()
-                    viewModel.selectedRequest = nil
                     viewModel.rqStarted = false
                 }
             })
@@ -208,7 +203,31 @@ struct HomeView: View {
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden()
         case .cardView(let properties):
-            CardsView(properties)
+            CardsView(properties) { selection in
+                let questions = viewModel.response?.response.questions ?? []
+                viewModel.response?.save = .init(date: .init(), category: viewModel.category, request: viewModel.selectedRequest, questionResults: [:])
+                selection.forEach { (key: UUID, value: String) in
+                    print("rtgerfwde key: ", key, " value: ", value)
+                    if let question = questions.first(where: {
+                        $0.id == key
+                    }) {
+                        if let options = question.options.first(where: {
+                            $0.id == .init(uuidString: value)!
+                        }) {
+                            viewModel.response?.save.questionResults.updateValue(options, forKey: question)
+                        } else {
+                            fatalError()
+                        }
+                        
+                    } else {
+                        fatalError()
+                    }
+                    
+                }
+                DispatchQueue.main.async {
+                    viewModel.savePressed(db: db)
+                }
+            }
         }
     }
     

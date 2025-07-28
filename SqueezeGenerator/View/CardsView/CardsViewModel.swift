@@ -9,7 +9,18 @@ import SwiftUI
 
 class CardsViewModel: ObservableObject {
     let data: [CardData]
-    @Published var currentIndex: Int = 0
+    typealias Selection = [UUID: String]
+    let donePressed: (Selection)->()
+    var selectedOptions: Selection = [:]
+    @Published var currentIndex: Int = 0 {
+        willSet {
+            let id = data[currentIndex]
+            if newValue > currentIndex {
+            } else {
+                selectedOptions.removeValue(forKey: id.id)
+            }
+        }
+    }
     @Published var collectionHeight: [UUID: CGFloat] = [:]
     @Published var dragPosition: CGPoint = .zero
     @Published var scrollSized: [ScrollSized] = []
@@ -19,8 +30,10 @@ class CardsViewModel: ObservableObject {
         let data: [CardData]
     }
     
-    init(_ proeprties: ViewProperties) {
+    init(_ proeprties: ViewProperties,
+         donePressed: @escaping (Selection)->()) {
         self.data = proeprties.data
+        self.donePressed = donePressed
     }
     
     var currentData: CardData? {
@@ -31,6 +44,9 @@ class CardsViewModel: ObservableObject {
     }
     
     func didSelectButton(button: CollectionViewController.CollectionData) {
+        let id = data[currentIndex]
+        selectedOptions.updateValue(button.id, forKey: id.id)
+
         withAnimation {
             currentIndex += 1
             dragPosition = .zero
