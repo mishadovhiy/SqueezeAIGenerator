@@ -10,9 +10,7 @@ import SwiftUI
 struct DBView: View {
     @EnvironmentObject private var db: AppData
     @Environment(\.dismiss) private var dismiss
-    
-    
-    
+        
     var responseList: some View {
         ForEach(Array(Set(db.db.responses.compactMap({
             $0.save.request?.type ?? ""

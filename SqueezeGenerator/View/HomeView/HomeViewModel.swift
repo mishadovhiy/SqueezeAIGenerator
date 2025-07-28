@@ -38,6 +38,9 @@ class HomeViewModel: ObservableObject {
     }
     
     var gradientOpacity: CGFloat {
+        if !navValues.isEmpty {
+            return 0
+        }
         if scrollPosition.y <= 250 {
             let calc = (250 - scrollPosition.y) / 100
             if calc >= 1 {
@@ -214,7 +217,13 @@ class HomeViewModel: ObservableObject {
     }
     
     func performAddTableData(_ response: NetworkResponse.CategoriesResponse.Categories, parentID: String) -> CollectionViewController.CollectionData {
-        .init(title: response.name, id: response.id, parentID: parentID)
+        let isListSelected: Bool
+        if response.list != nil {
+            isListSelected = self.selectedIDs.contains(response.id)
+        } else {
+            isListSelected = false
+        }
+        return .init(title: response.name, cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray), id: response.id, parentID: parentID, isType: response.resultType != nil)
     }
     
     
@@ -314,7 +323,7 @@ class HomeViewModel: ObservableObject {
                 if parentTitle?.isEmpty ?? false {
                     parentTitle = nil
                 }
-//                selectedRequest = .init(type: selected.name, category: parentTitle ?? self.category, description: selected.description)
+                selectedRequest = .init(type: selected.name, category: parentTitle ?? self.category, description: selected.description)
                 navValues.append(.requestToGenerateParameters(.init(type: selected.name, category: parentTitle ?? self.category, description: selected.description)))
 //                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
                 //go to difficulty

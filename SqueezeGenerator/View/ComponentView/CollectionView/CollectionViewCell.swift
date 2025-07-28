@@ -9,10 +9,10 @@ import SwiftUI
 
 class CollectionViewCell: UICollectionViewCell {
     
-    private var label:UILabel? { (textStack?.arrangedSubviews.first(where: {$0 is UIStackView}) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UILabel && $0.tag == 0}) as? UILabel }
-    private var mainImageView:UIImageView? { (textStack?.arrangedSubviews.first(where: {$0 is UIStackView}) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UIImageView}) as? UIImageView }
+    private var label: UILabel? { (textStack?.arrangedSubviews.first(where: {$0 is UIStackView}) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UILabel && $0.tag == 0}) as? UILabel }
+    private var mainImageView: UIImageView? { (textStack?.arrangedSubviews.first(where: {$0 is UIStackView}) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UIImageView}) as? UIImageView }
 
-    private var descriptionLabel:UILabel? { textStack?.arrangedSubviews.first(where: {$0 is UILabel && $0.tag == 1}) as? UILabel }
+    private var descriptionLabel: UILabel? { textStack?.arrangedSubviews.first(where: {$0 is UILabel && $0.tag == 1}) as? UILabel }
 
     private var backgroundColoredView:UIView? { contentView.subviews.first(where: {$0.layer.name == "backgroundColoredView"})}
     
@@ -21,6 +21,7 @@ class CollectionViewCell: UICollectionViewCell {
     private var textStack:UIStackView? {
         contentView.subviews.first(where: {$0 is UIStackView && $0.tag == 1}) as? UIStackView
     }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         descriptionLabel?.text = ""
@@ -33,7 +34,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     func set(_ data:CollectionViewController.CollectionData) {
         label?.text = data.title
-        label?.font = .systemFont(ofSize: 13, weight: .semibold)
+        label?.font = .systemFont(ofSize: data.isType ? 12 : 17, weight: data.isType ? .semibold : .regular)
 
         descriptionLabel?.text = data.description
         if data.title.isEmpty {
@@ -51,7 +52,7 @@ class CollectionViewCell: UICollectionViewCell {
             backgroundColoredView?.backgroundColor = background.withAlphaComponent(0.85)
 
         } else {
-            backgroundColoredView?.backgroundColor = .red
+            backgroundColoredView?.backgroundColor = data.isType ? .red : .white
         }
 
     }
@@ -105,10 +106,10 @@ class CollectionViewCell: UICollectionViewCell {
         label.textColor = .black
         descriptionLabel.font = .systemFont(ofSize: 9, weight: .regular)
         descriptionLabel.textColor = .black.withAlphaComponent(0.2)
-        backgroundOutline.layer.cornerRadius = 8
+        backgroundOutline.layer.cornerRadius = 12
         backgroundOutline.layer.borderWidth = 0.4
         backgroundOutline.layer.borderColor = UIColor.black.cgColor
-        backgroundColoredView.layer.cornerRadius = 8
+        backgroundColoredView.layer.cornerRadius = 12
        
         self.layer.cornerRadius = 6
         self.layer.masksToBounds = true
@@ -127,20 +128,20 @@ class CollectionViewCell: UICollectionViewCell {
 //            imageStack.heightAnchor.constraint(equalToConstant: 35),
 //            imageStack.widthAnchor.constraint(equalToConstant: 100),
             
-            textStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            textStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-            textStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            textStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            textStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            textStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            textStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            textStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
-            backgroundOutline.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            backgroundOutline.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            backgroundOutline.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            backgroundOutline.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            backgroundOutline.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),//5),
+            backgroundOutline.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),//-10),
+            backgroundOutline.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),//5),
+            backgroundOutline.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),//-10),
             
-            backgroundColoredView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            backgroundColoredView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            backgroundColoredView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            backgroundColoredView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            backgroundColoredView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),//8),
+            backgroundColoredView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),//-8),
+            backgroundColoredView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),//8),
+            backgroundColoredView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),//-8),
             
             descriptionLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
         ])

@@ -36,7 +36,7 @@ struct DBCategoriyView: View {
                                         Spacer()
                                         HStack {
                                             Text("\(Int(response.resultPercent * 100))%")
-                                            Text(response.save.request?.difficulty.rawValue ?? "")
+                                            Text(response.save.request?.difficulty?.rawValue ?? "")
                                         }
                                     }
                                 }

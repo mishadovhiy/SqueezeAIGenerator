@@ -15,8 +15,8 @@ struct CollectionView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> CollectionViewController {
         let layout = FlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.minimumInteritemSpacing = 1
-        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 12
+        layout.minimumLineSpacing = 12
         let vc = CollectionViewController(collectionViewLayout: layout)
         vc.data = data
         vc.dataUpdated = false
@@ -54,6 +54,7 @@ class CollectionViewController: UICollectionViewController {
         var isSelected:Bool = false
         var id: String = UUID().uuidString
         var parentID: String = ""
+        var isType: Bool = false
     }
     var contentHeightUpdated:((_ newHeight:CGFloat)->())?
     private var heightHolder:CGFloat = 0 {
@@ -70,13 +71,13 @@ class CollectionViewController: UICollectionViewController {
         collectionView.backgroundColor = .clear
         collectionView.isScrollEnabled = false
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: .init(describing: CollectionViewCell.self))
-        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumInteritemSpacing = 1
-            layout.minimumLineSpacing = 1
-            layout.scrollDirection = .vertical
-            
-            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
+//        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
+//            layout.minimumInteritemSpacing = 1
+//            layout.minimumLineSpacing = 1
+//            layout.scrollDirection = .vertical
+//            
+//            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        }
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:))))
     }
     

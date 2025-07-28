@@ -23,19 +23,11 @@ struct HomeView: View {
                 Color.black
                     .ignoresSafeArea(.all)
                     .frame(height: 33, alignment: .top)
-//                LinearGradient(
-//                    gradient: Gradient(colors: [
-//                        .black, .black.opacity(0)
-//                    ]),
-//                    startPoint: .top,
-//                    endPoint: .bottom
-//                )
-//                .frame(height: 80)
                     
                 Spacer()
             }
             .opacity(viewModel.gradientOpacity)//viewModel.gradientOpacity > 0.1 ? viewModel.gradientOpacity * 6 : viewModel.gradientOpacity)
-            .animation(.smooth, value: viewModel.scrollPosition.y )
+            .animation(.smooth, value: viewModel.gradientOpacity)
 
             
         })
@@ -68,15 +60,21 @@ struct HomeView: View {
     
     @ViewBuilder
     var buttonsView: some View {
-        if viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true && viewModel.rqStarted && !viewModel.requestLoading {
-            Button("Start") {
-                viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
+        if (viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true && viewModel.rqStarted && !viewModel.requestLoading) || viewModel.selectedRequest?.difficulty != nil {
+            Button(viewModel.response != nil ? "squeeze" : "Start") {
+                if viewModel.response != nil {
+                    viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
+                } else {
+                    withAnimation {
+                        viewModel.navValues.append(.empty)
+                        viewModel.startGenerationRequest()
+                    }
+                }
             }
             .padding(.horizontal, 50)
             .padding(.vertical, 10)
             .background(.red)
             .cornerRadius(8)
-            
         }
         actionButtonsView
     }
@@ -99,8 +97,8 @@ struct HomeView: View {
                 viewModel.textPresenting = true
             }
         }
-        .frame(height: viewModel.selectedRequest != nil ? 44 : 0)
-        .animation(.smooth, value: viewModel.selectedRequest != nil)
+        .frame(height: viewModel.response != nil ? 44 : 0)
+        .animation(.smooth, value: viewModel.response != nil)
         .clipped()
     }
     
@@ -130,12 +128,19 @@ struct HomeView: View {
                 }
                 
             }
+            .onAppear(perform: {
+                withAnimation {
+                    viewModel.selectedRequest = nil
+                }
+            })
+            .opacity(viewModel.navValues.isEmpty ? 1 : 0)
+            .animation(.smooth, value: viewModel.navValues.isEmpty)
             .navigationDestination(for: NavRout.self) { navRout in
                 navigationDestination(for: navRout)
+                    .opacity(viewModel.navValues.last == navRout ? 1 : 0)
                     .background {
                         ClearBackgroundView()
                     }
-                    .opacity(viewModel.navValues.last == navRout ? 1 : 0)
                     .animation(.smooth, value: viewModel.navValues.last == navRout)
             }
             .background {
@@ -155,7 +160,7 @@ struct HomeView: View {
         case .question(let response):
             SqueezeView(response: response)
         case .result:
-            ResultView(savePressed: .init(get: {
+            ResultView(saveModel: viewModel.response ?? .init(response: .init(data: .init()), save: .init(date: .init())), savePressed: .init(get: {
                 false
             }, set: {
                 if $0 {
@@ -163,13 +168,14 @@ struct HomeView: View {
                 }
             }))
         case .requestToGenerateParameters(let request):
-            RequestParametersView(request: request) { request in
-                withAnimation {
-                    viewModel.navValues.append(.empty)
-                    viewModel.selectedRequest = request
-                    viewModel.startGenerationRequest()
-                }
-            }
+            RequestParametersView(request: $viewModel.selectedRequest)
+            //{
+//                withAnimation {
+//                    viewModel.navValues.append(.empty)
+//                    viewModel.selectedRequest = request
+//                    viewModel.startGenerationRequest()
+//                }
+//            }
         case .requestGenerated:
             ReadyView(cancelPressed:{
                 withAnimation {
@@ -211,6 +217,7 @@ struct HomeView: View {
                             CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionData, didSelect: { at in
                                 viewModel.collectionViewSelected(at: at ?? 0)
                             })
+                            .padding(.horizontal, 12)
                             .background {
                                 GeometryReader { proxy in
                                     Color.clear
@@ -279,6 +286,7 @@ struct HomeView: View {
         .padding(.top, 30 * (1 - (viewModel.gradientOpacity >= 0.5 ? 0.5 : viewModel.gradientOpacity)))
         .padding(.leading, 30 * (1 - (viewModel.gradientOpacity >= 0.5 ? 0.5 : viewModel.gradientOpacity)))
         .frame(maxWidth: .infinity)
+        .animation(.bouncy, value: viewModel.gradientOpacity)
     }
     
     
@@ -318,7 +326,7 @@ struct HomeView: View {
         .frame(maxHeight: .infinity, alignment: .top)
         .frame(height: 220)
         .opacity(viewModel.gradientOpacity)
-        .animation(.smooth, value: viewModel.scrollPosition.y)
+        .animation(.smooth, value: viewModel.gradientOpacity)
     }
     
     var appTitle: some View {

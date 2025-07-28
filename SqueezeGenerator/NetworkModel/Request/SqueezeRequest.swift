@@ -14,9 +14,9 @@ extension NetworkRequest {
         var type: String
         var category: String
         var description: String
-        var difficulty: Difficulty = .medium
+        var difficulty: Difficulty? = nil
         
-        enum Difficulty: String, Codable {
+        enum Difficulty: String, Codable, CaseIterable {
             case easie, medium, hard
         }
         
