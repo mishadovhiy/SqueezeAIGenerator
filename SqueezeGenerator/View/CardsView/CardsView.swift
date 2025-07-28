@@ -82,6 +82,7 @@ struct CardsView: View {
                 $0.title
             }).joined(separator: ", "))
                 .font(.title)
+                .lineLimit(0)
                 .foregroundColor(.white)
                 .padding(.horizontal, 15)
                 .padding(.vertical, 8)

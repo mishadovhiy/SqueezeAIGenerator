@@ -16,20 +16,6 @@ struct DBCategoriyNavView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-//            HStack(content: {
-//                Button("close") {
-//                    dismiss.callAsFunction()
-//                }
-//            })
-//            .frame(height: 44)
-//            .frame(maxWidth: .infinity)
-//            .background(.black)
-//            LinearGradient(colors: [
-//                .black, .clear
-//            ],
-//                           startPoint: .top,
-//                           endPoint: .bottom)
-//            .frame(height: 40)
             NavigationStack(root: {
                 DBCategoriyView(selectedCategory: db.db.responses.first(where: {$0.save.request?.type == selectedType})?.save.category ?? "", selectedType: selectedType)
                     .toolbar {

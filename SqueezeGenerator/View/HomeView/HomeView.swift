@@ -63,10 +63,15 @@ struct HomeView: View {
     
     @ViewBuilder
     var buttonsView: some View {
-        if (viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true && viewModel.rqStarted && !viewModel.requestLoading) || viewModel.selectedRequest?.difficulty != nil {
+        if (viewModel.currentQuestion == nil && self.viewModel.response?.save.questionResults.isEmpty ?? true && viewModel.rqStarted && !viewModel.requestLoading) || (viewModel.selectedRequest != nil && !viewModel.rqStarted) {
             Button(viewModel.response != nil ? "squeeze" : "Start") {
                 if viewModel.response != nil {
                     viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
+                    //                    viewModel.navValues.append(.cardView(.init(data: viewModel.response!.response.questions.compactMap({
+                    //                        .init(title: $0.questionName, description: $0.description, buttons: $0.options.compactMap({
+                    //                            .init(title: $0.optionName, extraSmall: true)
+                    //                        }))
+                    //                    }))))
                 } else {
                     withAnimation {
                         viewModel.navValues.append(.empty)
@@ -78,6 +83,9 @@ struct HomeView: View {
             .padding(.vertical, 10)
             .background(.red)
             .cornerRadius(8)
+            .disabled(viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil))
+            .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
+            .animation(.smooth, value: viewModel.selectedRequest?.difficulty == nil)
         }
         actionButtonsView
     }

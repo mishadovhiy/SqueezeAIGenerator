@@ -44,6 +44,25 @@ struct RequestParametersView: View {
                 
             }
         }
+        .overlay(content: {
+//            VStack(spacing: 0) {
+//                HStack(content: {
+//                })
+//                .frame(maxWidth: .infinity)
+//                .background(.black)
+//                .frame(height: 44)
+//                LinearGradient(colors: [
+//                    .black, .clear
+//                ],
+//                               startPoint: .top,
+//                               endPoint: .bottom)
+//                .frame(height: 40)
+//                Spacer()
+//            }
+//            .frame(maxHeight: statPresenting ? .infinity : 0)
+//            .animation(.bouncy, value: statPresenting)
+            
+        })
         .opacity(statPresenting ? 0 : 1)
         .animation(.smooth, value: statPresenting)
         .fullScreenCover(isPresented: $statPresenting) {

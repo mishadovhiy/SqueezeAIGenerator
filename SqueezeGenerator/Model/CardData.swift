@@ -20,7 +20,7 @@ struct CardData: Hashable, Equatable {
     
     let title: String
     let description: String
-    let color: UIColor
+    var color: UIColor = .random
     var id: UUID = .init()
     var rotation: CGFloat = [20, -20, -40, 40, 30, 35, -35, -30].randomElement() ?? 0
     let buttons: [CollectionViewController.CollectionData]

@@ -34,7 +34,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     func set(_ data:CollectionViewController.CollectionData) {
         label?.text = data.title
-        label?.font = .systemFont(ofSize: data.isType ? 12 : 17, weight: data.isType ? .semibold : .regular)
+        label?.font = .systemFont(ofSize: data.extraSmall ? 10 : (data.isType ? 12 : 17), weight: data.isType ? .semibold : .regular)
 
         descriptionLabel?.text = data.description
         if data.title.isEmpty {
