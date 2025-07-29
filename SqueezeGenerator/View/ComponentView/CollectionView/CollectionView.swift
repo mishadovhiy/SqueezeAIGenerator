@@ -167,11 +167,11 @@ extension [CollectionViewController.CollectionData] {
         [
             .init(title: "Proffessional Skills", extraSmall: true),
             .init(title: "Nervious", extraSmall: true),
-            .init(title: "Shizophrenia", extraSmall: true),
+            .init(title: "Shizophrenia Shizophrenia Shizophrenia", extraSmall: true),
             .init(title: "sdffd", extraSmall: true),
-            .init(title: "cxvfasd", extraSmall: true),
+            .init(title: "cxvfasd cxvfasd cxvfasd cxvfasd cxvfasd cxvfasd cxvfasd", extraSmall: true),
             .init(title: "rtegf", extraSmall: true),
-            .init(title: "5g4refw", extraSmall: true),
+            .init(title: "5g4refw 5g4refw 5g4refw 5g4refw 5g4refw 5g4refw", extraSmall: true),
             .init(title: "dfvc", extraSmall: true)
         ]
     }
