@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="93px" height="103px" viewBox="0 0 93 103" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Combined Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="51.6572764%" y1="50%" x2="55.1314723%" y2="93.0394167%" id="linearGradient-1">
+            <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#000000" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="squeezeGenerator" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.521321615">
+        <g id="Artboard" transform="translate(-37.000000, -361.000000)" fill="url(#linearGradient-1)">
+            <path d="M66,463.062791 L66,381.062791 L65,379.55945 L64.1393578,463.062791 L37,463.062791 L37,381.062791 C41.5871714,373.396125 46.4205047,369.562791 51.5,369.562791 C56.5794953,369.562791 61.4128286,373.396125 66,381.062791 L66,300.263734 L83.298391,276.366941 C86.8606802,271.44583 93.7378344,270.344288 98.6589448,273.906578 C99.359911,274.413992 99.9985536,275.002349 100.561626,275.659444 L130,310.013474 L130,463.062791 L66,463.062791 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+</svg>

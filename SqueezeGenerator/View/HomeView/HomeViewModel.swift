@@ -9,6 +9,8 @@ import SwiftUI
 
 class HomeViewModel: ObservableObject {
     var dbHolder: [AdviceQuestionModel] = []
+    @Published var selectedGeneralKeyID: String?
+    @Published var collectionDataForKey: [CollectionViewController.CollectionData] = []
     @Published var appResponse: NetworkResponse.CategoriesResponse?
     @Published var collectionData: [CollectionViewController.CollectionData] = []
     @Published var response: AdviceQuestionModel?

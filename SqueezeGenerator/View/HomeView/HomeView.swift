@@ -230,34 +230,75 @@ struct HomeView: View {
             }
         }
     }
-    
+
+
+    var collectiomParentSections: some View {
+        ScrollView(.horizontal,
+                   showsIndicators: false) {
+            LazyHStack {
+                Spacer().frame(width: 20)
+                ForEach(viewModel.collectionData, id:\.id) { item in
+                    Button {
+                        if self.viewModel.selectedGeneralKeyID != item.id {
+                            self.viewModel.selectedGeneralKeyID = item.id
+                        }
+                        self.viewModel.selectedGeneralKeyID = nil
+//                        self.viewModel.collectionDataForKey = self
+                    } label: {
+                        VStack {
+                            Text(item.title)
+                                .foregroundColor(.white.opacity(0.5))
+                                .font(.system(size: 18, weight: .semibold))
+                            Spacer()
+                        }
+                        .padding(.horizontal, 30)
+                        .padding(.vertical, 8)
+                    }
+                    .background(.white.opacity(0.1))
+                    .cornerRadius(14)
+
+                }
+                Spacer().frame(width: 20)
+            }
+            .frame(height: viewModel.selectedGeneralKeyID == nil ? 120 : 50)
+
+        }
+    }
+
     var collectionView: some View {
         GeometryReader { proxy in
-            ScrollView {
-                
+            ScrollView(.vertical) {
+
                 LazyVStack(pinnedViews: .sectionHeaders) {
-                    Spacer().frame(height: proxy.size.height * 0.4)
+                    Spacer().frame(height: proxy.size.height * 0.3)
+                        .overlay {
+                            Image(.shape)
+                                .foregroundColor(.red)
+                        }
                     Section {
                         VStack {
-                            Spacer().frame(height: proxy.size.height * 0.2)
-                            
-                            CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionData, didSelect: { at in
-                                viewModel.collectionViewSelected(at: at ?? 0)
-                            })
-                            .padding(.horizontal, 12)
-                            .background {
-                                GeometryReader { proxy in
-                                    Color.clear
-                                        .onChange(of: proxy.frame(in: .global).origin) { newValue in
-                                            viewModel.scrollPosition = newValue
-                                            print(viewModel.scrollPosition, "rtgerfwda")
-                                        }
-                                        .onAppear {
-                                            viewModel.scrollPosition = proxy.frame(in: .global).origin
-                                        }
+                            Spacer().frame(height: proxy.size.height * 0.23)
+                            collectiomParentSections
+//                            if !viewModel.collectionDataForKey.isEmpty {
+                                CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionDataForKey, didSelect: { at in
+                                    viewModel.collectionViewSelected(at: at ?? 0)
+                                })
+                                .padding(.horizontal, 12)
+                                .background {
+                                    GeometryReader { proxy in
+                                        Color.clear
+                                            .onChange(of: proxy.frame(in: .global).origin) { newValue in
+                                                viewModel.scrollPosition = newValue
+                                                print(viewModel.scrollPosition, "rtgerfwda")
+                                            }
+                                            .onAppear {
+                                                viewModel.scrollPosition = proxy.frame(in: .global).origin
+                                            }
+                                    }
                                 }
-                            }
-                            .frame(height: viewModel.contentHeight)
+                                .frame(height: viewModel.contentHeight)
+//                            }
+
                         }
                     } header: {
                         collectionHeader
@@ -322,12 +363,12 @@ struct HomeView: View {
         VStack {
             ZStack(content: {
                 appTitle
-                appTitle
-                    .foregroundColor(.black)
-                    .background(.red)
-                    .mask {
-                        appTextMask
-                    }
+//                appTitle
+//                    .foregroundColor(.black)
+//                    .background(.red)
+//                    .mask {
+//                        appTextMask
+//                    }
             })
             .frame(maxWidth: .infinity,
                        alignment: .leading)
@@ -363,6 +404,6 @@ struct HomeView: View {
             .lineSpacing(0)
             .lineLimit(nil)
             .font(.system(size: 80 * (1 - (viewModel.gradientOpacity >= 0.8 ? 0.8 : viewModel.gradientOpacity)),
-                          weight: .bold))
+                          weight: .semibold))
     }
 }
