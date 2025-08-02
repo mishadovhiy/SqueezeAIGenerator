@@ -232,6 +232,14 @@ struct HomeView: View {
     }
 
 
+    func selected(_ item: String?) {
+        self.viewModel.collectionDataForKey = viewModel.appResponse?.categories.first(where: { response in
+            response.id == item
+        })?.list?.compactMap({
+            viewModel.performAddTableData($0, parentID: item ?? "")
+        }) ?? []
+    }
+
     var collectiomParentSections: some View {
         ScrollView(.horizontal,
                    showsIndicators: false) {
@@ -241,8 +249,15 @@ struct HomeView: View {
                     Button {
                         if self.viewModel.selectedGeneralKeyID != item.id {
                             self.viewModel.selectedGeneralKeyID = item.id
+                            self.viewModel.selectedIDs.append(item.id)
+                        } else {
+                            self.viewModel.selectedGeneralKeyID = nil
+                            self.viewModel.selectedIDs.removeAll()
                         }
-                        self.viewModel.selectedGeneralKeyID = nil
+                        self.viewModel.updateTableData()
+//                        self.selected(self.viewModel.selectedGeneralKeyID)
+//                        self.viewModel.updateTableData()
+
 //                        self.viewModel.collectionDataForKey = self
                     } label: {
                         VStack {
@@ -280,8 +295,9 @@ struct HomeView: View {
                             Spacer().frame(height: proxy.size.height * 0.23)
                             collectiomParentSections
 //                            if !viewModel.collectionDataForKey.isEmpty {
-                                CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionDataForKey, didSelect: { at in
+                            CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionDataForKey, didSelect: { at in
                                     viewModel.collectionViewSelected(at: at ?? 0)
+                                    
                                 })
                                 .padding(.horizontal, 12)
                                 .background {

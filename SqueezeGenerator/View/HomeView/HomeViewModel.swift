@@ -159,7 +159,12 @@ class HomeViewModel: ObservableObject {
     }
     func updateTableData() {
         var collectionData = collectionData
-        collectionData = (appResponse?.categories ?? []).compactMap({
+        collectionData = (appResponse?.categories.filter({
+            selectedIDs.contains($0.id)
+        }).compactMap({
+            performAddTableData($0, parentID: $0.id)
+        }) ?? [])
+        var response = appResponse?.categories.compactMap({
             self.performAddTableData($0, parentID: "")
         })
         print(collectionData.compactMap({$0.parentID}).joined(separator: ", "), " rewfedaws ")
@@ -182,18 +187,23 @@ class HomeViewModel: ObservableObject {
             }
             
         }
-        print(collectionData.compactMap({$0.parentID}).joined(separator: ", "), " juyhfvddvs ")
-        
+        print(collectionDataForKey.compactMap({$0.parentID}).joined(separator: ", "), " juyhfvddvs ")
+
         //        appResponse?.categories.forEach { category in
         //            if let cats = category.list {
         //                self.checkTableDataIDs(cats, parentID: category.id, collectionData: &collectionData)
         //            }
         //        }
         withAnimation(.bouncy) {
-            self.collectionData = collectionData
+            self.collectionData = response ?? []
+            print(collectionData, " juyhtbgrvfecd")
+            self.collectionDataForKey = collectionData.filter({
+                $0.id != self.selectedGeneralKeyID
+            })
         }
     }
     func checkTableDataIDs(_ response: [NetworkResponse.CategoriesResponse.Categories], parentID: String, collectionData: inout [CollectionViewController.CollectionData]) {
+        print(selectedIDs, " htgbrvfecdsx")
         if selectedIDs.isEmpty {
             return
         }
@@ -213,7 +223,7 @@ class HomeViewModel: ObservableObject {
         } else {
             response.forEach { category in
                 if let categories = category.list {
-                    self.checkTableDataIDs(categories, parentID: category.id, collectionData: &collectionData)
+                    self.checkTableDataIDs(categories, parentID: category.id, collectionData: &collectionDataForKey)
                 }
             }
         }
@@ -230,7 +240,12 @@ class HomeViewModel: ObservableObject {
             if let dbData = dbHolder.last(where: {
                 $0.save.request?.type == response.name
             }) {
-                db = "\(Int(dbData.resultPercent * 100)) " + "\(dbHolder.filter({$0.save.request?.type == response.name}).count)"
+                var value = dbData.resultPercent * 100
+                print(value, " tgrtefrwdas ")
+                if !value.isFinite {
+                    value = 0
+                }
+                db = "\(Int(value)) " + "\(dbHolder.filter({$0.save.request?.type == response.name}).count)"
             } else {
                 db = ""
             }
@@ -302,7 +317,9 @@ class HomeViewModel: ObservableObject {
     }
     
     func collectionViewSelected(at: Int?) {
-        let category = collectionData[at!]
+        let category = collectionDataForKey[at!]
+
+        print(category, " drftgyhujilk")
         if let response = self.findSelectedCategory(cats: self.appResponse?.categories ?? [], selectedID: category.id) {
             if response.list != nil {
                 if selectedIDs.contains(response.id) {
