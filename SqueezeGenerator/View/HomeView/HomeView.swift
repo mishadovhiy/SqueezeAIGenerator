@@ -247,6 +247,8 @@ struct HomeView: View {
                 Spacer().frame(width: 20)
                 ForEach(viewModel.collectionData, id:\.id) { item in
                     Button {
+                        self.viewModel.collectionDataForKey.removeAll()
+                        self.viewModel.selectedIDs.removeAll()
                         if self.viewModel.selectedGeneralKeyID != item.id {
                             self.viewModel.selectedGeneralKeyID = item.id
                             self.viewModel.selectedIDs.append(item.id)
