@@ -18,7 +18,18 @@ extension NetworkResponse {
             let list: [Categories]?
             let resultType: String?
             var id: String
-            
+            let color: Color?
+
+            struct Color: Codable, Equatable, Hashable {
+                let tint: String?
+                let topLeft: String?
+                let top: String?
+                let left: String?
+                let right: String?
+                let bottom: String
+                let bottomRight: String?
+            }
+
 //            var resultValueType: ResultType? {
 //                .init(rawValue: resultType ?? "")
 //            }

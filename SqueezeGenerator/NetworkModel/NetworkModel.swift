@@ -11,15 +11,19 @@ struct NetworkModel {
     func appData(completion: @escaping(_ response: NetworkResponse.CategoriesResponse?)->()) {
         let request = Request(.fetchAppData)
         request.perform { data in
-            let response = try? JSONDecoder().decode(NetworkResponse.CategoriesResponse.self, from: data ?? .init())
-            if response == nil {
-                fatalError()
+            do {
+                let response = try JSONDecoder().decode(NetworkResponse.CategoriesResponse.self, from: data ?? .init())
+                Keys.openAIToken = response.appData.tokenAI
+
+                DispatchQueue.main.async {
+                    completion(response)
+                }
             }
-            if let token = response?.appData.tokenAI {
-                Keys.openAIToken = token
-            }
-            DispatchQueue.main.async {
-                completion(response)
+            catch {
+                fatalError(error.localizedDescription)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
             }
         }
     }

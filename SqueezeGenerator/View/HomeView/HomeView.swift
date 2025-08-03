@@ -6,7 +6,7 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            headerView
+//            headerView
             navigationStack
                 .ignoresSafeArea(.all)
             buttonsView
@@ -150,6 +150,11 @@ struct HomeView: View {
             .background {
                 ClearBackgroundView()
             }
+            .onAppear {
+                withAnimation(.bouncy) {
+                    viewModel.selectedRequest = nil
+                }
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .background {
@@ -233,11 +238,14 @@ struct HomeView: View {
 
 
     func selected(_ item: String?) {
-        self.viewModel.collectionDataForKey = viewModel.appResponse?.categories.first(where: { response in
+        let data = viewModel.appResponse?.categories.first(where: { response in
             response.id == item
         })?.list?.compactMap({
             viewModel.performAddTableData($0, parentID: item ?? "")
         }) ?? []
+        withAnimation {
+            self.viewModel.collectionDataForKey = data
+        }
     }
 
     var collectiomParentSections: some View {
@@ -284,24 +292,22 @@ struct HomeView: View {
 
     var collectionView: some View {
         GeometryReader { proxy in
-            ScrollView(.vertical) {
+            ScrollView(.vertical, showsIndicators: false) {
 
                 LazyVStack(pinnedViews: .sectionHeaders) {
                     Spacer().frame(height: proxy.size.height * 0.3)
-                        .overlay {
-                            Image(.shape)
-                                .foregroundColor(.red)
-                        }
                     Section {
                         VStack {
                             Spacer().frame(height: proxy.size.height * 0.23)
                             collectiomParentSections
+                            Spacer().frame(height: 40)
 //                            if !viewModel.collectionDataForKey.isEmpty {
                             CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionDataForKey, didSelect: { at in
                                     viewModel.collectionViewSelected(at: at ?? 0)
                                     
                                 })
-                                .padding(.horizontal, 12)
+                            .padding(.leading, 20)
+                            .padding(.trailing, 5)
                                 .background {
                                     GeometryReader { proxy in
                                         Color.clear
@@ -418,6 +424,8 @@ struct HomeView: View {
     var appTitle: some View {
         Text("Squeeze generator")
             .multilineTextAlignment(.leading)
+            .foregroundColor(.white.opacity(0.1))
+            .blur(radius: 2)
             .padding(.horizontal, 15)
             .lineSpacing(0)
             .lineLimit(nil)

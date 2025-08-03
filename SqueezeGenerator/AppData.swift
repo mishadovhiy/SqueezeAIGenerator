@@ -46,7 +46,10 @@ class AppData:ObservableObject {
             
         }
     }
-    
+
+    @Published var adPresenting:Bool = false
+    @Published var adPresentingValue:Set<AnyCancellable> = []
+
     private func performFetchDB() {
         let db = UserDefaults.standard.data(forKey: dbkey)
         DispatchQueue.main.async {

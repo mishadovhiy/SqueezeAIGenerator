@@ -37,9 +37,14 @@ class HomeViewModel: ObservableObject {
             }
             return  .init(blurAlpha: alpha)
         }
-        return .init()
+        return .init(
+            needOval: self.selectedGeneralKeyID != nil || navValues.isEmpty,
+            backgroundGradient: selectedRequest?.color ?? appResponse?.categories.first(where: {
+                $0.id == self.selectedGeneralKeyID
+            })?.color
+        )
     }
-    
+
     var gradientOpacity: CGFloat {
         if !navValues.isEmpty {
             return 0
@@ -354,8 +359,26 @@ class HomeViewModel: ObservableObject {
                 if parentTitle?.isEmpty ?? false {
                     parentTitle = nil
                 }
-                selectedRequest = .init(type: selected.name, category: parentTitle ?? self.category, description: selected.description)
-                navValues.append(.requestToGenerateParameters(.init(type: selected.name, category: parentTitle ?? self.category, description: selected.description)))
+                print(selected.color, " hytfre")
+                withAnimation {
+                    selectedRequest = .init(
+                        type: selected.name,
+                        category: parentTitle ?? self.category,
+                        description: selected.description,
+                        color: selected.color
+                    )
+                }
+                navValues
+                    .append(
+                        .requestToGenerateParameters(
+                            .init(
+                                type: selected.name,
+                                category: parentTitle ?? self.category,
+                                description: selected.description,
+                                color: selected.color
+                            )
+                        )
+                    )
 //                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
                 //go to difficulty
             }

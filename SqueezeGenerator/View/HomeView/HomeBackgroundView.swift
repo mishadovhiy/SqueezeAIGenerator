@@ -11,6 +11,22 @@ struct HomeBackgroundView: View {
     @Binding var type: `Type`
     @Binding var properties: BakcgroundProperties
 
+
+    private var defaultBackgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
+        .init(
+            tint: nil,
+            topLeft: .HexColor.darkPurpure.rawValue,
+            top: .HexColor.darkPurpure.rawValue,
+            left: .HexColor.red.rawValue,
+            right: .HexColor.red.rawValue,
+            bottom: .HexColor.red.rawValue,
+            bottomRight: .HexColor.darkPurpure.rawValue
+        )
+    }
+    
+    var backgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
+        properties.backgroundGradient ?? defaultBackgroundColors
+    }
     enum `Type`:String {
         case big, loading, regular, topRegular, topBig
         static let `default`: Self = .regular
@@ -32,6 +48,9 @@ struct HomeBackgroundView: View {
     
     struct BakcgroundProperties {
         var blurAlpha: CGFloat? = nil
+        var needOval: Bool = true
+
+        var backgroundGradient: NetworkResponse.CategoriesResponse.Categories.Color? = nil
     }
     
     var blurAlpha: CGFloat {
@@ -57,10 +76,88 @@ struct HomeBackgroundView: View {
             
     }
     
-    var primaryGradient: LinearGradient {
-        LinearGradient(colors: [
-            .pink, .purple, .blue
-        ], startPoint: .topLeading, endPoint: .bottomTrailing)
+    var primaryGradient: some View {
+        let def = defaultBackgroundColors
+        return ZStack {
+
+            ZStack {
+                LinearGradient(colors: [
+                    .init(uiColor: .init(hex: backgroundColors.top ?? def.top!)!),
+                    .init(uiColor: .init(hex: backgroundColors.bottom)!)
+                ], startPoint: .top, endPoint: .bottom)
+
+                VStack {
+                    HStack {
+                        RadialGradient(colors: [
+                            .init(uiColor: .init(hex: backgroundColors.topLeft ?? def.topLeft!)!),
+                            .init(uiColor: .init(hex: backgroundColors.topLeft ?? def.topLeft!)!).opacity(0)
+                        ], center: .center, startRadius: 1, endRadius: 200)
+                        .blur(radius: 30)
+                        .padding(.leading, -100)
+                        .padding(.top, -120)
+                        .opacity(0.9)
+                        .frame(maxWidth: .infinity)
+                        Spacer().frame(maxWidth: .infinity)
+                    }
+                    Spacer().frame(maxHeight: .infinity)
+                    Spacer().frame(maxHeight: .infinity)
+                }
+
+                VStack {
+                    Spacer()
+                        .frame(maxHeight: .infinity)
+                    LinearGradient(colors: [
+                        .init(uiColor: .init(hex: backgroundColors.left ?? def.left!)!),
+                        .init(uiColor: .init(hex: backgroundColors.left ?? def.left!)!).opacity(0),
+                        .init(uiColor: .init(hex: backgroundColors.right ?? def.right!)!).opacity(0),
+                        .init(uiColor: .init(hex: backgroundColors.right ?? def.right!)!)
+                    ], startPoint: .leading, endPoint: .trailing)
+                    .blur(radius: 40)
+                    .padding(.leading, -50)
+                    .padding(.leading, -20)
+                    .rotationEffect(.degrees(10))
+                    Spacer()
+                        .frame(maxHeight: .infinity)
+                }
+
+                RadialGradient(colors: [
+                    .init(uiColor: .init(hex: backgroundColors.top ?? def.top!)!),
+                    .init(uiColor: .init(hex: backgroundColors.top ?? def.top!)!).opacity(0)
+                ], center: .center, startRadius: 1, endRadius: 100)
+                .blur(radius: 50)
+                .offset(x: -10, y: -35)
+                .opacity(0.9)
+
+                RadialGradient(colors: [
+                    .init(uiColor: .init(hexColor: .yellow)!),
+                    .init(uiColor: .init(hexColor: .yellow)!).opacity(0)
+                ], center: .center, startRadius: 1, endRadius: 100)
+                .blur(radius: 50)
+                .offset(x: -30, y: 55)
+                .opacity(properties.needOval ? 0.9 : 0)
+                .animation(.smooth, value: properties.needOval)
+
+                VStack {
+                    Spacer().frame(maxHeight: .infinity)
+                    Spacer().frame(maxHeight: .infinity)
+                    HStack {
+                        Spacer().frame(maxWidth: .infinity)
+                        RadialGradient(colors: [
+                            .init(uiColor: .init(hex: backgroundColors.bottomRight ?? def.bottomRight!)!),
+                            .init(uiColor: .init(hex: backgroundColors.bottomRight ?? def.bottomRight!)!).opacity(0)
+                        ], center: .center, startRadius: 1, endRadius: 200)
+                        .blur(radius: 30)
+                        .padding(.trailing, -100)
+                        .padding(.bottom, -100)
+                        .opacity(0.9)
+                        .frame(maxWidth: .infinity)
+                    }
+                }
+            }
+            .animation(.smooth, value: backgroundColors.decode)
+        }
+        .opacity(type == .loading ? 0 : 1)
+        .animation(.smooth, value: type)
     }
     
     let gradient: AngularGradient = .init(gradient: .init(colors: [.pink, .purple, .red, .yellow, .orange, .blue]), center: .center)
@@ -140,4 +237,11 @@ struct HomeBackgroundView: View {
         }
     }
 
+}
+
+#Preview {
+    HomeBackgroundView(
+        type: .constant(.regular),
+        properties: .constant(.init(blurAlpha: 1))
+    )
 }

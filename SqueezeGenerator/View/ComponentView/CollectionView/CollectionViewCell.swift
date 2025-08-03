@@ -33,8 +33,12 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     func set(_ data:CollectionViewController.CollectionData) {
-        label?.text = data.title
-        label?.font = .systemFont(ofSize: data.extraSmall ? 10 : (data.isType ? 12 : 17), weight: data.isType ? .semibold : .regular)
+        label?.text = data.title.capitalized
+        label?.font =
+            .systemFont(
+                ofSize: data.extraSmall ? 12 : (data.isType ? 15 : 19),
+                weight: data.isType ? .semibold : .black
+            )
 
         descriptionLabel?.text = data.description
         if data.title.isEmpty {
@@ -49,10 +53,12 @@ class CollectionViewCell: UICollectionViewCell {
         }
 //        label?.attributedText = attributedString
         if let background = data.cellBackground {
-            backgroundColoredView?.backgroundColor = background.withAlphaComponent(0.85)
+            backgroundColoredView?.backgroundColor = background.withAlphaComponent(0.15)
 
         } else {
-            backgroundColoredView?.backgroundColor = data.isType ? .red : .white
+            backgroundColoredView?.backgroundColor = data.isType ? .red
+                .withAlphaComponent(0.1) : .white
+                .withAlphaComponent(0.1)
         }
 
     }
@@ -103,12 +109,11 @@ class CollectionViewCell: UICollectionViewCell {
 //            image.contentMode = .scaleAspectFit
 //            imageStack.addArrangedSubview(image)
 //        }
-        label.textColor = .black
+        label.textColor = .white.withAlphaComponent(0.3)
         descriptionLabel.font = .systemFont(ofSize: 9, weight: .regular)
         descriptionLabel.textColor = .black.withAlphaComponent(0.2)
         backgroundOutline.layer.cornerRadius = 12
-        backgroundOutline.layer.borderWidth = 0.4
-        backgroundOutline.layer.borderColor = UIColor.black.cgColor
+
         backgroundColoredView.layer.cornerRadius = 12
        
         self.layer.cornerRadius = 6
@@ -128,11 +133,11 @@ class CollectionViewCell: UICollectionViewCell {
 //            imageStack.heightAnchor.constraint(equalToConstant: 35),
 //            imageStack.widthAnchor.constraint(equalToConstant: 100),
             
-            textStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            textStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            textStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
-            textStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            
+            textStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            textStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            textStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            textStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -18),
+
             backgroundOutline.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),//5),
             backgroundOutline.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),//-10),
             backgroundOutline.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),//5),

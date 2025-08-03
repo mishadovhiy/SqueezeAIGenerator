@@ -14,6 +14,7 @@ extension NetworkRequest {
         var type: String
         var category: String
         var description: String
+        var color: NetworkResponse.CategoriesResponse.Categories.Color?
         var difficulty: Difficulty? = nil
         
         enum Difficulty: String, Codable, CaseIterable {
