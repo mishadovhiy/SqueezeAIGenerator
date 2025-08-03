@@ -15,7 +15,10 @@ enum NavRout: Hashable {
     case requestGenerated
     case empty
     case cardView(CardsViewModel.ViewProperties)
-    
+
+
+    case dbDetail(AdviceQuestionModel)
+
     var needDoneButton: Bool {
         switch self {
         case .requestToGenerateParameters,

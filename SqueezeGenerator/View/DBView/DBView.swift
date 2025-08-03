@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DBView: View {
+/*struct DBView: View {
     @EnvironmentObject private var db: AppData
     @Environment(\.dismiss) private var dismiss
         
@@ -54,3 +54,4 @@ struct DBView: View {
         }
     }
 }
+*/

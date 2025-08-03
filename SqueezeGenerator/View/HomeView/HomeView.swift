@@ -3,7 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var db: AppData
     @StateObject var viewModel: HomeViewModel = .init()
-    
+
     var body: some View {
         VStack {
 //            headerView
@@ -23,10 +23,10 @@ struct HomeView: View {
         }
         .background(content: {
             VStack(spacing: 0) {
-                Color.black
+                Color.black//here
                     .ignoresSafeArea(.all)
-                    .frame(height: 33, alignment: .top)
-                    
+                    .frame(height: 25, alignment: .top)
+
                 Spacer()
             }
             .opacity(viewModel.gradientOpacity)//viewModel.gradientOpacity > 0.1 ? viewModel.gradientOpacity * 6 : viewModel.gradientOpacity)
@@ -36,9 +36,6 @@ struct HomeView: View {
         })
         .background(content: {
             HomeBackgroundView(type: .constant(viewModel.circleType), properties: .constant(viewModel.backgroundProperties))
-        })
-        .fullScreenCover(isPresented: $viewModel.dbPresenting, content: {
-            DBView()
         })
         .sheet(isPresented: $viewModel.textPresenting) {
             TextView(text: viewModel.response?.response.textHolder ?? "??", needScroll: true)
@@ -233,6 +230,8 @@ struct HomeView: View {
                     viewModel.savePressed(db: db)
                 }
             }
+        case .dbDetail(_):
+            ClearBackgroundView()
         }
     }
 
@@ -295,12 +294,12 @@ struct HomeView: View {
             ScrollView(.vertical, showsIndicators: false) {
 
                 LazyVStack(pinnedViews: .sectionHeaders) {
-                    Spacer().frame(height: proxy.size.height * 0.3)
+                    Spacer().frame(height: proxy.size.height * 0.39)
                     Section {
                         VStack {
-                            Spacer().frame(height: proxy.size.height * 0.23)
+                            Spacer().frame(height: proxy.size.height * 0.12)
                             collectiomParentSections
-                            Spacer().frame(height: 40)
+                            Spacer().frame(height: 20)
 //                            if !viewModel.collectionDataForKey.isEmpty {
                             CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionDataForKey, didSelect: { at in
                                     viewModel.collectionViewSelected(at: at ?? 0)
@@ -387,12 +386,6 @@ struct HomeView: View {
         VStack {
             ZStack(content: {
                 appTitle
-//                appTitle
-//                    .foregroundColor(.black)
-//                    .background(.red)
-//                    .mask {
-//                        appTextMask
-//                    }
             })
             .frame(maxWidth: .infinity,
                        alignment: .leading)
@@ -425,7 +418,6 @@ struct HomeView: View {
         Text("Squeeze generator")
             .multilineTextAlignment(.leading)
             .foregroundColor(.white.opacity(0.1))
-            .blur(radius: 2)
             .padding(.horizontal, 15)
             .lineSpacing(0)
             .lineLimit(nil)

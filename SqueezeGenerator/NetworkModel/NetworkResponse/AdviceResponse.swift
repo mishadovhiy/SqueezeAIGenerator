@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct AdviceQuestionModel: Codable {
+struct AdviceQuestionModel: Codable, Equatable, Hashable {
+
     let response: NetworkResponse.AdviceResponse//no need
     var save: SaveModel
     var id: UUID = .init()
@@ -15,7 +16,8 @@ struct AdviceQuestionModel: Codable {
     var resultPercent: CGFloat {
         CGFloat(save.grade) / CGFloat(response.questions.totalGrade)
     }
-    struct SaveModel:Codable {
+
+    struct SaveModel: Codable, Equatable, Hashable {
         let date: Date
         var grade: Int {
             var grade: Int = 0
@@ -33,7 +35,7 @@ struct AdviceQuestionModel: Codable {
 }
 
 extension NetworkResponse {
-    struct AdviceResponse: Codable {
+    struct AdviceResponse: Codable, Equatable, Hashable {
         private var dict:[String:String] = [:]
         
         init(data: [String : String]) {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		822A44322E400EC500B5CF32 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A44312E400EC500B5CF32 /* UIApplication.swift */; };
+		822A44342E4019D400B5CF32 /* DBCategoriyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A44332E4019D400B5CF32 /* DBCategoriyView.swift */; };
 		8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8242881D2E305730000E12EB /* RequestParametersView.swift */; };
 		82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */; };
 		82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B692E2D2C4000CC3FAD /* String.swift */; };
@@ -29,7 +31,7 @@
 		82AF8B962E2D51D900CC3FAD /* HomeBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */; };
 		82AF8B992E2DCE2600CC3FAD /* ClearBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */; };
 		82BA59442E301EFB009B8913 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59432E301EFB009B8913 /* TextView.swift */; };
-		82BA59462E301F12009B8913 /* DBCategoriyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59452E301F12009B8913 /* DBCategoriyView.swift */; };
+		82BA59462E301F12009B8913 /* DBCategoriyNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59452E301F12009B8913 /* DBCategoriyNavView.swift */; };
 		82BA59482E301F29009B8913 /* DBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59472E301F29009B8913 /* DBView.swift */; };
 		82BA594A2E301F3C009B8913 /* DBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59492E301F3C009B8913 /* DBDetailView.swift */; };
 		82BA594C2E301F54009B8913 /* SqueezeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA594B2E301F54009B8913 /* SqueezeView.swift */; };
@@ -62,6 +64,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		822A44312E400EC500B5CF32 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
+		822A44332E4019D400B5CF32 /* DBCategoriyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCategoriyView.swift; sourceTree = "<group>"; };
 		8242881D2E305730000E12EB /* RequestParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestParametersView.swift; sourceTree = "<group>"; };
 		82A441FB2E256DD80086D5CE /* SqueezeGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqueezeGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442092E256DD90086D5CE /* SqueezeGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,7 +92,7 @@
 		82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBackgroundView.swift; sourceTree = "<group>"; };
 		82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearBackgroundView.swift; sourceTree = "<group>"; };
 		82BA59432E301EFB009B8913 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
-		82BA59452E301F12009B8913 /* DBCategoriyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCategoriyView.swift; sourceTree = "<group>"; };
+		82BA59452E301F12009B8913 /* DBCategoriyNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCategoriyNavView.swift; sourceTree = "<group>"; };
 		82BA59472E301F29009B8913 /* DBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBView.swift; sourceTree = "<group>"; };
 		82BA59492E301F3C009B8913 /* DBDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBDetailView.swift; sourceTree = "<group>"; };
 		82BA594B2E301F54009B8913 /* SqueezeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SqueezeView.swift; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */,
+				822A44312E400EC500B5CF32 /* UIApplication.swift */,
 				82E570692E342AC100922F5B /* UIColor.swift */,
 				82AF8B692E2D2C4000CC3FAD /* String.swift */,
 			);
@@ -277,7 +282,8 @@
 			isa = PBXGroup;
 			children = (
 				82BA59472E301F29009B8913 /* DBView.swift */,
-				82BA59452E301F12009B8913 /* DBCategoriyView.swift */,
+				82BA59452E301F12009B8913 /* DBCategoriyNavView.swift */,
+				822A44332E4019D400B5CF32 /* DBCategoriyView.swift */,
 				82BA59492E301F3C009B8913 /* DBDetailView.swift */,
 			);
 			path = DBView;
@@ -450,6 +456,7 @@
 				82AF8B842E2D2C4000CC3FAD /* AdviceResponse.swift in Sources */,
 				82AF8B852E2D2C4000CC3FAD /* CategoriesResponse.swift in Sources */,
 				82AF8B862E2D2C4000CC3FAD /* NetworkResponse.swift in Sources */,
+				822A44322E400EC500B5CF32 /* UIApplication.swift in Sources */,
 				82C5E61A2E36DB3400A5EE27 /* AttributedLabel.swift in Sources */,
 				82E5706D2E343A9100922F5B /* CardsViewModel.swift in Sources */,
 				82BA59502E301FD1009B8913 /* NavRout.swift in Sources */,
@@ -461,13 +468,14 @@
 				82AF8B882E2D2C4000CC3FAD /* Request.swift in Sources */,
 				82BA59442E301EFB009B8913 /* TextView.swift in Sources */,
 				82E570672E342A7400922F5B /* CardData.swift in Sources */,
+				822A44342E4019D400B5CF32 /* DBCategoriyView.swift in Sources */,
 				82AF8B892E2D2C4000CC3FAD /* SqueezeRequest.swift in Sources */,
 				82BA594E2E301F7C009B8913 /* ResultView.swift in Sources */,
 				82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */,
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,
 				82AF8B942E2D515300CC3FAD /* DifficultyPickerView.swift in Sources */,
 				82E5706A2E342AC100922F5B /* UIColor.swift in Sources */,
-				82BA59462E301F12009B8913 /* DBCategoriyView.swift in Sources */,
+				82BA59462E301F12009B8913 /* DBCategoriyNavView.swift in Sources */,
 				82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */,
 				82BA594C2E301F54009B8913 /* SqueezeView.swift in Sources */,
 				82BA594A2E301F3C009B8913 /* DBDetailView.swift in Sources */,

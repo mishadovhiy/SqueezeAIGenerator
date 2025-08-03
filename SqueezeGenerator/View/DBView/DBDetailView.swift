@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct DBDetailView: View {
+    
     let item: AdviceQuestionModel
     @State var collectionHeights: [String: CGFloat] = [:]
+
     var body: some View {
         ScrollView(.vertical) {
             VStack {

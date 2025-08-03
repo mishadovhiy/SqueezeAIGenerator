@@ -29,19 +29,26 @@ class HomeViewModel: ObservableObject {
     @Published var scrollPosition: CGPoint = .zero
     @Published var viewSize: CGFloat = .zero
     var backgroundProperties: HomeBackgroundView.BakcgroundProperties {
+        let resp = self.convertToAllLists(list: self.appResponse?.categories ?? [])
+
+        let lastResponse = resp.first(where: {
+            $0.id == selectedIDs.last
+        })
+        let background: NetworkResponse.CategoriesResponse.Categories.Color? = (selectedRequest?.color ?? appResponse?.categories.first(where: {
+            $0.id == self.selectedGeneralKeyID
+        })?.color) ?? lastResponse?.color
         if scrollPosition.y - 250 <= .zero && navValues.isEmpty {
             var alpha = 1 - ((scrollPosition.y - 250) / 10)
             let max: CGFloat = 16
             if alpha >= max {
                 alpha = max
             }
-            return  .init(blurAlpha: alpha)
+            return  .init(blurAlpha: alpha,
+                          backgroundGradient: background)
         }
         return .init(
-            needOval: self.selectedGeneralKeyID != nil || navValues.isEmpty,
-            backgroundGradient: selectedRequest?.color ?? appResponse?.categories.first(where: {
-                $0.id == self.selectedGeneralKeyID
-            })?.color
+            needOval: self.selectedGeneralKeyID == nil && navValues.isEmpty,
+            backgroundGradient: background
         )
     }
 
@@ -49,8 +56,8 @@ class HomeViewModel: ObservableObject {
         if !navValues.isEmpty {
             return 0
         }
-        if scrollPosition.y <= 250 {
-            let calc = (250 - scrollPosition.y) / 100
+        if scrollPosition.y <= 320 {
+            let calc = (320 - scrollPosition.y) / 100
             if calc >= 1 {
                 return 1
             }
@@ -185,9 +192,11 @@ class HomeViewModel: ObservableObject {
                 collectionData.insert(contentsOf: newItems, at: index + 1)
                 
             } else {
-                selectedIDs.removeAll(where: {
-                    id == $0
-                })
+                withAnimation {
+                    selectedIDs.removeAll(where: {
+                        id == $0
+                    })
+                }
                 //                collectionData.append(contentsOf: newItems)
             }
             
@@ -332,7 +341,9 @@ class HomeViewModel: ObservableObject {
                         $0 == response.id
                     })
                 } else {
-                    self.selectedIDs.append(response.id)
+                    withAnimation(.smooth) {
+                        self.selectedIDs.append(response.id)
+                    }
                 }
                 
                 print(response.list, " grfsd")
@@ -365,7 +376,7 @@ class HomeViewModel: ObservableObject {
                         type: selected.name,
                         category: parentTitle ?? self.category,
                         description: selected.description,
-                        color: selected.color
+                        color: selected.color ?? parent?.color
                     )
                 }
                 navValues
