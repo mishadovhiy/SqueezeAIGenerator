@@ -20,6 +20,7 @@ struct CollectionView: UIViewControllerRepresentable {
         layout.minimumLineSpacing = 12
         let vc = CollectionViewController(collectionViewLayout: layout)
         vc.data = data
+        vc.isopacityCells = isopacityCells
         vc.dataUpdated = false
         vc.contentHeightUpdated = {
             self.contentHeight = $0
@@ -44,6 +45,7 @@ class CollectionViewController: UICollectionViewController {
             })
         }
     }
+    var isopacityCells: Bool = true
     var didSelectRow:((_ row:Int?) -> ())?
     var dataUpdated = false
     var dict:(CGFloat,Int) = (0,0)
@@ -113,7 +115,7 @@ class CollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .init(describing: CollectionViewCell.self), for: indexPath) as! CollectionViewCell
-        cell.set(data[indexPath.row])
+        cell.set(data[indexPath.row], isWhite: !isopacityCells)
         return cell
     }
     

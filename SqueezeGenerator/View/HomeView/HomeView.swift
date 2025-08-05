@@ -269,14 +269,16 @@ struct HomeView: View {
                 Spacer().frame(width: 20)
                 ForEach(viewModel.collectionData, id:\.id) { item in
                     Button {
-                        self.viewModel.collectionDataForKey.removeAll()
-                        self.viewModel.selectedIDs.removeAll()
-                        if self.viewModel.selectedGeneralKeyID != item.id {
-                            self.viewModel.selectedGeneralKeyID = item.id
-                            self.viewModel.selectedIDs.append(item.id)
-                        } else {
-                            self.viewModel.selectedGeneralKeyID = nil
+                        withAnimation {
+                            self.viewModel.collectionDataForKey.removeAll()
                             self.viewModel.selectedIDs.removeAll()
+                            if self.viewModel.selectedGeneralKeyID != item.id {
+                                self.viewModel.selectedGeneralKeyID = item.id
+                                self.viewModel.selectedIDs.append(item.id)
+                            } else {
+                                self.viewModel.selectedGeneralKeyID = nil
+                                self.viewModel.selectedIDs.removeAll()
+                            }
                         }
                         self.viewModel.updateTableData()
 //                        self.selected(self.viewModel.selectedGeneralKeyID)
@@ -300,6 +302,7 @@ struct HomeView: View {
                 Spacer().frame(width: 20)
             }
             .frame(height: viewModel.selectedGeneralKeyID == nil ? 120 : 50)
+            .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
 
         }
     }
@@ -336,6 +339,7 @@ struct HomeView: View {
                                 }
                                 .frame(height: viewModel.contentHeight)
 //                            }
+                                .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
 
                         }
                     } header: {

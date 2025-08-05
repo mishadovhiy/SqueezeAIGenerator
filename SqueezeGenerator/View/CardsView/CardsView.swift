@@ -86,12 +86,12 @@ struct CardsView: View {
                 .foregroundColor(.white)
                 .padding(.horizontal, 15)
                 .padding(.vertical, 8)
-                .background(Color(uiColor: viewModel.scrollSized.isEmpty ? .clear : (viewModel.currentData?.color ?? .clear)))
+                .background(Color(uiColor: viewModel.selectedActions.isEmpty ? .clear : (viewModel.currentData?.color ?? .clear)))
                 .cornerRadius(8)
                 .shadow(radius: 20)
-                .opacity(viewModel.scrollSized.isEmpty ? 0 : 1)
-                .animation(.smooth, value: viewModel.scrollSized.isEmpty)
-            
+                .opacity(viewModel.selectedActions.isEmpty ? 0 : 1)
+                .animation(.smooth, value: viewModel.selectedActions.isEmpty)
+
             Spacer()
                 .frame(maxHeight: .infinity)
             Spacer()
@@ -122,7 +122,7 @@ struct CardsView: View {
                 viewModel.collectionHeight[data.id] ?? .zero
             }, set: {
                 viewModel.collectionHeight.updateValue($0, forKey: data.id)
-            }), data: data.buttons) { at in
+            }), isopacityCells: false, data: data.buttons) { at in
                 viewModel.didSelectButton(button: data.buttons[at ?? 0])
             }
         }

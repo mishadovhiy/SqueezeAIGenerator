@@ -32,7 +32,7 @@ class CollectionViewCell: UICollectionViewCell {
         })
     }
     
-    func set(_ data:CollectionViewController.CollectionData) {
+    func set(_ data:CollectionViewController.CollectionData, isWhite: Bool) {
         label?.text = data.title.capitalized
         label?.font =
             .systemFont(
@@ -40,6 +40,7 @@ class CollectionViewCell: UICollectionViewCell {
                 weight: data.isType ? .semibold : .black
             )
 
+        label?.textColor = isWhite ? .black : .white.withAlphaComponent(isWhite ? 1 : 0.3)
         descriptionLabel?.text = data.description
         if data.title.isEmpty {
             descriptionLabel?.textColor = .white
@@ -53,12 +54,12 @@ class CollectionViewCell: UICollectionViewCell {
         }
 //        label?.attributedText = attributedString
         if let background = data.cellBackground {
-            backgroundColoredView?.backgroundColor = background.withAlphaComponent(0.15)
+            backgroundColoredView?.backgroundColor = background.withAlphaComponent(isWhite ? 1 : 0.15)
 
         } else {
             backgroundColoredView?.backgroundColor = data.isType ? .red
-                .withAlphaComponent(0.1) : .white
-                .withAlphaComponent(0.1)
+                .withAlphaComponent(isWhite ? 1 : 0.1) : .white
+                .withAlphaComponent(isWhite ? 1 : 0.1)
         }
 
     }
@@ -69,8 +70,9 @@ class CollectionViewCell: UICollectionViewCell {
         let descriptionLabel = UILabel()
         descriptionLabel.tag = 1
         label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = false
-        label.lineBreakMode = .byWordWrapping
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.3
+        label.lineBreakMode = .byClipping
         let backgroundOutline = UIView()
         backgroundOutline.layer.name = "backgroundOutlineView"
         let backgroundColoredView = UIView()
@@ -79,10 +81,10 @@ class CollectionViewCell: UICollectionViewCell {
         let textStack = UIStackView()
         textStack.alignment = .leading
         let titleStack = UIStackView()
-        let titleImage = UIImageView()
+//        let titleImage = UIImageView()
         titleStack.axis = .horizontal
         titleStack.alignment = .center
-        [titleImage, label].forEach {
+        [label].forEach {//titleImage,
             titleStack.addArrangedSubview($0)
         }
         [titleStack, descriptionLabel].forEach {
@@ -124,7 +126,7 @@ class CollectionViewCell: UICollectionViewCell {
 //        imageStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            titleImage.widthAnchor.constraint(equalToConstant: 16),
+//            titleImage.widthAnchor.constraint(equalToConstant: 16),
 //            titleImage.heightAnchor.constraint(equalToConstant: 16),
 
             
