@@ -10,6 +10,7 @@ import UIKit
 
 struct CollectionView: UIViewControllerRepresentable {
     @Binding var contentHeight:CGFloat
+    var isopacityCells: Bool = true
     let data:[CollectionViewController.CollectionData]
     var didSelect:((_ at:Int?)->())?
     func makeUIViewController(context: Context) -> CollectionViewController {

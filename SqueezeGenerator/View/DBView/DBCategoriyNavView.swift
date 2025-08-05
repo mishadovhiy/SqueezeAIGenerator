@@ -29,10 +29,9 @@ root: {
     )
                     .toolbar {
                         ToolbarItem(placement: .navigation) {
-                            Button("close") {
-                                dismiss.callAsFunction()
-                            }
+                            closeButton
                         }
+
                     }
                     .overlay(content: {
                         navigationTopBackground
@@ -52,6 +51,22 @@ root: {
         .background {
             ClearBackgroundView()
         }
+    }
+
+    var closeButton: some View {
+        Button {
+            dismiss.callAsFunction()
+        } label: {
+            Image(.close)
+                .resizable()
+                .scaledToFit()
+                .tint(.black)
+        }
+        .padding(8)
+        .padding(.leading, 9)
+        .background(.white.opacity(0.3))
+        .frame(width: 36, height: 36)
+        .cornerRadius(6)
     }
 
     var navigationTopBackground: some View {

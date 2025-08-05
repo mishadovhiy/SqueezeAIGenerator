@@ -31,15 +31,19 @@ struct RequestParametersView: View {
                 if db.db.responses.last(where: {
                     $0.save.request?.type == request?.type
                 }) != nil {
-                    Button("Score") {
+                    Button {
                         statPresenting = true
+                    } label: {
+                        Image(.score)
+                            .resizable()
+                            .scaledToFit()
+                            .tint(.black)
                     }
-                    .font(.system(size: 11))
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(.black.opacity(0.25))
-                    .cornerRadius(8)
-                    .shadow(radius: 6)
+                    .padding(4)
+                    .padding(.trailing, 8)
+                    .background(.white.opacity(0.3))
+                    .frame(width: 36, height: 36)
+                    .cornerRadius(6)
                 }
                 
             }

@@ -59,7 +59,7 @@ struct CardsView: View {
     var cardsView: some View {
         GeometryReader { proxy in
             VStack {
-                Spacer().frame(height: 100)
+                Spacer().frame(height: 50)
                 ZStack {
                     completionView
                     ForEach(viewModel.data.reversed(), id: \.id) { data in
@@ -67,15 +67,15 @@ struct CardsView: View {
                     }
                     scrollLabelOverlay
                 }
-                .padding(.horizontal, 50)
-                Spacer().frame(height: 100)
+                .padding(.horizontal, 20)
+                Spacer().frame(height: 80)
             }
             .onChange(of: viewModel.dragPosition) { newValue in
                 viewModel.dragPositionChanged(viewSize: proxy.size)
             }
         }
     }
-    
+
     @ViewBuilder
     var scrollLabelOverlay: some View {
         VStack {

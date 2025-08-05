@@ -5,10 +5,16 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel = .init()
 
     var body: some View {
-        VStack {
+        let buttonsHeight = viewModel.buttonsViewHeight
+        ZStack {
 //            headerView
-            navigationStack
-                .ignoresSafeArea(.all)
+            VStack {
+                navigationStack
+                    .ignoresSafeArea(.all)
+                if buttonsHeight > 0 {
+                    Spacer().frame(height: buttonsHeight)
+                }
+            }
             buttonsView
         }
         .foregroundColor(.white)
@@ -51,8 +57,6 @@ struct HomeView: View {
     @ViewBuilder
     var networkResponseView: some View {
         if viewModel.appDataLoading || (viewModel.rqStarted && viewModel.response == nil) {
-            ProgressView()
-                .progressViewStyle(.circular)
         } else if viewModel.appResponse == nil {
             Text("Error loading app data")
         }
@@ -60,33 +64,35 @@ struct HomeView: View {
     
     @ViewBuilder
     var buttonsView: some View {
-        if viewModel.navValues.last?.needDoneButton ?? false || (viewModel.response != nil && viewModel.navValues.isEmpty) {
-            Button(viewModel.response != nil ? "squeeze" : "Start") {
-                if viewModel.response != nil {
-//                    viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
-                    viewModel.navValues.append(.cardView(.init(data: viewModel.response!.response.questions.compactMap({
-                        .init(title: $0.questionName, description: $0.description, id: $0.id, buttons: $0.options.compactMap({
-                            .init(title: $0.optionName, id: $0.id.uuidString, extraSmall: true)
-                        }))
-                    }))))
-                } else {
-                    withAnimation {
-                        viewModel.navValues.append(.empty)
-                        viewModel.startGenerationRequest()
+        let needButton = viewModel.buttonsViewHeight
+        VStack {
+            Spacer()
+                Button(viewModel.response != nil ? "squeeze" : "Start") {
+                    if viewModel.response != nil {
+    //                    viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
+                        viewModel.navValues.append(.cardView(.init(data: viewModel.response!.response.questions.compactMap({
+                            .init(title: $0.questionName, description: $0.description, id: $0.id, buttons: $0.options.compactMap({
+                                .init(title: $0.optionName, id: $0.id.uuidString, extraSmall: true)
+                            }))
+                        }))))
+                    } else {
+                        withAnimation {
+                            viewModel.navValues.append(.empty)
+                            viewModel.startGenerationRequest()
+                        }
                     }
                 }
-            }
-            .padding(.horizontal, 50)
-            .padding(.vertical, 10)
-            .frame(height: 44)
-            .clipped()
-            .background(.red)
-            .cornerRadius(8)
-            .disabled(viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil))
-            .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
-            .animation(.smooth, value: viewModel.selectedRequest?.difficulty == nil)
+                .padding(.horizontal, 50)
+                .padding(.vertical, needButton > 0 ? 10 : 0)
+                .frame(height: needButton)
+                .clipped()
+                .background(.red)
+                .cornerRadius(8)
+                .disabled(viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil))
+                .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
+                .animation(.smooth, value: needButton > 0)
         }
-        actionButtonsView
+//        actionButtonsView
     }
     
     var actionButtonsView: some View {
@@ -111,31 +117,38 @@ struct HomeView: View {
         .animation(.smooth, value: viewModel.response != nil)
         .clipped()
     }
-    
+
+    var homeRoot: some View {
+        VStack {
+            if viewModel.response != nil {
+                ReadyView {
+                    withAnimation {
+                        viewModel.response = nil
+                        viewModel.rqStarted = false
+                    }
+                }
+
+            } else {
+                collectionView
+                    .overlay {
+                        VStack {
+                            Button("cards") {
+                                viewModel.navValues.append(.cardView(.init(data: .demo)))
+                            }
+                            .frame(height: 40)
+                            Spacer()
+                        }
+                    }
+            }
+
+        }
+        .opacity(viewModel.navValues.isEmpty ? 1 : 0)
+        .animation(.smooth, value: viewModel.navValues.isEmpty)
+    }
+
     var navigationStack: some View {
         NavigationStack(path: $viewModel.navValues) {
-            VStack {
-                if viewModel.response != nil {
-                    ReadyView {
-                        withAnimation {
-                            viewModel.response = nil
-                            viewModel.rqStarted = false
-                        }
-                    }
-                    
-                } else {
-                    HStack {
-                        Button("cards") {
-                            viewModel.navValues.append(.cardView(.init(data: .demo)))
-                        }
-                    }
-                    Spacer()
-                    collectionView
-                }
-                
-            }
-            .opacity(viewModel.navValues.isEmpty ? 1 : 0)
-            .animation(.smooth, value: viewModel.navValues.isEmpty)
+            homeRoot
             .navigationDestination(for: NavRout.self) { navRout in
                 navigationDestination(for: navRout)
                     .opacity(viewModel.navValues.last == navRout ? 1 : 0)
@@ -147,9 +160,11 @@ struct HomeView: View {
             .background {
                 ClearBackgroundView()
             }
-            .onAppear {
-                withAnimation(.bouncy) {
-                    viewModel.selectedRequest = nil
+            .onChange(of: viewModel.navValues) { newValue in
+                if newValue.isEmpty && !viewModel.rqStarted {
+                    withAnimation {
+                        viewModel.selectedRequest = nil
+                    }
                 }
             }
         }

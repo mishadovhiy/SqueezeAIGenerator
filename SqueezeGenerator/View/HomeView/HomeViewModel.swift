@@ -34,9 +34,9 @@ class HomeViewModel: ObservableObject {
         let lastResponse = resp.first(where: {
             $0.id == selectedIDs.last
         })
-        let background: NetworkResponse.CategoriesResponse.Categories.Color? = (selectedRequest?.color ?? appResponse?.categories.first(where: {
+        let background: NetworkResponse.CategoriesResponse.Categories.Color? = selectedRequest?.color ?? (lastResponse?.color ?? appResponse?.categories.first(where: {
             $0.id == self.selectedGeneralKeyID
-        })?.color) ?? lastResponse?.color
+        })?.color)
         if scrollPosition.y - 250 <= .zero && navValues.isEmpty {
             var alpha = 1 - ((scrollPosition.y - 250) / 10)
             let max: CGFloat = 16
@@ -50,6 +50,16 @@ class HomeViewModel: ObservableObject {
             needOval: self.selectedGeneralKeyID == nil && navValues.isEmpty,
             backgroundGradient: background
         )
+    }
+
+    //shows buttons view across navigations
+    private var needButtonsView: Bool {
+        navValues.last?.needDoneButton ?? false || (response != nil && navValues.isEmpty)
+    }
+    
+    //shows buttons view across navigations
+    var buttonsViewHeight: CGFloat {
+        needButtonsView ? 44 : 0
     }
 
     var gradientOpacity: CGFloat {
@@ -69,7 +79,7 @@ class HomeViewModel: ObservableObject {
             return 0
         }
     }
-    
+
     var circleType: HomeBackgroundView.`Type` {
         if appDataLoading || requestLoading {
             return .loading
@@ -110,18 +120,18 @@ class HomeViewModel: ObservableObject {
             }
         }
     }
-    
+
     func actionButtonPressed(_ option: NetworkResponse.AdviceResponse.QuestionResponse.Option) {
         response?.save.questionResults.updateValue(option, forKey: currentQuestion!)
         let i = navValues.count
         if response!.response.questions.count > i {
             navValues.append(.question(response!.response.questions[i]))
-            
+
         } else {
             navValues.append(.result)
         }
     }
-    
+
     func convertToAllLists(list: [NetworkResponse.CategoriesResponse.Categories], checkedIDs: [String] = []) -> [NetworkResponse.CategoriesResponse.Categories] {
         var checkedIDs = checkedIDs
         var newList = list.compactMap({
@@ -140,7 +150,7 @@ class HomeViewModel: ObservableObject {
             return newList
         }
     }
-    
+
     func findParents(id: String, found: [NetworkResponse.CategoriesResponse.Categories], totalList: [NetworkResponse.CategoriesResponse.Categories]) -> [NetworkResponse.CategoriesResponse.Categories] {
         print(id, " lookingfsd")
         if id.isEmpty {
@@ -151,13 +161,13 @@ class HomeViewModel: ObservableObject {
         }) {
             var found = found
             found.append(parent)
-            
+
             if let collection = collectionData.first(where: {
                 $0.id == parent.id
             }) {
-                
+
                 if !collection.parentID.isEmpty {
-                    
+
                     return findParents(id: collection.parentID, found: found, totalList: totalList)
                 } else {
                     return found
@@ -190,7 +200,7 @@ class HomeViewModel: ObservableObject {
             }) ?? []
             if let index {
                 collectionData.insert(contentsOf: newItems, at: index + 1)
-                
+
             } else {
                 withAnimation {
                     selectedIDs.removeAll(where: {
@@ -199,7 +209,7 @@ class HomeViewModel: ObservableObject {
                 }
                 //                collectionData.append(contentsOf: newItems)
             }
-            
+
         }
         print(collectionDataForKey.compactMap({$0.parentID}).joined(separator: ", "), " juyhfvddvs ")
 
@@ -242,7 +252,7 @@ class HomeViewModel: ObservableObject {
             }
         }
     }
-    
+
     func performAddTableData(_ response: NetworkResponse.CategoriesResponse.Categories, parentID: String) -> CollectionViewController.CollectionData {
         let isListSelected: Bool
         let db: String
@@ -263,13 +273,13 @@ class HomeViewModel: ObservableObject {
             } else {
                 db = ""
             }
-            
+
         }
-        
+
         return .init(title: response.name + " " + db, cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray), id: response.id, parentID: parentID, isType: response.resultType != nil)
     }
-    
-    
+
+
     func savePressed(db: AppData) {
         //        response?.save = .init(grade: totalGrade, category: "Shiz")
         db.db.responses.append(response!)
@@ -281,11 +291,11 @@ class HomeViewModel: ObservableObject {
             selectedRequest = nil
         }
     }
-    
+
     var requestLoading: Bool {
         rqStarted && response == nil
     }
-    
+
     func startGenerationRequest() {
         withAnimation(.smooth(duration: 0.3)) {
             self.rqStarted = true
@@ -294,7 +304,7 @@ class HomeViewModel: ObservableObject {
             Task(priority: .userInitiated) {
     //            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
                 NetworkModel().advice(self.selectedRequest!) { response in
-                    DispatchQueue.main.async {                    
+                    DispatchQueue.main.async {
                         withAnimation {
                             self.response = .init(response: response!, save: .init(date: .init(), category: self.selectedRequest!.category, request: self.selectedRequest!, questionResults: [:]))
                             self.navValues.removeAll()
@@ -304,7 +314,7 @@ class HomeViewModel: ObservableObject {
             }
         })
     }
-    
+
     func loadAppSettings(db: AppData) {
         NetworkModel().appData { response in
             db.db.network.settings = response?.appData.settings
@@ -317,7 +327,7 @@ class HomeViewModel: ObservableObject {
             }
         }
     }
-    
+
     var currentQuestion: NetworkResponse.AdviceResponse.QuestionResponse? {
         if let last = navValues.last {
             return switch last {
@@ -329,7 +339,7 @@ class HomeViewModel: ObservableObject {
             return nil
         }
     }
-    
+
     func collectionViewSelected(at: Int?) {
         let category = collectionDataForKey[at!]
 
@@ -345,7 +355,7 @@ class HomeViewModel: ObservableObject {
                         self.selectedIDs.append(response.id)
                     }
                 }
-                
+
                 print(response.list, " grfsd")
             } else {
                 print(category)
