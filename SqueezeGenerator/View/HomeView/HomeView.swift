@@ -28,6 +28,14 @@ struct HomeView: View {
         .onChange(of: db.db.responses.count) { newValue in
             viewModel.dbHolder = db.db.responses
         }
+        .onChange(of: db.db.responses) { newValue in
+            viewModel.dbUpdated(db)
+        }
+        .onChange(of: viewModel.collectionData) { newValue in
+            if self.viewModel.statsPreview.isEmpty {
+                self.viewModel.dbUpdated(db)
+            }
+        }
         .background(content: {
             VStack(spacing: 0) {
                 Color.black//here
@@ -264,26 +272,62 @@ struct HomeView: View {
         }
     }
 
+
+    func parentCellHeadRow(_ title: String, _ value: String) -> some View {
+        HStack {
+            Text(title)
+                .font(.system(size: 9))
+                .multilineTextAlignment(.leading)
+                .frame(alignment: .leading)
+            Spacer()
+            Text(value)
+                .multilineTextAlignment(.leading)
+                .frame(alignment: .trailing)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    func parentCell(_ item: CollectionViewController.CollectionData) -> some View {
+        let data = viewModel.statsPreview[item.id]
+        Button {
+            viewModel.parentCollectionSelected(item)
+        } label: {
+            VStack {
+                Spacer().frame(maxHeight: viewModel.largeParentCollections ? .zero : .infinity)
+                    .animation(.bouncy, value: viewModel.largeParentCollections)
+                Text(item.title)
+                    .foregroundColor(.white.opacity(0.5))
+                    .font(.system(size: 18, weight: .semibold))
+                    .padding(.horizontal, 22)
+
+                Spacer()
+                    .frame(maxHeight: .infinity)
+                VStack {
+                    parentCellHeadRow("count", "\(data?.subcategoriesCount ?? 0)/\(data?.completedSubcategoriesCount ?? 0)")
+                    Divider()
+                    parentCellHeadRow("score", "\(data?.avarageGrade ?? 0)%")
+                }
+                .opacity(0.4)
+                .frame(maxWidth: .infinity,
+                       maxHeight: viewModel.largeParentCollections ? .infinity : .zero)
+                .clipped()
+                .animation(.bouncy, value: viewModel.largeParentCollections)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 8)
+        }
+        .background(.white.opacity(0.1))
+        .cornerRadius(14)
+    }
+
     var collectiomParentSections: some View {
         ScrollView(.horizontal,
                    showsIndicators: false) {
             LazyHStack(spacing: 12) {
                 Spacer().frame(width: 8)
                 ForEach(viewModel.collectionData, id:\.id) { item in
-                    Button {
-                        viewModel.parentCollectionSelected()
-                    } label: {
-                        VStack {
-                            Text(item.title)
-                                .foregroundColor(.white.opacity(0.5))
-                                .font(.system(size: 18, weight: .semibold))
-                            Spacer()
-                        }
-                        .padding(.horizontal, 30)
-                        .padding(.vertical, 8)
-                    }
-                    .background(.white.opacity(0.1))
-                    .cornerRadius(14)
+                    parentCell(item)
 
                 }
                 Spacer().frame(width: 20)

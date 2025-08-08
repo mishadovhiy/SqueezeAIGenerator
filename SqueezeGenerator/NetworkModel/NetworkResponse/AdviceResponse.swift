@@ -35,6 +35,9 @@ struct AdviceQuestionModel: Codable, Equatable, Hashable {
 }
 
 extension NetworkResponse {
+#warning("todo: ai about response")
+    //send results
+    //decalre: structure for reaponse
     struct AdviceResponse: Codable, Equatable, Hashable {
         private var dict:[String:String] = [:]
         

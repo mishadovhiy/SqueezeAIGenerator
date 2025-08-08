@@ -28,6 +28,7 @@ class HomeViewModel: ObservableObject {
     @Published var contentHeight: CGFloat = 0
     @Published var scrollPosition: CGPoint = .zero
     @Published var viewSize: CGFloat = .zero
+    var statsPreview: [String: ResponsePreviewModel] = [:]
     var largeParentCollections: Bool {
         selectedGeneralKeyID == nil
     }
@@ -135,6 +136,23 @@ class HomeViewModel: ObservableObject {
         }
     }
 
+    func parentSubcategories(list: [NetworkResponse.CategoriesResponse.Categories]) ->  [NetworkResponse.CategoriesResponse.Categories] {
+        if let subList = list.first(where: {
+            $0.list != nil
+        }) {
+            var list = list.filter({
+                $0.id != subList.id
+            })
+            var subList = subList
+            subList.list = nil
+            list.append(subList)
+            list.append(contentsOf: subList.list ?? [])
+            return parentSubcategories(list: list)
+        } else {
+            return list
+        }
+    }
+
     func convertToAllLists(list: [NetworkResponse.CategoriesResponse.Categories], checkedIDs: [String] = []) -> [NetworkResponse.CategoriesResponse.Categories] {
         var checkedIDs = checkedIDs
         var newList = list.compactMap({
@@ -198,7 +216,30 @@ class HomeViewModel: ObservableObject {
         self.updateTableData()
     }
 
+    func dbUpdated(_ db: AppData) {
+        let db = db.db.responses
+        self.statsPreview.removeAll()
+        self.collectionData.forEach { data in
+            let list = appResponse?.categories.first(where: {
+                $0.id == data.id
+            })?.list ?? []
+            let newList = parentSubcategories(list: list)
+            let parentDB = db.filter({ dbItem in
+                newList.contains(where: {
+                    $0.name == dbItem.save.request?.category
+                })
+            })
+            print(parentDB.count, " htgrtefwdsax ", newList.count)
+            //fetch all categories of the cat
+            statsPreview.updateValue(
+                .init(newList,
+                      parentDB: parentDB),
+                forKey: data.id)
+        }
+    }
+
     func updateTableData() {
+        let firstUpdate = collectionData.isEmpty
         var collectionData = collectionData
         collectionData = (appResponse?.categories.filter({
             selectedIDs.contains($0.id)

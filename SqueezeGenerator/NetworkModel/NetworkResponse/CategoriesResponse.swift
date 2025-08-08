@@ -15,7 +15,7 @@ extension NetworkResponse {
         struct Categories: Codable {
             let name: String
             let description: String
-            let list: [Categories]?
+            var list: [Categories]?
             let resultType: String?
             var id: String
             let color: Color?
