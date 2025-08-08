@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		822A44322E400EC500B5CF32 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A44312E400EC500B5CF32 /* UIApplication.swift */; };
 		822A44342E4019D400B5CF32 /* DBCategoriyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A44332E4019D400B5CF32 /* DBCategoriyView.swift */; };
+		823BCBD82E456482007E542C /* ScrollSized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823BCBD72E456482007E542C /* ScrollSized.swift */; };
 		8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8242881D2E305730000E12EB /* RequestParametersView.swift */; };
 		82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */; };
 		82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B692E2D2C4000CC3FAD /* String.swift */; };
@@ -66,6 +67,7 @@
 /* Begin PBXFileReference section */
 		822A44312E400EC500B5CF32 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		822A44332E4019D400B5CF32 /* DBCategoriyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCategoriyView.swift; sourceTree = "<group>"; };
+		823BCBD72E456482007E542C /* ScrollSized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSized.swift; sourceTree = "<group>"; };
 		8242881D2E305730000E12EB /* RequestParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestParametersView.swift; sourceTree = "<group>"; };
 		82A441FB2E256DD80086D5CE /* SqueezeGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqueezeGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442092E256DD90086D5CE /* SqueezeGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +147,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		823BCBD92E456487007E542C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				823BCBD72E456482007E542C /* ScrollSized.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		82A441F22E256DD80086D5CE = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +312,7 @@
 			children = (
 				82E570642E34203E00922F5B /* CardsView.swift */,
 				82E5706C2E343A9100922F5B /* CardsViewModel.swift */,
+				823BCBD92E456487007E542C /* Model */,
 			);
 			path = CardsView;
 			sourceTree = "<group>";
@@ -456,6 +467,7 @@
 				82AF8B842E2D2C4000CC3FAD /* AdviceResponse.swift in Sources */,
 				82AF8B852E2D2C4000CC3FAD /* CategoriesResponse.swift in Sources */,
 				82AF8B862E2D2C4000CC3FAD /* NetworkResponse.swift in Sources */,
+				823BCBD82E456482007E542C /* ScrollSized.swift in Sources */,
 				822A44322E400EC500B5CF32 /* UIApplication.swift in Sources */,
 				82C5E61A2E36DB3400A5EE27 /* AttributedLabel.swift in Sources */,
 				82E5706D2E343A9100922F5B /* CardsViewModel.swift in Sources */,

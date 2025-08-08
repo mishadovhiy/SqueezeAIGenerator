@@ -22,6 +22,7 @@ struct CardsView: View {
             cardsView
             Spacer()
         }
+        .padding(10)
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button("<") {
@@ -71,7 +72,13 @@ struct CardsView: View {
                 Spacer().frame(height: 80)
             }
             .onChange(of: viewModel.dragPosition) { newValue in
-                viewModel.dragPositionChanged(viewSize: proxy.size)
+                viewModel.setScrollActions(viewSize: proxy.size)
+            }
+            .onChange(of: proxy.frame(in: .global).size) { newValue in
+                viewModel.viewSize = newValue
+            }
+            .onAppear {
+                viewModel.viewSize = proxy.frame(in: .global).size
             }
         }
     }
@@ -135,14 +142,19 @@ struct CardsView: View {
     @ViewBuilder
     func cardView(_ data: CardData, viewSize: CGSize) -> some View {
         let position = viewModel.cardPosition(data, viewSize: viewSize)
+        let currentData = viewModel.currentData
         cardContentView(data)
-            .rotationEffect(data.id == viewModel.currentData?.id ? .zero : .degrees(data.rotation))
+            .rotationEffect(
+                data.id == currentData?
+                    .id || (viewModel.dragEnded && viewModel.data.prefix(viewModel.currentIndex + 1).last?.id == data.id) ? .zero :
+                        .degrees(data.rotation)
+            )
         .offset(x: position.x, y: position.y)
         .animation(.bouncy, value: viewModel.currentIndex)
         .gesture(
             cardGesture
         )
-        .disabled(viewModel.currentData?.id != data.id)
+        .disabled(currentData?.id != data.id)
     }
     
     var cardGesture: some Gesture {

@@ -68,6 +68,7 @@ struct HomeBackgroundView: View {
     var body: some View {
         ZStack(content: {
             primaryGradient
+                .blur(radius: 20)
             Color.black.opacity(0.4)
             curclesOverlayView
         })

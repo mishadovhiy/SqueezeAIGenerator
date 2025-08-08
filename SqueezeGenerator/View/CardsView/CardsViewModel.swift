@@ -14,21 +14,19 @@ class CardsViewModel: ObservableObject {
     var selectedOptions: Selection = [:]
     @Published var currentIndex: Int = 0 {
         willSet {
-            let id = data[currentIndex]
+            let id = data.count - 1 >= currentIndex ?  data[currentIndex] : data.last
             if newValue > currentIndex {
-            } else {
-                selectedOptions.removeValue(forKey: id.id)
+            } else if let id = id?.id {
+                selectedOptions.removeValue(forKey: id)
             }
         }
     }
     @Published var collectionHeight: [UUID: CGFloat] = [:]
     @Published var dragPosition: CGPoint = .zero
+    @Published var dragEnded: Bool = false
+    @Published var viewSize: CGSize = .zero
     @Published var scrollSized: [ScrollSized] = []
     @Published var selectedActions: [CollectionViewController.CollectionData] = []
-    
-    struct ViewProperties: Hashable, Equatable {
-        let data: [CardData]
-    }
     
     init(_ proeprties: ViewProperties,
          donePressed: @escaping (Selection)->()) {
@@ -42,32 +40,63 @@ class CardsViewModel: ObservableObject {
         }
         return nil
     }
-    
+    private var lastDragPosition: CGPoint?
+
     func didSelectButton(button: CollectionViewController.CollectionData) {
+
         let id = data[currentIndex]
         selectedOptions.updateValue(button.id, forKey: id.id)
-
-        withAnimation {
-            currentIndex += 1
-            dragPosition = .zero
+        let holder = dragPosition
+        let lastPosition = (scrollSized.first ?? .right).onEndedPointMult
+        let result = CGPoint(
+            x: viewSize.width * lastPosition.width,
+            y: viewSize.height * lastPosition.height)
+        withAnimation(.bouncy(duration: 0.44)) {
+            dragEnded = true
+            print(data.prefix(currentIndex + 1).last?.buttons.first?.title, " tyregfwdsa")
+            self.dragPosition = .init(
+                x: lastPosition.width == .zero ? holder.x : result.x,
+                y: lastPosition.width == .zero ? result.y : holder.y
+                                )
+            self.lastDragPosition = dragPosition
+            self.scrollSized.removeAll()
+            self.selectedActions.removeAll()
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(440), execute: {
+            withAnimation {
+                self.currentIndex += 1
+                self.dragPosition = .zero
+                self.dragEnded = false
+            }
+        })
     }
     
     func cardPosition(_ data: CardData,
                       viewSize: CGSize) -> CGPoint {
-        .init(x: currentData?.id == data.id ? dragPosition.x : self.data.firstIndex(where: {
-            $0.id == data.id
-        }) ?? 0 >= currentIndex ? .zero : viewSize.width * 1.5, y: currentData?.id == data.id ? dragPosition.y : 0)
+        if currentData?.id == data.id {
+            return dragPosition
+        } else {
+            let isNotCompletedCard = self.data.firstIndex(where: {
+                $0.id == data.id
+            }) ?? 0 >= currentIndex
+            let isLast = data.id == self.data.prefix(currentIndex + (dragEnded ? 1 : 0)).last?.id
+            if !isNotCompletedCard {
+                let `default`: CGPoint = .init(x: viewSize.width * 1.5, y: 0)
+                return isLast ? lastDragPosition ?? `default` : `default`
+            } else {
+                return .zero
+            }
+
+        }
     }
     
-    func dragPositionChanged(viewSize: CGSize) {
+    func setScrollActions(viewSize: CGSize) {
         let percent: CGPoint = .init(x: dragPosition.x / viewSize.width, y: dragPosition.y / viewSize.height)
         scrollSized = ScrollSized.allCases.filter({
             if $0.percent <= 0 {
                 return $0.isHorizontal ? $0.percent >= percent.x : $0.percent >= percent.y
             } else {
                 return $0.isHorizontal ? $0.percent <= percent.x : $0.percent <= percent.y
-
             }
         })
         guard let currentItem = self.currentData else {
@@ -106,45 +135,7 @@ class CardsViewModel: ObservableObject {
 }
 
 extension CardsViewModel {
-    enum ScrollSized: String, Equatable, CaseIterable {
-        case left, top, right, bottom
-        
-        var percent: CGFloat {
-            switch self {
-            case .left, .top:
-                -0.3
-            case .right, .bottom:
-                0.3
-            }
-        }
-        
-        var index: Int {
-            ScrollSized.allCases.firstIndex(of: self) ?? 0
-        }
-        
-        static func additionalProperties(_ i: Int) -> [Self]? {
-            return switch i {
-            case 5: [.left, .top].sorted(by: {
-                $0.index <= $1.index
-            })
-            case 6: [.right, .top].sorted(by: {
-                $0.index <= $1.index
-            })
-            case 7: [.bottom, .right].sorted(by: {
-                $0.index <= $1.index
-            })
-            case 8: [.bottom, .left].sorted(by: {
-                $0.index <= $1.index
-            })
-            default: nil
-            }
-        }
-        
-        var isHorizontal: Bool {
-            switch self {
-            case .left, .right: true
-            default: false
-            }
-        }
+    struct ViewProperties: Hashable, Equatable {
+        let data: [CardData]
     }
 }

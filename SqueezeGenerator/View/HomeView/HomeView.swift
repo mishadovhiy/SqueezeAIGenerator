@@ -8,7 +8,7 @@ struct HomeView: View {
         let buttonsHeight = viewModel.buttonsViewHeight
         ZStack {
 //            headerView
-            VStack {
+            VStack(spacing: 0) {
                 navigationStack
                     .ignoresSafeArea(.all)
                 if buttonsHeight > 0 {
@@ -16,6 +16,7 @@ struct HomeView: View {
                 }
             }
             buttonsView
+                .padding(.horizontal, 10)
         }
         .foregroundColor(.white)
         .animation(.smooth, value: viewModel.response != nil && viewModel.appResponse != nil)
@@ -85,6 +86,7 @@ struct HomeView: View {
                 .padding(.horizontal, 50)
                 .padding(.vertical, needButton > 0 ? 10 : 0)
                 .frame(height: needButton)
+                .frame(maxWidth: .infinity)
                 .clipped()
                 .background(.red)
                 .cornerRadius(8)
@@ -265,8 +267,8 @@ struct HomeView: View {
     var collectiomParentSections: some View {
         ScrollView(.horizontal,
                    showsIndicators: false) {
-            LazyHStack {
-                Spacer().frame(width: 20)
+            LazyHStack(spacing: 12) {
+                Spacer().frame(width: 8)
                 ForEach(viewModel.collectionData, id:\.id) { item in
                     Button {
                         withAnimation {
@@ -317,7 +319,7 @@ struct HomeView: View {
                         VStack {
                             Spacer().frame(height: proxy.size.height * 0.12)
                             collectiomParentSections
-                            Spacer().frame(height: 20)
+                            Spacer().frame(height: 12)
 //                            if !viewModel.collectionDataForKey.isEmpty {
                             CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionDataForKey, didSelect: { at in
                                     viewModel.collectionViewSelected(at: at ?? 0)
