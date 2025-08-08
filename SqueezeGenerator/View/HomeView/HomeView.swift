@@ -271,22 +271,7 @@ struct HomeView: View {
                 Spacer().frame(width: 8)
                 ForEach(viewModel.collectionData, id:\.id) { item in
                     Button {
-                        withAnimation {
-                            self.viewModel.collectionDataForKey.removeAll()
-                            self.viewModel.selectedIDs.removeAll()
-                            if self.viewModel.selectedGeneralKeyID != item.id {
-                                self.viewModel.selectedGeneralKeyID = item.id
-                                self.viewModel.selectedIDs.append(item.id)
-                            } else {
-                                self.viewModel.selectedGeneralKeyID = nil
-                                self.viewModel.selectedIDs.removeAll()
-                            }
-                        }
-                        self.viewModel.updateTableData()
-//                        self.selected(self.viewModel.selectedGeneralKeyID)
-//                        self.viewModel.updateTableData()
-
-//                        self.viewModel.collectionDataForKey = self
+                        viewModel.parentCollectionSelected()
                     } label: {
                         VStack {
                             Text(item.title)
@@ -303,8 +288,8 @@ struct HomeView: View {
                 }
                 Spacer().frame(width: 20)
             }
-            .frame(height: viewModel.selectedGeneralKeyID == nil ? 120 : 50)
-            .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
+            .frame(height: viewModel.largeParentCollections ? 120 : 50)
+            .animation(.bouncy, value: viewModel.largeParentCollections)
 
         }
     }

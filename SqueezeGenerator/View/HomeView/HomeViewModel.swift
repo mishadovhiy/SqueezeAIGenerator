@@ -28,6 +28,9 @@ class HomeViewModel: ObservableObject {
     @Published var contentHeight: CGFloat = 0
     @Published var scrollPosition: CGPoint = .zero
     @Published var viewSize: CGFloat = .zero
+    var largeParentCollections: Bool {
+        selectedGeneralKeyID == nil
+    }
     var backgroundProperties: HomeBackgroundView.BakcgroundProperties {
         let resp = self.convertToAllLists(list: self.appResponse?.categories ?? [])
 
@@ -179,6 +182,22 @@ class HomeViewModel: ObservableObject {
             return found
         }
     }
+
+    func parentCollectionSelected(_ item: CollectionViewController.CollectionData) {
+        withAnimation {
+            self.collectionDataForKey.removeAll()
+            self.selectedIDs.removeAll()
+            if self.selectedGeneralKeyID != item.id {
+                self.selectedGeneralKeyID = item.id
+                self.selectedIDs.append(item.id)
+            } else {
+                self.selectedGeneralKeyID = nil
+                self.selectedIDs.removeAll()
+            }
+        }
+        self.updateTableData()
+    }
+
     func updateTableData() {
         var collectionData = collectionData
         collectionData = (appResponse?.categories.filter({
