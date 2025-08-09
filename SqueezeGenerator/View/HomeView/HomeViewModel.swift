@@ -84,6 +84,11 @@ class HomeViewModel: ObservableObject {
         }
     }
 
+    let maxCollectionPaddings: CGFloat = 20
+    var collectionSubviewPaddings: CGFloat {
+        maxCollectionPaddings - (gradientOpacity * 10)
+    }
+
     var circleType: HomeBackgroundView.`Type` {
         if appDataLoading || requestLoading {
             return .loading

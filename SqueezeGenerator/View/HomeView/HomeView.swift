@@ -15,8 +15,13 @@ struct HomeView: View {
                     Spacer().frame(height: buttonsHeight)
                 }
             }
+            .opacity(db.sheetPresenting ? 0 : 1)
+            .animation(.smooth, value: db.sheetPresenting)
             buttonsView
                 .padding(.horizontal, 10)
+                .opacity(db.sheetPresenting ? 0 : 1)
+                .animation(.smooth, value: db.sheetPresenting)
+
         }
         .foregroundColor(.white)
         .animation(.smooth, value: viewModel.response != nil && viewModel.appResponse != nil)
@@ -36,19 +41,19 @@ struct HomeView: View {
                 self.viewModel.dbUpdated(db)
             }
         }
-        .background(content: {
-            VStack(spacing: 0) {
-                Color.black//here
-                    .ignoresSafeArea(.all)
-                    .frame(height: 25, alignment: .top)
-
-                Spacer()
-            }
-            .opacity(viewModel.gradientOpacity)//viewModel.gradientOpacity > 0.1 ? viewModel.gradientOpacity * 6 : viewModel.gradientOpacity)
-            .animation(.smooth, value: viewModel.gradientOpacity)
-
-            
-        })
+//        .background(content: {
+//            VStack(spacing: 0) {
+//                Color.black//here
+//                    .ignoresSafeArea(.all)
+//                    .frame(height: 25, alignment: .top)
+//
+//                Spacer()
+//            }
+//            .opacity(viewModel.gradientOpacity)//viewModel.gradientOpacity > 0.1 ? viewModel.gradientOpacity * 6 : viewModel.gradientOpacity)
+//            .animation(.smooth, value: viewModel.gradientOpacity)
+//
+//            
+//        })
         .background(content: {
             HomeBackgroundView(type: .constant(viewModel.circleType), properties: .constant(viewModel.backgroundProperties))
         })
@@ -321,17 +326,19 @@ struct HomeView: View {
         .cornerRadius(14)
     }
 
+    @ViewBuilder
     var collectiomParentSections: some View {
+        let paddings = viewModel.collectionSubviewPaddings
         ScrollView(.horizontal,
                    showsIndicators: false) {
-            LazyHStack(spacing: 12) {
-                Spacer().frame(width: 8)
+            LazyHStack(spacing: viewModel.maxCollectionPaddings * 0.6) {
                 ForEach(viewModel.collectionData, id:\.id) { item in
                     parentCell(item)
 
                 }
-                Spacer().frame(width: 20)
+                Spacer().frame(width: viewModel.maxCollectionPaddings)
             }
+            .padding(.leading, paddings)
             .frame(height: viewModel.largeParentCollections ? 120 : 50)
             .animation(.bouncy, value: viewModel.largeParentCollections)
 
@@ -354,7 +361,7 @@ struct HomeView: View {
                                     viewModel.collectionViewSelected(at: at ?? 0)
                                     
                                 })
-                            .padding(.leading, 20)
+                            .padding(.leading, viewModel.collectionSubviewPaddings)
                             .padding(.trailing, 5)
                                 .background {
                                     GeometryReader { proxy in
@@ -381,18 +388,20 @@ struct HomeView: View {
             }
         }
     }
-    
+
+    @ViewBuilder
     var appTextMask: some View {
+        let opacityGradient = viewModel.gradientOpacity
         HStack {
             VStack {
                 Circle()
-                    .frame(width: 120 * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                    .frame(width: 120 * (1 - (opacityGradient >= 0.9 ? 0.9 : opacityGradient)))
                     .aspectRatio(1, contentMode: .fill)
                 Spacer()
                     .overlay {
                         ForEach([20, 5, 40], id:\.self) { i in
                             Circle()
-                                .frame(width: (10 + (i / 10)) * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                                .frame(width: (10 + (i / 10)) * (1 - (opacityGradient >= 0.9 ? 0.9 : opacityGradient)))
                                 .aspectRatio(1, contentMode: .fill)
                                 .offset(x: i, y: i * -1)
                         }
@@ -402,7 +411,7 @@ struct HomeView: View {
                 .overlay {
                     ForEach([-20, 50, 10], id:\.self) { i in
                         Circle()
-                            .frame(width: (10 + (i / 10)) * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                            .frame(width: (10 + (i / 10)) * (1 - (opacityGradient >= 0.9 ? 0.9 : opacityGradient)))
                             .aspectRatio(1, contentMode: .fill)
                             .offset(x: i, y: (i == 50 ? i : -i) / 20)
                     }
@@ -412,30 +421,39 @@ struct HomeView: View {
                     .overlay {
                         ForEach([-60, -20, -40], id:\.self) { i in
                             Circle()
-                                .frame(width: (10 + (i / 10)) * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                                .frame(width: (10 + (i / 10)) * (1 - (opacityGradient >= 0.9 ? 0.9 : opacityGradient)))
                                 .aspectRatio(1, contentMode: .fill)
                                 .offset(x: i, y: (i == -20 ? i : -i) / 20)
                         }
                     }
                 Circle()
-                    .frame(width: 150 * (1 - (viewModel.gradientOpacity >= 0.9 ? 0.9 : viewModel.gradientOpacity)))
+                    .frame(width: 150 * (1 - (opacityGradient >= 0.9 ? 0.9 : opacityGradient)))
                     .aspectRatio(1, contentMode: .fill)
-                    .offset(x: -65 * viewModel.gradientOpacity, y: -10 * viewModel.gradientOpacity)
-                
+                    .offset(x: -65 * opacityGradient,
+                            y: -10 * opacityGradient)
+
             }
         }
-        .padding(.top, 30 * (1 - (viewModel.gradientOpacity >= 0.5 ? 0.5 : viewModel.gradientOpacity)))
-        .padding(.leading, 30 * (1 - (viewModel.gradientOpacity >= 0.5 ? 0.5 : viewModel.gradientOpacity)))
+        .padding(.top, 30 * (1 - (opacityGradient >= 0.5 ? 0.5 : opacityGradient)))
+        .padding(.leading, 30 * (1 - (opacityGradient >= 0.5 ? 0.5 : opacityGradient)))
         .frame(maxWidth: .infinity)
-        .animation(.bouncy, value: viewModel.gradientOpacity)
+        .animation(.bouncy, value: opacityGradient)
     }
     
     
-    
+    @ViewBuilder
     var collectionHeader: some View {
+        let opacityGradient = viewModel.gradientOpacity
         VStack {
             ZStack(content: {
                 appTitle
+                    .background(content: {
+                        sectionBackground
+                            .padding(.vertical, -10)
+                    })
+                    .offset(x: opacityGradient * viewModel.collectionSubviewPaddings,
+                            y: opacityGradient * 10
+                    )
             })
             .frame(maxWidth: .infinity,
                        alignment: .leading)
@@ -444,34 +462,42 @@ struct HomeView: View {
         }
         .frame(height: 220)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(content: {
-            headerGradient
-        })
     }
-    
-    var headerGradient: some View {
-        LinearGradient(//here
-            gradient: Gradient(colors: [
-                .black, .black, .clear, .clear
-            ]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .offset(y: -50)
-        .frame(maxHeight: .infinity, alignment: .top)
-        .frame(height: 220)
-        .opacity(viewModel.gradientOpacity)
-        .animation(.smooth, value: viewModel.gradientOpacity)
+
+    var sectionBackground: some View {
+        Color.white.opacity(0.1)
+            .background {
+                BlurView()
+            }
+            .opacity(viewModel.gradientOpacity)
+            .cornerRadius(10)
     }
-    
+
+//    var headerGradient: some View {
+//        LinearGradient(//here
+//            gradient: Gradient(colors: [
+//                .black, .black, .clear, .clear
+//            ]),
+//            startPoint: .top,
+//            endPoint: .bottom
+//        )
+//        .offset(y: -50)
+//        .frame(maxHeight: .infinity, alignment: .top)
+//        .frame(height: 220)
+//        .opacity(viewModel.gradientOpacity)
+//        .animation(.smooth, value: viewModel.gradientOpacity)
+//    }
+
+    @ViewBuilder
     var appTitle: some View {
+        let opacityGradient = viewModel.gradientOpacity
         Text("Squeeze generator")
             .multilineTextAlignment(.leading)
-            .foregroundColor(.white.opacity(0.1))
+            .foregroundColor(.white.opacity(0.1 + (opacityGradient / 3)))
             .padding(.horizontal, 15)
             .lineSpacing(0)
             .lineLimit(nil)
-            .font(.system(size: 80 * (1 - (viewModel.gradientOpacity >= 0.8 ? 0.8 : viewModel.gradientOpacity)),
+            .font(.system(size: 80 * (1 - (opacityGradient >= 0.8 ? 0.8 : opacityGradient)),
                           weight: .semibold))
     }
 }

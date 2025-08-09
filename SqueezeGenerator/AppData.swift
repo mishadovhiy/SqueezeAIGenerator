@@ -32,7 +32,10 @@ class AppData:ObservableObject {
     init() {
         self.fetch()
     }
-    
+
+    @Published var sheetPresenting: Bool = false
+
+
     private var dataLoaded = false
     
     func fetch() {

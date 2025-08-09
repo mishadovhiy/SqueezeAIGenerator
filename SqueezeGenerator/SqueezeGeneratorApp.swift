@@ -21,6 +21,8 @@ struct SqueezeGeneratorApp: App {
         WindowGroup {
 //            CardsView(.demo)
             HomeView()
+                .environment(\.colorScheme, .dark)
+                .preferredColorScheme(.dark)
                 .environmentObject(db)
                 .onAppear {
                     SqueezeGeneratorApp.adPresenting.sink { newValue in

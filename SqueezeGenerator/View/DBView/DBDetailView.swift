@@ -57,6 +57,8 @@ struct DBDetailView: View {
             .cornerRadius(12)
             .padding(10)
         }
+        .navigationTitle("item.save.category")
+
         .background {
             ClearBackgroundView()
         }

@@ -67,10 +67,11 @@ struct RequestParametersView: View {
 //            .animation(.bouncy, value: statPresenting)
             
         })
-        .opacity(statPresenting ? 0 : 1)
-        .animation(.smooth, value: statPresenting)
         .fullScreenCover(isPresented: $statPresenting) {
             DBCategoriyNavView(selectedType: request?.type ?? "")
+        }
+        .onChange(of: statPresenting) { newValue in
+            db.sheetPresenting = newValue
         }
     }
 
