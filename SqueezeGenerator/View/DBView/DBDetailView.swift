@@ -81,11 +81,12 @@ struct DBDetailView: View {
         }
     }
 
-
+    @ViewBuilder
     func actionsCollection(_ key: DataKey) -> some View {
+        let height = collectionHeights[key.id.uuidString] ?? 0
         CollectionView(
             contentHeight: .init(get: {
-                collectionHeights[key.id.uuidString] ?? 0
+                height
             }, set: {
                 collectionHeights.updateValue($0, forKey: key.id.uuidString)
             }),
@@ -94,7 +95,7 @@ struct DBDetailView: View {
                 .init(title: $0.optionName)
             })
         )
-        .frame(height: (collectionHeights[key.id.uuidString] ?? 0) - 30)
+        .frame(height: height >= 30 ? height - 30 : 0)
     }
 
     @ViewBuilder
