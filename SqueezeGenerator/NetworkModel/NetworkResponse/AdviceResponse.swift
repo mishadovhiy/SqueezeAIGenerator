@@ -14,7 +14,12 @@ struct AdviceQuestionModel: Codable, Equatable, Hashable {
     var id: UUID = .init()
     
     var resultPercent: CGFloat {
-        CGFloat(save.grade) / CGFloat(response.questions.totalGrade)
+        let value = CGFloat(save.grade) / CGFloat(response.questions.totalGrade)
+        if value.isFinite {
+            return value
+        } else {
+            return 0
+        }
     }
 
     var resultPercentInt: Int {
