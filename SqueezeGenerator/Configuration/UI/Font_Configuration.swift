@@ -27,5 +27,12 @@ extension Configuration.UI {
         var font: Font {
             .system(size: rawValue, weight: fontWeight)
         }
+
+        var opacity: CGFloat {
+            switch self {
+            case .small, .description: .Opacity.descriptionLight.rawValue
+            default: 1
+            }
+        }
     }
 }
