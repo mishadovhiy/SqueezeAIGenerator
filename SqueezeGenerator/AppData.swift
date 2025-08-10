@@ -53,6 +53,9 @@ class AppData:ObservableObject {
     @Published var adPresenting:Bool = false
     @Published var adPresentingValue:Set<AnyCancellable> = []
 
+    @Published var navHeight:CGFloat = .zero
+    @Published var navHeightValue:Set<AnyCancellable> = []
+
     private func performFetchDB() {
         let db = UserDefaults.standard.data(forKey: dbkey)
         DispatchQueue.main.async {

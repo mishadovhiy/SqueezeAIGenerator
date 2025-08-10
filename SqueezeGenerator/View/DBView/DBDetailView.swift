@@ -8,9 +8,29 @@
 import SwiftUI
 
 struct DBDetailView: View {
-    
+
     let item: AdviceQuestionModel
     @State var collectionHeights: [String: CGFloat] = [:]
+    @EnvironmentObject var db: AppData
+    @State var initialNavHeight: CGFloat?
+    //percent navigation title height is changed
+    var navigationStatePercent: CGFloat {
+        let value = db.navHeight / (initialNavHeight ?? 0)
+        if value.isFinite {
+            return value
+        } else {
+            return 1
+        }
+
+    }
+    var navigationStatePercentMax: CGFloat {
+        let value = navigationStatePercent
+        if value >= 1 {
+            return 1
+        } else {
+            return value
+        }
+    }
 
     var body: some View {
         ScrollView(.vertical) {
@@ -18,50 +38,85 @@ struct DBDetailView: View {
                 HStack {
                     VStack {
                         Text("Type")
-                        Text(item.save.request?.type ?? "-")
+                        Text(item.save.request?.type ?? "")
                     }
                     .frame(maxWidth: .infinity)
                     VStack {
-                        Text("Category")
-                        Text(item.save.request?.category ?? "-")
+                        Text("Description")
+                        Text(item.save.request?.description ?? "-")
                     }
                     .frame(maxWidth: .infinity)
                 }
-                VStack {
-                    Text("Description")
-                    Text(item.save.request?.description ?? "-")
-                }
-                HStack {
-                    Text("\(item.save.grade)/\(item.response.questions.totalGrade)")
-                    Text("questions: \(item.response.questions.count)")
-                }
-                Divider()
-                ForEach(Array(item.save.questionResults.keys), id:\.id) { key in
-                    VStack {
-                        Text(key.questionName)
-                        Text(key.description)
-                        CollectionView(contentHeight: .init(get: {
-                            collectionHeights[key.id.uuidString] ?? 0
-                        }, set: {
-                            collectionHeights.updateValue($0, forKey: key.id.uuidString)
-                        }), data: key.options.compactMap({
-                            .init(title: $0.optionName)
-                        }))
+                .padding(10)
+
+                LazyVStack(pinnedViews: .sectionHeaders) {
+
+                    Section {
+                        dataSection
+                            .padding(10)
+                            .background(content: {
+                                BlurView()
+                            })
+                            .background(.black.opacity(0.2))
+                            .cornerRadius(16)
+                            .padding(10)
+
+                    } header: {
+                        sectionHeader
+                            .padding(.vertical, (10 * navigationStatePercent))
+
+                            .background(content: {
+                                BlurView()
+                            })
+                            .background(.black.opacity(0.4 * (1 - navigationStatePercentMax)))
                     }
-                    Divider()
+
                 }
-                
             }
-            .padding(10)
-            .background(.black.opacity(0.2))
-            .cornerRadius(12)
-            .padding(10)
         }
-        .navigationTitle("item.save.category")
+        .navigationTitle(item.save.request?.category ?? "-")
 
         .background {
             ClearBackgroundView()
         }
+        .onChange(of: db.navHeight) { newValue in
+            if initialNavHeight == nil {
+                initialNavHeight = newValue
+            }
+            print(newValue, " terfwdsa ")
+        }
     }
-    
+
+    var sectionHeader: some View {
+        HStack {
+            Text("\(item.save.grade)/\(item.response.questions.totalGrade) (\(item.resultPercentInt)%)")
+                .frame(maxWidth: .infinity)
+            Text("questions: \(item.response.questions.count)")
+                .frame(maxWidth: .infinity)
+        }
+    }
+
+    var dataSection: some View {
+        VStack {
+            ForEach(Array(item.save.questionResults.keys), id:\.id) { key in
+                VStack {
+                    Text(key.questionName)
+                    Text(key.description)
+                    CollectionView(
+                        contentHeight: .init(get: {
+                            collectionHeights[key.id.uuidString] ?? 0
+                        }, set: {
+                            collectionHeights.updateValue($0, forKey: key.id.uuidString)
+                        }),
+                        isopacityCells: false,
+                        data: key.options.compactMap({
+                            .init(title: $0.optionName)
+                        })
+                    )
+                    .frame(height: collectionHeights[key.id.uuidString] ?? 0)
+                }
+                Divider()
+            }
+        }
+    }
 }

@@ -17,6 +17,10 @@ struct AdviceQuestionModel: Codable, Equatable, Hashable {
         CGFloat(save.grade) / CGFloat(response.questions.totalGrade)
     }
 
+    var resultPercentInt: Int {
+        Int(resultPercent * 100)
+    }
+
     struct SaveModel: Codable, Equatable, Hashable {
         let date: Date
         var grade: Int {

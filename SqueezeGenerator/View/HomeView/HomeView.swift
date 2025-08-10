@@ -345,6 +345,38 @@ struct HomeView: View {
         }
     }
 
+    func collectionViewSection(_ proxy: GeometryProxy) -> some View {
+        VStack {
+            Spacer().frame(height: proxy.size.height * 0.12)
+            collectiomParentSections
+            Spacer().frame(height: 12)
+            CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionDataForKey, didSelect: { at in
+                    viewModel.collectionViewSelected(at: at ?? 0)
+
+                })
+            .padding(.leading, viewModel.collectionSubviewPaddings)
+            .padding(.trailing, 5)
+                .background {
+                    scrollReader
+                }
+                .frame(height: viewModel.contentHeight)
+                .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
+
+        }
+    }
+
+    var scrollReader: some View {
+        GeometryReader { proxy in
+            Color.clear
+                .onChange(of: proxy.frame(in: .global).origin) { newValue in
+                    viewModel.scrollPosition = newValue
+                }
+                .onAppear {
+                    viewModel.scrollPosition = proxy.frame(in: .global).origin
+                }
+        }
+    }
+
     var collectionView: some View {
         GeometryReader { proxy in
             ScrollView(.vertical, showsIndicators: false) {
@@ -352,34 +384,7 @@ struct HomeView: View {
                 LazyVStack(pinnedViews: .sectionHeaders) {
                     Spacer().frame(height: proxy.size.height * 0.39)
                     Section {
-                        VStack {
-                            Spacer().frame(height: proxy.size.height * 0.12)
-                            collectiomParentSections
-                            Spacer().frame(height: 12)
-//                            if !viewModel.collectionDataForKey.isEmpty {
-                            CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionDataForKey, didSelect: { at in
-                                    viewModel.collectionViewSelected(at: at ?? 0)
-                                    
-                                })
-                            .padding(.leading, viewModel.collectionSubviewPaddings)
-                            .padding(.trailing, 5)
-                                .background {
-                                    GeometryReader { proxy in
-                                        Color.clear
-                                            .onChange(of: proxy.frame(in: .global).origin) { newValue in
-                                                viewModel.scrollPosition = newValue
-                                                print(viewModel.scrollPosition, "rtgerfwda")
-                                            }
-                                            .onAppear {
-                                                viewModel.scrollPosition = proxy.frame(in: .global).origin
-                                            }
-                                    }
-                                }
-                                .frame(height: viewModel.contentHeight)
-//                            }
-                                .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
-
-                        }
+                        collectionViewSection(proxy)
                     } header: {
                         collectionHeader
                     }

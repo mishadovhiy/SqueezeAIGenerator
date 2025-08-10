@@ -9,10 +9,12 @@ import SwiftUI
 import UIKit
 
 struct CollectionView: UIViewControllerRepresentable {
+
     @Binding var contentHeight:CGFloat
     var isopacityCells: Bool = true
-    let data:[CollectionViewController.CollectionData]
+    let data: [CollectionViewController.CollectionData]
     var didSelect:((_ at:Int?)->())?
+
     func makeUIViewController(context: Context) -> CollectionViewController {
         let layout = FlowLayout()
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
@@ -50,16 +52,6 @@ class CollectionViewController: UICollectionViewController {
     var dataUpdated = false
     var dict:(CGFloat,Int) = (0,0)
 
-    struct CollectionData: Hashable, Equatable {
-        let title:String
-        var description:String? = nil
-        var cellBackground:UIColor? = nil
-        var isSelected:Bool = false
-        var id: String = UUID().uuidString
-        var parentID: String = ""
-        var isType: Bool = false
-        var extraSmall: Bool = false
-    }
     var contentHeightUpdated:((_ newHeight:CGFloat)->())?
     private var heightHolder:CGFloat = 0 {
         didSet {

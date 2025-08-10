@@ -35,9 +35,6 @@ struct DBCategoriyNavView: View {
                     }
 
                 }
-                //                    .overlay(content: {
-                //                        navigationTopBackground
-                //                    })
                 .opacity(nav.isEmpty ? 1 : 0)
                 .animation(.smooth, value: nav.isEmpty)
                 .navigationDestination(for: NavRout.self) { path in
@@ -45,12 +42,11 @@ struct DBCategoriyNavView: View {
                         .opacity(path == self.nav.last ? 1 : 0)
                         .animation(.smooth, value: path == self.nav.last)
                         .toolbarColorScheme(.dark, for: .navigationBar)
+                        .navigationBarTitleDisplayMode(.large)
 
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
-
             })
-
             .padding(.top, -40)
         }
 

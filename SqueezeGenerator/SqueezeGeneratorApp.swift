@@ -17,6 +17,11 @@ struct SqueezeGeneratorApp: App {
         adPresenting.send(newValue)
     }
 
+    fileprivate static var navigationHeight = PassthroughSubject<CGFloat, Never>()
+    static func navigationHeight(with newValue: CGFloat = .zero) {
+        navigationHeight.send(newValue)
+    }
+
     var body: some Scene {
         WindowGroup {
 //            CardsView(.demo)
@@ -28,6 +33,10 @@ struct SqueezeGeneratorApp: App {
                     SqueezeGeneratorApp.adPresenting.sink { newValue in
                         self.db.adPresenting = newValue
                     }.store(in: &db.adPresentingValue)
+
+                    SqueezeGeneratorApp.navigationHeight.sink { newValue in
+                        self.db.navHeight = newValue
+                    }.store(in: &db.navHeightValue)
 
                     let appearance = UINavigationBarAppearance()
                     appearance.configureWithTransparentBackground()
@@ -46,5 +55,13 @@ extension UIWindow: @retroactive UIGestureRecognizerDelegate {
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         print("erfwedas")
         return super.hitTest(point, with: event)
+    }
+}
+
+extension UINavigationController: UIScrollViewDelegate, UINavigationControllerDelegate {
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        SqueezeGeneratorApp.navigationHeight(with: navigationBar.frame.size.height ?? 0)
+        print(navigationBar.frame.size.height ?? 0, " gterfwdas ")
     }
 }

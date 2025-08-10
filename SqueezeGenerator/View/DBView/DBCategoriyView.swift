@@ -11,7 +11,26 @@ struct DBCategoriyView: View {
 
     @EnvironmentObject private var db: AppData
     let presenter: Presenter
+    @State var initialNavHeight: CGFloat?
+    //percent navigation title height is changed
+    var navigationStatePercent: CGFloat {
+        let value = db.navHeight / (initialNavHeight ?? 0)
+        if value.isFinite {
+            return value
+        } else {
+            return 1
+        }
 
+    }
+    var navigationStatePercentMax: CGFloat {
+        let value = navigationStatePercent
+        if value >= 1 {
+            return 1
+        } else {
+            return value
+        }
+    }
+    
     var body: some View {
         ScrollView {
             LazyVStack(pinnedViews:[.sectionHeaders], content: {
@@ -27,6 +46,12 @@ struct DBCategoriyView: View {
             ClearBackgroundView()
         }
         .navigationTitle(presenter.selectedCategory)
+        .onChange(of: db.navHeight) { newValue in
+            if initialNavHeight == nil {
+                initialNavHeight = newValue
+            }
+            print(newValue, " terfwdsa ")
+        }
     }
 
     var viewTitle: some View {
@@ -52,7 +77,7 @@ struct DBCategoriyView: View {
     }
 
     var sectionBackground: some View {
-        Color.black.opacity(0.12)
+        Color.black.opacity(0.12 * navigationStatePercentMax)
             .overlay(content: {
                 BlurView()
             })
@@ -73,14 +98,8 @@ struct DBCategoriyView: View {
                         print(key.rawValue, " etgrwfedaws ")
                     } label: {
                         HStack(spacing: 2) {
-                            if !key.needSpacer {
-                                self.sortIndicator(sortingKey == key)
-                            }
-
                             Text(key.rawValue.capitalized)
-                            if key.needSpacer {
-                                self.sortIndicator(sortingKey == key)
-                            }
+                            self.sortIndicator(sortingKey == key)
                         }
 
                             .foregroundColor(.white.opacity(0.5))

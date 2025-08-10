@@ -32,12 +32,13 @@ class CollectionViewCell: UICollectionViewCell {
         })
     }
     
-    func set(_ data:CollectionViewController.CollectionData, isWhite: Bool) {
+    func set(_ data: CollectionViewController.CollectionData,
+             isWhite: Bool) {
         label?.text = data.title.capitalized
         label?.font =
             .systemFont(
-                ofSize: data.extraSmall ? 12 : (data.isType ? 15 : 19),
-                weight: data.isType ? .semibold : .black
+                ofSize: isWhite ? 9 : data.fontSize,
+                weight: isWhite ? .regular : data.fontWeight
             )
 
         label?.textColor = isWhite ? .black : .white.withAlphaComponent(isWhite ? 1 : 0.3)
@@ -61,7 +62,14 @@ class CollectionViewCell: UICollectionViewCell {
                 .withAlphaComponent(isWhite ? 1 : 0.1) : .white
                 .withAlphaComponent(isWhite ? 1 : 0.1)
         }
-
+//        if let texts = textStack,
+//           isWhite {
+//            texts.topAnchor.constraint(equalTo: texts.superview!.topAnchor, constant: 5).isActive = true
+//            texts.bottomAnchor.constraint(equalTo: texts.superview!.bottomAnchor, constant: -5).isActive = true
+//            texts.layoutIfNeeded()
+//            texts.superview?.layoutIfNeeded()
+//
+//        }
     }
     
     override init(frame: CGRect) {
@@ -135,10 +143,10 @@ class CollectionViewCell: UICollectionViewCell {
 //            imageStack.heightAnchor.constraint(equalToConstant: 35),
 //            imageStack.widthAnchor.constraint(equalToConstant: 100),
             
-            textStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            textStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-            textStack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            textStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -18),
+            textStack.topAnchor.constraint(equalTo: textStack.superview!.topAnchor, constant: 12),
+            textStack.bottomAnchor.constraint(equalTo: textStack.superview!.bottomAnchor, constant: -12),
+            textStack.leadingAnchor.constraint(equalTo: textStack.superview!.leadingAnchor, constant: 10),
+            textStack.trailingAnchor.constraint(equalTo: textStack.superview!.trailingAnchor, constant: -10),
 
             backgroundOutline.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),//5),
             backgroundOutline.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),//-10),
@@ -161,5 +169,3 @@ class CollectionViewCell: UICollectionViewCell {
     }
 
 }
-
-
