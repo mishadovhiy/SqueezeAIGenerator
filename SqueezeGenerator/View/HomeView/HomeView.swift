@@ -41,19 +41,6 @@ struct HomeView: View {
                 self.viewModel.dbUpdated(db)
             }
         }
-//        .background(content: {
-//            VStack(spacing: 0) {
-//                Color.black//here
-//                    .ignoresSafeArea(.all)
-//                    .frame(height: 25, alignment: .top)
-//
-//                Spacer()
-//            }
-//            .opacity(viewModel.gradientOpacity)//viewModel.gradientOpacity > 0.1 ? viewModel.gradientOpacity * 6 : viewModel.gradientOpacity)
-//            .animation(.smooth, value: viewModel.gradientOpacity)
-//
-//            
-//        })
         .background(content: {
             HomeBackgroundView(type: .constant(viewModel.circleType), properties: .constant(viewModel.backgroundProperties))
         })
@@ -226,11 +213,10 @@ struct HomeView: View {
                 Spacer()
                     .frame(maxHeight: .infinity)
                 Text("Generating")
+                    .font(.Type.section.font)
+                    .opacity(.Opacity.descriptionLight.rawValue)
                 Spacer()
                     .frame(maxHeight: .infinity)
-            })
-            .onAppear(perform: {
-                print("sfdasvfasd")
             })
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden()
@@ -281,7 +267,7 @@ struct HomeView: View {
     func parentCellHeadRow(_ title: String, _ value: String) -> some View {
         HStack {
             Text(title)
-                .font(.system(size: 9))
+                .font(.Type.small.font)
                 .multilineTextAlignment(.leading)
                 .frame(alignment: .leading)
             Spacer()
@@ -302,8 +288,8 @@ struct HomeView: View {
                 Spacer().frame(maxHeight: viewModel.largeParentCollections ? .zero : .infinity)
                     .animation(.bouncy, value: viewModel.largeParentCollections)
                 Text(item.title)
-                    .foregroundColor(.white.opacity(0.5))
-                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundColor(.white.opacity(.Opacity.descriptionLight.rawValue))
+                    .font(.Type.section.font)
                     .padding(.horizontal, 22)
 
                 Spacer()
@@ -313,7 +299,7 @@ struct HomeView: View {
                     Divider()
                     parentCellHeadRow("score", "\(data?.avarageGrade ?? 0)%")
                 }
-                .opacity(0.4)
+                .opacity(.Opacity.description.rawValue)
                 .frame(maxWidth: .infinity,
                        maxHeight: viewModel.largeParentCollections ? .infinity : .zero)
                 .clipped()
@@ -322,8 +308,7 @@ struct HomeView: View {
             .padding(.horizontal, 8)
             .padding(.vertical, 8)
         }
-        .background(.white.opacity(0.1))
-        .cornerRadius(14)
+        .blurBackground(cornerRadius: .CornerRadius.medium.rawValue)
     }
 
     @ViewBuilder
@@ -334,7 +319,6 @@ struct HomeView: View {
             LazyHStack(spacing: viewModel.maxCollectionPaddings * 0.6) {
                 ForEach(viewModel.collectionData, id:\.id) { item in
                     parentCell(item)
-
                 }
                 Spacer().frame(width: viewModel.maxCollectionPaddings)
             }
@@ -356,24 +340,10 @@ struct HomeView: View {
                 })
             .padding(.leading, viewModel.collectionSubviewPaddings)
             .padding(.trailing, 5)
-                .background {
-                    scrollReader
-                }
                 .frame(height: viewModel.contentHeight)
                 .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
+                .modifier(ScrollReaderModifier(scrollPosition: $viewModel.scrollPosition))
 
-        }
-    }
-
-    var scrollReader: some View {
-        GeometryReader { proxy in
-            Color.clear
-                .onChange(of: proxy.frame(in: .global).origin) { newValue in
-                    viewModel.scrollPosition = newValue
-                }
-                .onAppear {
-                    viewModel.scrollPosition = proxy.frame(in: .global).origin
-                }
         }
     }
 
@@ -453,7 +423,10 @@ struct HomeView: View {
             ZStack(content: {
                 appTitle
                     .background(content: {
-                        sectionBackground
+                        Color.clear
+                            .blurBackground(
+                                opacity: .Opacity.lightBackground.rawValue * viewModel.gradientOpacity,
+                                cornerRadius: .CornerRadius.medium.rawValue)
                             .padding(.vertical, -10)
                     })
                     .offset(x: opacityGradient * viewModel.collectionSubviewPaddings,
@@ -467,15 +440,6 @@ struct HomeView: View {
         }
         .frame(height: 220)
         .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    var sectionBackground: some View {
-        Color.white.opacity(0.1)
-            .background {
-                BlurView()
-            }
-            .opacity(viewModel.gradientOpacity)
-            .cornerRadius(10)
     }
 
 //    var headerGradient: some View {
@@ -502,7 +466,13 @@ struct HomeView: View {
             .padding(.horizontal, 15)
             .lineSpacing(0)
             .lineLimit(nil)
-            .font(.system(size: 80 * (1 - (opacityGradient >= 0.8 ? 0.8 : opacityGradient)),
-                          weight: .semibold))
+            .font(
+                .system(
+                    size: Configuration.UI.FontType.extraLarge.rawValue * (
+                        1 - (opacityGradient >= 0.8 ? 0.8 : opacityGradient)
+                    ),
+                          weight: .semibold
+)
+)
     }
 }

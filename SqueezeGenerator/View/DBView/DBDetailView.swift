@@ -12,79 +12,64 @@ struct DBDetailView: View {
     let item: AdviceQuestionModel
     @State var collectionHeights: [String: CGFloat] = [:]
     @EnvironmentObject var db: AppData
-    @State var initialNavHeight: CGFloat?
-    //percent navigation title height is changed
-    var navigationStatePercent: CGFloat {
-        let value = db.navHeight / (initialNavHeight ?? 0)
-        if value.isFinite {
-            return value
-        } else {
-            return 1
-        }
-
-    }
-    var navigationStatePercentMax: CGFloat {
-        let value = navigationStatePercent
-        if value >= 1 {
-            return 1
-        } else {
-            return value
-        }
-    }
+    @State var scrollModifier: ScrollReaderModifier.ScrollResult = .init()
+    typealias DataKey = NetworkResponse.AdviceResponse.QuestionResponse
 
     var body: some View {
         ScrollView(.vertical) {
             VStack {
-                HStack {
-                    VStack {
-                        Text("Type")
-                        Text(item.save.request?.type ?? "")
-                    }
-                    .frame(maxWidth: .infinity)
-                    VStack {
-                        Text("Description")
-                        Text(item.save.request?.description ?? "-")
-                    }
-                    .frame(maxWidth: .infinity)
-                }
-                .padding(10)
-
-                LazyVStack(pinnedViews: .sectionHeaders) {
-
-                    Section {
-                        dataSection
-                            .padding(10)
-                            .background(content: {
-                                BlurView()
-                            })
-                            .background(.black.opacity(0.2))
-                            .cornerRadius(16)
-                            .padding(10)
-
-                    } header: {
-                        sectionHeader
-                            .padding(.vertical, (10 * navigationStatePercent))
-
-                            .background(content: {
-                                BlurView()
-                            })
-                            .background(.black.opacity(0.4 * (1 - navigationStatePercentMax)))
-                    }
-
-                }
+                noneFixedHeader
+                tableView
             }
         }
-        .navigationTitle(item.save.request?.category ?? "-")
-
+        .navigationTitle(item.save.request?.type ?? "-")
         .background {
             ClearBackgroundView()
         }
-        .onChange(of: db.navHeight) { newValue in
-            if initialNavHeight == nil {
-                initialNavHeight = newValue
+    }
+
+    var tableView: some View {
+        LazyVStack(pinnedViews: .sectionHeaders) {
+            Section {
+                dataSection
+                    .padding(10)
+                    .blurBackground(.dark)
+                    .padding(10)
+
+            } header: {
+                sectionHeader
+                    .padding(.vertical, (10 * (scrollModifier.percentPositive + 1)))
+                    .blurBackground(
+                        .dark,
+                        opacityMultiplier: 1 - scrollModifier.percentPositiveMax,
+                        cornerRadius: 0
+                    )
+
+
             }
-            print(newValue, " terfwdsa ")
+
         }
+    }
+
+    @ViewBuilder
+    var noneFixedHeader: some View {
+        Text(item.save.request?.description ?? "-")
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(10)
+            .modifier(ScrollReaderModifier(scrollPosition: $scrollModifier))
+        HStack {
+            VStack {
+                Text("Category")
+                Text(item.save.request?.category ?? "")
+            }
+            .frame(maxWidth: .infinity)
+            VStack {
+                Text("Date")
+                Text(item.save.date.stringDate)
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .padding(10)
     }
 
     var sectionHeader: some View {
@@ -96,26 +81,40 @@ struct DBDetailView: View {
         }
     }
 
+
+    func actionsCollection(_ key: DataKey) -> some View {
+        CollectionView(
+            contentHeight: .init(get: {
+                collectionHeights[key.id.uuidString] ?? 0
+            }, set: {
+                collectionHeights.updateValue($0, forKey: key.id.uuidString)
+            }),
+            isopacityCells: false,
+            data: key.options.compactMap({
+                .init(title: $0.optionName)
+            })
+        )
+        .frame(height: (collectionHeights[key.id.uuidString] ?? 0) - 30)
+    }
+
+    @ViewBuilder
+    func dataRow(_ key: DataKey) -> some View {
+        Text(key.questionName)
+            .font(.Type.section.font)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        Text(key.description)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .opacity(.Opacity.description.rawValue)
+    }
+    
     var dataSection: some View {
         VStack {
             ForEach(Array(item.save.questionResults.keys), id:\.id) { key in
-                VStack {
-                    Text(key.questionName)
-                    Text(key.description)
-                    CollectionView(
-                        contentHeight: .init(get: {
-                            collectionHeights[key.id.uuidString] ?? 0
-                        }, set: {
-                            collectionHeights.updateValue($0, forKey: key.id.uuidString)
-                        }),
-                        isopacityCells: false,
-                        data: key.options.compactMap({
-                            .init(title: $0.optionName)
-                        })
-                    )
-                    .frame(height: collectionHeights[key.id.uuidString] ?? 0)
-                }
+                dataRow(key)
+                Spacer().frame(height: 25)
+                actionsCollection(key)
                 Divider()
+                    .padding(.vertical, 10)
             }
         }
     }

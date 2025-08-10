@@ -26,7 +26,8 @@ class HomeViewModel: ObservableObject {
     @Published var appDataLoading: Bool = true
     @Published var dataCount: Int = 5
     @Published var contentHeight: CGFloat = 0
-    @Published var scrollPosition: CGPoint = .zero
+#warning("tood: refactor - rename")
+    @Published var scrollPosition: ScrollReaderModifier.ScrollResult = .init()
     @Published var viewSize: CGFloat = .zero
     var statsPreview: [String: ResponsePreviewModel] = [:]
     var largeParentCollections: Bool {
@@ -41,8 +42,8 @@ class HomeViewModel: ObservableObject {
         let background: NetworkResponse.CategoriesResponse.Categories.Color? = selectedRequest?.color ?? (lastResponse?.color ?? appResponse?.categories.first(where: {
             $0.id == self.selectedGeneralKeyID
         })?.color)
-        if scrollPosition.y - 250 <= .zero && navValues.isEmpty {
-            var alpha = 1 - ((scrollPosition.y - 250) / 10)
+        if scrollPosition.position.y - 250 <= .zero && navValues.isEmpty {
+            var alpha = 1 - ((scrollPosition.position.y - 250) / 10)
             let max: CGFloat = 16
             if alpha >= max {
                 alpha = max
@@ -70,8 +71,8 @@ class HomeViewModel: ObservableObject {
         if !navValues.isEmpty {
             return 0
         }
-        if scrollPosition.y <= 320 {
-            let calc = (320 - scrollPosition.y) / 100
+        if scrollPosition.position.y <= 320 {
+            let calc = (320 - scrollPosition.position.y) / 100
             if calc >= 1 {
                 return 1
             }
@@ -84,7 +85,7 @@ class HomeViewModel: ObservableObject {
         }
     }
 
-    let maxCollectionPaddings: CGFloat = 20
+    let maxCollectionPaddings: CGFloat = .Padding.content.rawValue
     var collectionSubviewPaddings: CGFloat {
         maxCollectionPaddings - (gradientOpacity * 10)
     }
@@ -102,7 +103,7 @@ class HomeViewModel: ObservableObject {
             if response != nil {
                 return .regular
             }
-            return scrollPosition.y <= 250 ? .regular : .topRegular
+            return scrollPosition.position.y <= 250 ? .regular : .topRegular
         }
     }
     func findSelectedCategory(cats: [NetworkResponse.CategoriesResponse.Categories], selectedID: String) -> NetworkResponse.CategoriesResponse.Categories? {

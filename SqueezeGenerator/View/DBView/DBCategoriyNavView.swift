@@ -23,7 +23,7 @@ struct DBCategoriyNavView: View {
                 DBCategoriyView(
                     presenter: .init(
                         selectedCategory: db.db.responses
-                            .first(where: {$0.save.request?.type == selectedType})?.save.category ?? "",
+                            .first(where: {$0.save.request?.type == selectedType})?.save.request?.category ?? "",
                         selectedType: selectedType
                     )
                 )
@@ -62,13 +62,8 @@ struct DBCategoriyNavView: View {
             Image(.close)
                 .resizable()
                 .scaledToFit()
-                .tint(.black)
         }
-        .padding(8)
-        .padding(.leading, 9)
-        .background(.white.opacity(0.3))
-        .frame(width: 36, height: 36)
-        .cornerRadius(6)
+        .smallButtonStyle()
 
     }
 

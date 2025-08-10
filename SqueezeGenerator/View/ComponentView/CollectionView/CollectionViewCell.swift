@@ -41,7 +41,8 @@ class CollectionViewCell: UICollectionViewCell {
                 weight: isWhite ? .regular : data.fontWeight
             )
 
-        label?.textColor = isWhite ? .black : .white.withAlphaComponent(isWhite ? 1 : 0.3)
+        label?.textColor = isWhite ? .black : .white
+            .withAlphaComponent(isWhite ? 1 : .Opacity.descriptionLight.rawValue)
         descriptionLabel?.text = data.description
         if data.title.isEmpty {
             descriptionLabel?.textColor = .white
@@ -55,12 +56,13 @@ class CollectionViewCell: UICollectionViewCell {
         }
 //        label?.attributedText = attributedString
         if let background = data.cellBackground {
-            backgroundColoredView?.backgroundColor = background.withAlphaComponent(isWhite ? 1 : 0.15)
+            backgroundColoredView?.backgroundColor = background
+                .withAlphaComponent(isWhite ? 1 : .Opacity.lightBackground.rawValue)
 
         } else {
             backgroundColoredView?.backgroundColor = data.isType ? .red
-                .withAlphaComponent(isWhite ? 1 : 0.1) : .white
-                .withAlphaComponent(isWhite ? 1 : 0.1)
+                .withAlphaComponent(isWhite ? 1 : .Opacity.lightBackground.rawValue) : .white
+                .withAlphaComponent(isWhite ? 1 : .Opacity.lightBackground.rawValue)
         }
 //        if let texts = textStack,
 //           isWhite {
@@ -119,14 +121,14 @@ class CollectionViewCell: UICollectionViewCell {
 //            image.contentMode = .scaleAspectFit
 //            imageStack.addArrangedSubview(image)
 //        }
-        label.textColor = .white.withAlphaComponent(0.3)
+        label.textColor = .white.withAlphaComponent(.Opacity.descriptionLight.rawValue)
         descriptionLabel.font = .systemFont(ofSize: 9, weight: .regular)
         descriptionLabel.textColor = .black.withAlphaComponent(0.2)
-        backgroundOutline.layer.cornerRadius = 12
+        backgroundOutline.layer.cornerRadius = .CornerRadius.medium.rawValue
 
-        backgroundColoredView.layer.cornerRadius = 12
-       
-        self.layer.cornerRadius = 6
+        backgroundColoredView.layer.cornerRadius = .CornerRadius.medium.rawValue
+
+        self.layer.cornerRadius = .CornerRadius.smallest.rawValue
         self.layer.masksToBounds = true
         
         backgroundColoredView.translatesAutoresizingMaskIntoConstraints = false

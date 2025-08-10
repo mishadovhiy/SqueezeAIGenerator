@@ -37,13 +37,9 @@ struct RequestParametersView: View {
                         Image(.score)
                             .resizable()
                             .scaledToFit()
-                            .tint(.black)
+                            .padding(.leading, -13)
                     }
-                    .padding(4)
-                    .padding(.trailing, 8)
-                    .background(.white.opacity(0.3))
-                    .frame(width: 36, height: 36)
-                    .cornerRadius(6)
+                    .smallButtonStyle()
                 }
                 
             }

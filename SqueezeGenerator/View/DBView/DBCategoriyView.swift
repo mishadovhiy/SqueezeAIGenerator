@@ -11,30 +11,13 @@ struct DBCategoriyView: View {
 
     @EnvironmentObject private var db: AppData
     let presenter: Presenter
-    @State var initialNavHeight: CGFloat?
-    //percent navigation title height is changed
-    var navigationStatePercent: CGFloat {
-        let value = db.navHeight / (initialNavHeight ?? 0)
-        if value.isFinite {
-            return value
-        } else {
-            return 1
-        }
+    @State var scrollModifier: ScrollReaderModifier.ScrollResult = .init()
 
-    }
-    var navigationStatePercentMax: CGFloat {
-        let value = navigationStatePercent
-        if value >= 1 {
-            return 1
-        } else {
-            return value
-        }
-    }
-    
     var body: some View {
         ScrollView {
             LazyVStack(pinnedViews:[.sectionHeaders], content: {
                 viewTitle
+                    .modifier(ScrollReaderModifier(scrollPosition: $scrollModifier))
                 Section {
                     tableView
                 } header: {
@@ -46,81 +29,66 @@ struct DBCategoriyView: View {
             ClearBackgroundView()
         }
         .navigationTitle(presenter.selectedCategory)
-        .onChange(of: db.navHeight) { newValue in
-            if initialNavHeight == nil {
-                initialNavHeight = newValue
-            }
-            print(newValue, " terfwdsa ")
-        }
     }
 
     var viewTitle: some View {
         Text(presenter.selectedType)
-            .font(.title)
+            .font(.Type.title.font)
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, .Padding.content.rawValue)
             .padding(.horizontal, 10)
     }
 
     var tableView: some View {
-        VStack {
+        VStack(spacing: .zero) {
             if data.isEmpty {
                 Text("no saved data")
             }
             listView
         }
-        .background {
-            sectionBackground
-        }
+        .blurBackground(.dark)
         .padding(.horizontal, 10)
     }
 
-    var sectionBackground: some View {
-        Color.black.opacity(0.12 * navigationStatePercentMax)
-            .overlay(content: {
-                BlurView()
-            })
-            .cornerRadius(12)
+    var sortingOptions: some View {
+        ForEach(SortingKeys.allCases, id: \.rawValue) { key in
+            Button {
+                withAnimation(.smooth) {
+                    if sortingKey == key {
+                        sortingPositive.toggle()
+                    }
+                    self.sortingKey = key
+                }
+                print(key.rawValue, " etgrwfedaws ")
+            } label: {
+                HStack(spacing: 2) {
+                    Text(key.rawValue.capitalized)
+                    self.sortIndicator(sortingKey == key)
+                }
+
+                    .foregroundColor(.white.opacity(0.5))
+            }
+
+            if key.needSpacer {
+                Spacer()
+            }
+        }
     }
 
     var header: some View {
         HStack(content: {
             HStack {
-                ForEach(SortingKeys.allCases, id: \.rawValue) { key in
-                    Button {
-                        withAnimation(.smooth) {
-                            if sortingKey == key {
-                                sortingPositive.toggle()
-                            }
-                            self.sortingKey = key
-                        }
-                        print(key.rawValue, " etgrwfedaws ")
-                    } label: {
-                        HStack(spacing: 2) {
-                            Text(key.rawValue.capitalized)
-                            self.sortIndicator(sortingKey == key)
-                        }
-
-                            .foregroundColor(.white.opacity(0.5))
-                    }
-
-                    if key.needSpacer {
-                        Spacer()
-                    }
-                }
+                sortingOptions
             }
-            .padding(.horizontal, 30)
-//            .opacity(0.5)
+            .padding(.leading, 30)
             .padding(.vertical, 10)
         })
         .frame(maxWidth: .infinity)
-        .background(content: {
-            BlurView()
-                .frame(maxWidth: .infinity)
-                .background(.black.opacity(0.15))
-                .ignoresSafeArea(.all)
-        })
+        .blurBackground(.dark,
+                        opacityMultiplier: 1 - scrollModifier.percentMax,
+                        cornerRadius: 0
+        )
     }
 
     func sortIndicator(_ isSelected: Bool) -> some View {
@@ -142,8 +110,8 @@ struct DBCategoriyView: View {
                 }
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 5)
+        .padding(.horizontal, .Padding.content.rawValue)
+        .padding(.vertical, .Padding.content.rawValue)
         .frame(maxWidth: .infinity)
         .tint(.white)
     }
@@ -205,5 +173,9 @@ extension DBCategoriyView {
     struct Presenter: Equatable, Hashable {
         let selectedCategory: String
         let selectedType: String
+
+        var navTitle: String {
+            selectedCategory.isEmpty ? selectedType : selectedCategory
+        }
     }
 }

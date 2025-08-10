@@ -33,6 +33,14 @@
 		82AF8B962E2D51D900CC3FAD /* HomeBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */; };
 		82AF8B992E2DCE2600CC3FAD /* ClearBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */; };
 		82BA0D0E2E48168B009ECC61 /* CollectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D0D2E48168B009ECC61 /* CollectionData.swift */; };
+		82BA0D112E484692009ECC61 /* ScrollReaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D102E484692009ECC61 /* ScrollReaderModifier.swift */; };
+		82BA0D132E487230009ECC61 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D122E487230009ECC61 /* View.swift */; };
+		82BA0D152E48737F009ECC61 /* CGFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D142E48737F009ECC61 /* CGFloat.swift */; };
+		82BA0D172E4873AD009ECC61 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D162E4873AD009ECC61 /* Configuration.swift */; };
+		82BA0D1A2E487428009ECC61 /* Padding_Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D192E487428009ECC61 /* Padding_Configuration.swift */; };
+		82BA0D1C2E487447009ECC61 /* Opacity_Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D1B2E487447009ECC61 /* Opacity_Configuration.swift */; };
+		82BA0D1F2E4876C5009ECC61 /* Font_Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D1E2E4876C5009ECC61 /* Font_Configuration.swift */; };
+		82BA0D212E4877D6009ECC61 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D202E4877D6009ECC61 /* Font.swift */; };
 		82BA59442E301EFB009B8913 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59432E301EFB009B8913 /* TextView.swift */; };
 		82BA59462E301F12009B8913 /* DBCategoriyNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59452E301F12009B8913 /* DBCategoriyNavView.swift */; };
 		82BA594A2E301F3C009B8913 /* DBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59492E301F3C009B8913 /* DBDetailView.swift */; };
@@ -96,6 +104,14 @@
 		82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBackgroundView.swift; sourceTree = "<group>"; };
 		82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearBackgroundView.swift; sourceTree = "<group>"; };
 		82BA0D0D2E48168B009ECC61 /* CollectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionData.swift; sourceTree = "<group>"; };
+		82BA0D102E484692009ECC61 /* ScrollReaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollReaderModifier.swift; sourceTree = "<group>"; };
+		82BA0D122E487230009ECC61 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		82BA0D142E48737F009ECC61 /* CGFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloat.swift; sourceTree = "<group>"; };
+		82BA0D162E4873AD009ECC61 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		82BA0D192E487428009ECC61 /* Padding_Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Padding_Configuration.swift; sourceTree = "<group>"; };
+		82BA0D1B2E487447009ECC61 /* Opacity_Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opacity_Configuration.swift; sourceTree = "<group>"; };
+		82BA0D1E2E4876C5009ECC61 /* Font_Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font_Configuration.swift; sourceTree = "<group>"; };
+		82BA0D202E4877D6009ECC61 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		82BA59432E301EFB009B8913 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		82BA59452E301F12009B8913 /* DBCategoriyNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCategoriyNavView.swift; sourceTree = "<group>"; };
 		82BA59492E301F3C009B8913 /* DBDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBDetailView.swift; sourceTree = "<group>"; };
@@ -183,7 +199,10 @@
 				82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */,
 				822A44312E400EC500B5CF32 /* UIApplication.swift */,
 				82E570692E342AC100922F5B /* UIColor.swift */,
+				82BA0D122E487230009ECC61 /* View.swift */,
 				82AF8B692E2D2C4000CC3FAD /* String.swift */,
+				82BA0D142E48737F009ECC61 /* CGFloat.swift */,
+				82BA0D202E4877D6009ECC61 /* Font.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -258,6 +277,7 @@
 			children = (
 				82AF8B6A2E2D2C4000CC3FAD /* Extensions */,
 				82BA594F2E301FD1009B8913 /* NavRout.swift */,
+				82BA0D182E4873ED009ECC61 /* Configuration */,
 				82E570682E342A8100922F5B /* Model */,
 				82AF8B742E2D2C4000CC3FAD /* NetworkModel */,
 				82AF8B7A2E2D2C4000CC3FAD /* View */,
@@ -285,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */,
+				82BA0D102E484692009ECC61 /* ScrollReaderModifier.swift */,
 				82C5E61B2E36F81E00A5EE27 /* BlurView.swift */,
 				82C5E6192E36DB3400A5EE27 /* AttributedLabel.swift */,
 			);
@@ -297,6 +318,25 @@
 				82BA0D0D2E48168B009ECC61 /* CollectionData.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		82BA0D182E4873ED009ECC61 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				82BA0D162E4873AD009ECC61 /* Configuration.swift */,
+				82BA0D1D2E4876B0009ECC61 /* UI */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		82BA0D1D2E4876B0009ECC61 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				82BA0D192E487428009ECC61 /* Padding_Configuration.swift */,
+				82BA0D1E2E4876C5009ECC61 /* Font_Configuration.swift */,
+				82BA0D1B2E487447009ECC61 /* Opacity_Configuration.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		82C5E6182E36D12400A5EE27 /* DBView */ = {
@@ -478,29 +518,37 @@
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
 				82AF8B842E2D2C4000CC3FAD /* AdviceResponse.swift in Sources */,
 				82AF8B852E2D2C4000CC3FAD /* CategoriesResponse.swift in Sources */,
+				82BA0D1A2E487428009ECC61 /* Padding_Configuration.swift in Sources */,
+				82BA0D152E48737F009ECC61 /* CGFloat.swift in Sources */,
 				82AF8B862E2D2C4000CC3FAD /* NetworkResponse.swift in Sources */,
 				823BCBD82E456482007E542C /* ScrollSized.swift in Sources */,
 				822A44322E400EC500B5CF32 /* UIApplication.swift in Sources */,
 				82C5E61A2E36DB3400A5EE27 /* AttributedLabel.swift in Sources */,
+				82BA0D1C2E487447009ECC61 /* Opacity_Configuration.swift in Sources */,
 				82E5706D2E343A9100922F5B /* CardsViewModel.swift in Sources */,
 				82BA59502E301FD1009B8913 /* NavRout.swift in Sources */,
+				82BA0D112E484692009ECC61 /* ScrollReaderModifier.swift in Sources */,
 				82AF8B872E2D2C4000CC3FAD /* NetworkRequest.swift in Sources */,
+				82BA0D172E4873AD009ECC61 /* Configuration.swift in Sources */,
 				82C5E61C2E36F81E00A5EE27 /* BlurView.swift in Sources */,
 				8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */,
 				82BA59522E30222D009B8913 /* HomeViewModel.swift in Sources */,
 				82AF8B882E2D2C4000CC3FAD /* Request.swift in Sources */,
 				82BA59442E301EFB009B8913 /* TextView.swift in Sources */,
 				82E570672E342A7400922F5B /* CardData.swift in Sources */,
+				82BA0D212E4877D6009ECC61 /* Font.swift in Sources */,
 				822A44342E4019D400B5CF32 /* DBCategoriyView.swift in Sources */,
 				82AF8B892E2D2C4000CC3FAD /* SqueezeRequest.swift in Sources */,
 				82BA594E2E301F7C009B8913 /* ResultView.swift in Sources */,
 				82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */,
+				82BA0D1F2E4876C5009ECC61 /* Font_Configuration.swift in Sources */,
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,
 				82AF8B942E2D515300CC3FAD /* DifficultyPickerView.swift in Sources */,
 				82E5706A2E342AC100922F5B /* UIColor.swift in Sources */,
 				82BA59462E301F12009B8913 /* DBCategoriyNavView.swift in Sources */,
 				82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */,
 				82BA594C2E301F54009B8913 /* SqueezeView.swift in Sources */,
+				82BA0D132E487230009ECC61 /* View.swift in Sources */,
 				82BA594A2E301F3C009B8913 /* DBDetailView.swift in Sources */,
 				82AF8B8D2E2D2C4000CC3FAD /* HomeView.swift in Sources */,
 				82AF8B8E2E2D2C4000CC3FAD /* AppData.swift in Sources */,
