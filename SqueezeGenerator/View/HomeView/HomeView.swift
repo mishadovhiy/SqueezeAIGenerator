@@ -71,11 +71,30 @@ struct HomeView: View {
                 Button(viewModel.response != nil ? "squeeze" : "Start") {
                     if viewModel.response != nil {
     //                    viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
-                        viewModel.navValues.append(.cardView(.init(data: viewModel.response!.response.questions.compactMap({
-                            .init(title: $0.questionName, description: $0.description, id: $0.id, buttons: $0.options.compactMap({
-                                .init(title: $0.optionName, id: $0.id.uuidString, extraSmall: true)
-                            }))
-                        }))))
+                        viewModel.navValues.append(
+.cardView(
+.init(
+data: viewModel.response!.response.questions.compactMap(
+    { question in
+        .init(
+            title: question.questionName,
+            description: question.description,
+            id: question.id,
+            buttons: question.options.compactMap(
+                { button in
+                    let selectedOption = viewModel.response!.save.questionResults[question]
+                    return .init(
+                        title: button.optionName,
+                        isSelected: selectedOption?.id == button.id,
+                        id: button.id.uuidString,
+                        extraSmall: true
+                    )
+                            })
+)
+                        })
+)
+)
+)
                     } else {
                         withAnimation {
                             viewModel.navValues.append(.empty)

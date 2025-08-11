@@ -37,32 +37,13 @@ struct RequestParametersView: View {
                         Image(.score)
                             .resizable()
                             .scaledToFit()
-                            .padding(.leading, -13)
+                            .padding(8)
                     }
-                    .smallButtonStyle()
+                    .frame(width: .Padding.smallButtonSize.rawValue, height: .Padding.smallButtonSize.rawValue)
                 }
                 
             }
         }
-        .overlay(content: {
-//            VStack(spacing: 0) {
-//                HStack(content: {
-//                })
-//                .frame(maxWidth: .infinity)
-//                .background(.black)
-//                .frame(height: 44)
-//                LinearGradient(colors: [
-//                    .black, .clear
-//                ],
-//                               startPoint: .top,
-//                               endPoint: .bottom)
-//                .frame(height: 40)
-//                Spacer()
-//            }
-//            .frame(maxHeight: statPresenting ? .infinity : 0)
-//            .animation(.bouncy, value: statPresenting)
-            
-        })
         .fullScreenCover(isPresented: $statPresenting) {
             DBCategoriyNavView(selectedType: request?.type ?? "")
         }
@@ -85,16 +66,17 @@ struct RequestParametersView: View {
                 
             }
             .foregroundColor(request?.difficulty == difficulty ? .dark : .yellow)
-            .tint(request?.difficulty == difficulty ? .white : .yellow)
+            .tint(request?.difficulty == difficulty ? .white : .white)
             .font(.system(size: 17, weight: .semibold))
             .padding(.vertical, 15)
             .frame(maxWidth: .infinity)
             .background(request?.difficulty == difficulty ? .yellow : .black.opacity(0.15))
-            .cornerRadius(12)
+            .cornerRadius(30)
             .overlay {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(.yellow, lineWidth: 2)
+                RoundedRectangle(cornerRadius: 30)
+                    .stroke(.white, lineWidth: 2)
             }
+            .shadow(color: .black, radius: 10)
             .animation(.smooth, value: request?.difficulty == difficulty)
 
         }

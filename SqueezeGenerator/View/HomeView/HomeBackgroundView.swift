@@ -170,7 +170,7 @@ struct HomeBackgroundView: View {
         return animate ? 1.5 : 0.75
     }
     var opacity: CGFloat {
-        animate ? (type == .loading ? 0.4 : (type.isTop ? 0 : 0.1)) : 1
+        animate ? (type == .loading ? 0 : (type.isTop ? 0 : 0)) : 1
     }
     var angle: Angle {
         .degrees(animate ? 0 : 360)
@@ -198,7 +198,7 @@ struct HomeBackgroundView: View {
         ZStack {
             ForEach(0..<circleCount, id: \.self) { i in
                 Circle()
-                    .stroke(gradient, lineWidth: 4)
+                    .stroke(gradient, lineWidth: 8)
                     .scaleEffect(circleScale)
                     .opacity(opacity)
                     .rotation3DEffect(angle, axis: self.axis(i))

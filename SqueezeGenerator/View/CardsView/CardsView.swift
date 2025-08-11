@@ -33,6 +33,7 @@ struct CardsView: View {
                 .disabled(viewModel.currentIndex <= 0)
             }
         }
+        .foregroundColor(.black)
     }
     
     var header: some View {
@@ -89,11 +90,19 @@ struct CardsView: View {
             Text(viewModel.scrollSized.compactMap({$0.rawValue}).joined(separator: ", ") + (viewModel.selectedActions.isEmpty ? "" : "\n\n") + viewModel.selectedActions.compactMap({
                 $0.title
             }).joined(separator: ", "))
+            .foregroundColor(.black)
                 .font(.title)
                 .foregroundColor(.white)
                 .padding(.horizontal, 15)
                 .padding(.vertical, 8)
-                .background(Color(uiColor: viewModel.selectedActions.isEmpty ? .clear : (viewModel.currentData?.color ?? .clear)))
+                .background(
+                    Color(
+                        uiColor: viewModel.selectedActions.isEmpty ? .clear : (
+                            viewModel.currentData?.color.withAlphaComponent(0.2) ?? .clear
+                        )
+                    )
+                )
+                .background(.white)
                 .cornerRadius(8)
                 .shadow(radius: 20)
                 .opacity(viewModel.selectedActions.isEmpty ? 0 : 1)
@@ -116,25 +125,40 @@ struct CardsView: View {
             }
         }
     }
-    
+
+    @ViewBuilder
     private func cardContentView(_ data: CardData) -> some View {
+let height = viewModel.collectionHeight[data.id] ?? .zero
         VStack {
-            Spacer()
             VStack {
-                Text(data.title)
-                Text(data.description)
+                Spacer().frame(maxHeight: .infinity)
+                VStack(spacing: 0) {
+                    Text(data.title)
+                        .font(.Type.section.font)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer().frame(height: 10)
+                    Text(data.description)
+                        .font(.Type.text.font)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                Spacer().frame(maxHeight: .infinity)
+
             }
-            Spacer()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             CollectionView(contentHeight: .init(get: {
-                viewModel.collectionHeight[data.id] ?? .zero
+                height
             }, set: {
                 viewModel.collectionHeight.updateValue($0, forKey: data.id)
             }), isopacityCells: false, data: data.buttons) { at in
                 viewModel.didSelectButton(button: data.buttons[at ?? 0])
             }
+            .frame(height: height >= 20 ? height - 20 : 0)
         }
+        .padding(.top, 20)
+        .padding(.horizontal, 7)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: data.color))
+        .background(Color(uiColor: data.color.withAlphaComponent(0.2)))
+        .background(.white)
         .cornerRadius(30)
         .shadow(radius: 20)
     }
@@ -149,6 +173,7 @@ struct CardsView: View {
                     .id || (viewModel.dragEnded && viewModel.data.prefix(viewModel.currentIndex + 1).last?.id == data.id) ? .zero :
                         .degrees(data.rotation)
             )
+            .frame(maxHeight: .infinity)
         .offset(x: position.x, y: position.y)
         .animation(.bouncy, value: viewModel.currentIndex)
         .gesture(

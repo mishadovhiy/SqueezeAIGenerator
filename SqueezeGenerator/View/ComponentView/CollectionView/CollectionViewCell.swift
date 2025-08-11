@@ -62,7 +62,7 @@ class CollectionViewCell: UICollectionViewCell {
         } else {
             backgroundColoredView?.backgroundColor = data.isType ? .red
                 .withAlphaComponent(isWhite ? 1 : .Opacity.lightBackground.rawValue) : .white
-                .withAlphaComponent(isWhite ? 1 : .Opacity.lightBackground.rawValue)
+                .withAlphaComponent(data.isSelected ? 1 : 0.2)
         }
 //        if let texts = textStack,
 //           isWhite {
