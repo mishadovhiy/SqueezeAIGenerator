@@ -26,6 +26,7 @@ struct SqueezeGeneratorApp: App {
         WindowGroup {
 //            CardsView(.demo)
             HomeView()
+//            IconsView()
                 .environment(\.colorScheme, .dark)
                 .preferredColorScheme(.dark)
                 .environmentObject(db)
@@ -63,5 +64,38 @@ extension UINavigationController: UIScrollViewDelegate, UINavigationControllerDe
         super.viewDidLayoutSubviews()
         SqueezeGeneratorApp.navigationHeight(with: navigationBar.frame.size.height ?? 0)
         print(navigationBar.frame.size.height ?? 0, " gterfwdas ")
+    }
+}
+
+
+struct IconsView: View {
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                AsyncImage(url: .init(string: Keys.apiBaseURL.rawValue + "/generateSqueeze/icons/depression.png")) { phas in
+                    switch phas {
+                    case .empty:
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            
+                    case .failure(let error):
+                        Image(.chart)
+                            .resizable()
+                                               .scaledToFit()
+                                               .frame(width: 20, height: 20)
+                    }
+                }
+                Spacer()
+            }
+            Spacer()
+        }
+
     }
 }

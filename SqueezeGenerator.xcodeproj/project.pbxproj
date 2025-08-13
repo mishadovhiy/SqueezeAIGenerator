@@ -272,6 +272,7 @@
 		82AF8B812E2D2C4000CC3FAD /* SqueezeGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				82AF8B7F2E2D2C4000CC3FAD /* SqueezeGeneratorApp.swift */,
 				82AF8B6A2E2D2C4000CC3FAD /* Extensions */,
 				82BA594F2E301FD1009B8913 /* NavRout.swift */,
 				82BA0D182E4873ED009ECC61 /* Configuration */,
@@ -282,7 +283,6 @@
 				82AF8B7C2E2D2C4000CC3FAD /* Assets.xcassets */,
 				82AF8B7D2E2D2C4000CC3FAD /* Keys.swift */,
 				82AF8B7E2E2D2C4000CC3FAD /* SqueezeGenerator.entitlements */,
-				82AF8B7F2E2D2C4000CC3FAD /* SqueezeGeneratorApp.swift */,
 				82AF8B802E2D2C4000CC3FAD /* StorekitModel.swift */,
 			);
 			path = SqueezeGenerator;

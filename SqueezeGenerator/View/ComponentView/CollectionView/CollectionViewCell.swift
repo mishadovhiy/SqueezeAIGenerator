@@ -10,7 +10,12 @@ import SwiftUI
 class CollectionViewCell: UICollectionViewCell {
     
     private var label: UILabel? { (textStack?.arrangedSubviews.first(where: {$0 is UIStackView}) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UILabel && $0.tag == 0}) as? UILabel }
-    private var mainImageView: UIImageView? { (textStack?.arrangedSubviews.first(where: {$0 is UIStackView}) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UIImageView}) as? UIImageView }
+    private var mainImageView: UIImageView? {
+        (textStack?.arrangedSubviews.first(where: {
+            $0 is UIStackView
+        }) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UIImageView && $0.tag == 0}) as? UIImageView
+
+    }
 
     private var descriptionLabel: UILabel? { textStack?.arrangedSubviews.first(where: {$0 is UILabel && $0.tag == 1}) as? UILabel }
 
@@ -31,10 +36,28 @@ class CollectionViewCell: UICollectionViewCell {
             }
         })
     }
-    
+
+    func fetchImage(
+        imageURL: String,
+        completion: @escaping(_ image: UIImage)->()) {
+            DispatchQueue.init(label: "db", qos: .userInitiated).async {
+                let task = URLSession.shared.dataTask(
+                    with: .init(url: .init(string: imageURL)!, cachePolicy: .reloadRevalidatingCacheData)
+                ) { data, response, error in
+                    DispatchQueue.main.async {
+                        self.mainImageView?.image = .init(data: data ?? .init())
+                    }
+                }
+                task.resume()
+            }
+    }
+
     func set(_ data: CollectionViewController.CollectionData,
              isWhite: Bool) {
         label?.text = data.title.capitalized
+        self.fetchImage(imageURL: data.imageURL) { image in
+
+        }
         label?.font =
             .systemFont(
                 ofSize: isWhite ? 9 : data.fontSize,
@@ -91,10 +114,11 @@ class CollectionViewCell: UICollectionViewCell {
         let textStack = UIStackView()
         textStack.alignment = .leading
         let titleStack = UIStackView()
-//        let titleImage = UIImageView()
+        let titleImage = UIImageView()
         titleStack.axis = .horizontal
+        titleStack.spacing = 2
         titleStack.alignment = .center
-        [label].forEach {//titleImage,
+        [titleImage, label].forEach {//titleImage,
             titleStack.addArrangedSubview($0)
         }
         [titleStack, descriptionLabel].forEach {
@@ -130,14 +154,16 @@ class CollectionViewCell: UICollectionViewCell {
 
         self.layer.cornerRadius = .CornerRadius.smallest.rawValue
         self.layer.masksToBounds = true
-        
+
+        titleImage.translatesAutoresizingMaskIntoConstraints = false
+        titleImage.contentMode = .scaleAspectFit
         backgroundColoredView.translatesAutoresizingMaskIntoConstraints = false
         backgroundOutline.translatesAutoresizingMaskIntoConstraints = false
 //        imageStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-//            titleImage.widthAnchor.constraint(equalToConstant: 16),
-//            titleImage.heightAnchor.constraint(equalToConstant: 16),
+            titleImage.widthAnchor.constraint(equalToConstant: 16),
+            titleImage.heightAnchor.constraint(equalToConstant: 16),
 
             
 //            imageStack.topAnchor.constraint(equalTo: imageStack.superview!.topAnchor, constant: -5),
@@ -145,10 +171,10 @@ class CollectionViewCell: UICollectionViewCell {
 //            imageStack.heightAnchor.constraint(equalToConstant: 35),
 //            imageStack.widthAnchor.constraint(equalToConstant: 100),
             
-            textStack.topAnchor.constraint(equalTo: textStack.superview!.topAnchor, constant: 12),
-            textStack.bottomAnchor.constraint(equalTo: textStack.superview!.bottomAnchor, constant: -12),
-            textStack.leadingAnchor.constraint(equalTo: textStack.superview!.leadingAnchor, constant: 10),
-            textStack.trailingAnchor.constraint(equalTo: textStack.superview!.trailingAnchor, constant: -10),
+            textStack.topAnchor.constraint(equalTo: textStack.superview!.topAnchor, constant: 6),
+            textStack.bottomAnchor.constraint(equalTo: textStack.superview!.bottomAnchor, constant: -6),
+            textStack.leadingAnchor.constraint(equalTo: textStack.superview!.leadingAnchor, constant: 6),
+            textStack.trailingAnchor.constraint(equalTo: textStack.superview!.trailingAnchor, constant: -6),
 
             backgroundOutline.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),//5),
             backgroundOutline.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),//-10),
