@@ -9,6 +9,10 @@ import SwiftUI
 
 extension Font {
     typealias `Type` = Configuration.UI.FontType
+    
+    static func typed(_ type: Type) -> Self {
+        return type.font
+    }
 }
 
 extension Text {

@@ -22,6 +22,9 @@ struct CardsView: View {
             cardsView
             Spacer()
         }
+        .overlay(content: {
+            scrollLabelOverlay
+        })
         .padding(10)
         .toolbar {
             ToolbarItem(placement: .navigation) {
@@ -67,9 +70,8 @@ struct CardsView: View {
                     ForEach(viewModel.data.reversed(), id: \.id) { data in
                         cardView(data, viewSize: proxy.size)
                     }
-                    scrollLabelOverlay
                 }
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 5)
                 Spacer().frame(height: 80)
             }
             .onChange(of: viewModel.dragPosition) { newValue in
@@ -86,18 +88,24 @@ struct CardsView: View {
 
     @ViewBuilder
     var scrollLabelOverlay: some View {
+        let actions = viewModel.selectedActions
         VStack {
-            Text(viewModel.scrollSized.compactMap({$0.rawValue}).joined(separator: ", ") + (viewModel.selectedActions.isEmpty ? "" : "\n\n") + viewModel.selectedActions.compactMap({
+            Spacer()
+                .frame(maxHeight: .infinity)
+            Spacer()
+                .frame(maxHeight: .infinity)
+
+            Text(actions.compactMap({
                 $0.title
             }).joined(separator: ", "))
             .foregroundColor(.black)
-                .font(.title)
+            .font(.typed(.text))
                 .foregroundColor(.white)
                 .padding(.horizontal, 15)
                 .padding(.vertical, 8)
                 .background(
                     Color(
-                        uiColor: viewModel.selectedActions.isEmpty ? .clear : (
+                        uiColor: actions.isEmpty ? .clear : (
                             viewModel.currentData?.color.withAlphaComponent(0.2) ?? .clear
                         )
                     )
@@ -105,13 +113,8 @@ struct CardsView: View {
                 .background(.white)
                 .cornerRadius(8)
                 .shadow(radius: 20)
-                .opacity(viewModel.selectedActions.isEmpty ? 0 : 1)
-                .animation(.smooth, value: viewModel.selectedActions.isEmpty)
-
-            Spacer()
-                .frame(maxHeight: .infinity)
-            Spacer()
-                .frame(maxHeight: .infinity)
+                .opacity(actions.isEmpty ? 0 : 1)
+                .animation(.smooth, value: actions.isEmpty)
         }
         .disabled(true)
     }
@@ -128,17 +131,18 @@ struct CardsView: View {
 
     @ViewBuilder
     private func cardContentView(_ data: CardData) -> some View {
-let height = viewModel.collectionHeight[data.id] ?? .zero
+        let height = viewModel.collectionHeight[data.id] ?? .zero
+        let currentData = viewModel.currentData
         VStack {
             VStack {
-                Spacer().frame(maxHeight: .infinity)
                 VStack(spacing: 0) {
                     Text(data.title)
-                        .font(.Type.section.font)
+                        .font(.typed(.largeTitle))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Spacer().frame(height: 10)
+                        .opacity(0.2)
+                    Spacer().frame(height: 5)
                     Text(data.description)
-                        .font(.Type.text.font)
+                        .font(.typed(.section))
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 Spacer().frame(maxHeight: .infinity)
@@ -149,13 +153,15 @@ let height = viewModel.collectionHeight[data.id] ?? .zero
                 height
             }, set: {
                 viewModel.collectionHeight.updateValue($0, forKey: data.id)
-            }), isopacityCells: false, data: data.buttons) { at in
+            }), isopacityCells: false, canUpdate: false, data: data.buttons) { at in
                 viewModel.didSelectButton(button: data.buttons[at ?? 0])
             }
             .frame(height: height >= 20 ? height - 20 : 0)
+            .animation(.bouncy, value: data.id == currentData?.id)
         }
-        .padding(.top, 20)
-        .padding(.horizontal, 7)
+        .padding(.top, 25)
+        .padding(.horizontal, 10)
+        .padding(.bottom, 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(uiColor: data.color.withAlphaComponent(0.2)))
         .background(.white)

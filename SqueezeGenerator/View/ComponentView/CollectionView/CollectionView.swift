@@ -12,6 +12,7 @@ struct CollectionView: UIViewControllerRepresentable {
 
     @Binding var contentHeight:CGFloat
     var isopacityCells: Bool = true
+    var canUpdate = true
     let data: [CollectionViewController.CollectionData]
     var didSelect:((_ at:Int?)->())?
 
@@ -34,8 +35,10 @@ struct CollectionView: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: CollectionViewController, context: Context) {
         uiViewController.dataUpdated = false
-        uiViewController.data = data
-        uiViewController.collectionView.reloadData()
+        if canUpdate {
+            uiViewController.data = data
+            uiViewController.collectionView.reloadData()
+        }
     }
 }
 

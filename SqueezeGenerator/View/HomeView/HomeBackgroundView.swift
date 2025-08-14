@@ -15,12 +15,12 @@ struct HomeBackgroundView: View {
     private var defaultBackgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
         .init(
             tint: nil,
-            topLeft: .HexColor.darkPurpure.rawValue,
-            top: .HexColor.darkPurpure.rawValue,
-            left: .HexColor.red.rawValue,
-            right: .HexColor.red.rawValue,
-            bottom: .HexColor.red.rawValue,
-            bottomRight: .HexColor.darkPurpure.rawValue
+            topLeft: .HexColor.lightPink.rawValue,
+            top: .HexColor.puroure2Light.rawValue,
+            left: .HexColor.puroure2Light.rawValue,
+            right: .HexColor.lightPink.rawValue,
+            bottom: .HexColor.purpureLight.rawValue,
+            bottomRight: .HexColor.puroure2Light.rawValue
         )
     }
     
@@ -41,7 +41,7 @@ struct HomeBackgroundView: View {
     }
     var duration: TimeInterval {
         if type == .loading {
-            return 1
+            return 3
         }
         return 5
     }
@@ -68,13 +68,18 @@ struct HomeBackgroundView: View {
     var body: some View {
         ZStack(content: {
             primaryGradient
+                .opacity(0.8)
                 .blur(radius: 20)
-            Color.black.opacity(0.4)
             curclesOverlayView
         })
         .blur(radius: blurAlpha)
+        .animation(.smooth, value: blurAlpha)
         .ignoresSafeArea(.all)
-            
+        .background {
+            Color.black
+                .ignoresSafeArea(.all)
+        }
+
     }
     
     var primaryGradient: some View {
@@ -93,10 +98,9 @@ struct HomeBackgroundView: View {
                             .init(uiColor: .init(hex: backgroundColors.topLeft ?? def.topLeft!)!),
                             .init(uiColor: .init(hex: backgroundColors.topLeft ?? def.topLeft!)!).opacity(0)
                         ], center: .center, startRadius: 1, endRadius: 200)
-                        .blur(radius: 30)
                         .padding(.leading, -100)
                         .padding(.top, -120)
-                        .opacity(0.9)
+                        .opacity(1)
                         .frame(maxWidth: .infinity)
                         Spacer().frame(maxWidth: .infinity)
                     }
@@ -113,7 +117,6 @@ struct HomeBackgroundView: View {
                         .init(uiColor: .init(hex: backgroundColors.right ?? def.right!)!).opacity(0),
                         .init(uiColor: .init(hex: backgroundColors.right ?? def.right!)!)
                     ], startPoint: .leading, endPoint: .trailing)
-                    .blur(radius: 40)
                     .padding(.leading, -50)
                     .padding(.leading, -20)
                     .rotationEffect(.degrees(10))
@@ -125,18 +128,24 @@ struct HomeBackgroundView: View {
                     .init(uiColor: .init(hex: backgroundColors.top ?? def.top!)!),
                     .init(uiColor: .init(hex: backgroundColors.top ?? def.top!)!).opacity(0)
                 ], center: .center, startRadius: 1, endRadius: 100)
-                .blur(radius: 50)
                 .offset(x: -10, y: -35)
-                .opacity(0.9)
+                .opacity(1)
 
                 RadialGradient(colors: [
-                    .init(uiColor: .init(hexColor: .yellow)!),
-                    .init(uiColor: .init(hexColor: .yellow)!).opacity(0)
+                    .init(uiColor: .init(hexColor: .lightPink)!),
+                    .init(uiColor: .init(hexColor: .lightPink)!).opacity(0)
                 ], center: .center, startRadius: 1, endRadius: 100)
-                .blur(radius: 50)
-                .offset(x: -30, y: 55)
-                .opacity(properties.needOval ? 0.9 : 0)
-                .animation(.smooth, value: properties.needOval)
+                .offset(
+                    x: animate ? [-30, -100, -30, 20, -5, 30, 25].randomElement()! : [20, 50, 10, -30].randomElement()!,
+                    y: animate ? [40, -100, -20, 20, 50, 30, 25]
+                        .randomElement()! : [100, 105, 50, 90, 80, 120]
+                        .randomElement()!
+                )
+                .opacity(properties.needOval ? (animate ? [0.9, 0.8, 0.6, 0.9].randomElement()! : 0.9) : 0)
+                .animation(.bouncy(duration: duration)
+                    .repeatForever()
+                    .delay(0.6),
+                           value: animate)
 
                 VStack {
                     Spacer().frame(maxHeight: .infinity)
@@ -147,16 +156,16 @@ struct HomeBackgroundView: View {
                             .init(uiColor: .init(hex: backgroundColors.bottomRight ?? def.bottomRight!)!),
                             .init(uiColor: .init(hex: backgroundColors.bottomRight ?? def.bottomRight!)!).opacity(0)
                         ], center: .center, startRadius: 1, endRadius: 200)
-                        .blur(radius: 30)
                         .padding(.trailing, -100)
                         .padding(.bottom, -100)
-                        .opacity(0.9)
+                        .opacity(1)
                         .frame(maxWidth: .infinity)
                     }
                 }
             }
             .animation(.smooth, value: backgroundColors.decode)
         }
+        .blur(radius: 30)
         .opacity(type == .loading ? 0 : 1)
         .animation(.smooth, value: type)
     }

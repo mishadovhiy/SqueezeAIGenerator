@@ -67,10 +67,12 @@ class CardsViewModel: ObservableObject {
                 self.currentIndex += 1
                 self.dragPosition = .zero
                 self.dragEnded = false
+                self.oldPositions.updateValue(self.lastDragPosition!, forKey: id.id)
             }
         })
     }
-    
+
+    private var oldPositions: [UUID: CGPoint] = [:]
     func cardPosition(_ data: CardData,
                       viewSize: CGSize) -> CGPoint {
         if currentData?.id == data.id {
@@ -82,7 +84,8 @@ class CardsViewModel: ObservableObject {
             let isLast = data.id == self.data.prefix(currentIndex + (dragEnded ? 1 : 0)).last?.id
             if !isNotCompletedCard {
                 let `default`: CGPoint = .init(x: viewSize.width * 1.5, y: 0)
-                return isLast ? lastDragPosition ?? `default` : `default`
+                let position = oldPositions[data.id]
+                return isLast ? lastDragPosition ?? `default` : (position ?? `default`)
             } else {
                 return .zero
             }

@@ -12,6 +12,10 @@ extension Configuration.UI {
         case text = 13
         case section = 18
         case title = 24
+        case largeTitle = 32
+        case largeTitleBold = 32.01
+
+
         case description = 11
         case small = 9
         case extraLarge = 80
@@ -19,7 +23,7 @@ extension Configuration.UI {
         var fontWeight: Font.Weight {
             switch self {
             case .small: .light
-            case .section, .title: .bold
+            case .section, .title, .largeTitleBold: .bold
             default: .regular
             }
         }

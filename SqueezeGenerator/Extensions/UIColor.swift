@@ -14,7 +14,12 @@ extension String {
         case red = "CD4652"
         case lightRed = "D4326E"
         case pink = "702B78"
+        case lightBlue = "00a6fb"
+        case purpureLight = "7209b7"
+        case puroure2Light = "BE7FF5"
+        case lightPink = "FF7BEC"
         case yellow = "FD9D3C"
+        case lightYellow = "f0f600"
     }
 }
 
