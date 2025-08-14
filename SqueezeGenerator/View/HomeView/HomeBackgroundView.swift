@@ -218,6 +218,7 @@ struct HomeBackgroundView: View {
                         .repeatForever()
                         .delay(Double(i) * 0.4),
                                value: animate)
+                    .blur(radius: type == .loading ? 0 : 10)
             }
         }
         .frame(width: type == .big ? 550 : 150)

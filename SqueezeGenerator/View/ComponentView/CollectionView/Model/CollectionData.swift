@@ -19,7 +19,7 @@ extension CollectionViewController {
         var extraSmall: Bool = false
         var imageURL: String = "\(Keys.apiBaseURL.rawValue)/generateSqueeze/icons/depression.png"
         var fontSize: CGFloat {
-            extraSmall ? 9 : (isType ? 12 : 15)
+            extraSmall ? 10 : (isType ? 12 : 15)
         }
 
         var fontWeight: UIFont.Weight {

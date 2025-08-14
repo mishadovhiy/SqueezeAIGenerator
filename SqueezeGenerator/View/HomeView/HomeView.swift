@@ -74,25 +74,24 @@ struct HomeView: View {
                         viewModel.navValues.append(
 .cardView(
 .init(
-data: viewModel.response!.response.questions.compactMap(
-    { question in
-        .init(
-            title: question.questionName,
-            description: question.description,
-            id: question.id,
-            buttons: question.options.compactMap(
-                { button in
-                    let selectedOption = viewModel.response!.save.questionResults[question]
-                    return .init(
-                        title: button.optionName,
-                        isSelected: selectedOption?.id == button.id,
-                        id: button.id.uuidString,
-                        extraSmall: true
-                    )
-                            })
-)
+    type: viewModel.selectedRequest?.type ?? "", data: viewModel.response!.response.questions.compactMap(
+        { question in
+                .init(
+                    title: question.questionName,
+                    description: question.description,
+                    id: question.id,
+                    buttons: question.options.compactMap(
+                        { button in
+                            let selectedOption = viewModel.response!.save.questionResults[question]
+                            return .init(
+                                title: button.optionName,
+                                isSelected: selectedOption?.id == button.id,
+                                id: button.id.uuidString,
+                                extraSmall: true
+                            )
                         })
-)
+                )
+        }))
 )
 )
                     } else {
@@ -102,16 +101,17 @@ data: viewModel.response!.response.questions.compactMap(
                         }
                     }
                 }
+                .font(.typed(.section))
                 .padding(.horizontal, 50)
-                .padding(.vertical, needButton > 0 ? 10 : 0)
                 .frame(height: needButton)
                 .frame(maxWidth: .infinity)
                 .clipped()
-                .background(.red)
-                .cornerRadius(8)
+                .background(Color(uiColor: .init(hexColor: .puroure2Light)!))
+                .cornerRadius(16)
                 .disabled(viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil))
                 .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
                 .animation(.smooth, value: needButton > 0)
+                .shadow(radius: 10)
         }
 //        actionButtonsView
     }
@@ -154,7 +154,7 @@ data: viewModel.response!.response.questions.compactMap(
                     .overlay {
                         VStack {
                             Button("cards") {
-                                viewModel.navValues.append(.cardView(.init(data: .demo)))
+                                viewModel.navValues.append(.cardView(.init(type: "test", data: .demo)))
                             }
                             .frame(height: 40)
                             Spacer()
@@ -177,6 +177,7 @@ data: viewModel.response!.response.questions.compactMap(
                         ClearBackgroundView()
                     }
                     .animation(.smooth, value: viewModel.navValues.last == navRout)
+
             }
             .background {
                 ClearBackgroundView()
@@ -188,6 +189,8 @@ data: viewModel.response!.response.questions.compactMap(
                     }
                 }
             }
+            .navigationBarTitleDisplayMode(.large)
+
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .background {

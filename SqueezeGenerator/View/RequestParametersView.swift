@@ -50,6 +50,8 @@ struct RequestParametersView: View {
         .onChange(of: statPresenting) { newValue in
             db.sheetPresenting = newValue
         }
+        .navigationBarTitleDisplayMode(.large)
+
     }
 
     var difficutiesPicker: some View {
@@ -65,15 +67,15 @@ struct RequestParametersView: View {
                 }
                 
             }
-            .foregroundColor(request?.difficulty == difficulty ? .dark : .yellow)
+            .foregroundColor(request?.difficulty == difficulty ? .dark : .white)
             .tint(request?.difficulty == difficulty ? .white : .white)
-            .font(.system(size: 17, weight: .semibold))
-            .padding(.vertical, 15)
+            .font(.system(size: 19, weight: .semibold))
+            .frame(height: 55)
             .frame(maxWidth: .infinity)
-            .background(request?.difficulty == difficulty ? .yellow : .black.opacity(0.15))
-            .cornerRadius(30)
+            .background(request?.difficulty == difficulty ? .white : .black.opacity(0.15))
+            .cornerRadius(16)
             .overlay {
-                RoundedRectangle(cornerRadius: 30)
+                RoundedRectangle(cornerRadius: 16)
                     .stroke(.white, lineWidth: 2)
             }
             .shadow(color: .black, radius: 10)

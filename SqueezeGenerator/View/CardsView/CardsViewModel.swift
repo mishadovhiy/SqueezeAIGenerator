@@ -8,7 +8,9 @@
 import SwiftUI
 
 class CardsViewModel: ObservableObject {
-    let data: [CardData]
+    var data: [CardData] {
+        properties.data
+    }
     typealias Selection = [UUID: String]
     let donePressed: (Selection)->()
     var selectedOptions: Selection = [:]
@@ -27,10 +29,10 @@ class CardsViewModel: ObservableObject {
     @Published var viewSize: CGSize = .zero
     @Published var scrollSized: [ScrollSized] = []
     @Published var selectedActions: [CollectionViewController.CollectionData] = []
-    
+    let properties: ViewProperties
     init(_ proeprties: ViewProperties,
          donePressed: @escaping (Selection)->()) {
-        self.data = proeprties.data
+        self.properties = proeprties
         self.donePressed = donePressed
     }
     
@@ -139,6 +141,7 @@ class CardsViewModel: ObservableObject {
 
 extension CardsViewModel {
     struct ViewProperties: Hashable, Equatable {
+        let type: String
         let data: [CardData]
     }
 }

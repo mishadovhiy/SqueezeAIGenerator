@@ -37,6 +37,9 @@ struct CardsView: View {
             }
         }
         .foregroundColor(.black)
+        .navigationTitle(viewModel.properties.type)
+        .navigationBarTitleDisplayMode(.inline)
+
     }
     
     var header: some View {
@@ -49,16 +52,17 @@ struct CardsView: View {
     var progressView: some View {
         HStack {
             ForEach(0..<viewModel.data.count, id: \.self) { i in
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(.red, lineWidth: 1)
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color(uiColor: .init(hexColor: .purpureLight)!), lineWidth: 2)
                     .background {
-                        Color(viewModel.currentIndex >= i ? .red : .clear)
+                        Color(uiColor: viewModel.currentIndex >= i ? .init(hexColor: .purpureLight)!  : .clear)
                     }
-                    .cornerRadius(4)
-                    
+                    .cornerRadius(8)
+                    .shadow(radius: 4)
+
             }
         }
-        .frame(height: 10)
+        .frame(height: 15)
     }
     
     var cardsView: some View {
@@ -137,7 +141,7 @@ struct CardsView: View {
             VStack {
                 VStack(spacing: 0) {
                     Text(data.title)
-                        .font(.typed(.largeTitle))
+                        .font(.typed(data.title.count >= 40 ? .text : .largeTitle))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .opacity(0.2)
                     Spacer().frame(height: 5)
@@ -206,8 +210,3 @@ struct CardsView: View {
     }
 }
 
-#Preview {
-    CardsView(.init(data: .demo), done: { _ in
-        
-    })
-}

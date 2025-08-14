@@ -65,7 +65,7 @@ class CollectionViewCell: UICollectionViewCell {
             )
 
         label?.textColor = isWhite ? .black : .white
-            .withAlphaComponent(isWhite ? 1 : .Opacity.descriptionLight.rawValue)
+            .withAlphaComponent(isWhite ? 1 : .Opacity.description.rawValue)
         descriptionLabel?.text = data.description
         if data.title.isEmpty {
             descriptionLabel?.textColor = .white
@@ -84,7 +84,7 @@ class CollectionViewCell: UICollectionViewCell {
 
         } else {
             backgroundColoredView?.backgroundColor = data.isType ? .red
-                .withAlphaComponent(isWhite ? 1 : .Opacity.lightBackground.rawValue) : .white
+                .withAlphaComponent(isWhite ? 1 : .Opacity.descriptionLight.rawValue) : .white
                 .withAlphaComponent(data.isSelected ? 1 : 0.2)
         }
 //        if let texts = textStack,
@@ -145,7 +145,7 @@ class CollectionViewCell: UICollectionViewCell {
 //            image.contentMode = .scaleAspectFit
 //            imageStack.addArrangedSubview(image)
 //        }
-        label.textColor = .white.withAlphaComponent(.Opacity.descriptionLight.rawValue)
+        label.textColor = .white.withAlphaComponent(.Opacity.description.rawValue)
         descriptionLabel.font = .systemFont(ofSize: 9, weight: .regular)
         descriptionLabel.textColor = .black.withAlphaComponent(0.2)
         backgroundOutline.layer.cornerRadius = .CornerRadius.medium.rawValue
