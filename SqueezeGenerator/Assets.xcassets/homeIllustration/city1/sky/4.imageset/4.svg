@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="189px" height="78px" viewBox="0 0 189 78" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Rectangle Copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="67.3833494%" y1="33.169682%" x2="50%" y2="54.6717311%" id="linearGradient-1">
+            <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#9D9D9D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="squeezeGenerator" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-142.000000, -765.000000)" fill="url(#linearGradient-1)">
+            <path d="M143,815.923866 C145.087008,804.405256 155.270402,796.974895 159,793.327217 C169.868984,782.696969 190.586411,816.105104 196,815.923866 C213.702477,815.331213 212.96135,756.854888 249,766 C265.588757,770.209537 271.096151,783.049975 265.522182,804.521312 C280.746967,804.521312 291.239573,804.521312 297,804.521312 C329.309971,804.521312 338.459622,817.347542 324.448952,843 L329.150032,843 L150,843 C143.941995,832.628317 141.608661,823.602939 143,815.923866 Z" id="Rectangle-Copy-2"></path>
+        </g>
+    </g>
+</svg>

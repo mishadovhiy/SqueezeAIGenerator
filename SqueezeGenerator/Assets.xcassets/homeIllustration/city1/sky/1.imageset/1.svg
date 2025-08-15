@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="68px" viewBox="0 0 180 68" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Rectangle</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="28.5921056%" y1="35.0792149%" x2="50%" y2="57.1358025%" id="linearGradient-1">
+            <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#9D9D9D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="squeezeGenerator" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-159.000000, -344.000000)" fill="url(#linearGradient-1)">
+            <path d="M159,392.33715 C161.560236,382.225043 164.083553,375.953097 166.569952,373.521312 C177.438936,362.891064 190.16259,363.512633 195.576179,363.331394 C213.278656,362.738742 202.044396,336.806377 238.083047,345.951489 C254.671804,350.161026 266.818182,359.350967 274.522182,373.521312 C288.676879,358.99115 298.634441,351.726069 304.394868,351.726069 C336.704839,351.726069 346.389534,371.81738 333.448952,412 L338.150032,412 L159,412 L159,392.33715 Z" id="Rectangle"></path>
+        </g>
+    </g>
+</svg>

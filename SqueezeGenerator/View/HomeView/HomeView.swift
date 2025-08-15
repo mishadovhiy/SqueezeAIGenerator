@@ -443,17 +443,17 @@ struct HomeView: View {
         let opacityGradient = viewModel.gradientOpacity
         VStack {
             ZStack(content: {
-                appTitle
-                    .background(content: {
-                        Color.clear
-                            .blurBackground(
-                                opacity: .Opacity.lightBackground.rawValue * viewModel.gradientOpacity,
-                                cornerRadius: .CornerRadius.medium.rawValue)
-                            .padding(.vertical, -10)
-                    })
-                    .offset(x: opacityGradient * viewModel.collectionSubviewPaddings,
-                            y: opacityGradient * 10
-                    )
+//                appTitle
+//                    .background(content: {
+//                        Color.clear
+//                            .blurBackground(
+//                                opacity: .Opacity.lightBackground.rawValue * viewModel.gradientOpacity,
+//                                cornerRadius: .CornerRadius.medium.rawValue)
+//                            .padding(.vertical, -10)
+//                    })
+//                    .offset(x: opacityGradient * viewModel.collectionSubviewPaddings,
+//                            y: opacityGradient * 10
+//                    )
             })
             .frame(maxWidth: .infinity,
                        alignment: .leading)

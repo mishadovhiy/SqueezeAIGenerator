@@ -71,6 +71,18 @@ struct HomeBackgroundView: View {
                 .opacity(0.8)
                 .blur(radius: 20)
             curclesOverlayView
+            VStack {
+                Spacer()
+                    .frame(maxHeight: .infinity)
+                HomeIllustrutionView()
+
+                Spacer()
+                    .frame(maxHeight: .infinity)
+                Spacer()
+                    .frame(maxHeight: .infinity)
+                Spacer()
+                    .frame(maxHeight: .infinity)
+            }
         })
         .blur(radius: blurAlpha)
         .animation(.smooth, value: blurAlpha)
