@@ -70,7 +70,7 @@ class CollectionViewCell: UICollectionViewCell {
             )
 
         label?.textColor = isWhite ? .black : .white
-            .withAlphaComponent(isWhite ? 1 : .Opacity.description.rawValue)
+            .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.5 : .Opacity.description.rawValue))
         descriptionLabel?.text = data.description
         if data.title.isEmpty {
             descriptionLabel?.textColor = .white
@@ -84,8 +84,8 @@ class CollectionViewCell: UICollectionViewCell {
         }
 //        label?.attributedText = attributedString
         if let background = data.cellBackground {
-            backgroundColoredView?.backgroundColor = background
-                .withAlphaComponent(isWhite ? 1 : .Opacity.lightBackground.rawValue)
+            backgroundColoredView?.backgroundColor = (data.isType ? background : .white)
+                .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.2 : .Opacity.lightBackground.rawValue))
 
         } else {
             backgroundColoredView?.backgroundColor = data.isType ? .red
@@ -115,6 +115,15 @@ class CollectionViewCell: UICollectionViewCell {
         backgroundOutline.layer.name = "backgroundOutlineView"
         let backgroundColoredView = UIView()
         backgroundColoredView.layer.name = "backgroundColoredView"
+        let blur = UIVisualEffectView(effect: UIBlurEffect(style: .init(rawValue: 999)!))
+        backgroundColoredView.addSubview(blur)
+        blur.translatesAutoresizingMaskIntoConstraints = false
+        blur.leadingAnchor.constraint(equalTo: blur.superview!.leadingAnchor).isActive = true
+        blur.trailingAnchor.constraint(equalTo: blur.superview!.trailingAnchor).isActive = true
+
+        blur.topAnchor.constraint(equalTo: blur.superview!.topAnchor).isActive = true
+        blur.bottomAnchor.constraint(equalTo: blur.superview!.bottomAnchor).isActive = true
+
 //        let imageStack = UIStackView()
         let textStack = UIStackView()
         textStack.alignment = .leading

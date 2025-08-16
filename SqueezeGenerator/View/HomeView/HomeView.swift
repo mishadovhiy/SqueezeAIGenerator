@@ -150,7 +150,8 @@ struct HomeView: View {
                 }
 
             } else {
-                collectionView
+                HomeCollectionView()
+                    .environmentObject(viewModel)
                     .overlay {
                         VStack {
                             Button("cards") {

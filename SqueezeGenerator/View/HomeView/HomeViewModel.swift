@@ -48,7 +48,7 @@ class HomeViewModel: ObservableObject {
             if alpha >= max {
                 alpha = max
             }
-            return  .init(blurAlpha: alpha,
+            return  .init(blurAlpha: 0,
                           backgroundGradient: background)
         }
         return .init(
@@ -87,7 +87,7 @@ class HomeViewModel: ObservableObject {
 
     let maxCollectionPaddings: CGFloat = .Padding.content.rawValue
     var collectionSubviewPaddings: CGFloat {
-        maxCollectionPaddings - (gradientOpacity * 10)
+        maxCollectionPaddings// - (gradientOpacity * 10)
     }
 
     var circleType: HomeBackgroundView.`Type` {

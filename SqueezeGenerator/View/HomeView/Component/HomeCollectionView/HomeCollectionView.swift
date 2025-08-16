@@ -8,25 +8,55 @@
 import SwiftUI
 
 struct HomeCollectionView: View {
-    @Binding var viewModel: HomeViewModel
+    @EnvironmentObject var viewModel: HomeViewModel
 
     var body: some View {
         GeometryReader { proxy in
             ScrollView(.vertical, showsIndicators: false) {
 
                 LazyVStack(pinnedViews: .sectionHeaders) {
-                    Spacer().frame(height: proxy.size.height * 0.39)
+                    Spacer().frame(height: proxy.size.height * 0.69)
 //                    Section {
-                        ContentHomeCollectionView(proxy: proxy, viewModel: $viewModel)
+                        ContentHomeCollectionView(proxy: proxy)
+
 //                    } header: {
 //                        collectionHeader
 //                    }
 
                 }
             }
+            .onAppear {
+                viewModel.viewSize = proxy.size.height
+            }
+            .onChange(of: proxy.size.height) { newValue in
+                viewModel.viewSize = newValue
+            }
+        }
+        .background {
+            VStack {
+                Spacer()
+//                    .frame(maxHeight: (viewModel.viewSize * (scroll)) - 50)
+                Color.white.opacity(0.05)
+                    .background(content: {
+                        BlurView()
+                    })
+                    .cornerRadius(23)
+                    .frame(height: (viewModel.viewSize * (1 - scroll)) + (viewModel.selectedGeneralKeyID == nil ? 400 : 350))
+                    .padding(.bottom, -200)
+            }
+            .ignoresSafeArea(.all)
         }
     }
 
+    var scroll: CGFloat {
+        let value = viewModel.scrollPosition.percent
+        print(value, " evfsdc")
+        if value >= 1 {
+            return 1
+        } else {
+            return value
+        }
+    }
     @ViewBuilder
     var appTextMask: some View {
         let opacityGradient = viewModel.gradientOpacity

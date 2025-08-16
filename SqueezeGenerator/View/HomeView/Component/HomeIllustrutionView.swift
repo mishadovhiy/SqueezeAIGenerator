@@ -16,8 +16,6 @@ struct HomeIllustrutionView: View {
                     .mask {
                         Circle()
                             .aspectRatio(1, contentMode: .fit)
-                            .padding(.bottom, -20)
-
 
                     }
                 notMaskedComponents

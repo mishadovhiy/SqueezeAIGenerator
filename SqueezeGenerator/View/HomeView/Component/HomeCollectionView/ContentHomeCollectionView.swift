@@ -9,16 +9,18 @@ import SwiftUI
 
 struct ContentHomeCollectionView: View {
     let proxy: GeometryProxy
-    @Binding var viewModel: HomeViewModel
+    @EnvironmentObject var viewModel: HomeViewModel
 
     var body: some View {
         VStack {
             Spacer().frame(height: proxy.size.height * 0.12)
             sections
             Spacer().frame(height: 12)
-            CollectionView(contentHeight: $viewModel.contentHeight, data: viewModel.collectionDataForKey, didSelect: { at in
+            CollectionView(
+                contentHeight: $viewModel.contentHeight,
+                data: viewModel.collectionDataForKey,
+                didSelect: { at in
                 viewModel.collectionViewSelected(at: at ?? 0)
-
             })
             .padding(.leading, viewModel.collectionSubviewPaddings)
             .padding(.trailing, 5)

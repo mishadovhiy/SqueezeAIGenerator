@@ -11,7 +11,6 @@ struct HomeBackgroundView: View {
     @Binding var type: `Type`
     @Binding var properties: BakcgroundProperties
 
-
     private var defaultBackgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
         .init(
             tint: nil,

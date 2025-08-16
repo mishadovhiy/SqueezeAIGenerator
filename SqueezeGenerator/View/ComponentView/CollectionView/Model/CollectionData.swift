@@ -23,7 +23,7 @@ extension CollectionViewController {
         }
 
         var fontWeight: UIFont.Weight {
-            isType ? .semibold : .black
+            isType ? .semibold : .semibold
         }
     }
 }

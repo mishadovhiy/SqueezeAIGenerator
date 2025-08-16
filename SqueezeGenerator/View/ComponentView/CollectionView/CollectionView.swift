@@ -36,8 +36,11 @@ struct CollectionView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: CollectionViewController, context: Context) {
         uiViewController.dataUpdated = false
         if canUpdate {
-            uiViewController.data = data
-            uiViewController.collectionView.reloadData()
+            if uiViewController.data != data {
+                uiViewController.data = data
+                uiViewController.collectionView.reloadData()
+            }
+
         }
     }
 }
