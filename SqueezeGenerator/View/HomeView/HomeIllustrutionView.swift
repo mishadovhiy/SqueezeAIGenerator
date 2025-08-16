@@ -33,11 +33,85 @@ struct HomeIllustrutionView: View {
         .foregroundColor(.black)
     }
 
+    private var leftSky: some View {
+        HStack {
+            HStack {
+                Spacer()
+                    .frame(maxWidth: .infinity)
+
+                VStack {
+                    sun
+                    Spacer()
+                        .frame(maxHeight: .infinity)
+                        .overlay {
+                            VStack {
+                                VStack {
+                                    Spacer().frame(maxHeight: .infinity)
+                                    HStack {
+                                        moon(.first)
+                                            .offset(x: -30)
+                                        Spacer().frame(maxWidth: .infinity)
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    Spacer().frame(maxHeight: .infinity)
+                                }
+                                .frame(maxHeight: .infinity)
+                                Spacer().frame(maxHeight: .infinity)
+                            }
+                        }
+                }
+                .overlay {
+                    VStack {
+                        Spacer()
+                            .frame(maxHeight: .infinity)
+
+                    }
+                }
+            }
+            Color.clear
+                .overlay {
+                    ZStack {
+                        HStack {
+                            VStack {
+                                VStack {
+                                    Spacer().frame(maxHeight: .infinity)
+                                    moon(.second)
+                                    Spacer().frame(maxHeight: .infinity)
+                                }
+                                .frame(maxHeight: .infinity)
+                                Spacer().frame(maxHeight: .infinity)
+                            }
+                            Spacer()
+                                .frame(maxWidth: .infinity)
+                        }
+
+                        .frame(maxHeight: .infinity)
+                        .padding(.leading, 10)
+                        VStack {
+                            VStack {
+                                Spacer()
+                                    .frame(maxHeight: .infinity)
+                                moon(.third)
+                            }
+
+                            .frame(maxHeight: .infinity)
+                            Spacer()
+                                .frame(maxHeight: .infinity)
+                        }
+                    }
+
+                    .frame(maxHeight: .infinity)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .frame(maxHeight: .infinity)
+
+    }
+
     public var notMaskedComponents: some View {
         VStack {
             HStack {
                 VStack(spacing: 14) {
-                    sun
                     HStack {
                         HStack {
                             Spacer()
@@ -49,7 +123,10 @@ struct HomeIllustrutionView: View {
                     }
                 }
             }
-            .frame(height: 96, alignment: .top)
+            .frame(height: 220, alignment: .top)
+            .overlay {
+                leftSky
+            }
             Spacer().frame(maxWidth: .infinity)
         }
     }
@@ -73,6 +150,13 @@ fileprivate extension HomeIllustrutionView {
                 .aspectRatio(1, contentMode: .fit)
         }
         .frame(height: 96)
+    }
+
+    func moon(_ type: Moon) -> some View {
+        Image(.HomeIllustration.City1.Components.oval)
+            .resizable()
+            .frame(width: type.size,
+                   height: type.size)
     }
 
     var buildings: some View {
@@ -157,5 +241,20 @@ fileprivate extension HomeIllustrutionView {
         .shadow(radius: 5)
 
         .frame(height:150, alignment: .bottom)
+    }
+}
+
+fileprivate extension HomeIllustrutionView {
+    enum Moon {
+        case first, second
+        case third
+
+        var size: CGFloat {
+            switch self {
+            case .first: 20
+            case .second: 25
+            case .third: 40
+            }
+        }
     }
 }
