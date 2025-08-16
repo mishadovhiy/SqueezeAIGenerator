@@ -75,6 +75,8 @@ struct HomeBackgroundView: View {
                 Spacer()
                     .frame(maxHeight: .infinity)
                 HomeIllustrutionView()
+                    .tint(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
+                    .foregroundColor(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
 
                 Spacer()
                     .frame(maxHeight: .infinity)

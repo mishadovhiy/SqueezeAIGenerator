@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		822A44322E400EC500B5CF32 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A44312E400EC500B5CF32 /* UIApplication.swift */; };
 		822A44342E4019D400B5CF32 /* DBCategoriyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A44332E4019D400B5CF32 /* DBCategoriyView.swift */; };
+		8239CD672E50F1D7009CBED6 /* HomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8239CD662E50F1D7009CBED6 /* HomeCollectionView.swift */; };
+		8239CD6A2E50F2E4009CBED6 /* ContentHomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8239CD692E50F2E4009CBED6 /* ContentHomeCollectionView.swift */; };
 		823BCBD82E456482007E542C /* ScrollSized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823BCBD72E456482007E542C /* ScrollSized.swift */; };
 		8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8242881D2E305730000E12EB /* RequestParametersView.swift */; };
 		82555A642E46834600B69554 /* ResponsePreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555A632E46834600B69554 /* ResponsePreviewModel.swift */; };
@@ -76,6 +78,8 @@
 /* Begin PBXFileReference section */
 		822A44312E400EC500B5CF32 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		822A44332E4019D400B5CF32 /* DBCategoriyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCategoriyView.swift; sourceTree = "<group>"; };
+		8239CD662E50F1D7009CBED6 /* HomeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionView.swift; sourceTree = "<group>"; };
+		8239CD692E50F2E4009CBED6 /* ContentHomeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentHomeCollectionView.swift; sourceTree = "<group>"; };
 		823BCBD72E456482007E542C /* ScrollSized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollSized.swift; sourceTree = "<group>"; };
 		8242881D2E305730000E12EB /* RequestParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestParametersView.swift; sourceTree = "<group>"; };
 		82555A632E46834600B69554 /* ResponsePreviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePreviewModel.swift; sourceTree = "<group>"; };
@@ -165,6 +169,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8239CD652E50F137009CBED6 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */,
+				8239CD682E50F2AE009CBED6 /* HomeCollectionView */,
+				82CE1E862E4FE09C008F28E8 /* HomeIllustrutionView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		8239CD682E50F2AE009CBED6 /* HomeCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				8239CD662E50F1D7009CBED6 /* HomeCollectionView.swift */,
+				8239CD692E50F2E4009CBED6 /* ContentHomeCollectionView.swift */,
+			);
+			path = HomeCollectionView;
+			sourceTree = "<group>";
+		};
 		823BCBD92E456487007E542C /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,8 +318,7 @@
 			children = (
 				82AF8B792E2D2C4000CC3FAD /* HomeView.swift */,
 				82BA59512E30222D009B8913 /* HomeViewModel.swift */,
-				82AF8B952E2D51D900CC3FAD /* HomeBackgroundView.swift */,
-				82CE1E862E4FE09C008F28E8 /* HomeIllustrutionView.swift */,
+				8239CD652E50F137009CBED6 /* Component */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -531,6 +553,7 @@
 				82AF8B872E2D2C4000CC3FAD /* NetworkRequest.swift in Sources */,
 				82CE1E872E4FE09C008F28E8 /* HomeIllustrutionView.swift in Sources */,
 				82BA0D172E4873AD009ECC61 /* Configuration.swift in Sources */,
+				8239CD6A2E50F2E4009CBED6 /* ContentHomeCollectionView.swift in Sources */,
 				82C5E61C2E36F81E00A5EE27 /* BlurView.swift in Sources */,
 				8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */,
 				82BA59522E30222D009B8913 /* HomeViewModel.swift in Sources */,
@@ -551,6 +574,7 @@
 				82BA0D132E487230009ECC61 /* View.swift in Sources */,
 				82BA594A2E301F3C009B8913 /* DBDetailView.swift in Sources */,
 				82AF8B8D2E2D2C4000CC3FAD /* HomeView.swift in Sources */,
+				8239CD672E50F1D7009CBED6 /* HomeCollectionView.swift in Sources */,
 				82AF8B8E2E2D2C4000CC3FAD /* AppData.swift in Sources */,
 				82AF8B8F2E2D2C4000CC3FAD /* Keys.swift in Sources */,
 				82BA0D0E2E48168B009ECC61 /* CollectionData.swift in Sources */,

@@ -8,7 +8,12 @@
 import SwiftUI
 
 class CollectionViewCell: UICollectionViewCell {
-    
+    struct Configuration {
+        struct Paddings {
+            static let contentHorizontal: CGFloat = 12
+            static let contentVertical: CGFloat = 8
+        }
+    }
     private var label: UILabel? { (textStack?.arrangedSubviews.first(where: {$0 is UIStackView}) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UILabel && $0.tag == 0}) as? UILabel }
     private var mainImageView: UIImageView? {
         (textStack?.arrangedSubviews.first(where: {
@@ -161,7 +166,8 @@ class CollectionViewCell: UICollectionViewCell {
         backgroundOutline.translatesAutoresizingMaskIntoConstraints = false
 //        imageStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate(
+[
             titleImage.widthAnchor.constraint(equalToConstant: 16),
             titleImage.heightAnchor.constraint(equalToConstant: 16),
 
@@ -171,23 +177,40 @@ class CollectionViewCell: UICollectionViewCell {
 //            imageStack.heightAnchor.constraint(equalToConstant: 35),
 //            imageStack.widthAnchor.constraint(equalToConstant: 100),
             
-            textStack.topAnchor.constraint(equalTo: textStack.superview!.topAnchor, constant: 6),
-            textStack.bottomAnchor.constraint(equalTo: textStack.superview!.bottomAnchor, constant: -6),
-            textStack.leadingAnchor.constraint(equalTo: textStack.superview!.leadingAnchor, constant: 6),
-            textStack.trailingAnchor.constraint(equalTo: textStack.superview!.trailingAnchor, constant: -6),
+            textStack.topAnchor.constraint(equalTo: textStack.superview!.topAnchor, constant: Configuration.Paddings.contentVertical),
+            textStack.bottomAnchor
+                .constraint(
+                    equalTo: textStack.superview!.bottomAnchor,
+                    constant: -Configuration.Paddings.contentVertical
+                ),
+            textStack.leadingAnchor
+                .constraint(
+                    equalTo: textStack.superview!.leadingAnchor,
+                    constant: Configuration.Paddings.contentHorizontal
+                ),
+            textStack.trailingAnchor.constraint(equalTo: textStack.superview!.trailingAnchor, constant: -Configuration.Paddings.contentHorizontal),
 
-            backgroundOutline.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),//5),
-            backgroundOutline.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),//-10),
-            backgroundOutline.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),//5),
-            backgroundOutline.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),//-10),
+            backgroundOutline.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+//5),
+            backgroundOutline.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+//-10),
+            backgroundOutline.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+//5),
+            backgroundOutline.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+//-10),
             
-            backgroundColoredView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),//8),
-            backgroundColoredView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),//-8),
-            backgroundColoredView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),//8),
-            backgroundColoredView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),//-8),
+            backgroundColoredView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+//8),
+            backgroundColoredView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
+//-8),
+            backgroundColoredView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+//8),
+            backgroundColoredView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+//-8),
             
             descriptionLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
-        ])
+        ]
+)
         
     }
 

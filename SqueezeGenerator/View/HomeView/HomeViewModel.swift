@@ -473,4 +473,16 @@ class HomeViewModel: ObservableObject {
             fatalError()
         }
     }
+
+    func selected(_ item: String?) {
+        let data = appResponse?.categories.first(where: { response in
+            response.id == item
+        })?.list?.compactMap({
+            performAddTableData($0, parentID: item ?? "")
+        }) ?? []
+        withAnimation {
+            self.collectionDataForKey = data
+        }
+    }
+
 }

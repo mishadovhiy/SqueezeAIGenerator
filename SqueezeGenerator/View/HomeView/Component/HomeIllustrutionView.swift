@@ -29,8 +29,6 @@ struct HomeIllustrutionView: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: 365)
-        .tint(.black)
-        .foregroundColor(.black)
     }
 
     private var leftSky: some View {
