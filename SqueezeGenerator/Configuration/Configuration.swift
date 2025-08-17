@@ -8,5 +8,10 @@
 import Foundation
 
 enum Configuration {
+    enum AssetHelper {
+        enum HomeIllustration {
+            static let maxSky: Int = 4
+        }
+    }
     enum UI { }
 }

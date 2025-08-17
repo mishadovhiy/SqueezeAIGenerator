@@ -41,6 +41,7 @@ class CollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         descriptionLabel?.text = ""
+        mainImageView?.image = nil
         imageStack?.arrangedSubviews.forEach({
             if let image = $0 as? UIImageView {
                 image.image = nil
@@ -51,12 +52,17 @@ class CollectionViewCell: UICollectionViewCell {
     func fetchImage(
         imageURL: String,
         completion: @escaping(_ image: UIImage)->()) {
+            guard let imageURL = URL(string: imageURL) else {
+                self.mainImageView?.isHidden = true
+                return
+            }
             DispatchQueue.init(label: "db", qos: .userInitiated).async {
                 let task = URLSession.shared.dataTask(
-                    with: .init(url: .init(string: imageURL)!, cachePolicy: .reloadRevalidatingCacheData)
+                    with: .init(url: imageURL, cachePolicy: .reloadRevalidatingCacheData)
                 ) { data, response, error in
                     DispatchQueue.main.async {
                         self.mainImageView?.image = .init(data: data ?? .init())
+                        self.mainImageView?.isHidden = false
                     }
                 }
                 task.resume()

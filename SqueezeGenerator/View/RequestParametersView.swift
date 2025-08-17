@@ -37,9 +37,11 @@ struct RequestParametersView: View {
                         Image(.score)
                             .resizable()
                             .scaledToFit()
-                            .padding(8)
                     }
+                    .padding(.trailing, 9)
                     .frame(width: .Padding.smallButtonSize.rawValue, height: .Padding.smallButtonSize.rawValue)
+                    .blurBackground(cornerRadius: .CornerRadius.button.rawValue)
+
                 }
                 
             }

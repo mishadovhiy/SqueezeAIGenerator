@@ -69,37 +69,7 @@ struct HomeView: View {
         VStack {
             Spacer()
                 Button(viewModel.response != nil ? "squeeze" : "Start") {
-                    if viewModel.response != nil {
-    //                    viewModel.navValues.append(.question(viewModel.response!.response.questions.first!))
-                        viewModel.navValues.append(
-.cardView(
-.init(
-    type: viewModel.selectedRequest?.type ?? "", data: viewModel.response!.response.questions.compactMap(
-        { question in
-                .init(
-                    title: question.questionName,
-                    description: question.description,
-                    id: question.id,
-                    buttons: question.options.compactMap(
-                        { button in
-                            let selectedOption = viewModel.response!.save.questionResults[question]
-                            return .init(
-                                title: button.optionName,
-                                isSelected: selectedOption?.id == button.id,
-                                id: button.id.uuidString,
-                                extraSmall: true
-                            )
-                        })
-                )
-        }))
-)
-)
-                    } else {
-                        withAnimation {
-                            viewModel.navValues.append(.empty)
-                            viewModel.startGenerationRequest()
-                        }
-                    }
+                    viewModel.primaryButtonPressed()
                 }
                 .font(.typed(.section))
                 .padding(.horizontal, 50)
@@ -111,7 +81,11 @@ struct HomeView: View {
                 .disabled(viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil))
                 .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
                 .animation(.smooth, value: needButton > 0)
-                .shadow(radius: 10)
+                .shadow(
+                    color: Color(uiColor: .init(hexColor: .puroure2Light)!),
+                    radius: 20,
+                    x: 20, y: 15
+                )
         }
 //        actionButtonsView
     }
@@ -172,7 +146,10 @@ struct HomeView: View {
         NavigationStack(path: $viewModel.navValues) {
             homeRoot
             .navigationDestination(for: NavRout.self) { navRout in
-                navigationDestination(for: navRout)
+                navRout.body(
+                    viewModel,
+                    selectedRequest: $viewModel.selectedRequest,
+                    db: db)
                     .opacity(viewModel.navValues.last == navRout ? 1 : 0)
                     .background {
                         ClearBackgroundView()
@@ -198,79 +175,5 @@ struct HomeView: View {
             ClearBackgroundView()
         }
         
-    }
-    
-    @ViewBuilder
-    func navigationDestination(for rout: NavRout) -> some View {
-        switch rout {
-        case .question(let response):
-            SqueezeView(response: response)
-        case .result:
-            ResultView(saveModel: viewModel.response ?? .init(response: .init(data: .init()), save: .init(date: .init())), savePressed: .init(get: {
-                false
-            }, set: {
-                if $0 {
-                    viewModel.savePressed(db: db)
-                }
-            }))
-        case .requestToGenerateParameters(let request):
-            RequestParametersView(request: $viewModel.selectedRequest)
-            //{
-//                withAnimation {
-//                    viewModel.navValues.append(.empty)
-//                    viewModel.selectedRequest = request
-//                    viewModel.startGenerationRequest()
-//                }
-//            }
-        case .requestGenerated:
-            ReadyView(cancelPressed:{
-                withAnimation {
-                    viewModel.navValues.removeAll()
-                    viewModel.rqStarted = false
-                }
-            })
-        case .empty:
-            VStack(content: {
-                Spacer()
-                    .frame(maxHeight: .infinity)
-                Spacer()
-                    .frame(maxHeight: .infinity)
-                Text("Generating")
-                    .font(.Type.section.font)
-                    .opacity(.Opacity.descriptionLight.rawValue)
-                Spacer()
-                    .frame(maxHeight: .infinity)
-            })
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden()
-        case .cardView(let properties):
-            CardsView(properties) { selection in
-                let questions = viewModel.response?.response.questions ?? []
-                viewModel.response?.save = .init(date: .init(), category: viewModel.category, request: viewModel.selectedRequest, questionResults: [:])
-                selection.forEach { (key: UUID, value: String) in
-                    print("rtgerfwde key: ", key, " value: ", value)
-                    if let question = questions.first(where: {
-                        $0.id == key
-                    }) {
-                        if let options = question.options.first(where: {
-                            $0.id == .init(uuidString: value)!
-                        }) {
-                            viewModel.response?.save.questionResults.updateValue(options, forKey: question)
-                        } else {
-                            fatalError()
-                        }
-                        
-                    } else {
-                        fatalError()
-                    }
-                    
-                }
-                DispatchQueue.main.async {
-                    viewModel.savePressed(db: db)
-                }
-            }
-        case .dbDetail(_):
-            ClearBackgroundView()
-        }
     }
 }

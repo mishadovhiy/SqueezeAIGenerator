@@ -53,6 +53,9 @@ class HomeViewModel: ObservableObject {
         }
         return .init(
             needOval: self.selectedGeneralKeyID == nil && navValues.isEmpty,
+            illustrationScale: navValues.isEmpty ? (selectedRequest == nil ? 1 : 0.5) : (
+                navValues.last?.illustrationScale ?? 0
+            ),
             backgroundGradient: background
         )
     }
@@ -61,7 +64,7 @@ class HomeViewModel: ObservableObject {
     private var needButtonsView: Bool {
         navValues.last?.needDoneButton ?? false || (response != nil && navValues.isEmpty)
     }
-    
+
     //shows buttons view across navigations
     var buttonsViewHeight: CGFloat {
         needButtonsView ? 55 : 0
@@ -349,11 +352,13 @@ class HomeViewModel: ObservableObject {
         return .init(
             title: response.name + " ",
             cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray),
+            isSelected: self.selectedIDs.contains(response.id),
             id: response.id,
             parentID: parentID,
             percent: percent,
             label: label,
-            isType: response.resultType != nil
+            isType: response.resultType != nil,
+            imageURL: "\(Keys.apiBaseURL.rawValue)/generateSqueeze/icons/depression.png"
         )
     }
 
@@ -380,7 +385,7 @@ class HomeViewModel: ObservableObject {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
             Task(priority: .userInitiated) {
-    //            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
+                //            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
                 NetworkModel().advice(self.selectedRequest!) { response in
                     DispatchQueue.main.async {
                         withAnimation {
@@ -478,7 +483,7 @@ class HomeViewModel: ObservableObject {
                             )
                         )
                     )
-//                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
+                //                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
                 //go to difficulty
             }
         } else {
@@ -497,4 +502,41 @@ class HomeViewModel: ObservableObject {
         }
     }
 
+    private func cardViewType(_ question: NetworkResponse.AdviceResponse.QuestionResponse) -> CardData {
+        .init(
+            title: question.questionName,
+            description: question.description,
+            id: question.id,
+            buttons: question.options.compactMap(
+                { button in
+                    let selectedOption = response!.save.questionResults[question]
+                    return .init(
+                        title: button.optionName,
+                        isSelected: selectedOption?.id == button.id,
+                        id: button.id.uuidString,
+                        extraSmall: true
+                    )
+                })
+        )
+    }
+
+    func primaryButtonPressed() {
+        if response != nil {
+            navValues.append(
+                .cardView(.init(
+                    type: selectedRequest?.type ?? "",
+                    data: response!.response.questions.compactMap(
+                        { question in
+                            cardViewType(question)
+                        }
+                    )
+                ))
+            )
+        } else {
+            withAnimation {
+                navValues.append(.empty)
+                startGenerationRequest()
+            }
+        }
+    }
 }

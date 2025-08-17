@@ -48,7 +48,7 @@ struct HomeBackgroundView: View {
     struct BakcgroundProperties {
         var blurAlpha: CGFloat? = nil
         var needOval: Bool = true
-
+        var illustrationScale: CGFloat = 1
         var backgroundGradient: NetworkResponse.CategoriesResponse.Categories.Color? = nil
     }
     
@@ -70,20 +70,11 @@ struct HomeBackgroundView: View {
                 .opacity(0.8)
                 .blur(radius: 20)
             curclesOverlayView
-            VStack {
-                Spacer()
-                    .frame(maxHeight: .infinity)
-                HomeIllustrutionView()
-                    .tint(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
-                    .foregroundColor(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
-
-                Spacer()
-                    .frame(maxHeight: .infinity)
-                Spacer()
-                    .frame(maxHeight: .infinity)
-                Spacer()
-                    .frame(maxHeight: .infinity)
-            }
+            HomeIllustrutionView()
+                .tint(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
+                .foregroundColor(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
+                .scaleEffect(properties.illustrationScale)
+                .animation(.bouncy, value: properties.illustrationScale)
         })
         .blur(radius: blurAlpha)
         .animation(.smooth, value: blurAlpha)
