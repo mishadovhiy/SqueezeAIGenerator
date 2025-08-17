@@ -321,10 +321,12 @@ class HomeViewModel: ObservableObject {
 
     func performAddTableData(_ response: NetworkResponse.CategoriesResponse.Categories, parentID: String) -> CollectionViewController.CollectionData {
         let isListSelected: Bool
-        let db: String
+        let label: String
+        let percent: String
         if response.list != nil {
             isListSelected = self.selectedIDs.contains(response.id)
-            db = ""
+            label = ""
+            percent = ""
         } else {
             isListSelected = false
             if let dbData = dbHolder.last(where: {
@@ -335,14 +337,24 @@ class HomeViewModel: ObservableObject {
                 if !value.isFinite {
                     value = 0
                 }
-                db = "\(Int(value)) " + "\(dbHolder.filter({$0.save.request?.type == response.name}).count)"
+                label = "\(dbHolder.filter({$0.save.request?.type == response.name}).count)"
+                percent = "\(Int(value))"
             } else {
-                db = ""
+                label = ""
+                percent = ""
             }
 
         }
 
-        return .init(title: response.name + " " + db, cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray), id: response.id, parentID: parentID, isType: response.resultType != nil)
+        return .init(
+            title: response.name + " ",
+            cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray),
+            id: response.id,
+            parentID: parentID,
+            percent: percent,
+            label: label,
+            isType: response.resultType != nil
+        )
     }
 
 

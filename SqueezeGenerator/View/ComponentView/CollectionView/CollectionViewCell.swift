@@ -15,10 +15,16 @@ class CollectionViewCell: UICollectionViewCell {
         }
     }
     private var label: UILabel? { (textStack?.arrangedSubviews.first(where: {$0 is UIStackView}) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UILabel && $0.tag == 0}) as? UILabel }
+    private var tagLabel: UILabel? { (textStack?.arrangedSubviews.first(where: {$0 is UIStackView}) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UILabel && $0.tag == 2}) as? UILabel }
     private var mainImageView: UIImageView? {
         (textStack?.arrangedSubviews.first(where: {
             $0 is UIStackView
         }) as? UIStackView)?.arrangedSubviews.first(where: {$0 is UIImageView && $0.tag == 0}) as? UIImageView
+
+    }
+
+    private var progressView: UIProgressView? {
+        textStack?.arrangedSubviews.first(where: {$0 is UIProgressView}) as? UIProgressView
 
     }
 
@@ -60,6 +66,12 @@ class CollectionViewCell: UICollectionViewCell {
     func set(_ data: CollectionViewController.CollectionData,
              isWhite: Bool) {
         label?.text = data.title.capitalized
+        let progress = Float(data.percent ?? "") ?? 0
+        progressView!.isHidden = progress == 0
+        print(progress / 100, " gtrefds")
+        progressView?.progress = progress / 100
+        tagLabel?.text = data.label ?? ""
+        tagLabel?.isHidden = data.label?.isEmpty ?? true
         self.fetchImage(imageURL: data.imageURL) { image in
 
         }
@@ -79,9 +91,10 @@ class CollectionViewCell: UICollectionViewCell {
             descriptionLabel?.textColor = .white
 
         }
-        if descriptionLabel?.isHidden != data.description?.isEmpty ?? true {
-            descriptionLabel?.isHidden = data.description?.isEmpty ?? true
-        }
+        descriptionLabel?.isHidden = true
+//        if descriptionLabel?.isHidden != data.description?.isEmpty ?? true {
+//            descriptionLabel?.isHidden = data.description?.isEmpty ?? true
+//        }
 //        label?.attributedText = attributedString
         if let background = data.cellBackground {
             backgroundColoredView?.backgroundColor = (data.isType ? background : .white)
@@ -107,6 +120,10 @@ class CollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         let descriptionLabel = UILabel()
         descriptionLabel.tag = 1
+        let valueLabel = UILabel()
+        valueLabel.tag = 2
+        let progress = UIProgressView()
+        progress.tintColor = .white
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.3
@@ -132,13 +149,14 @@ class CollectionViewCell: UICollectionViewCell {
         titleStack.axis = .horizontal
         titleStack.spacing = 2
         titleStack.alignment = .center
-        [titleImage, label].forEach {//titleImage,
+        valueLabel.addSubview(.init())
+        [titleImage, label, valueLabel].forEach {//titleImage,
             titleStack.addArrangedSubview($0)
         }
-        [titleStack, descriptionLabel].forEach {
+        [titleStack, descriptionLabel, progress].forEach {
             textStack.addArrangedSubview($0)
         }
-        textStack.spacing = -2
+        textStack.spacing = 4
         textStack.tag = 1
         textStack.axis = .vertical
         textStack.distribution = .fillProportionally
@@ -179,6 +197,10 @@ class CollectionViewCell: UICollectionViewCell {
 [
             titleImage.widthAnchor.constraint(equalToConstant: 16),
             titleImage.heightAnchor.constraint(equalToConstant: 16),
+            progress.leadingAnchor.constraint(equalTo: progress.superview!.leadingAnchor),
+            progress.trailingAnchor.constraint(equalTo: progress.superview!.trailingAnchor),
+
+//            label.widthAnchor.constraint(lessThanOrEqualToConstant: 80),
 
             
 //            imageStack.topAnchor.constraint(equalTo: imageStack.superview!.topAnchor, constant: -5),
@@ -220,7 +242,21 @@ class CollectionViewCell: UICollectionViewCell {
             descriptionLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
         ]
 )
-        
+        valueLabel.subviews.first?.translatesAutoresizingMaskIntoConstraints = false
+        valueLabel.subviews.first?.leadingAnchor
+            .constraint(equalTo: valueLabel.leadingAnchor, constant: -2).isActive = true
+        valueLabel.subviews.first?.trailingAnchor
+            .constraint(equalTo: valueLabel.trailingAnchor, constant: 2).isActive = true
+        valueLabel.subviews.first?.topAnchor
+            .constraint(equalTo: valueLabel.topAnchor, constant: -2).isActive = true
+        valueLabel.subviews.first?.bottomAnchor
+            .constraint(equalTo: valueLabel.bottomAnchor, constant: 2).isActive = true
+        valueLabel.subviews.first?.layer.zPosition = -1
+        valueLabel.subviews.first?.backgroundColor = .red.withAlphaComponent(0.1)
+        valueLabel.subviews.first?.layer.cornerRadius = 6
+        valueLabel.font = .systemFont(ofSize: 9, weight: .semibold)
+        valueLabel.textColor = .white
+
     }
 
     

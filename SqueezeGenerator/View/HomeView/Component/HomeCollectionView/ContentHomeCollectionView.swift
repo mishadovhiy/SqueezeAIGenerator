@@ -47,7 +47,13 @@ struct ContentHomeCollectionView: View {
             .padding(.horizontal, 8)
             .padding(.vertical, 8)
         }
+//        .blurBackground(opacity: item.id == viewModel.selectedGeneralKeyID ? 1 : nil, cornerRadius: .CornerRadius.medium.rawValue)
+        .background(content: {
+            Color.white.opacity(item.id == viewModel.selectedGeneralKeyID ? 0.2 : 0)
+                .animation(.smooth, value: viewModel.selectedGeneralKeyID)
+        })
         .blurBackground(cornerRadius: .CornerRadius.medium.rawValue)
+        .cornerRadius(.CornerRadius.medium.rawValue)
 
     }
 
@@ -89,7 +95,14 @@ struct ContentHomeCollectionView: View {
         Spacer().frame(maxHeight: viewModel.largeParentCollections ? .zero : .infinity)
             .animation(.bouncy, value: viewModel.largeParentCollections)
         Text(item.title)
-            .foregroundColor(.white.opacity(.Opacity.descriptionLight.rawValue))
+//            .foregroundColor(
+//                .init(uiColor: item.id == viewModel.selectedGeneralKeyID ? .black : .white).opacity(
+//                    viewModel.selectedGeneralKeyID != nil ? 0.5 : .Opacity.descriptionLight.rawValue
+//                )
+//            )
+            .foregroundColor(
+                .white.opacity(viewModel.selectedGeneralKeyID == item.id ? 0.6 : .Opacity.descriptionLight.rawValue)
+            )
             .font(.Type.section.font)
             .padding(.horizontal, 22)
     }
