@@ -10,7 +10,7 @@ import SwiftUI
 class CollectionViewCell: UICollectionViewCell {
     struct Configuration {
         struct Paddings {
-            static let contentHorizontal: CGFloat = 12
+            static let contentHorizontal: CGFloat = 10
             static let contentVertical: CGFloat = 8
         }
     }
@@ -88,7 +88,7 @@ class CollectionViewCell: UICollectionViewCell {
             )
 
         label?.textColor = isWhite ? .black : .white
-            .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.5 : .Opacity.description.rawValue))
+            .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.5 : 0.8))
         descriptionLabel?.text = data.description
         if data.title.isEmpty {
             descriptionLabel?.textColor = .white
