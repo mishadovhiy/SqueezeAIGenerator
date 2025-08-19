@@ -350,7 +350,7 @@ class HomeViewModel: ObservableObject {
         }
 
         return .init(
-            title: response.name + " ",
+            title: response.name.addSpaceBeforeCapitalizedLetters,
             cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray),
             isSelected: self.selectedIDs.contains(response.id),
             id: response.id,
@@ -358,7 +358,7 @@ class HomeViewModel: ObservableObject {
             percent: percent,
             label: label,
             isType: response.resultType != nil,
-            imageURL: "\(Keys.apiBaseURL.rawValue)/generateSqueeze/icons/depression.png"
+            imageURL: response.imageURL ?? ""
         )
     }
 

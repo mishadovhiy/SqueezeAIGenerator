@@ -19,7 +19,8 @@ extension NetworkResponse {
             let resultType: String?
             var id: String
             let color: Color?
-
+            var imageURL: String?
+            
             struct Color: Codable, Equatable, Hashable {
                 let tint: String?
                 let topLeft: String?
