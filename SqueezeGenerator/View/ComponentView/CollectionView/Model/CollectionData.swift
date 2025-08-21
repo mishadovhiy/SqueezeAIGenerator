@@ -21,7 +21,7 @@ extension CollectionViewController {
         var extraSmall: Bool = false
         var imageURL: String = ""
         var fontSize: CGFloat {
-            extraSmall ? 11 : (isType ? 11 : 13)
+            extraSmall ? 14 : (isType ? 14 : 17)
         }
 
         var fontWeight: UIFont.Weight {

@@ -21,10 +21,22 @@ struct RequestParametersView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top, 15)
             Spacer()
-            difficutiesPicker
+            HStack(content: {
+                difficutiesPicker
+                Spacer()
+                    .frame(maxWidth: request?.difficulty == nil ? .infinity : .zero)
+                    .animation(.bouncy(duration: 0.3), value: request?.difficulty)
+
+            })
+            .padding(.horizontal, 5)
+            .frame(alignment: .leading)
+            .padding(.bottom, 0)
+            .animation(.bouncy(duration: 0.5), value: request?.difficulty)
+
+//                .padding(.horizontal, 10)
         }
         .padding(.horizontal, 12)
-        .padding(.bottom, 20)
+        .padding(.bottom, 30)
         .navigationTitle(request?.type ?? "")
         .toolbar {
             ToolbarItem(placement: .navigation) {
@@ -59,7 +71,7 @@ struct RequestParametersView: View {
     var difficutiesPicker: some View {
         ForEach(NetworkRequest.SqueezeRequest.Difficulty.allCases,
                 id:\.rawValue) { difficulty in
-            Button(difficulty.rawValue) {
+            Button {
                 withAnimation(.smooth) {
                     if request?.difficulty == difficulty {
                         request?.difficulty = nil
@@ -67,13 +79,17 @@ struct RequestParametersView: View {
                         request?.difficulty = difficulty
                     }
                 }
-                
+            } label: {
+                Text(difficulty.rawValue)
+                    .lineLimit(1)
+                    .padding(.horizontal, request?.difficulty == difficulty ? .zero : 15)
+                    .animation(.bouncy(duration: 0.5), value: request?.difficulty)
             }
             .foregroundColor(request?.difficulty == difficulty ? .dark : .white)
             .tint(request?.difficulty == difficulty ? .white : .white)
-            .font(.system(size: 19, weight: .semibold))
-            .frame(height: 55)
-            .frame(maxWidth: .infinity)
+            .font(.system(size: 16, weight: .semibold))
+            .frame(height: 40)
+            .frame(maxWidth: request?.difficulty == difficulty ? .infinity : .none)
             .background(request?.difficulty == difficulty ? .white : .black.opacity(0.15))
             .cornerRadius(16)
             .overlay {
@@ -89,10 +105,10 @@ struct RequestParametersView: View {
     var title: AttributedString {
         let text = NSMutableAttributedString()
         text.append(.init(string: request?.category ?? "", attributes: [
-            .font: UIFont.systemFont(ofSize: 13, weight: .bold)
+            .font: UIFont.systemFont(ofSize: 17, weight: .bold)
         ]))
         text.append(.init(string: " " + "Squeeze", attributes: [
-            .font: UIFont.systemFont(ofSize: 13, weight: .regular)
+            .font: UIFont.systemFont(ofSize: 17, weight: .regular)
         ]))
         return .init(text)
     }
@@ -100,10 +116,10 @@ struct RequestParametersView: View {
         let text = NSMutableAttributedString()
         
         text.append(.init(string: "Will Generate questions", attributes: [
-            .font: UIFont.systemFont(ofSize: 13, weight: .regular)
+            .font: UIFont.systemFont(ofSize: 14, weight: .regular)
         ]))
         text.append(.init(string: " on" + (request?.description ?? ""), attributes: [
-            .font: UIFont.systemFont(ofSize: 13, weight: .bold),
+            .font: UIFont.systemFont(ofSize: 14, weight: .bold),
         ]))
         return .init(text)
     }

@@ -42,13 +42,13 @@ class HomeViewModel: ObservableObject {
         let background: NetworkResponse.CategoriesResponse.Categories.Color? = selectedRequest?.color ?? (lastResponse?.color ?? appResponse?.categories.first(where: {
             $0.id == self.selectedGeneralKeyID
         })?.color)
-        if scrollPosition.position.y - 250 <= .zero && navValues.isEmpty {
-            var alpha = 1 - ((scrollPosition.position.y - 250) / 10)
-            let max: CGFloat = 16
+        if scrollPosition.position.y - (viewSize / 1.2) <= .zero && navValues.isEmpty {
+            var alpha = 1 - ((scrollPosition.position.y - (viewSize / 1.2)) / 20)
+            let max: CGFloat = 12
             if alpha >= max {
                 alpha = max
             }
-            return  .init(blurAlpha: 0,
+            return  .init(blurAlpha: alpha,
                           backgroundGradient: background)
         }
         return .init(
@@ -90,7 +90,7 @@ class HomeViewModel: ObservableObject {
 
     let maxCollectionPaddings: CGFloat = .Padding.content.rawValue
     var collectionSubviewPaddings: CGFloat {
-        maxCollectionPaddings// - (gradientOpacity * 10)
+        maxCollectionPaddings //- (gradientOpacity * 10)
     }
 
     var circleType: HomeBackgroundView.`Type` {

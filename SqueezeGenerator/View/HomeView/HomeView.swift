@@ -66,6 +66,7 @@ struct HomeView: View {
     @ViewBuilder
     var buttonsView: some View {
         let needButton = viewModel.buttonsViewHeight
+        let background = viewModel.backgroundProperties.backgroundGradient?.topLeft ?? String.HexColor.puroure2Light.rawValue
         VStack {
             Spacer()
                 Button(viewModel.response != nil ? "squeeze" : "Start") {
@@ -76,17 +77,25 @@ struct HomeView: View {
                 .frame(height: needButton)
                 .frame(maxWidth: .infinity)
                 .clipped()
-                .background(Color(uiColor: .init(hexColor: .puroure2Light)!))
+                .background(
+                    Color(
+                        uiColor: .init(
+                            hex: background
+                        )!
+                    )
+                )
                 .cornerRadius(16)
                 .disabled(viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil))
                 .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
                 .animation(.smooth, value: needButton > 0)
                 .shadow(
-                    color: Color(uiColor: .init(hexColor: .puroure2Light)!),
+                    color: Color(uiColor: .init(hex: background)!),
                     radius: 20,
                     x: 20, y: 15
                 )
         }
+        .padding(.horizontal, 5)
+        .padding(.bottom, 15)
 //        actionButtonsView
     }
     

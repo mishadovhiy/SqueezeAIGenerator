@@ -13,8 +13,7 @@ struct ContentHomeCollectionView: View {
 
     var body: some View {
         VStack {
-            Spacer().frame(height: proxy.size.height * 0.12)
-            sections
+//            sections
             Spacer().frame(height: 12)
             CollectionView(
                 contentHeight: $viewModel.contentHeight,
@@ -31,93 +30,5 @@ struct ContentHomeCollectionView: View {
         }
     }
 
-    @ViewBuilder
-    func cell(_ item: CollectionViewController.CollectionData) -> some View {
-        Button {
-            viewModel.parentCollectionSelected(item)
-        } label: {
-            VStack {
-                cellTitle(item)
-                Spacer()
-                    .frame(maxHeight: .infinity)
-                progress(item)
-                .clipped()
-                .animation(.bouncy, value: viewModel.largeParentCollections)
-            }
-            .padding(.horizontal, 8)
-            .padding(.vertical, 8)
-        }
-//        .blurBackground(opacity: item.id == viewModel.selectedGeneralKeyID ? 1 : nil, cornerRadius: .CornerRadius.medium.rawValue)
-        .background(content: {
-            Color.white.opacity(item.id == viewModel.selectedGeneralKeyID ? 0.2 : 0)
-                .animation(.smooth, value: viewModel.selectedGeneralKeyID)
-        })
-        .blurBackground(cornerRadius: .CornerRadius.medium.rawValue)
-        .cornerRadius(.CornerRadius.medium.rawValue)
-
-    }
-
-    @ViewBuilder
-    var sections: some View {
-        let paddings = viewModel.collectionSubviewPaddings
-        ScrollView(.horizontal,
-                   showsIndicators: false) {
-            LazyHStack(spacing: viewModel.maxCollectionPaddings * 0.6) {
-                ForEach(viewModel.collectionData, id:\.id) { item in
-
-                    cell(item)
-                }
-                Spacer().frame(width: viewModel.maxCollectionPaddings)
-            }
-            .padding(.leading, paddings)
-            .frame(height: viewModel.largeParentCollections ? 120 : 50)
-            .animation(.bouncy, value: viewModel.largeParentCollections)
-
-        }
-    }
-
-    func headRowItem(_ title: String, _ value: String) -> some View {
-        HStack {
-            Text(title)
-                .font(.Type.small.font)
-                .multilineTextAlignment(.leading)
-                .frame(alignment: .leading)
-            Spacer()
-            Text(value)
-                .multilineTextAlignment(.leading)
-                .frame(alignment: .trailing)
-        }
-        .frame(maxWidth: .infinity)
-    }
-
-    @ViewBuilder
-    func cellTitle(_ item: CollectionViewController.CollectionData) -> some View {
-        Spacer().frame(maxHeight: viewModel.largeParentCollections ? .zero : .infinity)
-            .animation(.bouncy, value: viewModel.largeParentCollections)
-        Text(item.title)
-//            .foregroundColor(
-//                .init(uiColor: item.id == viewModel.selectedGeneralKeyID ? .black : .white).opacity(
-//                    viewModel.selectedGeneralKeyID != nil ? 0.5 : .Opacity.descriptionLight.rawValue
-//                )
-//            )
-            .foregroundColor(
-                .white.opacity(viewModel.selectedGeneralKeyID == item.id ? 0.6 : .Opacity.descriptionLight.rawValue)
-            )
-            .font(.Type.section.font)
-            .padding(.horizontal, 22)
-    }
-
-    @ViewBuilder
-    func progress(_ item: CollectionViewController.CollectionData) -> some View {
-        let data = viewModel.statsPreview[item.id]
-
-        VStack {
-            headRowItem("count", "\(data?.subcategoriesCount ?? 0)/\(data?.completedSubcategoriesCount ?? 0)")
-            Divider()
-            headRowItem("score", "\(data?.avarageGrade ?? 0)%")
-        }
-        .opacity(.Opacity.description.rawValue)
-        .frame(maxWidth: .infinity,
-               maxHeight: viewModel.largeParentCollections ? .infinity : .zero)
-    }
+   
 }

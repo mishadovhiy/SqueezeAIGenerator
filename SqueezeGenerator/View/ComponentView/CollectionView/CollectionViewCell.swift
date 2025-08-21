@@ -104,12 +104,12 @@ class CollectionViewCell: UICollectionViewCell {
 //        label?.attributedText = attributedString
         if let background = data.cellBackground {
             backgroundColoredView?.backgroundColor = (data.isType ? background : .white)
-                .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.2 : .Opacity.lightBackground.rawValue))
+                .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.2 : 0.1))
 
         } else {
             backgroundColoredView?.backgroundColor = data.isType ? .red
-                .withAlphaComponent(isWhite ? 1 : .Opacity.descriptionLight.rawValue) : .white
-                .withAlphaComponent(data.isSelected ? 1 : 0.2)
+                .withAlphaComponent(isWhite ? 1 : 0.2) : .white
+                .withAlphaComponent(data.isSelected ? 1 : 0.1)
         }
 //        if let texts = textStack,
 //           isWhite {

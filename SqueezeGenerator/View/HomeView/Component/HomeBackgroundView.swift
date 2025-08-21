@@ -63,21 +63,30 @@ struct HomeBackgroundView: View {
         
         return type.isBig || type.isTop  ? 20 : 0
     }
-    
+
+    var gradientOpacity: CGFloat {
+        let min = 0.3
+        let result = blurAlpha / 100
+        return result <= min ? result : min
+    }
+
     var body: some View {
         ZStack(content: {
             primaryGradient
-                .opacity(0.8)
-                .blur(radius: 20)
+                .opacity(0.5 - gradientOpacity)
+                .blur(radius: 20 + blurAlpha)
+
             curclesOverlayView
             HomeIllustrutionView()
                 .tint(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
                 .foregroundColor(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
                 .scaleEffect(properties.illustrationScale)
                 .animation(.bouncy, value: properties.illustrationScale)
+                .blur(radius: blurAlpha)
+
         })
-        .blur(radius: blurAlpha)
-        .animation(.smooth, value: blurAlpha)
+//        .blur(radius: blurAlpha)
+//        .animation(.smooth, value: blurAlpha)
         .ignoresSafeArea(.all)
         .background {
             Color.black
