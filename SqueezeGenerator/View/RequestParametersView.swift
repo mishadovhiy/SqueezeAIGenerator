@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RequestParametersView: View {
+#warning("refactor: replace 'request' with 'selectedCategory'")
     @Binding var request: NetworkRequest.SqueezeRequest?
     var selectedCategory:  NetworkResponse.CategoriesResponse.Categories?
     @State var statPresenting: Bool = false
@@ -53,6 +54,20 @@ struct RequestParametersView: View {
             Image(.score)
                 .resizable()
                 .scaledToFit()
+                .shadow(radius: 5)
+                .background {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Text("\(savedResponses?.count ?? 0)")
+                                .font(.system(size: 7))
+                                .padding(2)
+                                .background(Color(uiColor: tint))
+                                .cornerRadius(4)
+                        }
+                        Spacer()
+                    }
+                }
         }
         .padding(.trailing, 9)
         .frame(width: .Padding.smallButtonSize.rawValue, height: .Padding.smallButtonSize.rawValue)
@@ -211,17 +226,7 @@ struct RequestParametersView: View {
 
         }
     }
-    
-    var title: AttributedString {
-        let text = NSMutableAttributedString()
-        text.append(.init(string: request?.category ?? "", attributes: [
-            .font: UIFont.systemFont(ofSize: 17, weight: .bold)
-        ]))
-        text.append(.init(string: " " + "Squeeze", attributes: [
-            .font: UIFont.systemFont(ofSize: 17, weight: .regular)
-        ]))
-        return .init(text)
-    }
+
     var description: AttributedString {
         let text = NSMutableAttributedString()
         
