@@ -10,6 +10,7 @@ import Foundation
 enum NetworkRequest:Codable {
     case support(SupportRequest)
     case squeeze(SqueezeRequest)
+    case result(ResultRequest)
     case fetchHTML(FetchHTMLRequest)
     case fetchAppData
     
@@ -24,6 +25,11 @@ enum NetworkRequest:Codable {
         switch self {
         case .fetchHTML:
             return ""
+        case .result(let request):
+            print(request.category, " rgefwdas ")
+            return """
+            Generate result for completed squeeze about \(request.category) in \(request.parentCategory), i have got \(request.gradePercent) grade out of 100. In structure: \(ResultRequest.ResponseStructure.prompt)
+            """
         case .squeeze(let advice):
             var result = advice
             if result.category.isEmpty {

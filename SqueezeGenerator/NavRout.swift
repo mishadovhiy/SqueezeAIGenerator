@@ -15,7 +15,7 @@ enum NavRout: Hashable {
     case requestGenerated
     case empty
     case cardView(CardsViewModel.ViewProperties)
-
+    case resultResponse(NetworkResponse.ResultResponse)
 
     case dbDetail(AdviceQuestionModel)
 
@@ -44,16 +44,22 @@ enum NavRout: Hashable {
         selectedRequest: Binding <NetworkRequest.SqueezeRequest?>,
         db: AppData) -> some View {
         switch self {
+        case .resultResponse(let response):
+            EmptyView()
+                .onAppear {
+                    viewModel.navValues.removeAll()
+                }
         case .question(let response):
             SqueezeView(response: response)
         case .result:
-            ResultView(saveModel: viewModel.response ?? .init(response: .init(data: .init()), save: .init(date: .init())), savePressed: .init(get: {
-                false
-            }, set: {
-                if $0 {
-                    viewModel.savePressed(db: db)
-                }
-            }))
+            EmptyView()
+//            ResultView(saveModel: viewModel.response ?? .init(response: .init(data: .init()), save: .init(date: .init())), savePressed: .init(get: {
+//                false
+//            }, set: {
+//                if $0 {
+//                    viewModel.savePressed(db: db)
+//                }
+//            }))
         case .requestToGenerateParameters(let request, let category):
             RequestParametersView(request: selectedRequest, selectedCategory: category)
             //{

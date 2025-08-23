@@ -19,7 +19,7 @@ extension NetworkModel {
                     request?.httpMethod = "GET"
                 }
                 
-            case .squeeze:
+            case .squeeze, .result:
                 request = URLRequest(url: .init(string: Keys.openAIChatURL.rawValue)!)
                 
                 let prompt = input.promt

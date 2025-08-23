@@ -36,7 +36,16 @@ struct NetworkModel {
         })
 
     }
-    
+
+    func result(_ input: NetworkRequest.ResultRequest,
+                completion: @escaping(NetworkResponse.ResultResponse?)->()) {
+        let request = Request(.result(input))
+        request.perform(completionn: { response in
+            completion(.init(response: .init(data: response ?? .init(), encoding: .utf8) ?? ""))
+        })
+
+    }
+
     func support(_ input:NetworkRequest.SupportRequest, completion:@escaping(NetworkResponse.SupportResponse?)->()) {
         Request.init(.support(input)).perform(data: "44fdcv8jf3") { data in
             completion(.init(data: data))

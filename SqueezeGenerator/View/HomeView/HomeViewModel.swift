@@ -367,12 +367,25 @@ class HomeViewModel: ObservableObject {
         //        response?.save = .init(grade: totalGrade, category: "Shiz")
         db.db.responses.append(response!)
         // navValues = []
+        let response = response
+        print(response!.save.category, " rtgerfeadsaads ")
+        /*Task(priority: .background) {
+            NetworkModel()
+                .result(.init(parentCategory: response?.save.category ?? "",
+                              category: response?.save.category ?? "",
+                              gradePercent: "\(response?.resultPercentInt ?? 0)")) { respos in
+                    print(respos, " gerfwdasx ")
+                }
+
+
+        }*/
         withAnimation {
             navValues.removeAll()
-            response = nil
+            self.response = nil
             rqStarted = false
             selectedRequest = nil
         }
+
     }
 
     var requestLoading: Bool {

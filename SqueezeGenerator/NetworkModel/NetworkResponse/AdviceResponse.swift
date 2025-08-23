@@ -44,6 +44,18 @@ struct AdviceQuestionModel: Codable, Equatable, Hashable {
 }
 
 extension NetworkResponse {
+    struct ResultResponse: Hashable, Equatable {
+        typealias Key = NetworkRequest.ResultRequest.ResponseStructure
+        var data: [NetworkRequest.ResultRequest.ResponseStructure: String]
+
+        init(response: String) {
+            data = [:]
+            NetworkRequest.ResultRequest.ResponseStructure.allCases.forEach { key in
+                let value = response.extractSubstring(key: key.key)
+                data.updateValue(value ?? "", forKey: key)
+            }
+        }
+    }
 #warning("todo: ai about response")
     //send results
     //decalre: structure for reaponse

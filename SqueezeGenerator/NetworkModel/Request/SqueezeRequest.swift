@@ -10,6 +10,36 @@ import Foundation
 extension NetworkRequest {
     static let reqStart = "requstStart"
 
+    struct ResultRequest: Codable, Equatable, Hashable {
+        var parentCategory: String
+        var category: String
+        var gradePercent: String
+
+        enum ResponseStructure: String, CaseIterable, OpenAIPrompt {
+            var keyDescription: String {
+                switch self {
+                case .description:
+                    "5-8 sentences (or longer) description"
+                case .gradeInNormalRange:
+                    "yes, medium or no"
+                case .advice:
+                    "list"
+                }
+            }
+
+            static var divider: String { .init(describing: Self.self) }
+
+            var subOptionType: [any NetworkRequest.OpenAIPrompt.Type]? {
+                return nil
+            }
+
+            case advice, gradeInNormalRange, description
+            var key: String {
+                rawValue
+            }
+        }
+    }
+
     struct SqueezeRequest: Codable, Equatable, Hashable {
         var type: String
         var category: String
