@@ -12,7 +12,7 @@ extension NetworkResponse {
         let appData: AppData
         let categories: [Categories]
         
-        struct Categories: Codable {
+        struct Categories: Codable, Equatable, Hashable {
             let name: String
             let description: String
             var list: [Categories]?

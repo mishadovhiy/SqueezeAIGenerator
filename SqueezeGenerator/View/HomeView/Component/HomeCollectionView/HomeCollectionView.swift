@@ -15,16 +15,15 @@ struct HomeCollectionView: View {
             ScrollView(.vertical, showsIndicators: false) {
 
                 LazyVStack(pinnedViews: .sectionHeaders) {
-                    Spacer().frame(height: proxy.size.height * 0.12)
 
-                    Spacer().frame(height: proxy.size.height * 0.69)
+                    Spacer().frame(height: proxy.size.height * 0.56)
+                    collectionHeader
+
                     Section {
                         ContentHomeCollectionView(proxy: proxy)
 
                     } header: {
                         sections
-
-//                        collectionHeader
                     }
 
                 }
@@ -118,24 +117,24 @@ struct HomeCollectionView: View {
         let opacityGradient = viewModel.gradientOpacity
         VStack {
             ZStack(content: {
-                //                appTitle
-                //                    .background(content: {
-                //                        Color.clear
-                //                            .blurBackground(
-                //                                opacity: .Opacity.lightBackground.rawValue * viewModel.gradientOpacity,
-                //                                cornerRadius: .CornerRadius.medium.rawValue)
-                //                            .padding(.vertical, -10)
-                //                    })
-                //                    .offset(x: opacityGradient * viewModel.collectionSubviewPaddings,
-                //                            y: opacityGradient * 10
-                //                    )
+                appTitle
+//                    .background(content: {
+//                        Color.clear
+//                            .blurBackground(
+//                                opacity: .Opacity.lightBackground.rawValue * viewModel.gradientOpacity,
+//                                cornerRadius: .CornerRadius.medium.rawValue)
+//                            .padding(.vertical, -10)
+//                    })
+//                    .offset(x: opacityGradient * viewModel.collectionSubviewPaddings,
+//                            y: opacityGradient * 10
+//                    )
             })
             .frame(maxWidth: .infinity,
                    alignment: .leading)
             Spacer()
 
         }
-        .frame(height: 220)
+        //        .frame(height: 220)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
@@ -156,18 +155,19 @@ struct HomeCollectionView: View {
 
     @ViewBuilder
     var appTitle: some View {
-        let opacityGradient = viewModel.gradientOpacity
+        //* (
+       // 1 - (opacityGradient >= 0.8 ? 0.8 : opacityGradient)
+   // )
+//        let opacityGradient = viewModel.gradientOpacity
         Text("Squeeze generator")
             .multilineTextAlignment(.leading)
-            .foregroundColor(.white.opacity(0.1 + (opacityGradient / 3)))
+            .foregroundColor(.white.opacity(0.1))// + (opacityGradient / 3)))
             .padding(.horizontal, 15)
             .lineSpacing(0)
             .lineLimit(nil)
             .font(
                 .system(
-                    size: Configuration.UI.FontType.extraLarge.rawValue * (
-                        1 - (opacityGradient >= 0.8 ? 0.8 : opacityGradient)
-                    ),
+                    size: Configuration.UI.FontType.extraLarge.rawValue,
                     weight: .semibold
                 )
             )
@@ -202,13 +202,13 @@ struct HomeCollectionView: View {
                 Spacer()
                     .frame(maxHeight: .infinity)
                 progress(item)
-                .clipped()
-                .animation(.bouncy, value: viewModel.largeParentCollections)
+                    .clipped()
+                    .animation(.bouncy, value: viewModel.largeParentCollections)
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 8)
         }
-//        .blurBackground(opacity: item.id == viewModel.selectedGeneralKeyID ? 1 : nil, cornerRadius: .CornerRadius.medium.rawValue)
+        //        .blurBackground(opacity: item.id == viewModel.selectedGeneralKeyID ? 1 : nil, cornerRadius: .CornerRadius.medium.rawValue)
         .background(content: {
             Color.white.opacity(item.id == viewModel.selectedGeneralKeyID ? 0.1 : 0)
                 .animation(.smooth, value: viewModel.selectedGeneralKeyID)
@@ -244,11 +244,11 @@ struct HomeCollectionView: View {
         Spacer().frame(maxHeight: viewModel.largeParentCollections ? .zero : .infinity)
             .animation(.bouncy, value: viewModel.largeParentCollections)
         Text(item.title)
-//            .foregroundColor(
-//                .init(uiColor: item.id == viewModel.selectedGeneralKeyID ? .black : .white).opacity(
-//                    viewModel.selectedGeneralKeyID != nil ? 0.5 : .Opacity.descriptionLight.rawValue
-//                )
-//            )
+        //            .foregroundColor(
+        //                .init(uiColor: item.id == viewModel.selectedGeneralKeyID ? .black : .white).opacity(
+        //                    viewModel.selectedGeneralKeyID != nil ? 0.5 : .Opacity.descriptionLight.rawValue
+        //                )
+        //            )
             .foregroundColor(
                 .white.opacity(viewModel.selectedGeneralKeyID == item.id ? 0.6 : .Opacity.descriptionLight.rawValue)
             )

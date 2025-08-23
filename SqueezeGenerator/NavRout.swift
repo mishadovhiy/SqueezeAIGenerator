@@ -11,7 +11,7 @@ import SwiftUI
 enum NavRout: Hashable {
     case result
     case question(NetworkResponse.AdviceResponse.QuestionResponse)
-    case requestToGenerateParameters(NetworkRequest.SqueezeRequest)
+    case requestToGenerateParameters(NetworkRequest.SqueezeRequest, NetworkResponse.CategoriesResponse.Categories?)
     case requestGenerated
     case empty
     case cardView(CardsViewModel.ViewProperties)
@@ -54,8 +54,8 @@ enum NavRout: Hashable {
                     viewModel.savePressed(db: db)
                 }
             }))
-        case .requestToGenerateParameters(let request):
-            RequestParametersView(request: selectedRequest)
+        case .requestToGenerateParameters(let request, let category):
+            RequestParametersView(request: selectedRequest, selectedCategory: category)
             //{
 //                withAnimation {
 //                    viewModel.navValues.append(.empty)

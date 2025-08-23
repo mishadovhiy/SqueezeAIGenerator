@@ -29,6 +29,7 @@ class HomeViewModel: ObservableObject {
 #warning("tood: refactor - rename")
     @Published var scrollPosition: ScrollReaderModifier.ScrollResult = .init()
     @Published var viewSize: CGFloat = .zero
+    var selectedCategory:  NetworkResponse.CategoriesResponse.Categories?
     var statsPreview: [String: ResponsePreviewModel] = [:]
     var largeParentCollections: Bool {
         selectedGeneralKeyID == nil
@@ -464,6 +465,7 @@ class HomeViewModel: ObservableObject {
                     parentTitle = nil
                 }
                 print(selected.color, " hytfre")
+                self.selectedCategory = selected
                 withAnimation {
                     selectedRequest = .init(
                         type: selected.name,
@@ -480,7 +482,7 @@ class HomeViewModel: ObservableObject {
                                 category: parentTitle ?? self.category,
                                 description: selected.description,
                                 color: selected.color
-                            )
+                            ), selected
                         )
                     )
                 //                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)

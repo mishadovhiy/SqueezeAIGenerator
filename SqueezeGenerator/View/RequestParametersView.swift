@@ -9,53 +9,32 @@ import SwiftUI
 
 struct RequestParametersView: View {
     @Binding var request: NetworkRequest.SqueezeRequest?
+    var selectedCategory:  NetworkResponse.CategoriesResponse.Categories?
     @State var statPresenting: Bool = false
     @EnvironmentObject private var db: AppData
+    var dbResponses: [AdviceQuestionModel]? {
+        db.db.responses.filter( {
+           $0.save.request?.type == request?.type
+       })
+    }
 
     var body: some View {
-        VStack(spacing: 15) {
-            VStack(alignment: .leading, spacing: 15) {
-                Text(title)
-                Text(description)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, 15)
+        VStack() {
             Spacer()
-            HStack(content: {
-                difficutiesPicker
-                Spacer()
-                    .frame(maxWidth: request?.difficulty == nil ? .infinity : .zero)
-                    .animation(.bouncy(duration: 0.3), value: request?.difficulty)
-
-            })
-            .padding(.horizontal, 5)
-            .frame(alignment: .leading)
-            .padding(.bottom, 0)
-            .animation(.bouncy(duration: 0.5), value: request?.difficulty)
-
+                .frame(height: 40)
+            cardView
+            Spacer()
+                .frame(height: 40)
 //                .padding(.horizontal, 10)
         }
         .padding(.horizontal, 12)
         .padding(.bottom, 30)
-        .navigationTitle(request?.type ?? "")
+        .navigationTitle(request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
         .toolbar {
             ToolbarItem(placement: .navigation) {
-                if db.db.responses.last(where: {
-                    $0.save.request?.type == request?.type
-                }) != nil {
-                    Button {
-                        statPresenting = true
-                    } label: {
-                        Image(.score)
-                            .resizable()
-                            .scaledToFit()
-                    }
-                    .padding(.trailing, 9)
-                    .frame(width: .Padding.smallButtonSize.rawValue, height: .Padding.smallButtonSize.rawValue)
-                    .blurBackground(cornerRadius: .CornerRadius.button.rawValue)
-
+                if let dbResponses {
+                    toolBar(dbResponses)
                 }
-                
             }
         }
         .fullScreenCover(isPresented: $statPresenting) {
@@ -64,8 +43,136 @@ struct RequestParametersView: View {
         .onChange(of: statPresenting) { newValue in
             db.sheetPresenting = newValue
         }
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
+    }
 
+    func toolBar(_ savedResponses: [AdviceQuestionModel]?) -> some View {
+        Button {
+            statPresenting = true
+        } label: {
+            Image(.score)
+                .resizable()
+                .scaledToFit()
+        }
+        .padding(.trailing, 9)
+        .frame(width: .Padding.smallButtonSize.rawValue, height: .Padding.smallButtonSize.rawValue)
+        .blurBackground(cornerRadius: .CornerRadius.button.rawValue)
+    }
+
+    var cardView: some View {
+        VStack {
+            scrollContentView
+            difficultiesView
+        }
+        .background {
+            BlurView()
+                .background(.white.opacity(0.05))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 32)
+                        .stroke(.white.opacity(0.1), lineWidth: 1)
+                }
+        }
+        .cornerRadius(32)
+    }
+
+    var typeTitle: some View {
+        Text(request?.type.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+            .font(.system(size: 32, weight: .semibold))
+            .frame(alignment: .center)
+            .multilineTextAlignment(.center)
+            .background {
+                HStack {
+                    Spacer().frame(maxWidth: .infinity)
+                    Text(request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+                        .font(.system(size: 9, weight: .semibold))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color(uiColor: tint))
+                        .cornerRadius(6)
+                        .offset(x: -4, y: -13)
+                        .shadow(color: .black.opacity(0.2),
+                                radius: 4)
+                }
+            }
+    }
+
+    var scrollContentView: some View {
+        ScrollView(.vertical) {
+            VStack(alignment: .leading, spacing: 15) {
+                Spacer().frame(height: 20)
+                categoryImage
+                VStack(alignment: .center) {
+                    HStack {
+                        Spacer()
+                        typeTitle
+                        Spacer()
+                    }
+                }
+
+                Text(description)
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.leading)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 15)
+        }
+    }
+
+    var difficultiesView: some View {
+        HStack(content: {
+            difficutiesPicker
+            Spacer()
+                .frame(maxWidth: request?.difficulty == nil ? .infinity : .zero)
+                .animation(.bouncy(duration: 0.3), value: request?.difficulty)
+
+        })
+        .padding(.horizontal, 5)
+        .frame(alignment: .leading)
+        .padding(.bottom, 0)
+        .animation(.bouncy(duration: 0.5), value: request?.difficulty)
+        .padding(.bottom, 14)
+        .padding(.horizontal, 10)
+    }
+
+    var categoryImage: some View {
+        HStack {
+            Spacer()
+            AsyncImage(url: .init(string: selectedCategory?.imageURL ?? "")) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80)
+                default:
+                    RoundedRectangle(cornerRadius: 15)
+                        .fill(.red)
+                        .frame(width: 60)
+                }
+            }
+            .padding(25)
+            .background {
+                Circle()
+                    .fill(.white.opacity(0.05))
+                    .background {
+                        BlurView()
+                    }
+                    .overlay {
+                        Circle()
+                            .stroke(.white.opacity(0.05), lineWidth: 1)
+                    }
+
+            }
+            Spacer()
+        }
+
+    }
+
+    var tint: UIColor {
+        .init(hex: selectedCategory?.color?.topLeft ?? "")!
     }
 
     var difficutiesPicker: some View {
@@ -85,18 +192,21 @@ struct RequestParametersView: View {
                     .padding(.horizontal, request?.difficulty == difficulty ? .zero : 15)
                     .animation(.bouncy(duration: 0.5), value: request?.difficulty)
             }
-            .foregroundColor(request?.difficulty == difficulty ? .dark : .white)
+            .foregroundColor(.white)
             .tint(request?.difficulty == difficulty ? .white : .white)
-            .font(.system(size: 16, weight: .semibold))
-            .frame(height: 40)
+            .font(.system(size: 14, weight: .regular))
+            .frame(height: 35)
             .frame(maxWidth: request?.difficulty == difficulty ? .infinity : .none)
-            .background(request?.difficulty == difficulty ? .white : .black.opacity(0.15))
+            .background(content: {
+                request?.difficulty == difficulty ? Color(uiColor: tint) : .white.opacity(0.1)
+
+            })
             .cornerRadius(16)
             .overlay {
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(.white, lineWidth: 2)
+                    .stroke(.white, lineWidth: request?.difficulty == difficulty ? 0 : 1)
             }
-            .shadow(color: .black, radius: 10)
+            .shadow(color: .black.opacity(0.3), radius: 10)
             .animation(.smooth, value: request?.difficulty == difficulty)
 
         }
@@ -116,10 +226,10 @@ struct RequestParametersView: View {
         let text = NSMutableAttributedString()
         
         text.append(.init(string: "Will Generate questions", attributes: [
-            .font: UIFont.systemFont(ofSize: 14, weight: .regular)
+            .font: UIFont.systemFont(ofSize: 16, weight: .regular)
         ]))
         text.append(.init(string: " on" + (request?.description ?? ""), attributes: [
-            .font: UIFont.systemFont(ofSize: 14, weight: .bold),
+            .font: UIFont.systemFont(ofSize: 16, weight: .bold),
         ]))
         return .init(text)
     }

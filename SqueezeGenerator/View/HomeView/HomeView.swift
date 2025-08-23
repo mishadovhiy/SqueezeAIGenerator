@@ -66,13 +66,14 @@ struct HomeView: View {
     @ViewBuilder
     var buttonsView: some View {
         let needButton = viewModel.buttonsViewHeight
-        let background = viewModel.backgroundProperties.backgroundGradient?.topLeft ?? String.HexColor.puroure2Light.rawValue
+        let background1 = viewModel.backgroundProperties.backgroundGradient?.topLeft ?? String.HexColor.puroure2Light.rawValue
+        let background2 = viewModel.backgroundProperties.backgroundGradient?.bottomRight ?? String.HexColor.puroure2Light.rawValue
         VStack {
             Spacer()
                 Button(viewModel.response != nil ? "squeeze" : "Start") {
                     viewModel.primaryButtonPressed()
                 }
-                .font(.typed(.section))
+                .font(.typed(.text))
                 .padding(.horizontal, 50)
                 .frame(height: needButton)
                 .frame(maxWidth: .infinity)
@@ -80,7 +81,7 @@ struct HomeView: View {
                 .background(
                     Color(
                         uiColor: .init(
-                            hex: background
+                            hex: background1
                         )!
                     )
                 )
@@ -89,7 +90,7 @@ struct HomeView: View {
                 .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
                 .animation(.smooth, value: needButton > 0)
                 .shadow(
-                    color: Color(uiColor: .init(hex: background)!),
+                    color: Color(uiColor: .init(hex: background1)!),
                     radius: 20,
                     x: 20, y: 15
                 )
@@ -135,15 +136,15 @@ struct HomeView: View {
             } else {
                 HomeCollectionView()
                     .environmentObject(viewModel)
-//                    .overlay {
-//                        VStack {
-//                            Button("cards") {
-//                                viewModel.navValues.append(.cardView(.init(type: "test", data: .demo)))
-//                            }
-//                            .frame(height: 40)
-//                            Spacer()
-//                        }
-//                    }
+                    .overlay {
+                        VStack {
+                            Button("cards") {
+                                viewModel.navValues.append(.cardView(.init(type: "test", data: .demo)))
+                            }
+                            .frame(height: 40)
+                            Spacer()
+                        }
+                    }
             }
 
         }
