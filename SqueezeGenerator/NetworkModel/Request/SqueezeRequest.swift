@@ -13,6 +13,7 @@ extension NetworkRequest {
     struct SqueezeRequest: Codable, Equatable, Hashable {
         var type: String
         var category: String
+        var parentCategory: String
         var description: String
         var color: NetworkResponse.CategoriesResponse.Categories.Color?
         var difficulty: Difficulty? = nil
@@ -21,7 +22,12 @@ extension NetworkRequest {
             case easie, medium, hard
         }
         
-        static let `default`: Self = .init(type: "mental health", category: "Schizophrenia", description: "deep, obvious symptoms that strongly represents illness")
+        static let `default`: Self = .init(
+            type: "mental health",
+            category: "Schizophrenia",
+            parentCategory: "mental health",
+            description: "deep, obvious symptoms that strongly represents illness"
+        )
         
         enum Question: String, Codable, OpenAIPrompt, CaseIterable {
             

@@ -30,10 +30,10 @@ struct RequestParametersView: View {
         }
         .padding(.horizontal, 12)
         .padding(.bottom, 30)
-        .navigationTitle(request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+        .navigationTitle(request?.parentCategory.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
         .toolbar {
             ToolbarItem(placement: .navigation) {
-                if let dbResponses {
+                if let dbResponses, !dbResponses.isEmpty {
                     toolBar(dbResponses)
                 }
             }

@@ -18,7 +18,7 @@ struct HomeCollectionView: View {
 
                     Spacer().frame(height: proxy.size.height * 0.56)
                     collectionHeader
-
+                    Spacer().frame(height: 10)
                     Section {
                         ContentHomeCollectionView(proxy: proxy)
 
