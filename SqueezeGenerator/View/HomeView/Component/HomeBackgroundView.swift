@@ -11,65 +11,6 @@ struct HomeBackgroundView: View {
     @Binding var type: `Type`
     @Binding var properties: BakcgroundProperties
 
-    private var defaultBackgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
-        .init(
-            tint: nil,
-            topLeft: .HexColor.lightPink.rawValue,
-            top: .HexColor.puroure2Light.rawValue,
-            left: .HexColor.puroure2Light.rawValue,
-            right: .HexColor.lightPink.rawValue,
-            bottom: .HexColor.purpureLight.rawValue,
-            bottomRight: .HexColor.puroure2Light.rawValue
-        )
-    }
-    
-    var backgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
-        properties.backgroundGradient ?? defaultBackgroundColors
-    }
-    enum `Type`:String {
-        case big, loading, regular, topRegular, topBig
-        static let `default`: Self = .regular
-        
-        var isTop: Bool {
-            rawValue.lowercased().contains("top")
-        }
-        
-        var isBig: Bool {
-            rawValue.lowercased().contains("big")
-        }
-    }
-    var duration: TimeInterval {
-        if type == .loading {
-            return 3
-        }
-        return 5
-    }
-    
-    struct BakcgroundProperties {
-        var blurAlpha: CGFloat? = nil
-        var needOval: Bool = true
-        var illustrationScale: CGFloat = 1
-        var backgroundGradient: NetworkResponse.CategoriesResponse.Categories.Color? = nil
-    }
-    
-    var blurAlpha: CGFloat {
-        if let alpha = properties.blurAlpha {
-            return alpha
-        }
-        let ignorBlur: [Type] = [.loading, .regular, .topBig, .topRegular]
-        if ignorBlur.contains(type) {
-            return 0
-        }
-        
-        return type.isBig || type.isTop  ? 20 : 0
-    }
-
-    var gradientOpacity: CGFloat {
-        let min = 0.3
-        let result = blurAlpha / 100
-        return result <= min ? result : min
-    }
-
     var body: some View {
         ZStack(content: {
             primaryGradient
@@ -94,7 +35,48 @@ struct HomeBackgroundView: View {
         }
 
     }
-    
+
+    private var defaultBackgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
+        .init(
+            tint: nil,
+            topLeft: .HexColor.lightPink.rawValue,
+            top: .HexColor.puroure2Light.rawValue,
+            left: .HexColor.puroure2Light.rawValue,
+            right: .HexColor.lightPink.rawValue,
+            bottom: .HexColor.purpureLight.rawValue,
+            bottomRight: .HexColor.puroure2Light.rawValue
+        )
+    }
+
+    var backgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
+        properties.backgroundGradient ?? defaultBackgroundColors
+    }
+
+    var duration: TimeInterval {
+        if type == .loading {
+            return 3
+        }
+        return 5
+    }
+
+    var blurAlpha: CGFloat {
+        if let alpha = properties.blurAlpha {
+            return alpha
+        }
+        let ignorBlur: [Type] = [.loading, .regular, .topBig, .topRegular]
+        if ignorBlur.contains(type) {
+            return 0
+        }
+
+        return type.isBig || type.isTop  ? 20 : 0
+    }
+
+    var gradientOpacity: CGFloat {
+        let min = 0.3
+        let result = blurAlpha / 100
+        return result <= min ? result : min
+    }
+
     var primaryGradient: some View {
         let def = defaultBackgroundColors
         return ZStack {
@@ -261,6 +243,28 @@ struct HomeBackgroundView: View {
         }
     }
 
+}
+
+extension HomeBackgroundView {
+    enum `Type`:String {
+        case big, loading, regular, topRegular, topBig
+        static let `default`: Self = .regular
+
+        var isTop: Bool {
+            rawValue.lowercased().contains("top")
+        }
+
+        var isBig: Bool {
+            rawValue.lowercased().contains("big")
+        }
+    }
+
+    struct BakcgroundProperties {
+        var blurAlpha: CGFloat? = nil
+        var needOval: Bool = true
+        var illustrationScale: CGFloat = 1
+        var backgroundGradient: NetworkResponse.CategoriesResponse.Categories.Color? = nil
+    }
 }
 
 #Preview {
