@@ -18,12 +18,22 @@ struct HomeBackgroundView: View {
                 .blur(radius: 20 + blurAlpha)
 
             curclesOverlayView
-            HomeIllustrutionView()
-                .tint(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
-                .foregroundColor(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
-                .scaleEffect(properties.illustrationScale)
-                .animation(.bouncy, value: properties.illustrationScale)
-                .blur(radius: blurAlpha)
+//            HomeIllustrutionView()
+//                .tint(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
+//                .foregroundStyle(
+//                    LinearGradient(
+//                        colors: [
+//                            .init(uiColor: .init(hex: backgroundColors.topLeft!)!),
+//                            .init(uiColor: .init(hex: backgroundColors.bottomRight!)!)
+//                        ],
+//                        startPoint: .topLeading,
+//                        endPoint: .bottomTrailing
+//                    )
+//                )
+////                .foregroundColor(.init(uiColor: .init(hex: backgroundColors.topLeft!)!))
+//                .scaleEffect(properties.illustrationScale)
+//                .animation(.bouncy, value: properties.illustrationScale)
+//                .blur(radius: blurAlpha)
 
         })
 //        .blur(radius: blurAlpha)
@@ -78,85 +88,23 @@ struct HomeBackgroundView: View {
     }
 
     var primaryGradient: some View {
-        let def = defaultBackgroundColors
+        let defaultColor = defaultBackgroundColors
         return ZStack {
 
             ZStack {
-                LinearGradient(colors: [
-                    .init(uiColor: .init(hex: backgroundColors.top ?? def.top!)!),
-                    .init(uiColor: .init(hex: backgroundColors.bottom)!)
-                ], startPoint: .top, endPoint: .bottom)
+                verticalGradient(defaultColor)
 
-                VStack {
-                    HStack {
-                        RadialGradient(colors: [
-                            .init(uiColor: .init(hex: backgroundColors.topLeft ?? def.topLeft!)!),
-                            .init(uiColor: .init(hex: backgroundColors.topLeft ?? def.topLeft!)!).opacity(0)
-                        ], center: .center, startRadius: 1, endRadius: 200)
-                        .padding(.leading, -100)
-                        .padding(.top, -120)
-                        .opacity(1)
-                        .frame(maxWidth: .infinity)
-                        Spacer().frame(maxWidth: .infinity)
-                    }
-                    Spacer().frame(maxHeight: .infinity)
-                    Spacer().frame(maxHeight: .infinity)
-                }
+                topLeftGradient(defaultColor)
 
-                VStack {
-                    Spacer()
-                        .frame(maxHeight: .infinity)
-                    LinearGradient(colors: [
-                        .init(uiColor: .init(hex: backgroundColors.left ?? def.left!)!),
-                        .init(uiColor: .init(hex: backgroundColors.left ?? def.left!)!).opacity(0),
-                        .init(uiColor: .init(hex: backgroundColors.right ?? def.right!)!).opacity(0),
-                        .init(uiColor: .init(hex: backgroundColors.right ?? def.right!)!)
-                    ], startPoint: .leading, endPoint: .trailing)
-                    .padding(.leading, -50)
-                    .padding(.leading, -20)
-                    .rotationEffect(.degrees(10))
-                    Spacer()
-                        .frame(maxHeight: .infinity)
-                }
+                horizontalGradient(defaultColor)
+//
+//                topGradient(defaultColor)
 
-                RadialGradient(colors: [
-                    .init(uiColor: .init(hex: backgroundColors.top ?? def.top!)!),
-                    .init(uiColor: .init(hex: backgroundColors.top ?? def.top!)!).opacity(0)
-                ], center: .center, startRadius: 1, endRadius: 100)
-                .offset(x: -10, y: -35)
-                .opacity(1)
 
-                RadialGradient(colors: [
-                    .init(uiColor: .init(hexColor: .lightPink)!),
-                    .init(uiColor: .init(hexColor: .lightPink)!).opacity(0)
-                ], center: .center, startRadius: 1, endRadius: 100)
-                .offset(
-                    x: animate ? [-30, -100, -30, 20, -5, 30, 25].randomElement()! : [20, 50, 10, -30].randomElement()!,
-                    y: animate ? [40, -100, -20, 20, 50, 30, 25]
-                        .randomElement()! : [100, 105, 50, 90, 80, 120]
-                        .randomElement()!
-                )
-                .opacity(properties.needOval ? (animate ? [0.9, 0.8, 0.6, 0.9].randomElement()! : 0.9) : 0)
-                .animation(.bouncy(duration: duration)
-                    .repeatForever()
-                    .delay(0.6),
-                           value: animate)
+                bottomTrailingGradient(defaultColor)
 
-                VStack {
-                    Spacer().frame(maxHeight: .infinity)
-                    Spacer().frame(maxHeight: .infinity)
-                    HStack {
-                        Spacer().frame(maxWidth: .infinity)
-                        RadialGradient(colors: [
-                            .init(uiColor: .init(hex: backgroundColors.bottomRight ?? def.bottomRight!)!),
-                            .init(uiColor: .init(hex: backgroundColors.bottomRight ?? def.bottomRight!)!).opacity(0)
-                        ], center: .center, startRadius: 1, endRadius: 200)
-                        .padding(.trailing, -100)
-                        .padding(.bottom, -100)
-                        .opacity(1)
-                        .frame(maxWidth: .infinity)
-                    }
-                }
+                circleGradientOverlay
+
             }
             .animation(.smooth, value: backgroundColors.decode)
         }
@@ -164,7 +112,111 @@ struct HomeBackgroundView: View {
         .opacity(type == .loading ? 0 : 1)
         .animation(.smooth, value: type)
     }
-    
+
+    private var circleGradientOverlay: some View {
+        RadialGradient(colors: [
+            .init(uiColor: .init(hexColor: .lightPink)!),
+            .init(uiColor: .init(hexColor: .lightPink)!).opacity(0)
+        ], center: .center, startRadius: 1, endRadius: 100)
+        .offset(
+            x: gradientCirclePosition.x,
+            y: gradientCirclePosition.y
+        )
+        .opacity(properties.needOval ? gradientCircleOpacity : 0)
+        .animation(.bouncy(duration: duration),
+                   value: gradientCircleOpacity)
+        .onAppear {
+            animateGradientCircle()
+        }
+    }
+
+    func animateGradientCircle() {
+        withAnimation(.smooth(duration: 6)) {
+            gradientCircleOpacity = [0.9, 0.8, 0.6, 0.9].randomElement()!
+            gradientCirclePosition = .init(
+                x: animate ? [-30, -100, -30, 20, -5, 30, 25].randomElement()! : [20, 50, 10, -30].randomElement()!,
+                y: animate ? [40, -100, -20, 20, 50, 30, 25]
+                                                           .randomElement()! : [100, 105, 50, 90, 80, 120]
+                                                           .randomElement()!)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(6), execute: {
+            self.animateGradientCircle()
+        })
+    }
+
+    @State var gradientCircleOpacity: CGFloat = 0
+    @State var gradientCirclePosition: CGPoint = .zero
+
+    func bottomTrailingGradient(_ color: NetworkResponse.CategoriesResponse.Categories.Color) -> some View {
+        VStack {
+            Spacer().frame(maxHeight: .infinity)
+            Spacer().frame(maxHeight: .infinity)
+            HStack {
+                Spacer().frame(maxWidth: .infinity)
+                RadialGradient(colors: [
+                    .init(uiColor: .init(hex: backgroundColors.bottomRight ?? color.bottomRight!)!),
+                    .init(uiColor: .init(hex: backgroundColors.bottomRight ?? color.bottomRight!)!).opacity(0)
+                ], center: .center, startRadius: 1, endRadius: 200)
+                .padding(.trailing, -100)
+                .padding(.bottom, -100)
+                .opacity(1)
+                .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    func horizontalGradient(_ color: NetworkResponse.CategoriesResponse.Categories.Color) -> some View {
+        VStack {
+            Spacer()
+                .frame(maxHeight: .infinity)
+            LinearGradient(colors: [
+                .init(uiColor: .init(hex: backgroundColors.left ?? color.left!)!),
+                .init(uiColor: .init(hex: backgroundColors.left ?? color.left!)!).opacity(0),
+                .init(uiColor: .init(hex: backgroundColors.right ?? color.right!)!).opacity(0),
+                .init(uiColor: .init(hex: backgroundColors.right ?? color.right!)!)
+            ], startPoint: .leading, endPoint: .trailing)
+            .padding(.leading, -50)
+            .padding(.leading, -20)
+            .rotationEffect(.degrees(10))
+            Spacer()
+                .frame(maxHeight: .infinity)
+        }
+    }
+
+    func topGradient(_ color: NetworkResponse.CategoriesResponse.Categories.Color) -> some View {
+        RadialGradient(colors: [
+            .init(uiColor: .init(hex: backgroundColors.top ?? color.top!)!),
+            .init(uiColor: .init(hex: backgroundColors.top ?? color.top!)!).opacity(0)
+        ], center: .center, startRadius: 1, endRadius: 100)
+        .offset(x: -10, y: -35)
+        .opacity(1)
+    }
+
+    func topLeftGradient(_ color: NetworkResponse.CategoriesResponse.Categories.Color) -> some View {
+        VStack {
+            HStack {
+                RadialGradient(colors: [
+                    .init(uiColor: .init(hex: backgroundColors.topLeft ?? color.topLeft!)!),
+                    .init(uiColor: .init(hex: backgroundColors.topLeft ?? color.topLeft!)!).opacity(0)
+                ], center: .center, startRadius: 1, endRadius: 200)
+                .padding(.leading, -100)
+                .padding(.top, -120)
+                .opacity(1)
+                .frame(maxWidth: .infinity)
+                Spacer().frame(maxWidth: .infinity)
+            }
+            Spacer().frame(maxHeight: .infinity)
+            Spacer().frame(maxHeight: .infinity)
+        }
+    }
+
+    func verticalGradient(_ defaultColor: NetworkResponse.CategoriesResponse.Categories.Color) -> some View {
+        LinearGradient(colors: [
+            .init(uiColor: .init(hex: backgroundColors.top ?? defaultColor.top!)!),
+            .init(uiColor: .init(hex: backgroundColors.bottom)!)
+        ], startPoint: .top, endPoint: .bottom)
+    }
+
     let gradient: AngularGradient = .init(gradient: .init(colors: [.pink, .purple, .red, .yellow, .orange, .blue]), center: .center)
     @State var animate: Bool = false
     var circleScale: CGFloat {

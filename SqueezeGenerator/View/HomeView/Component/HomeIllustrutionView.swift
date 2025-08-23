@@ -11,6 +11,7 @@ struct HomeIllustrutionView: View {
     let width: CGFloat = 365
     @State var skyData: BottomSky = .init()
     @State var skyPos: CGFloat = 0.5
+
     var body: some View {
         VStack {
             Spacer()
@@ -172,12 +173,6 @@ fileprivate extension HomeIllustrutionView {
                         Spacer().frame(maxHeight: .infinity)
                         bigBuildings
                     }
-
-                    VStack {
-                        Spacer()
-                            .frame(maxHeight: .infinity)
-                        insideBuildings
-                    }
                 }
                 .frame(alignment: .bottom)
                 Spacer()
@@ -203,7 +198,7 @@ fileprivate extension HomeIllustrutionView {
             addSky()
         }
     }
-#warning("todo: sky not changing")
+
     func addSky() {
         print("tgerfwda")
         self.skyData.opacity = 1
@@ -226,44 +221,56 @@ fileprivate extension HomeIllustrutionView {
 
 fileprivate extension HomeIllustrutionView {
     var bigBuildings: some View {
-        HStack(alignment: .bottom) {
-            Image(.HomeIllustration.City1.Building._1)
-                .resizable()
-                .scaledToFit()
+        HStack(alignment: .bottom, spacing: .zero) {
+            VStack {
+                Spacer().frame(maxHeight: .infinity)
+                Image(.HomeIllustration.City1.Building._1)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(.top, -20)
+                    .overlay {
+                        HStack {
+                            Spacer()
+                                .frame(maxWidth: .infinity)
+                            Spacer()
+                                .frame(maxWidth: .infinity)
+                            Image(.HomeIllustration.City1.Building._1Inside)
+                                .resizable()
+                                .scaledToFit()
+                                .padding(.top, 20)
+                            Spacer()
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
+            }
             Image(.HomeIllustration.City1.Building._2)
                 .resizable()
                 .scaledToFit()
+                .overlay {
+                    VStack {
+                        Spacer().frame(maxHeight: .infinity)
+                        HStack {
+                            Image(.HomeIllustration.City1.Building._2Inside)
+                                .resizable()
+                                .scaledToFit()
+                            Image(.HomeIllustration.City1.Building._3Inside)
+                                .resizable()
+                                .scaledToFit()
+                        }
+                    }
+                }
 
-            Image(.HomeIllustration.City1.Building._3)
-                .resizable()
-                .scaledToFit()
+            VStack {
+                Spacer().frame(maxHeight: .infinity)
+                Image(.HomeIllustration.City1.Building._3)
+                    .resizable()
+                    .scaledToFit()
+            }
+            .offset(x: -7)
         }
         .shadow(radius: 10)
 
         .frame(height: 240, alignment: .bottom)
-    }
-
-    var insideBuildings: some View {
-        HStack(alignment: .bottom) {
-            Image(.HomeIllustration.City1.Building._1Inside)
-                .resizable()
-                .scaledToFit()
-            Image(.HomeIllustration.City1.Building._2Inside)
-                .resizable()
-                .scaledToFit()
-
-            Image(.HomeIllustration.City1.Building._3Inside)
-                .resizable()
-                .scaledToFit()
-
-            Image(.HomeIllustration.City1.Building._4Inside)
-                .resizable()
-                .scaledToFit()
-        }
-        .shadow(radius: 5)
-
-        .frame(height: 150,
-               alignment: .bottom)
     }
 }
 

@@ -135,15 +135,15 @@ struct HomeView: View {
             } else {
                 HomeCollectionView()
                     .environmentObject(viewModel)
-                    .overlay {
-                        VStack {
-                            Button("cards") {
-                                viewModel.navValues.append(.cardView(.init(type: "test", data: .demo)))
-                            }
-                            .frame(height: 40)
-                            Spacer()
-                        }
-                    }
+//                    .overlay {
+//                        VStack {
+//                            Button("cards") {
+//                                viewModel.navValues.append(.cardView(.init(type: "test", data: .demo)))
+//                            }
+//                            .frame(height: 40)
+//                            Spacer()
+//                        }
+//                    }
             }
 
         }

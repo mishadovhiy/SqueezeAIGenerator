@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="37px" height="178px" viewBox="0 0 37 178" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="-17.7342436%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#4E4E4E" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#4E4E4E" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="squeezeGenerator" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.404831659">
+        <g id="Artboard" transform="translate(-225.000000, -234.000000)">
+            <g id="Group-2" transform="translate(225.000000, 226.000000)">
+                <path d="M11,27.1785542 L26.3818395,9.75197369 C28.2092209,7.68167458 31.3689152,7.48475085 33.4392143,9.31213223 C34.5003946,10.2487993 35.1148574,11.59135 35.1301556,13.0066997 L37,186 L11,186 L11,27.1785542 Z" id="Rectangle" fill="url(#linearGradient-1)"></path>
+                <path d="M0,44.5130396 C0.55667633,42.0795785 1.6238975,39.6785883 3.20166351,37.310069 C4.77942952,34.9415496 7.37887502,31.8381933 11,28 L11,186 L0,186 L0,44.5130396 Z" id="Rectangle4" fill="#999999"></path>
+            </g>
+        </g>
+    </g>
+</svg>

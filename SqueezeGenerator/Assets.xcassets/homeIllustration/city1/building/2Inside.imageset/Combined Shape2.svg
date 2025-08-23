@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="11px" height="85px" viewBox="0 0 11 85" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="11px" height="133px" viewBox="0 0 11 133" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
-    <title>Combined Shape</title>
+    <title>Combined Shape2</title>
     <desc>Created with Sketch.</desc>
     <defs>
         <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
@@ -10,8 +10,8 @@
         </linearGradient>
     </defs>
     <g id="squeezeGenerator" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.863374256">
-        <g id="Artboard" transform="translate(-209.000000, -327.000000)" fill="url(#linearGradient-1)">
-            <path d="M213,412 L209,412 L209,356 C209,354.895431 209.895431,354 211,354 C212.104569,354 213,354.895431 213,356 L213,327 L220,327 L220,412 L213,412 Z" id="Combined-Shape"></path>
+        <g id="Artboard" transform="translate(-209.000000, -279.000000)" fill="url(#linearGradient-1)">
+            <path d="M213,412 L209,412 L209,323 C209,321.895431 209.895431,321 211,321 C212.104569,321 213,321.895431 213,323 L213,279 L220,279 L220,412 L213,412 Z" id="Combined-Shape2"></path>
         </g>
     </g>
 </svg>

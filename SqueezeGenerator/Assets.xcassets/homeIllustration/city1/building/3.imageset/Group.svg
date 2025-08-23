@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="65px" height="169px" viewBox="0 0 65 169" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="55.9379029%" y1="-55.4505106%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#726F6F" offset="100%"></stop>
+        </linearGradient>
+        <path d="M17,34.4531608 L26.6488106,23.5422839 C31.7708941,17.7502311 40.6185497,17.2071135 46.4106025,22.329197 C46.5109393,22.4179277 46.6099974,22.5080937 46.7077464,22.5996673 L51.3981674,26.9937637 C60.0760004,35.1233613 65,46.4834855 65,58.3744545 L65,169 L17,169 L0,169 L4.37754459,7.58091681e-16 L13,0 C15.209139,-4.05812251e-16 17,1.790861 17,4 L17,34.4531608 Z" id="path-2"></path>
+        <linearGradient x1="50%" y1="-34.5870529%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#4E4E4E" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#4E4E4E" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="-34.5870529%" x2="50%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#4E4E4E" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#4E4E4E" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-6">
+            <stop stop-color="#4E4E4E" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#4E4E4E" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-7">
+            <stop stop-color="#4E4E4E" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#4E4E4E" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="squeezeGenerator" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-277.000000, -243.000000)">
+            <g id="Group" transform="translate(277.000000, 243.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Mask" fill="url(#linearGradient-1)" opacity="0.521321615" xlink:href="#path-2"></use>
+                <g mask="url(#mask-3)" id="Rectangle" opacity="0.404831659">
+                    <g transform="translate(2.000000, -9.000000)">
+                        <path d="M52,64.7888889 L52,64.7888889 C53.1045695,64.7888889 54,65.6843194 54,66.7888889 L54,182 L50,182 L50,66.7888889 C50,65.6843194 50.8954305,64.7888889 52,64.7888889 Z" fill="url(#linearGradient-4)"></path>
+                        <path d="M2,-1.8189894e-12 L2,-1.8189894e-12 C3.1045695,-1.81919231e-12 4,0.8954305 4,2 L4,182 L0,182 L2.22044605e-16,2 C8.67738547e-17,0.8954305 0.8954305,-1.81885413e-12 2,-1.8189894e-12 Z" fill="url(#linearGradient-5)"></path>
+                        <rect fill="url(#linearGradient-6)" x="26" y="69.0666667" width="9" height="112.933333"></rect>
+                        <rect fill="url(#linearGradient-7)" x="18" y="28" width="8" height="154"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

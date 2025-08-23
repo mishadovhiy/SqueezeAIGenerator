@@ -52,7 +52,7 @@ class HomeViewModel: ObservableObject {
                           backgroundGradient: background)
         }
         return .init(
-            needOval: self.selectedGeneralKeyID == nil && navValues.isEmpty,
+            needOval: navValues.isEmpty,
             illustrationScale: navValues.isEmpty ? (selectedRequest == nil ? 1 : 0.5) : (
                 navValues.last?.illustrationScale ?? 0
             ),

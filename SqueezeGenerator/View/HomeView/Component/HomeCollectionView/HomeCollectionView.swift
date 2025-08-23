@@ -216,7 +216,7 @@ struct HomeCollectionView: View {
 
         })
         .blurBackground(
-            opacity: 0.05,
+            opacity: 0.1,
             cornerRadius: .CornerRadius.medium.rawValue
         )
         .cornerRadius(.CornerRadius.large.rawValue)
