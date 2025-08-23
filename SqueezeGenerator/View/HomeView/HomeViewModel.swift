@@ -90,7 +90,7 @@ class HomeViewModel: ObservableObject {
 
     let maxCollectionPaddings: CGFloat = .Padding.content.rawValue
     var collectionSubviewPaddings: CGFloat {
-        maxCollectionPaddings //- (gradientOpacity * 10)
+        maxCollectionPaddings - (selectedGeneralKeyID != nil ? 10 : 0)
     }
 
     var circleType: HomeBackgroundView.`Type` {

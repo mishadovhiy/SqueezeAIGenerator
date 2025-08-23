@@ -97,16 +97,20 @@ struct RequestParametersView: View {
             .multilineTextAlignment(.center)
             .background {
                 HStack {
-                    Spacer().frame(maxWidth: .infinity)
-                    Text(request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
-                        .font(.system(size: 9, weight: .semibold))
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color(uiColor: tint))
-                        .cornerRadius(6)
-                        .offset(x: -4, y: -13)
-                        .shadow(color: .black.opacity(0.2),
-                                radius: 4)
+                    Spacer()
+                    VStack {
+                        Text(request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+                            .lineLimit(1)
+                            .font(.system(size: 9, weight: .semibold))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color(uiColor: tint))
+                            .cornerRadius(6)
+                            .offset(x: -4, y: -13)
+                            .shadow(color: .black.opacity(0.2),
+                                    radius: 4)
+                        Spacer()
+                    }
                 }
             }
     }
@@ -187,7 +191,7 @@ struct RequestParametersView: View {
     }
 
     var tint: UIColor {
-        .init(hex: selectedCategory?.color?.topLeft ?? "")!
+        .init(hex: selectedCategory?.color?.topLeft ?? "") ?? .dark
     }
 
     var difficutiesPicker: some View {
@@ -202,7 +206,7 @@ struct RequestParametersView: View {
                     }
                 }
             } label: {
-                Text(difficulty.rawValue)
+                Text(difficulty.rawValue.capitalized)
                     .lineLimit(1)
                     .padding(.horizontal, request?.difficulty == difficulty ? .zero : 15)
                     .animation(.bouncy(duration: 0.5), value: request?.difficulty)
