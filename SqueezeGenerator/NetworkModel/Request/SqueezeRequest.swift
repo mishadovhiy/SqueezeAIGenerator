@@ -42,6 +42,7 @@ extension NetworkRequest {
             }
 
             case advice, gradeInNormalRange, description
+#warning("rawValue causes compiler error for some reasons")
             var key: String {
                 rawValue
             }

@@ -26,6 +26,15 @@ struct DBDetailView: View {
         .background {
             ClearBackgroundView()
         }
+        .toolbar {
+            if item.save.aiResult != nil {
+                ToolbarItem {
+                    NavigationLink(value: NavRout.resultResponse(item)) {
+                        Text("result")
+                    }
+                }
+            }
+        }
     }
 
     var tableView: some View {

@@ -15,7 +15,7 @@ enum NavRout: Hashable {
     case requestGenerated
     case empty
     case cardView(CardsViewModel.ViewProperties)
-    case resultResponse(NetworkResponse.ResultResponse)
+    case resultResponse(AdviceQuestionModel)
 
     case dbDetail(AdviceQuestionModel)
 
@@ -39,16 +39,13 @@ enum NavRout: Hashable {
     }
 
     @ViewBuilder
-    func body(
-        _ viewModel: HomeViewModel,
-        selectedRequest: Binding <NetworkRequest.SqueezeRequest?>,
-        db: AppData) -> some View {
+func bodyContent(
+    _ viewModel: HomeViewModel,
+    selectedRequest: Binding <NetworkRequest.SqueezeRequest?>,
+    db: AppData) -> some View {
         switch self {
         case .resultResponse(let response):
-            EmptyView()
-                .onAppear {
-                    viewModel.navValues.removeAll()
-                }
+            ResultView(saveModel: response)
         case .question(let response):
             SqueezeView(response: response)
         case .result:
@@ -116,8 +113,20 @@ enum NavRout: Hashable {
                     viewModel.savePressed(db: db)
                 }
             }
-        case .dbDetail(_):
-            ClearBackgroundView()
+        case .dbDetail(let data):
+            DBDetailView(item: data)
         }
+    }
+
+
+    @ViewBuilder
+    func body(
+        _ viewModel: HomeViewModel,
+        selectedRequest: Binding <NetworkRequest.SqueezeRequest?>,
+        db: AppData) -> some View {
+            bodyContent(viewModel, selectedRequest: selectedRequest, db: db)
+                .background {
+                    ClearBackgroundView()
+                }
     }
 }

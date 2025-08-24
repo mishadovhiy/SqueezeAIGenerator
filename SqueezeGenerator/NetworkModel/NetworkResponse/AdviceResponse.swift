@@ -53,7 +53,7 @@ extension NetworkResponse {
             data = [:]
             NetworkRequest.ResultRequest.ResponseStructure.allCases.forEach { key in
                 let value = response.extractSubstring(key: key.key)
-                data.updateValue(value ?? "", forKey: key)
+                data.updateValue(value?.replacingOccurrences(of: "\n", with: "") ?? "", forKey: key)
             }
         }
     }

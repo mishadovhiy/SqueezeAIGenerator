@@ -388,7 +388,7 @@ class HomeViewModel: ObservableObject {
                         db.db.responses.append(response!)
                         DispatchQueue.main.async {
                             withAnimation {
-                                self?.navValues = [.resultResponse(respos!)]
+                                self?.navValues = [.resultResponse(response!)]
                                 self?.response = nil
                                 self?.rqStarted = false
                                 self?.selectedRequest = nil

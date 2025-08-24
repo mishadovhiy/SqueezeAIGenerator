@@ -38,7 +38,7 @@ struct DBCategoriyNavView: View {
                 .opacity(nav.isEmpty ? 1 : 0)
                 .animation(.smooth, value: nav.isEmpty)
                 .navigationDestination(for: NavRout.self) { path in
-                    navigationDestination(path)
+                    path.body(.init(), selectedRequest: .constant(nil), db: .init())
                         .opacity(path == self.nav.last ? 1 : 0)
                         .animation(.smooth, value: path == self.nav.last)
                         .toolbarColorScheme(.dark, for: .navigationBar)
@@ -76,13 +76,4 @@ struct DBCategoriyNavView: View {
     //        .ignoresSafeArea(.all)
     //
     //    }
-
-    @ViewBuilder
-    func navigationDestination(_ nav: NavRout) -> some View {
-        switch nav {
-        case .dbDetail(let data):
-            DBDetailView(item: data)
-        default: EmptyView()
-        }
-    }
 }

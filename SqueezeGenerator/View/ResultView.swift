@@ -9,46 +9,58 @@ import SwiftUI
 
 struct ResultView: View {
     let saveModel: AdviceQuestionModel
-    let response: NetworkResponse.ResultResponse
-    @Binding var savePressed: Bool
     
     var body: some View {
         VStack(content: {
             ScrollView(.vertical) {
                 VStack {
-                    Text(saveModel.save.request?.category ?? "")
+                    Text(saveModel.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
                     Spacer()
                         .frame(maxHeight: .infinity)
                     VStack {
                         Text("Your score")
                             .font(.system(size: 11, weight: .semibold))
                             .opacity(0.4)
-                        Text("\(saveModel.resultPercent * 100)%")
+                        Text("\(saveModel.resultPercentInt)%")
                     }
                     Spacer()
                         .frame(maxHeight: .infinity)
-    //                response
+                    VStack(spacing: 10) {
+                        responseView
+                    }
+                    .padding(10)
+                    .background {
+                        BlurView()
+                            .background {
+                                Color.white.opacity(0.05)
+                            }
+                            .cornerRadius(24)
+                    }
                 }
             }
-            Button {
-                savePressed = true
-            } label: {
-                Text("Home")
-            }
-
+            .padding(.horizontal, 10)
         })
-        .navigationTitle(saveModel.save.request?.type ?? "")
-        .onAppear {
-            print(response.data, " erfwdas ")
-        }
+        .navigationTitle(saveModel.save.request?.type.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
     }
 
-//    @ViewBuilder
-//    var response: some View {
-//        ForEach(response.data, id: \.self) {
-//            Text($0.key.rawValue)
-//            Text($0.value)
-//        }
-//    }
+    @ViewBuilder
+    var responseView: some View {
+        ForEach(NetworkRequest.ResultRequest.ResponseStructure.allCases, id: \.key) { key in
+            HStack(alignment: .top) {
+                Text(key.key.addSpaceBeforeCapitalizedLetters.capitalized)
+                    .multilineTextAlignment(.leading)
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(.white.opacity(0.3))
+                    .frame(width: 70, alignment: .leading)
+                Text(saveModel.save.aiResult?.data[key]?.replacingOccurrences(of: "\n", with: "") ?? "")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(.white)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            Divider()
+        }
+    }
 
 }
