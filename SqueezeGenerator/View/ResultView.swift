@@ -14,17 +14,37 @@ struct ResultView: View {
         VStack(content: {
             ScrollView(.vertical) {
                 VStack {
-                    Text(saveModel.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
-                    Spacer()
-                        .frame(maxHeight: .infinity)
-                    VStack {
-                        Text("Your score")
-                            .font(.system(size: 11, weight: .semibold))
-                            .opacity(0.4)
-                        Text("\(saveModel.resultPercentInt)%")
+                    Spacer().frame(height: 40)
+                    ZStack {
+                        ZStack {
+                            Circle()
+                                .stroke(.white.opacity(0.15), lineWidth: 3)
+                            Circle()
+                                .trim(from: 0, to: saveModel.resultPercent)
+                                .stroke(.red, lineWidth: 3)
+                        }
+                        .frame(width: 150)
+                        VStack {
+                            Text("Your score")
+                                .font(.system(size: 9, weight: .semibold))
+                                .opacity(0.4)
+                            Text("\(saveModel.resultPercentInt)%")
+                                .font(.system(size: 32, weight: .bold))
+                        }
                     }
                     Spacer()
-                        .frame(maxHeight: .infinity)
+                        .frame(height: 40)
+                    HStack(alignment: .bottom) {
+                        Spacer()
+                        Text(saveModel.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.2))
+                        Text("Category")
+                            .font(.system(size: 9, weight: .regular))
+                            .foregroundColor(.white.opacity(0.2))
+                        Spacer()
+                            .frame(maxWidth: .infinity)
+                    }
                     VStack(spacing: 10) {
                         responseView
                     }

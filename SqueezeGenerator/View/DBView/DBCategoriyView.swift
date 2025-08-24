@@ -118,7 +118,7 @@ struct DBCategoriyView: View {
 
     var listView: some View {
         ForEach(data, id: \.id) { response in
-            NavigationLink(value: NavRout.dbDetail(response)) {
+            NavigationLink(value: NavigationRout.dbDetail(response)) {
                 responseCell(response)
             }
             Divider()

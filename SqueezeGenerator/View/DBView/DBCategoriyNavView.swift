@@ -14,7 +14,7 @@ struct DBCategoriyNavView: View {
 
     let selectedType: String
 
-    @State var nav: [NavRout] = []
+    @State var nav: [NavigationRout] = []
 
     var body: some View {
         VStack(spacing: 0) {
@@ -37,8 +37,8 @@ struct DBCategoriyNavView: View {
                 }
                 .opacity(nav.isEmpty ? 1 : 0)
                 .animation(.smooth, value: nav.isEmpty)
-                .navigationDestination(for: NavRout.self) { path in
-                    path.body(.init(), selectedRequest: .constant(nil), db: .init())
+                .navigationDestination(for: NavigationRout.self) { path in
+                    path.body(.constant(nil))
                         .opacity(path == self.nav.last ? 1 : 0)
                         .animation(.smooth, value: path == self.nav.last)
                         .toolbarColorScheme(.dark, for: .navigationBar)

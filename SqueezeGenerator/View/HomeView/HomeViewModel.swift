@@ -18,7 +18,7 @@ class HomeViewModel: ObservableObject {
     @Published var category: String = ""
     @Published var description: String = ""
     @Published var type: String = ""
-    @Published var navValues: [NavRout] = []
+    @Published var navValues: [NavigationRout] = []
     @Published var rqStarted: Bool = false
     @Published var textPresenting: Bool = false
     @Published var dbPresenting: Bool = false
@@ -99,7 +99,7 @@ class HomeViewModel: ObservableObject {
     }
 
     var circleType: HomeBackgroundView.`Type` {
-        if appDataLoading || requestLoading {
+        if appDataLoading || requestLoading || navValues.last == .empty {
             return .loading
         }
         if !navValues.isEmpty {
@@ -506,7 +506,12 @@ class HomeViewModel: ObservableObject {
                 navValues
                     .append(
                         .requestToGenerateParameters(
-                            selectedRequest!, selected
+                            .init(get: {
+                                self.selectedRequest
+                            }, set: {
+                                self.selectedRequest = $0
+                                print($0?.difficulty, " yhegtrfwdeas ", self.selectedRequest?.difficulty)
+                            }), selected
                         )
                     )
                 //                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
@@ -546,23 +551,53 @@ class HomeViewModel: ObservableObject {
         )
     }
 
-    func primaryButtonPressed() {
+    func primaryButtonPressed(db: AppData) {
         if response != nil {
             navValues.append(
-                .cardView(.init(
-                    type: selectedRequest?.type ?? "",
-                    data: response!.response.questions.compactMap(
-                        { question in
-                            cardViewType(question)
-                        }
-                    )
-                ))
-            )
+                .cardView(
+                    .init(
+                        properties: .init(
+                            type: selectedRequest?.type ?? "",
+                            data: response!.response.questions.compactMap(
+                                { question in
+                                    cardViewType(question)
+                                }
+                            )
+                        ),
+                        completedSqueeze: { [weak self] selection in
+                            self?.cardsDonePressed(selection, db: db)
+                        })))
         } else {
             withAnimation {
                 navValues.append(.empty)
                 startGenerationRequest()
             }
+        }
+    }
+
+    func cardsDonePressed(_ selection: CardsViewModel.Selection, db: AppData) {
+        let questions = response?.response.questions ?? []
+        response?.save = .init(date: .init(), category: category, request: selectedRequest, questionResults: [:])
+        selection.forEach { (key: UUID, value: String) in
+            print("rtgerfwde key: ", key, " value: ", value)
+            if let question = questions.first(where: {
+                $0.id == key
+            }) {
+                if let options = question.options.first(where: {
+                    $0.id == .init(uuidString: value)!
+                }) {
+                    response?.save.questionResults.updateValue(options, forKey: question)
+                } else {
+                    fatalError()
+                }
+
+            } else {
+                fatalError()
+            }
+
+        }
+        DispatchQueue.main.async {
+            self.savePressed(db: db)
         }
     }
 }

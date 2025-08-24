@@ -41,7 +41,9 @@ struct NetworkModel {
                 completion: @escaping(NetworkResponse.ResultResponse?)->()) {
         let request = Request(.result(input))
         request.perform(completionn: { response in
-            completion(.init(response: .init(data: response ?? .init(), encoding: .utf8) ?? ""))
+            DispatchQueue.main.async {
+                completion(.init(response: .init(data: response ?? .init(), encoding: .utf8) ?? ""))
+            }
         })
 
     }

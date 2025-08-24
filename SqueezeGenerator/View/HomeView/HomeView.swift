@@ -71,7 +71,7 @@ struct HomeView: View {
         VStack {
             Spacer()
                 Button(viewModel.response != nil ? "squeeze" : "Start") {
-                    viewModel.primaryButtonPressed()
+                    viewModel.primaryButtonPressed(db: db)
                 }
                 .font(.typed(.text))
                 .padding(.horizontal, 50)
@@ -126,12 +126,12 @@ struct HomeView: View {
     var homeRoot: some View {
         VStack {
             if viewModel.response != nil {
-                ReadyView {
+                ReadyView(presenter: .init(cancelPressed: {
                     withAnimation {
                         viewModel.response = nil
                         viewModel.rqStarted = false
                     }
-                }
+                }))
 
             } else {
                 HomeCollectionView()
@@ -139,7 +139,12 @@ struct HomeView: View {
                     .overlay {
                         VStack {
                             Button("cards") {
-                                viewModel.navValues.append(.cardView(.init(type: "test", data: .demo)))
+                                viewModel.navValues
+                                    .append(
+                                        .cardView(.init(properties: .init(type: "demo", data: .demo), completedSqueeze: { selection in
+
+                                        }))
+                                    )
                             }
                             .frame(height: 40)
                             Spacer()
@@ -155,11 +160,8 @@ struct HomeView: View {
     var navigationStack: some View {
         NavigationStack(path: $viewModel.navValues) {
             homeRoot
-            .navigationDestination(for: NavRout.self) { navRout in
-                navRout.body(
-                    viewModel,
-                    selectedRequest: $viewModel.selectedRequest,
-                    db: db)
+            .navigationDestination(for: NavigationRout.self) { navRout in
+                navRout.body($viewModel.selectedRequest)
                     .opacity(viewModel.navValues.last == navRout ? 1 : 0)
                     .background {
                         ClearBackgroundView()

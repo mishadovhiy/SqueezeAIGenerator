@@ -10,6 +10,7 @@ import SwiftUI
 struct RequestParametersView: View {
 #warning("refactor: replace 'request' with 'selectedCategory'")
     @Binding var request: NetworkRequest.SqueezeRequest?
+
     var selectedCategory:  NetworkResponse.CategoriesResponse.Categories?
     @State var statPresenting: Bool = false
     @EnvironmentObject private var db: AppData
@@ -78,6 +79,7 @@ struct RequestParametersView: View {
         VStack {
             scrollContentView
             difficultiesView
+            Text(request?.difficulty?.rawValue ?? "")
         }
         .background {
             BlurView()
@@ -203,6 +205,7 @@ struct RequestParametersView: View {
                         request?.difficulty = nil
                     } else {
                         request?.difficulty = difficulty
+                        print(difficulty, " thrgterfdsx ", request?.difficulty)
                     }
                 }
             } label: {
@@ -245,11 +248,31 @@ struct RequestParametersView: View {
 }
 
 struct ReadyView: View {
-    let cancelPressed: () -> ()
+    let presenter: Presenter
+
     var body: some View {
         Text("ready")
         Button("cancel") {
-            cancelPressed()
+            presenter.cancelPressed()
         }
+    }
+}
+extension ReadyView {
+    struct Presenter: Equatable, Hashable {
+        let cancelPressed: ()->()
+        let id: UUID
+
+        init(cancelPressed: @escaping () -> Void) {
+            self.cancelPressed = cancelPressed
+            self.id = .init()
+        }
+        static func == (lhs: Presenter, rhs: Presenter) -> Bool {
+            lhs.id == rhs.id
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
+
     }
 }

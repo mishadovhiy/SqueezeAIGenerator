@@ -9,12 +9,11 @@ import SwiftUI
 
 struct CardsView: View {
     @StateObject var viewModel: CardsViewModel
-    
-    init(_ properties: CardsViewModel.ViewProperties,
-         done: @escaping(CardsViewModel.Selection)->()) {
-        _viewModel = StateObject(wrappedValue: .init(properties, donePressed: done))
+
+    init(_ presenter: Presenter) {
+        _viewModel = StateObject(wrappedValue: .init(presenter.properties, donePressed: presenter.completedSqueeze))
     }
-    
+
     var body: some View {
         VStack {
             header
@@ -41,14 +40,14 @@ struct CardsView: View {
         .navigationBarTitleDisplayMode(.inline)
 
     }
-    
+
     var header: some View {
         VStack {
-            
+
             progressView
         }
     }
-    
+
     var progressView: some View {
         HStack {
             ForEach(0..<viewModel.data.count, id: \.self) { i in
@@ -64,7 +63,7 @@ struct CardsView: View {
         }
         .frame(height: 15)
     }
-    
+
     var cardsView: some View {
         GeometryReader { proxy in
             VStack {
@@ -104,25 +103,25 @@ struct CardsView: View {
             }).joined(separator: ", "))
             .foregroundColor(.black)
             .font(.typed(.text))
-                .foregroundColor(.white)
-                .padding(.horizontal, 15)
-                .padding(.vertical, 8)
-                .background(
-                    Color(
-                        uiColor: actions.isEmpty ? .clear : (
-                            viewModel.currentData?.color.withAlphaComponent(0.2) ?? .clear
-                        )
+            .foregroundColor(.white)
+            .padding(.horizontal, 15)
+            .padding(.vertical, 8)
+            .background(
+                Color(
+                    uiColor: actions.isEmpty ? .clear : (
+                        viewModel.currentData?.color.withAlphaComponent(0.2) ?? .clear
                     )
                 )
-                .background(.white)
-                .cornerRadius(8)
-                .shadow(radius: 20)
-                .opacity(actions.isEmpty ? 0 : 1)
-                .animation(.smooth, value: actions.isEmpty)
+            )
+            .background(.white)
+            .cornerRadius(8)
+            .shadow(radius: 20)
+            .opacity(actions.isEmpty ? 0 : 1)
+            .animation(.smooth, value: actions.isEmpty)
         }
         .disabled(true)
     }
-    
+
     @ViewBuilder
     var completionView: some View {
         VStack {
@@ -172,7 +171,7 @@ struct CardsView: View {
         .cornerRadius(30)
         .shadow(radius: 20)
     }
-    
+
     @ViewBuilder
     func cardView(_ data: CardData, viewSize: CGSize) -> some View {
         let position = viewModel.cardPosition(data, viewSize: viewSize)
@@ -184,14 +183,14 @@ struct CardsView: View {
                         .degrees(data.rotation)
             )
             .frame(maxHeight: .infinity)
-        .offset(x: position.x, y: position.y)
-        .animation(.bouncy, value: viewModel.currentIndex)
-        .gesture(
-            cardGesture
-        )
-        .disabled(currentData?.id != data.id)
+            .offset(x: position.x, y: position.y)
+            .animation(.bouncy, value: viewModel.currentIndex)
+            .gesture(
+                cardGesture
+            )
+            .disabled(currentData?.id != data.id)
     }
-    
+
     var cardGesture: some Gesture {
         DragGesture()
             .onChanged({ value in
@@ -205,8 +204,31 @@ struct CardsView: View {
                         viewModel.dragPosition = .zero
                     }
                 }
-                
+
             })
     }
 }
 
+
+extension CardsView {
+    struct Presenter: Equatable, Hashable {
+        let id: UUID
+        let completedSqueeze: (CardsViewModel.Selection)->()
+        let properties: CardsViewModel.ViewProperties
+
+        init(properties: CardsViewModel.ViewProperties,
+             completedSqueeze: @escaping (CardsViewModel.Selection) -> Void) {
+            self.id = .init()
+            self.properties = properties
+            self.completedSqueeze = completedSqueeze
+        }
+
+        static func == (lhs: CardsView.Presenter, rhs: CardsView.Presenter) -> Bool {
+            lhs.id == rhs.id
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
+    }
+}

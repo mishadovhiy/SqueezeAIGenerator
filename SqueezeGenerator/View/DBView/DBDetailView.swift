@@ -29,7 +29,7 @@ struct DBDetailView: View {
         .toolbar {
             if item.save.aiResult != nil {
                 ToolbarItem {
-                    NavigationLink(value: NavRout.resultResponse(item)) {
+                    NavigationLink(value: NavigationRout.resultResponse(item)) {
                         Text("result")
                     }
                 }
