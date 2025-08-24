@@ -40,11 +40,12 @@ struct AdviceQuestionModel: Codable, Equatable, Hashable {
         
         var request: NetworkRequest.SqueezeRequest?
         var questionResults: [NetworkResponse.AdviceResponse.QuestionResponse: NetworkResponse.AdviceResponse.QuestionResponse.Option] = [:]
+        var aiResult: NetworkResponse.ResultResponse?
     }
 }
 
 extension NetworkResponse {
-    struct ResultResponse: Hashable, Equatable {
+    struct ResultResponse: Codable, Hashable, Equatable {
         typealias Key = NetworkRequest.ResultRequest.ResponseStructure
         var data: [NetworkRequest.ResultRequest.ResponseStructure: String]
 

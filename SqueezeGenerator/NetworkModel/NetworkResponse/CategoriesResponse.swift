@@ -20,6 +20,7 @@ extension NetworkResponse {
             var id: String
             let color: Color?
             var imageURL: String?
+            var resultScoreDescription: String?
             
             struct Color: Codable, Equatable, Hashable {
                 let tint: String?

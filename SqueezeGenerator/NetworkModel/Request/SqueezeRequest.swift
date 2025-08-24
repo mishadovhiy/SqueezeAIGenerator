@@ -11,11 +11,19 @@ extension NetworkRequest {
     static let reqStart = "requstStart"
 
     struct ResultRequest: Codable, Equatable, Hashable {
-        var parentCategory: String
-        var category: String
-        var gradePercent: String
+        let parentCategory: String
+        let category: String
+        let gradePercent: String
+        let scoreDescription: String?
 
-        enum ResponseStructure: String, CaseIterable, OpenAIPrompt {
+
+        init(parentCategory: String, category: String, gradePercent: String, scoreDescription: String?) {
+            self.parentCategory = parentCategory
+            self.category = category
+            self.gradePercent = gradePercent
+            self.scoreDescription = scoreDescription ?? "the likelihood of having this condition"
+        }
+        enum ResponseStructure: String, Codable, CaseIterable, OpenAIPrompt {
             var keyDescription: String {
                 switch self {
                 case .description:

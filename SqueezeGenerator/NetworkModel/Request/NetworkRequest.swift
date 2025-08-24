@@ -28,8 +28,11 @@ enum NetworkRequest:Codable {
         case .result(let request):
             print(request.category, " rgefwdas ")
             return """
-            Generate result for completed squeeze about \(request.category) in \(request.parentCategory), i have got \(request.gradePercent) grade out of 100. In structure: \(ResultRequest.ResponseStructure.prompt)
+            You are a compassionate \(request.parentCategory.addSpaceBeforeCapitalizedLetters) assistant. A user has completed a test. Their selected category is \(request.category.addSpaceBeforeCapitalizedLetters) in parent category \(request.parentCategory.addSpaceBeforeCapitalizedLetters). Their test score is \(request.gradePercent) out of 100, which indicates \(request.scoreDescription ?? ""). Generate result for completed squeeze in structure: \(ResultRequest.ResponseStructure.prompt) 
             """
+//            return """
+//            Generate result for completed squeeze about \(request.category) in \(request.parentCategory), i have got \(request.gradePercent) grade out of 100. In structure: \(ResultRequest.ResponseStructure.prompt)
+//            """
         case .squeeze(let advice):
             var result = advice
             if result.category.isEmpty {

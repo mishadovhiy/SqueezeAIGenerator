@@ -33,6 +33,11 @@ class HomeViewModel: ObservableObject {
     var largeParentCollections: Bool {
         selectedGeneralKeyID == nil
     }
+    var selectedCategory: NetworkResponse.CategoriesResponse.Categories? {
+        appResponse?.categories.first(where: {
+            $0.id == self.selectedGeneralKeyID
+        })
+    }
     var backgroundProperties: HomeBackgroundView.BakcgroundProperties {
         let resp = self.convertToAllLists(list: self.appResponse?.categories ?? [])
 
@@ -365,25 +370,34 @@ class HomeViewModel: ObservableObject {
 
     func savePressed(db: AppData) {
         //        response?.save = .init(grade: totalGrade, category: "Shiz")
-        db.db.responses.append(response!)
+        var response = response
+        let selectedRequest = selectedCategory
+//        db.db.responses.append(response!)
         // navValues = []
-        let response = response
-        print(response!.save.category, " rtgerfeadsaads ")
-        /*Task(priority: .background) {
-            NetworkModel()
-                .result(.init(parentCategory: response?.save.category ?? "",
-                              category: response?.save.category ?? "",
-                              gradePercent: "\(response?.resultPercentInt ?? 0)")) { respos in
-                    print(respos, " gerfwdasx ")
-                }
+        print(response!.save.request?.category, " rtgerfeadsaads ", response!.save.request?.type)
+        self.navValues = [.empty]
+        DispatchQueue.main.async {
+            Task(priority: .background) {
+                NetworkModel()
+                    .result(.init(parentCategory: response?.save.request?.parentCategory ?? "",
+                                  category: response!.save.request?.type ?? "",
+                                  gradePercent: "\(response?.resultPercentInt ?? 0)",
+                                  scoreDescription: selectedRequest?.resultScoreDescription)) { [weak self] respos in
+                        print(respos, " gerfwdasx ")
+                        response?.save.aiResult = respos
+                        db.db.responses.append(response!)
+                        DispatchQueue.main.async {
+                            withAnimation {
+                                self?.navValues = [.resultResponse(respos!)]
+                                self?.response = nil
+                                self?.rqStarted = false
+                                self?.selectedRequest = nil
+                            }
+                        }
+                    }
 
 
-        }*/
-        withAnimation {
-            navValues.removeAll()
-            self.response = nil
-            rqStarted = false
-            selectedRequest = nil
+            }
         }
 
     }
