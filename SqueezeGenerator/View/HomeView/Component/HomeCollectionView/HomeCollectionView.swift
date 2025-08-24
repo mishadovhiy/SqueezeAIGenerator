@@ -37,20 +37,6 @@ struct HomeCollectionView: View {
         }
     }
 
-    var collectionBackground: some View {
-        VStack {
-            Spacer()
-            //                    .frame(maxHeight: (viewModel.viewSize * (scroll)) - 50)
-            Color.white.opacity(0.05)
-                .background(content: {
-                    BlurView()
-                })
-                .cornerRadius(23)
-                .frame(height: (viewModel.viewSize * (1 - scroll)) + (viewModel.selectedGeneralKeyID == nil ? 400 : 350))
-                .padding(.bottom, -200)
-        }
-        .ignoresSafeArea(.all)
-    }
 
     var scroll: CGFloat {
         let value = viewModel.scrollPosition.percent

@@ -79,16 +79,8 @@ struct RequestParametersView: View {
         VStack {
             scrollContentView
             difficultiesView
-            Text(request?.difficulty?.rawValue ?? "")
         }
-        .background {
-            BlurView()
-                .background(.white.opacity(0.05))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 32)
-                        .stroke(.white.opacity(0.1), lineWidth: 1)
-                }
-        }
+        .blurBackground()
         .cornerRadius(32)
     }
 
@@ -175,18 +167,8 @@ struct RequestParametersView: View {
                 }
             }
             .padding(25)
-            .background {
-                Circle()
-                    .fill(.white.opacity(0.05))
-                    .background {
-                        BlurView()
-                    }
-                    .overlay {
-                        Circle()
-                            .stroke(.white.opacity(0.05), lineWidth: 1)
-                    }
-
-            }
+            .blurBackground()
+            .cornerRadius(100)
             Spacer()
         }
 

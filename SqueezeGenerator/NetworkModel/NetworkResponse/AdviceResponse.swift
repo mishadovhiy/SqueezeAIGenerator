@@ -143,6 +143,10 @@ extension [NetworkResponse.AdviceResponse.QuestionResponse] {
 
 extension Date {
     var stringDate: String {
-        self.formatted(date: .abbreviated, time: .shortened)
+        stringDate(needTime: true)
+    }
+
+    func stringDate(needTime: Bool = false) -> String {
+        self.formatted(date: .abbreviated, time: needTime ? .shortened : .omitted)
     }
 }

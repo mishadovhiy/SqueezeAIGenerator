@@ -15,23 +15,7 @@ struct ResultView: View {
             ScrollView(.vertical) {
                 VStack {
                     Spacer().frame(height: 40)
-                    ZStack {
-                        ZStack {
-                            Circle()
-                                .stroke(.white.opacity(0.15), lineWidth: 3)
-                            Circle()
-                                .trim(from: 0, to: saveModel.resultPercent)
-                                .stroke(.red, lineWidth: 3)
-                        }
-                        .frame(width: 150)
-                        VStack {
-                            Text("Your score")
-                                .font(.system(size: 9, weight: .semibold))
-                                .opacity(0.4)
-                            Text("\(saveModel.resultPercentInt)%")
-                                .font(.system(size: 32, weight: .bold))
-                        }
-                    }
+                    CircularProgressView(progress: saveModel.resultPercent)
                     Spacer()
                         .frame(height: 40)
                     HStack(alignment: .bottom) {
@@ -49,13 +33,7 @@ struct ResultView: View {
                         responseView
                     }
                     .padding(10)
-                    .background {
-                        BlurView()
-                            .background {
-                                Color.white.opacity(0.05)
-                            }
-                            .cornerRadius(24)
-                    }
+                    .blurBackground()
                 }
             }
             .padding(.horizontal, 10)

@@ -28,11 +28,11 @@ struct DBCategoriyView: View {
         .background {
             ClearBackgroundView()
         }
-        .navigationTitle(presenter.selectedCategory)
+        .navigationTitle(presenter.selectedCategory.addSpaceBeforeCapitalizedLetters.capitalized)
     }
 
     var viewTitle: some View {
-        Text(presenter.selectedType)
+        Text(presenter.selectedType.addSpaceBeforeCapitalizedLetters.capitalized)
             .font(.Type.title.font)
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)
@@ -47,7 +47,7 @@ struct DBCategoriyView: View {
             }
             listView
         }
-        .blurBackground(.dark)
+        .blurBackground()
         .padding(.horizontal, 10)
     }
 

@@ -22,7 +22,7 @@ struct DBDetailView: View {
                 tableView
             }
         }
-        .navigationTitle(item.save.request?.type ?? "-")
+        .navigationTitle(item.save.request?.type.addSpaceBeforeCapitalizedLetters.capitalized ?? "-")
         .background {
             ClearBackgroundView()
         }
@@ -42,7 +42,7 @@ struct DBDetailView: View {
             Section {
                 dataSection
                     .padding(10)
-                    .blurBackground(.dark)
+                    .blurBackground(.light)
                     .padding(10)
 
             } header: {
@@ -67,27 +67,47 @@ struct DBDetailView: View {
             .padding(10)
             .modifier(ScrollReaderModifier(scrollPosition: $scrollModifier))
         HStack {
-            VStack {
-                Text("Category")
-                Text(item.save.request?.category ?? "")
-            }
-            .frame(maxWidth: .infinity)
-            VStack {
-                Text("Date")
-                Text(item.save.date.stringDate)
-            }
+            headerRow(title: "Category", value: item.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+                .frame(maxWidth: .infinity)
+            headerRow(title: "Date", value: item.save.date.stringDate(needTime: false))
             .frame(maxWidth: .infinity)
         }
         .padding(10)
     }
 
+    func headerRow(
+        title: String,
+        value: String
+    ) -> some View {
+        VStack {
+            Text(title)
+                .font(.system(size: 9, weight: .regular))
+                .foregroundColor(.white.opacity(0.3))
+            Text(value)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundColor(.white.opacity(0.3))
+        }
+    }
+
     var sectionHeader: some View {
         HStack {
-            Text("\(item.save.grade)/\(item.response.questions.totalGrade) (\(item.resultPercentInt)%)")
+            CircularProgressView(
+                progress: item.resultPercent,
+                widthMultiplier: scrollModifier.percent >= 0.2 ? scrollModifier.percent : 0.2)
+            HStack {
+                headerRow(title: "Qnt", value: "\(item.response.questions.count)")
                 .frame(maxWidth: .infinity)
-            Text("questions: \(item.response.questions.count)")
-                .frame(maxWidth: .infinity)
+                headerRow(title: "Category", value: item.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+                .frame(maxWidth: scrollModifier.percent <= 0 ? .infinity : 0)
+                .animation(.bouncy, value: scrollModifier.percent <= 0)
+                headerRow(title: "Date", value: item.save.date.stringDate(needTime: false))
+                .frame(maxWidth: scrollModifier.percent <= 0 ? .infinity : 0)
+                .animation(.bouncy, value: scrollModifier.percent <= 0)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 40)
         }
+        .padding(.horizontal, 15)
     }
 
     @ViewBuilder
