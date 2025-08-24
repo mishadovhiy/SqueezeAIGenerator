@@ -87,7 +87,7 @@ class CollectionViewCell: UICollectionViewCell {
                 weight: isWhite ? .regular : data.fontWeight
             )
 
-        label?.textColor = isWhite ? .black : .white
+        label?.textColor = isWhite && data.isSelected ? .black : .white
             .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.5 : 0.8))
         descriptionLabel?.text = data.description
         if data.title.isEmpty {

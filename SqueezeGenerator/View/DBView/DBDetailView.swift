@@ -113,6 +113,7 @@ struct DBDetailView: View {
     @ViewBuilder
     func actionsCollection(_ key: DataKey) -> some View {
         let height = collectionHeights[key.id.uuidString] ?? 0
+        let selectedOprionForQuestion = self.item.save.questionResults[key]
         CollectionView(
             contentHeight: .init(get: {
                 height
@@ -121,7 +122,7 @@ struct DBDetailView: View {
             }),
             isopacityCells: false,
             data: key.options.compactMap({
-                .init(title: $0.optionName)
+                .init(title: $0.optionName, isSelected: $0 == selectedOprionForQuestion)
             })
         )
         .frame(height: height >= 30 ? height - 30 : 0)
