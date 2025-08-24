@@ -47,7 +47,7 @@ struct DBDetailView: View {
 
             } header: {
                 sectionHeader
-                    .padding(.vertical, (10 * (scrollModifier.percentPositive + 1)))
+                    .padding(.vertical, (5 * (scrollModifier.percentPositive + 1)))
                     .blurBackground(
                         .dark,
                         opacityMultiplier: 1 - scrollModifier.percentPositiveMax,

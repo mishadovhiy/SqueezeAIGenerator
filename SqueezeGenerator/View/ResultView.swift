@@ -12,7 +12,10 @@ struct ResultView: View {
     
     var body: some View {
         VStack(content: {
-            ScrollView(.vertical) {
+            ScrollView(
+                .vertical,
+                showsIndicators: false)
+            {
                 VStack {
                     Spacer().frame(height: 40)
                     CircularProgressView(progress: saveModel.resultPercent)
