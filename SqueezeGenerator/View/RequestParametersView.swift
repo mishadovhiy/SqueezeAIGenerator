@@ -187,7 +187,6 @@ struct RequestParametersView: View {
                         request?.difficulty = nil
                     } else {
                         request?.difficulty = difficulty
-                        print(difficulty, " thrgterfdsx ", request?.difficulty)
                     }
                 }
             } label: {

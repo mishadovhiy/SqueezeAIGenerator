@@ -47,7 +47,6 @@ extension String {
                 
                 let rangeStart = match.range(at: 1)
             if canPrint {
-                print(rangeStart, " rtgerfwed ")
             }
                 if let rangeEnd = Range(rangeStart, in: self) {
                     return String(self[rangeEnd])

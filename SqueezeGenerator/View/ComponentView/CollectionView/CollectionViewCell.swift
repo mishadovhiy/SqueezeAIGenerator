@@ -74,7 +74,6 @@ class CollectionViewCell: UICollectionViewCell {
         label?.text = data.title.capitalized
         let progress = Float(data.percent ?? "") ?? 0
         progressView!.isHidden = progress == 0
-        print(progress / 100, " gtrefds")
         progressView?.progress = progress / 100
         tagLabel?.text = data.label ?? ""
         tagLabel?.isHidden = data.label?.isEmpty ?? true

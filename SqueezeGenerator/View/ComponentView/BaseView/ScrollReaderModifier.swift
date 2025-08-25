@@ -20,7 +20,6 @@ struct ScrollReaderModifier: ViewModifier {
                     }
                     .onAppear {
                         scrollPosition.position = proxy.frame(in: .global).origin
-                        print(scrollPosition.position, " gtrefdwsa ")
                     }
             }
         }
@@ -74,7 +73,6 @@ extension ScrollReaderModifier {
                     return position.y / (initialPosition?.y ?? 0)
                 }
             }
-            print(value, " grterfwed ", position.y, " ", initialPosition?.y)
 
             if value.isFinite {
                 return value

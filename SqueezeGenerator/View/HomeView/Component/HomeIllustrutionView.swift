@@ -200,7 +200,6 @@ fileprivate extension HomeIllustrutionView {
     }
 
     func addSky() {
-        print("tgerfwda")
         self.skyData.opacity = 1
         let duration: TimeInterval = 10//skyData.animationDuration
         withAnimation(.smooth(duration: 10)) {

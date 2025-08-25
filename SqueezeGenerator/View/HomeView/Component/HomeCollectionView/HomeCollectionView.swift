@@ -40,7 +40,6 @@ struct HomeCollectionView: View {
 
     var scroll: CGFloat {
         let value = viewModel.scrollPosition.percent
-        print(value, " evfsdc")
         if value >= 1 {
             return 1
         } else {

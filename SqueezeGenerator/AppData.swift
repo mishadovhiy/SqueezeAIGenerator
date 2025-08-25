@@ -14,7 +14,6 @@ class AppData:ObservableObject {
     static let adviceLimit:Int = 4
     @Published var db:DataBase = .init() {
         didSet {
-            print("updatingdb")
             if dataLoaded {
                 if Thread.isMainThread {
                     DispatchQueue(label: "db", qos: .userInitiated).async {

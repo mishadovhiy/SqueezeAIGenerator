@@ -22,7 +22,6 @@ struct ResponsePreviewModel: Codable, Equatable, Hashable {
 
     init(_ allCategoryList: [NetworkResponse.CategoriesResponse.Categories],
          parentDB: [AdviceQuestionModel]) {
-        print(parentDB.count, " hyrgetfrwdes ")
         let sum = parentDB.reduce(0) { partialResult, category in
             return partialResult + category.resultPercent
         }

@@ -187,7 +187,6 @@ class HomeViewModel: ObservableObject {
     }
 
     func findParents(id: String, found: [NetworkResponse.CategoriesResponse.Categories], totalList: [NetworkResponse.CategoriesResponse.Categories]) -> [NetworkResponse.CategoriesResponse.Categories] {
-        print(id, " lookingfsd")
         if id.isEmpty {
             return found
         }
@@ -243,7 +242,6 @@ class HomeViewModel: ObservableObject {
                     $0.name == dbItem.save.request?.category
                 })
             })
-            print(parentDB.count, " htgrtefwdsax ", newList.count)
             //fetch all categories of the cat
             statsPreview.updateValue(
                 .init(newList,
@@ -263,7 +261,6 @@ class HomeViewModel: ObservableObject {
         var response = appResponse?.categories.compactMap({
             self.performAddTableData($0, parentID: "")
         })
-        print(collectionData.compactMap({$0.parentID}).joined(separator: ", "), " rewfedaws ")
         self.selectedIDs.forEach { id in
             let items = self.findSelectedCategory(cats: appResponse?.categories ?? [], selectedID: id)
             let index = collectionData.firstIndex(where: {
@@ -285,23 +282,15 @@ class HomeViewModel: ObservableObject {
             }
 
         }
-        print(collectionDataForKey.compactMap({$0.parentID}).joined(separator: ", "), " juyhfvddvs ")
 
-        //        appResponse?.categories.forEach { category in
-        //            if let cats = category.list {
-        //                self.checkTableDataIDs(cats, parentID: category.id, collectionData: &collectionData)
-        //            }
-        //        }
         withAnimation(.bouncy) {
             self.collectionData = response ?? []
-            print(collectionData, " juyhtbgrvfecd")
             self.collectionDataForKey = collectionData.filter({
                 $0.id != self.selectedGeneralKeyID
             })
         }
     }
     func checkTableDataIDs(_ response: [NetworkResponse.CategoriesResponse.Categories], parentID: String, collectionData: inout [CollectionViewController.CollectionData]) {
-        print(selectedIDs, " htgbrvfecdsx")
         if selectedIDs.isEmpty {
             return
         }
@@ -313,7 +302,6 @@ class HomeViewModel: ObservableObject {
                     self.performAddTableData($0, parentID: parentID)
                 }), at: parentIndex + 1)
             } else {
-                print("appdend: ", parentID)
                 collectionData.append(contentsOf: response.compactMap({
                     self.performAddTableData($0, parentID: parentID)
                 }))
@@ -341,7 +329,6 @@ class HomeViewModel: ObservableObject {
                 $0.save.request?.type == response.name
             }) {
                 var value = dbData.resultPercent * 100
-                print(value, " tgrtefrwdas ")
                 if !value.isFinite {
                     value = 0
                 }
@@ -374,7 +361,6 @@ class HomeViewModel: ObservableObject {
         let selectedRequest = selectedCategory
 //        db.db.responses.append(response!)
         // navValues = []
-        print(response!.save.request?.category, " rtgerfeadsaads ", response!.save.request?.type)
         self.navValues = [.empty]
         DispatchQueue.main.async {
             Task(priority: .background) {
@@ -383,7 +369,6 @@ class HomeViewModel: ObservableObject {
                                   category: response!.save.request?.type ?? "",
                                   gradePercent: "\(response?.resultPercentInt ?? 0)",
                                   scoreDescription: selectedRequest?.resultScoreDescription)) { [weak self] respos in
-                        print(respos, " gerfwdasx ")
                         response?.save.aiResult = respos
                         db.db.responses.append(response!)
                         DispatchQueue.main.async {
@@ -453,7 +438,6 @@ class HomeViewModel: ObservableObject {
     func collectionViewSelected(at: Int?) {
         let category = collectionDataForKey[at!]
 
-        print(category, " drftgyhujilk")
         if let response = self.findSelectedCategory(cats: self.appResponse?.categories ?? [], selectedID: category.id) {
             if response.list != nil {
                 if selectedIDs.contains(response.id) {
@@ -466,17 +450,13 @@ class HomeViewModel: ObservableObject {
                     }
                 }
 
-                print(response.list, " grfsd")
             } else {
-                print(category)
                 let resp = self.convertToAllLists(list: self.appResponse?.categories ?? [])
-                print("gterfweads")
                 let selected = response
                 let parent = resp.first(where: {
                     $0.id == category.parentID
                 })
                 let parents:[NetworkResponse.CategoriesResponse.Categories]
-                print(parent?.id, " tegrfwed")
                 if let parent {
                     parents = findParents(id: parent.id, found: [], totalList: resp).reversed()
                 } else {
@@ -485,12 +465,9 @@ class HomeViewModel: ObservableObject {
                 var parentTitle:String? = parents.compactMap({
                     $0.name
                 }).joined(separator: ", ")
-                print(parentTitle, " gterfw", parent?.id)
-                print(selected, " yrhtegrfse ", category.parentID)
                 if parentTitle?.isEmpty ?? false {
                     parentTitle = nil
                 }
-                print(selected.color, " hytfre")
                 let selectedCategory = appResponse?.categories.first(where: {
                     $0.id == self.selectedGeneralKeyID
                 })
@@ -510,7 +487,6 @@ class HomeViewModel: ObservableObject {
                                 self.selectedRequest
                             }, set: {
                                 self.selectedRequest = $0
-                                print($0?.difficulty, " yhegtrfwdeas ", self.selectedRequest?.difficulty)
                             }), selected
                         )
                     )
@@ -579,7 +555,6 @@ class HomeViewModel: ObservableObject {
         let questions = response?.response.questions ?? []
         response?.save = .init(date: .init(), category: category, request: selectedRequest, questionResults: [:])
         selection.forEach { (key: UUID, value: String) in
-            print("rtgerfwde key: ", key, " value: ", value)
             if let question = questions.first(where: {
                 $0.id == key
             }) {

@@ -41,7 +41,6 @@ struct DBDetailView: View {
         LazyVStack(pinnedViews: .sectionHeaders) {
             Section {
                 dataSection
-                    .padding(10)
                     .blurBackground(.light)
                     .padding(10)
 
@@ -53,6 +52,7 @@ struct DBDetailView: View {
                         opacityMultiplier: 1 - scrollModifier.percentPositiveMax,
                         cornerRadius: 0
                     )
+                    .offset(y: -1)
 
 
             }
@@ -62,22 +62,21 @@ struct DBDetailView: View {
 
     @ViewBuilder
     var noneFixedHeader: some View {
-        Text(item.save.request?.description ?? "-")
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(10)
-            .modifier(ScrollReaderModifier(scrollPosition: $scrollModifier))
         HStack {
             headerRow(title: "Category", value: item.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
                 .frame(maxWidth: .infinity)
+            Divider().background(.white.opacity(.Opacity.separetor.rawValue))
             headerRow(title: "Date", value: item.save.date.stringDate(needTime: false))
             .frame(maxWidth: .infinity)
         }
+        .modifier(ScrollReaderModifier(scrollPosition: $scrollModifier))
         .padding(10)
     }
 
     func headerRow(
         title: String,
-        value: String
+        value: String,
+        hidden: Bool = false
     ) -> some View {
         VStack {
             Text(title)
@@ -87,6 +86,14 @@ struct DBDetailView: View {
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundColor(.white.opacity(0.3))
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 4)
+        .background {
+            Color.clear
+                .blurBackground(opacityMultiplier: scrollModifier.percent <= 0 ? 1 : 1 - scrollModifier.percent)
+                .opacity(hidden ? 0 : 1)
+        }
+        .frame(maxWidth: hidden ? 0 : .infinity)
     }
 
     var sectionHeader: some View {
@@ -94,19 +101,30 @@ struct DBDetailView: View {
             CircularProgressView(
                 progress: item.resultPercent,
                 widthMultiplier: scrollModifier.percent >= 0.2 ? scrollModifier.percent : 0.2)
-            HStack {
+            .frame(maxWidth: scrollModifier.percent <= 0.3 ? nil : .infinity)
+            .animation(.bouncy, value: scrollModifier.percent <= 0.3)
+
+            HStack(spacing: 0) {
                 headerRow(title: "Questions", value: "\(item.response.questions.count)")
-                .frame(maxWidth: .infinity)
-                headerRow(title: "Category", value: item.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
-                .frame(maxWidth: scrollModifier.percent <= 0 ? .infinity : 0)
+                    .frame(maxWidth: .infinity)
+                headerRow(
+                    title: "Category",
+                    value: item.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "",
+                    hidden: !(scrollModifier.percent <= 0)
+                )
                 .animation(.bouncy, value: scrollModifier.percent <= 0)
-                headerRow(title: "Date", value: item.save.date.stringDate(needTime: false))
-                .frame(maxWidth: scrollModifier.percent <= 0 ? .infinity : 0)
+                headerRow(
+                    title: "Date",
+                    value: item.save.date.stringDate(needTime: false),
+                    hidden: !(scrollModifier.percent <= 0)
+                )
                 .animation(.bouncy, value: scrollModifier.percent <= 0)
             }
             .frame(maxWidth: .infinity)
             .frame(height: 40)
+            .animation(.bouncy, value: scrollModifier.percent <= 0)
         }
+        .animation(.bouncy, value: scrollModifier.percent <= 0.3)
         .padding(.horizontal, 15)
     }
 
@@ -125,6 +143,7 @@ struct DBDetailView: View {
                         .cornerRadius(9)
                 }
             }
+            .padding(.horizontal, 10)
         }
     }
 
@@ -142,12 +161,15 @@ struct DBDetailView: View {
         VStack {
             ForEach(Array(item.save.questionResults.keys), id:\.id) { key in
                 dataRow(key)
-                Spacer().frame(height: 25)
+                    .padding(.horizontal, 10)
+                Spacer().frame(height: 15)
                 actionsCollection(key)
                 Divider()
                     .background(.white.opacity(.Opacity.separetor.rawValue))
                     .padding(.vertical, 10)
+                    .padding(.horizontal, 10)
             }
         }
+        .padding(.top, 10)
     }
 }

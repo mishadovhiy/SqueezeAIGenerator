@@ -60,7 +60,6 @@ struct DBCategoriyView: View {
                     }
                     self.sortingKey = key
                 }
-                print(key.rawValue, " etgrwfedaws ")
             } label: {
                 HStack(spacing: 2) {
                     Text(key.rawValue.capitalized)

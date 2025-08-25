@@ -182,6 +182,7 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.large)
 
         }
+        .tint(.white)
         .navigationViewStyle(StackNavigationViewStyle())
         .background {
             ClearBackgroundView()

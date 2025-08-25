@@ -47,6 +47,7 @@ struct DBCategoriyNavView: View {
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
             })
+            .tint(.white)
             .padding(.top, -40)
         }
 

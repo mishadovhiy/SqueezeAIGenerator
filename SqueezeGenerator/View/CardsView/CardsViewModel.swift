@@ -55,7 +55,6 @@ class CardsViewModel: ObservableObject {
             y: viewSize.height * lastPosition.height)
         withAnimation(.bouncy(duration: 0.44)) {
             dragEnded = true
-            print(data.prefix(currentIndex + 1).last?.buttons.first?.title, " tyregfwdsa")
             self.dragPosition = .init(
                 x: lastPosition.width == .zero ? holder.x : result.x,
                 y: lastPosition.width == .zero ? result.y : holder.y

@@ -43,7 +43,7 @@ struct SqueezeGeneratorApp: App {
                     appearance.configureWithTransparentBackground()
                     appearance.backgroundColor = .clear
                     appearance.shadowColor = .clear
-                    
+
                     UINavigationBar.appearance().standardAppearance = appearance
                     UINavigationBar.appearance().scrollEdgeAppearance = appearance
                 }
@@ -54,7 +54,6 @@ struct SqueezeGeneratorApp: App {
 extension UIWindow: @retroactive UIGestureRecognizerDelegate {
 
     open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        print("erfwedas")
         return super.hitTest(point, with: event)
     }
 }
@@ -62,8 +61,8 @@ extension UIWindow: @retroactive UIGestureRecognizerDelegate {
 extension UINavigationController: UIScrollViewDelegate, UINavigationControllerDelegate {
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+#warning("no need: testing")
         SqueezeGeneratorApp.navigationHeight(with: navigationBar.frame.size.height ?? 0)
-        print(navigationBar.frame.size.height ?? 0, " gterfwdas ")
     }
 }
 

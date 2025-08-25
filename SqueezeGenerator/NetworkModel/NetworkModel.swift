@@ -67,7 +67,6 @@ struct NetworkModel {
             if let token = dict?["openAIToken"] as? String {
                 Keys.openAIToken = token
             } else {
-                print("errorloadingtoken")
             }
             completion()
         }

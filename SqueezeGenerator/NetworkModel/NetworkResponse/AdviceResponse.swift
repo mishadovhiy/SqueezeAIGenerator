@@ -72,8 +72,7 @@ extension NetworkResponse {
         var textHolder: String = ""
         typealias QuestionReq = NetworkRequest.SqueezeRequest.Question
         init(response: String) {
-            print(response, "\n\n\n")
-            
+
             var response = response.extractSubstring(key: NetworkRequest.reqStart) ?? ""
             let divided = response.components(separatedBy: "</\(String.init(describing: QuestionReq.self))>")
         
@@ -101,14 +100,10 @@ extension NetworkResponse {
             //                .compactMap({
             //                $0 + "</\(String.init(describing: NetworkRequest.SqueezeRequest.Question.self))>"
             //            })
-            print(questions.count, " htrgerfd", divided.count)
             divided.forEach { str in
                 print(str)
-                print("--\n\n\n")
             }
-            self.textHolder = divided.joined(separator: "--\n\n\n")
-            print("_______\n\n", questions)
-            
+            self.textHolder = divided.joined(separator: "--\n\n\n")            
             
         }
     }
