@@ -33,11 +33,12 @@ struct DBCategoriyView: View {
 
     var viewTitle: some View {
         Text(presenter.selectedType.addSpaceBeforeCapitalizedLetters.capitalized)
-            .font(.Type.title.font)
+            .font(.system(size: 13, weight: .regular))
+            .foregroundColor(.white.opacity(0.3))
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)
-            .padding(.horizontal, .Padding.content.rawValue)
-            .padding(.horizontal, 10)
+            .padding(.leading, 17)
+            .offset(y: -5)
     }
 
     var tableView: some View {
@@ -47,7 +48,7 @@ struct DBCategoriyView: View {
             }
             listView
         }
-        .blurBackground()
+        .blurBackground(count: 4)
         .padding(.horizontal, 10)
     }
 
@@ -63,12 +64,17 @@ struct DBCategoriyView: View {
             } label: {
                 HStack(spacing: 2) {
                     Text(key.rawValue.capitalized)
+                        .font(.system(size: 14, weight: .medium))
                     self.sortIndicator(sortingKey == key)
+                    if SortingKeys.allCases.first == key {
+                        Spacer().frame(maxWidth: .infinity)
+                    }
+
                 }
 
                     .foregroundColor(.white.opacity(0.5))
             }
-
+            .frame(width: 85)
             if key.needSpacer {
                 Spacer()
             }
@@ -84,9 +90,11 @@ struct DBCategoriyView: View {
             .padding(.vertical, 10)
         })
         .frame(maxWidth: .infinity)
+        .background(.black.opacity(0.05 * (1 - scrollModifier.percentPositiveMax)))
         .blurBackground(.dark,
                         opacityMultiplier: 1 - scrollModifier.percentMax,
-                        cornerRadius: 0
+                        cornerRadius: 0,
+                        count: 5
         )
     }
 
@@ -100,12 +108,25 @@ struct DBCategoriyView: View {
     func responseCell(_ response: AdviceQuestionModel) -> some View {
         VStack {
             HStack {
-                Text(response.save.date.stringDate)
+                HStack(spacing: 2) {
+                    Text(response.save.date.stringDate(needTime: false))
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(.white)
+
+                    Text("/ " + response.save.date.formatted(date: .omitted, time: .shortened))
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundColor(.white.opacity(0.4))
+                }
 
                 Spacer()
                 HStack(spacing: 30) {
                     Text("\(Int(response.resultPercent * 100))%")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.white)
                     Text(response.save.request?.difficulty?.rawValue ?? "")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.white)
+                        .frame(width: 65)
                 }
             }
         }

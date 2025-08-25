@@ -9,38 +9,60 @@ import SwiftUI
 
 struct ResultView: View {
     let saveModel: AdviceQuestionModel
-    
+    let canScroll: Bool
+
+    init(saveModel: AdviceQuestionModel, canScroll: Bool = true) {
+        self.saveModel = saveModel
+        self.canScroll = canScroll
+    }
+
     var body: some View {
-        VStack(content: {
+        if canScroll {
             ScrollView(
                 .vertical,
                 showsIndicators: false)
             {
-                VStack {
-                    Spacer().frame(height: 40)
-                    CircularProgressView(progress: saveModel.resultPercent)
-                    Spacer()
-                        .frame(height: 40)
-                    HStack(alignment: .bottom) {
-                        Spacer()
-                        Text(saveModel.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(.white.opacity(0.2))
-                        Text("Category")
-                            .font(.system(size: 9, weight: .regular))
-                            .foregroundColor(.white.opacity(0.2))
-                        Spacer()
-                            .frame(maxWidth: .infinity)
-                    }
-                    VStack(spacing: 10) {
-                        responseView
-                    }
-                    .padding(10)
-                    .blurBackground()
-                }
+                contentView
             }
             .padding(.horizontal, 10)
-        })
+        } else {
+            contentView
+        }
+    }
+
+    @ViewBuilder
+    var contentHeader: some View {
+        Spacer().frame(height: 40)
+        CircularProgressView(progress: saveModel.resultPercent)
+        Spacer()
+            .frame(height: 40)
+
+        HStack(alignment: .bottom) {
+            Spacer()
+            Text(saveModel.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.white.opacity(0.2))
+            Text("Category")
+                .font(.system(size: 9, weight: .regular))
+                .foregroundColor(.white.opacity(0.2))
+            Spacer()
+                .frame(maxWidth: .infinity)
+        }
+    }
+
+    var contentView: some View {
+        VStack {
+
+            if canScroll {
+                contentHeader
+            }
+
+            VStack(spacing: 10) {
+                responseView
+            }
+            .padding(10)
+            .blurBackground()
+        }
         .navigationTitle(saveModel.save.request?.type.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
     }
 

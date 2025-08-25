@@ -377,7 +377,11 @@ class HomeViewModel: ObservableObject {
                                 self?.response = nil
                                 self?.rqStarted = false
                                 self?.selectedRequest = nil
+
                             }
+                            self?.selectedGeneralKeyID = nil
+                            self?.collectionDataForKey = []
+                            self?.dbUpdated(db)
                         }
                     }
 
@@ -391,7 +395,7 @@ class HomeViewModel: ObservableObject {
         rqStarted && response == nil
     }
 
-    func startGenerationRequest() {
+    func startGenerationRequest(db: AppData) {
         withAnimation(.smooth(duration: 0.3)) {
             self.rqStarted = true
         }
@@ -402,7 +406,7 @@ class HomeViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         withAnimation {
                             self.response = .init(response: response!, save: .init(date: .init(), category: self.selectedRequest!.category, request: self.selectedRequest!, questionResults: [:]))
-                            self.navValues.removeAll()
+                            self.primaryButtonPressed(db: db)
                         }
                     }
                 }
@@ -533,7 +537,7 @@ class HomeViewModel: ObservableObject {
                 .cardView(
                     .init(
                         properties: .init(
-                            type: selectedRequest?.type ?? "",
+                            type: selectedRequest?.type ?? "", selectedResponseItem: selectedRequest,
                             data: response!.response.questions.compactMap(
                                 { question in
                                     cardViewType(question)
@@ -546,7 +550,7 @@ class HomeViewModel: ObservableObject {
         } else {
             withAnimation {
                 navValues.append(.empty)
-                startGenerationRequest()
+                startGenerationRequest(db: db)
             }
         }
     }

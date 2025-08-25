@@ -61,6 +61,7 @@ struct RequestParametersView: View {
                         HStack {
                             Spacer()
                             Text("\(savedResponses?.count ?? 0)")
+                                .foregroundColor(.init(uiColor: textColor))
                                 .font(.system(size: 7))
                                 .padding(2)
                                 .background(Color(uiColor: tint))
@@ -94,6 +95,7 @@ struct RequestParametersView: View {
                     Spacer()
                     VStack {
                         Text(request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+                            .foregroundColor(.init(uiColor: textColor))
                             .lineLimit(1)
                             .font(.system(size: 9, weight: .semibold))
                             .padding(.horizontal, 8)
@@ -174,6 +176,9 @@ struct RequestParametersView: View {
 
     }
 
+    var textColor: UIColor {
+        tint.isLight ? .black : .white
+    }
     var tint: UIColor {
         .init(hex: selectedCategory?.color?.topLeft ?? "") ?? .dark
     }
@@ -195,7 +200,7 @@ struct RequestParametersView: View {
                     .padding(.horizontal, request?.difficulty == difficulty ? .zero : 15)
                     .animation(.bouncy(duration: 0.5), value: request?.difficulty)
             }
-            .foregroundColor(.white)
+            .foregroundColor(.init(uiColor: request?.difficulty == difficulty ? textColor : .white))
             .tint(request?.difficulty == difficulty ? .white : .white)
             .font(.system(size: 14, weight: .regular))
             .frame(height: 35)

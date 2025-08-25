@@ -59,7 +59,7 @@ extension UIColor {
     var isLight: Bool {
         let (r, g, b) = self.rgbInSRGB()
         let brightness = (r * 299 + g * 587 + b * 114) / 1000
-        return brightness >= 0.6
+        return brightness >= 0.4
     }
 
     // MARK: - Helpers

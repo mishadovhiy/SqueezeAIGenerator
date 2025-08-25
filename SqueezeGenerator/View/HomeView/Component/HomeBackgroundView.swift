@@ -109,7 +109,7 @@ struct HomeBackgroundView: View {
             .animation(.smooth, value: backgroundColors.decode)
         }
         .blur(radius: 30)
-        .opacity(type == .loading ? 0 : 1)
+        .opacity(type == .loading ? 0.3 : 1)
         .animation(.smooth, value: type)
     }
 

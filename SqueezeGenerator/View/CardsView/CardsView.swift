@@ -27,9 +27,30 @@ struct CardsView: View {
         .padding(10)
         .toolbar {
             ToolbarItem(placement: .navigation) {
-                Button("<") {
+                Button {
                     withAnimation {
                         viewModel.currentIndex -= 1
+                    }
+                } label: {
+                    Color.clear
+                    .overlay {
+                        Image(.back)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(
+                                .init(
+                                    uiColor: tintColor)
+                            )
+                            .padding(.horizontal, 7)
+                            .opacity(0.6)
+                            .shadow(radius: 10)
+
+                    }
+                    .frame(width: 40, height: 40)
+                    .blurBackground()
+                    .background {
+                        RoundedRectangle(cornerRadius: .CornerRadius.large.rawValue)
+                            .stroke(Color(uiColor: tintColor).opacity(0.3), lineWidth: 1)
                     }
                 }
                 .disabled(viewModel.currentIndex <= 0)
@@ -41,6 +62,12 @@ struct CardsView: View {
 
     }
 
+    var tintColor: UIColor {
+        .init(
+            hex: viewModel.properties.selectedResponseItem?.color?.top ?? ""
+        ) ?? UIColor
+            .white
+    }
     var header: some View {
         VStack {
 
@@ -52,12 +79,12 @@ struct CardsView: View {
         HStack {
             ForEach(0..<viewModel.data.count, id: \.self) { i in
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color(uiColor: .init(hexColor: .purpureLight)!), lineWidth: 2)
+                    .stroke(Color(uiColor: tintColor), lineWidth: 3)
                     .background {
-                        Color(uiColor: viewModel.currentIndex >= i ? .init(hexColor: .purpureLight)!  : .clear)
+                        Color(uiColor: viewModel.currentIndex >= i ? tintColor  : .clear)
                     }
                     .cornerRadius(8)
-                    .shadow(radius: 4)
+                    .shadow(radius: 10)
 
             }
         }
@@ -124,11 +151,30 @@ struct CardsView: View {
 
     @ViewBuilder
     var completionView: some View {
+        let tintColor = tintColor
+        let isLight = tintColor.isLight
         VStack {
-            Text("No data")
-            Button("done") {
+            Text("Great job!")
+                .font(.system(size: 32, weight: .black))
+                .foregroundColor(.white.opacity(.Opacity.description.rawValue))
+                .shadow(color:.black.opacity(0.1), radius: 10)
+            Button {
                 viewModel.donePressed(viewModel.selectedOptions)
+            } label: {
+                Text("Get Results")
+                    .font(.system(size: 14, weight: .semibold))
+                    .padding(.horizontal, 15)
+                    .padding(.vertical, 6)
+                    .foregroundColor(isLight ? .black : .white)
             }
+            .background(Color(uiColor: tintColor))
+            .overlay {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(isLight ? .black : .white, lineWidth: 1)
+                    .opacity(0.2)
+            }
+            .cornerRadius(12)
+            .shadow(color: .init(uiColor: tintColor), radius: 12)
         }
     }
 
@@ -136,15 +182,19 @@ struct CardsView: View {
     private func cardContentView(_ data: CardData) -> some View {
         let height = viewModel.collectionHeight[data.id] ?? .zero
         let currentData = viewModel.currentData
+        let backgroundColor = data.color
+        let isLightBackground = backgroundColor.isLight
         VStack {
             VStack {
                 VStack(spacing: 0) {
                     Text(data.title)
+                        .foregroundColor(.black)
                         .font(.typed(data.title.count >= 40 ? .text : .largeTitle))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .opacity(0.2)
+                        .opacity(!isLightBackground ? 0.4 : 0.2)
                     Spacer().frame(height: 5)
                     Text(data.description)
+                        .foregroundColor(.black)
                         .font(.typed(.section))
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -152,22 +202,27 @@ struct CardsView: View {
 
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-            CollectionView(contentHeight: .init(get: {
-                height
-            }, set: {
-                viewModel.collectionHeight.updateValue($0, forKey: data.id)
-            }), isopacityCells: false, canUpdate: false, data: data.buttons) { at in
-                viewModel.didSelectButton(button: data.buttons[at ?? 0])
+            if data.id == currentData?.id {
+                CollectionView(contentHeight: .init(get: {
+                    height
+                }, set: {
+                    viewModel.collectionHeight.updateValue($0, forKey: data.id)
+                }), isopacityCells: false, canUpdate: false, data: data.buttons) { at in
+                    viewModel.didSelectButton(button: data.buttons[at ?? 0])
+                }
+                .frame(height: height >= 20 ? height - 20 : 0)
+                .animation(.bouncy(duration: 0.6), value: data.id == currentData?.id)
+                .transition(.move(edge: .bottom))
             }
-            .frame(height: height >= 20 ? height - 20 : 0)
-            .animation(.bouncy, value: data.id == currentData?.id)
+
         }
         .padding(.top, 25)
         .padding(.horizontal, 10)
         .padding(.bottom, 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: data.color.withAlphaComponent(0.2)))
+        .background(Color(uiColor: backgroundColor.withAlphaComponent(0.2)).opacity(0.3))
         .background(.white)
+        .animation(.smooth, value: currentData)
         .cornerRadius(30)
         .shadow(radius: 20)
     }
@@ -182,8 +237,11 @@ struct CardsView: View {
                     .id || (viewModel.dragEnded && viewModel.data.prefix(viewModel.currentIndex + 1).last?.id == data.id) ? .zero :
                         .degrees(data.rotation)
             )
+
             .frame(maxHeight: .infinity)
-            .offset(x: position.x, y: position.y)
+            .offset(x: position.x, y: position.y - (data.id == currentData?
+                .id ? 0 : -100))
+            .scaleEffect(data.id == currentData?.id ? 1 : 1.3)
             .animation(.bouncy, value: viewModel.currentIndex)
             .gesture(
                 cardGesture

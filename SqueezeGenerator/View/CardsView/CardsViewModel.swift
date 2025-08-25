@@ -69,6 +69,7 @@ class CardsViewModel: ObservableObject {
                 self.dragPosition = .zero
                 self.dragEnded = false
                 self.oldPositions.updateValue(self.lastDragPosition!, forKey: id.id)
+                self.selectedActions.removeAll()
             }
         })
     }
@@ -141,6 +142,7 @@ class CardsViewModel: ObservableObject {
 extension CardsViewModel {
     struct ViewProperties: Hashable, Equatable {
         let type: String
+        let selectedResponseItem: NetworkRequest.SqueezeRequest?
         let data: [CardData]
     }
 }

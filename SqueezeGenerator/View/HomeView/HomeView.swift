@@ -68,29 +68,40 @@ struct HomeView: View {
         let needButton = viewModel.buttonsViewHeight
         let background1 = viewModel.backgroundProperties.backgroundGradient?.topLeft ?? String.HexColor.puroure2Light.rawValue
         let background2 = viewModel.backgroundProperties.backgroundGradient?.bottomRight ?? String.HexColor.puroure2Light.rawValue
+        let buttonBackground: UIColor = .init(hex: background1)!
+        let isLight = buttonBackground.isLight
+        let disabled = viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil)
         VStack {
             Spacer()
-                Button(viewModel.response != nil ? "squeeze" : "Start") {
-                    viewModel.primaryButtonPressed(db: db)
-                }
-                .font(.typed(.text))
+            Button {
+                viewModel.primaryButtonPressed(db: db)
+            } label: {
+                Text(viewModel.response != nil ? "squeeze" : "Start")
+                    .foregroundColor(isLight ? .black.opacity(0.7) : .white)
+                    .font(.system(size: 28, weight: .black))
+                    .opacity(disabled ? 0.3 : 1)
+                    .shadow(radius: 5)
+            }
                 .padding(.horizontal, 50)
                 .frame(height: needButton)
                 .frame(maxWidth: .infinity)
                 .clipped()
                 .background(
                     Color(
-                        uiColor: .init(
-                            hex: background1
-                        )!
+                        uiColor: buttonBackground
                     )
                 )
+                .overlay(content: {
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(isLight ? .black : .white, lineWidth: 2)
+                        .shadow(radius: 5)
+                })
                 .cornerRadius(16)
-                .disabled(viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil))
+                .disabled(disabled)
                 .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
                 .animation(.smooth, value: needButton > 0)
                 .shadow(
-                    color: Color(uiColor: .init(hex: background1)!),
+                    color: Color(uiColor: buttonBackground),
                     radius: 20,
                     x: 20, y: 15
                 )
@@ -141,9 +152,17 @@ struct HomeView: View {
                             Button("cards") {
                                 viewModel.navValues
                                     .append(
-                                        .cardView(.init(properties: .init(type: "demo", data: .demo), completedSqueeze: { selection in
+                                        .cardView(
+                                            .init(
+                                                properties: .init(
+                                                    type: "demo",
+                                                    selectedResponseItem: nil,
+                                                    data: .demo
+                                                ),
+                                                completedSqueeze: { selection in
 
-                                        }))
+                                        })
+)
                                     )
                             }
                             .frame(height: 40)

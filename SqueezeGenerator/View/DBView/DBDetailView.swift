@@ -26,33 +26,33 @@ struct DBDetailView: View {
         .background {
             ClearBackgroundView()
         }
-        .toolbar {
-            if item.save.aiResult != nil {
-                ToolbarItem {
-                    NavigationLink(value: NavigationRout.resultResponse(item)) {
-                        Text("result")
-                    }
-                }
-            }
-        }
+//        .toolbar {
+//            if item.save.aiResult != nil {
+//                ToolbarItem {
+//                    NavigationLink(value: NavigationRout.resultResponse(item)) {
+//                        Text("result")
+//                    }
+//                }
+//            }
+//        }
     }
 
     var tableView: some View {
         LazyVStack(pinnedViews: .sectionHeaders) {
             Section {
                 dataSection
-                    .blurBackground(.light)
-                    .padding(10)
 
             } header: {
                 sectionHeader
                     .padding(.vertical, (5 * (scrollModifier.percentPositive + 1)))
+                    .background(.black.opacity(0.05 * (1 - scrollModifier.percentPositiveMax)))
                     .blurBackground(
                         .dark,
                         opacityMultiplier: 1 - scrollModifier.percentPositiveMax,
-                        cornerRadius: 0
+                        cornerRadius: 0,
+                        count: 5
                     )
-                    .offset(y: -1)
+                    .offset(y: -3)
 
 
             }
@@ -84,7 +84,8 @@ struct DBDetailView: View {
                 .foregroundColor(.white.opacity(0.3))
             Text(value)
                 .font(.system(size: 11, weight: .semibold))
-                .foregroundColor(.white.opacity(0.3))
+                .foregroundColor(.white.opacity(0.5))
+                .shadow(radius: 5)
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 4)
@@ -159,17 +160,24 @@ struct DBDetailView: View {
     
     var dataSection: some View {
         VStack {
-            ForEach(Array(item.save.questionResults.keys), id:\.id) { key in
-                dataRow(key)
-                    .padding(.horizontal, 10)
-                Spacer().frame(height: 15)
-                actionsCollection(key)
-                Divider()
-                    .background(.white.opacity(.Opacity.separetor.rawValue))
-                    .padding(.vertical, 10)
-                    .padding(.horizontal, 10)
+            VStack {
+                ForEach(Array(item.save.questionResults.keys), id:\.id) { key in
+                    dataRow(key)
+                        .padding(.horizontal, 10)
+                    Spacer().frame(height: 15)
+                    actionsCollection(key)
+                    Divider()
+                        .background(.white.opacity(.Opacity.separetor.rawValue))
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 10)
+                }
             }
+            .padding(.top, 10)
+            .blurBackground(.light, count: 4)
+            
+            Spacer().frame(height: 50)
+            ResultView(saveModel: item, canScroll: false)
         }
-        .padding(.top, 10)
+        .padding(10)
     }
 }

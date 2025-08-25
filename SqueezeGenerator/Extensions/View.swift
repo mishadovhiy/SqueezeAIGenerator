@@ -13,12 +13,18 @@ extension View {
                         opacityMultiplier: CGFloat = 1,
                         opacity: CGFloat? = nil,
                         cornerRadius: CGFloat = .CornerRadius.large.rawValue,
-                        padding: CGFloat = .zero
+                        padding: CGFloat = .zero,
+                        count: Int = 2
     ) -> some View {
         let defaultOpacity:CGFloat = shema == .light ? .Opacity.lightBackground.rawValue : .Opacity.background.rawValue
         self
             .background(content: {
-                BlurView()
+                ZStack {
+                    ForEach(0..<count, id: \.self) { _ in
+                        BlurView()
+                    }
+                }
+
             })
             .background(
                 (Color(
