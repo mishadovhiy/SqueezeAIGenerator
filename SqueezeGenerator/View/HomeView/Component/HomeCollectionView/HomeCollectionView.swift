@@ -16,7 +16,9 @@ struct HomeCollectionView: View {
 
                 LazyVStack(pinnedViews: .sectionHeaders) {
 
-                    Spacer().frame(height: proxy.size.height * 0.56)
+                    Spacer()
+                        .frame(
+                            height: (viewModel.spaceToBottom(proxy)))
                     collectionHeader
                     Spacer().frame(height: 10)
                     Section {

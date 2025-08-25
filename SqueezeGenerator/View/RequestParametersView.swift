@@ -83,6 +83,7 @@ struct RequestParametersView: View {
         }
         .blurBackground()
         .cornerRadius(32)
+        .frame(maxWidth: 820)
     }
 
     var typeTitle: some View {

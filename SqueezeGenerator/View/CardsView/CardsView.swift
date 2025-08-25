@@ -20,6 +20,7 @@ struct CardsView: View {
             Spacer()
             if viewModel.viewAppeared {
                 cardsView
+                    .frame(maxWidth: 800)
                     .scaleEffect(viewModel.viewAppeared ? 1 : 0)
                     .transition(.move(edge: .bottom))
                     .animation(.smooth(duration: !viewModel.viewAnimationCompleted ? 0.9 : 0.2))
@@ -110,12 +111,13 @@ struct CardsView: View {
         GeometryReader { proxy in
             VStack {
                 Spacer().frame(height: 50)
-                ZStack {
+                ZStack(alignment: .center) {
                     completionView
                     ForEach(viewModel.data.reversed(), id: \.id) { data in
                         cardView(data, viewSize: proxy.size)
                     }
                 }
+                .frame(alignment: .center)
                 .padding(.horizontal, 5)
                 Spacer().frame(height: 80)
             }
@@ -255,7 +257,7 @@ struct CardsView: View {
 
             .frame(maxHeight: .infinity)
             .offset(x: position.x, y: position.y - (data.id == currentData?
-                .id ? 0 : -100))
+                .id ? 0 : viewModel.inactiveCardPositionY))
             .scaleEffect(data.id == currentData?.id ? 1 : 1.3)
             .animation(.bouncy, value: viewModel.currentIndex)
             .gesture(

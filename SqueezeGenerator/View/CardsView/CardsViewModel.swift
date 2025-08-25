@@ -140,6 +140,10 @@ class CardsViewModel: ObservableObject {
         }
         self.selectedActions = selectedActions
     }
+
+    var inactiveCardPositionY: CGFloat {
+        UIDevice.current.userInterfaceIdiom == .pad ? -500 : -100
+    }
 }
 
 extension CardsViewModel {
