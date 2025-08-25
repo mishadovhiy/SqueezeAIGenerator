@@ -20,8 +20,7 @@ struct CardCompletionView: View {
                     .foregroundColor(.white.opacity(.Opacity.separetor.rawValue))
                     .shadow(color:.black.opacity(0.1), radius: 10)
                 Button {
-                    needIllustration.toggle()
-                    //                viewModel.donePressed(viewModel.selectedOptions)
+                    viewModel.donePressed(viewModel.selectedOptions)
                 } label: {
                     Text("Get Results")
                         .font(.system(size: 14, weight: .semibold))

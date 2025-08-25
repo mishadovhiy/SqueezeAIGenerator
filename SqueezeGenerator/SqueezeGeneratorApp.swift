@@ -21,22 +21,11 @@ struct SqueezeGeneratorApp: App {
     static func navigationHeight(with newValue: CGFloat = .zero) {
         navigationHeight.send(newValue)
     }
-    @State var test: Bool = true
+
     var body: some Scene {
         WindowGroup {
 //            CardsView(.demo)
-//            HomeView()
-            CardCompletionView(
-                viewModel: .init(.init(type: "", selectedResponseItem: nil, data: []), donePressed: { _ in
-
-                }),
-                tintColor: .red,
-                needIllustration: .init(get: {
-                    test
-                }, set: {
-                    test = $0
-                })
-            )
+            HomeView()
 //            IconsView()
                 .environment(\.colorScheme, .dark)
                 .preferredColorScheme(.dark)

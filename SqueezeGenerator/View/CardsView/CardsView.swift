@@ -15,65 +15,73 @@ struct CardsView: View {
     }
 
     var body: some View {
-        VStack {
-            header
-            Spacer()
-            if viewModel.viewAppeared {
-                cardsView
-                    .frame(maxWidth: 800)
-                    .scaleEffect(viewModel.viewAppeared ? 1 : 0)
-                    .transition(.move(edge: .bottom))
-                    .animation(.smooth(duration: !viewModel.viewAnimationCompleted ? 0.9 : 0.2), value: viewModel.viewAppeared)
-            }
-            Spacer()
-        }
-        .overlay(content: {
-            scrollLabelOverlay
-        })
-        .padding(10)
-        .toolbar {
-            ToolbarItem(placement: .navigation) {
-                Button {
-                    withAnimation {
-                        viewModel.currentIndex -= 1
-                    }
-                } label: {
-                    Color.clear
-                    .overlay {
-                        Image(.back)
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(
-                                .init(
-                                    uiColor: tintColor)
-                            )
-                            .padding(.horizontal, 7)
-                            .opacity(0.6)
-                            .shadow(radius: 10)
-
-                    }
-                    .frame(width: 40, height: 40)
-                    .blurBackground()
-                    .background {
-                        RoundedRectangle(cornerRadius: .CornerRadius.large.rawValue)
-                            .stroke(Color(uiColor: tintColor).opacity(0.3), lineWidth: 1)
-                    }
+        ZStack {
+            CardCompletionView(
+                viewModel: viewModel,
+                tintColor: tintColor,
+                needIllustration: .constant(viewModel.currentIndex >= viewModel.data.count)
+            )
+            .frame(maxHeight: .infinity)
+            VStack {
+                header
+                Spacer()
+                if viewModel.viewAppeared {
+                    cardsView
+                        .frame(maxWidth: 800)
+                        .scaleEffect(viewModel.viewAppeared ? 1 : 0)
+                        .transition(.move(edge: .bottom))
+                        .animation(.smooth(duration: !viewModel.viewAnimationCompleted ? 0.9 : 0.2), value: viewModel.viewAppeared)
                 }
-                .disabled(viewModel.currentIndex <= 0)
+                Spacer()
             }
-        }
-        .foregroundColor(.black)
-        .navigationTitle(viewModel.properties.type.addSpaceBeforeCapitalizedLetters.capitalized)
-        .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
-                withAnimation(.bouncy(duration: 0.9)) {
-                    viewModel.viewAppeared = true
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900), execute: {
-                    viewModel.viewAnimationCompleted = true
-                })
+            .overlay(content: {
+                scrollLabelOverlay
             })
+            .padding(10)
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    Button {
+                        withAnimation {
+                            viewModel.currentIndex -= 1
+                        }
+                    } label: {
+                        Color.clear
+                        .overlay {
+                            Image(.back)
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(
+                                    .init(
+                                        uiColor: tintColor)
+                                )
+                                .padding(.horizontal, 7)
+                                .opacity(0.6)
+                                .shadow(radius: 10)
+
+                        }
+                        .frame(width: 40, height: 40)
+                        .blurBackground()
+                        .background {
+                            RoundedRectangle(cornerRadius: .CornerRadius.large.rawValue)
+                                .stroke(Color(uiColor: tintColor).opacity(0.3), lineWidth: 1)
+                        }
+                    }
+                    .disabled(viewModel.currentIndex <= 0)
+                }
+            }
+            .foregroundColor(.black)
+            .navigationTitle(viewModel.properties.type.addSpaceBeforeCapitalizedLetters.capitalized)
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
+                    withAnimation(.bouncy(duration: 0.9)) {
+                        viewModel.viewAppeared = true
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900), execute: {
+                        viewModel.viewAnimationCompleted = true
+                    })
+                })
+            }
         }
     }
 
@@ -112,11 +120,6 @@ struct CardsView: View {
             VStack {
                 Spacer().frame(height: 50)
                 ZStack(alignment: .center) {
-                    CardCompletionView(
-                        viewModel: viewModel,
-                        tintColor: tintColor,
-                        needIllustration: .constant(viewModel.currentIndex >= viewModel.data.count)
-                    )
                     ForEach(viewModel.data.reversed(), id: \.id) { data in
                         cardView(data, viewSize: proxy.size)
                     }
