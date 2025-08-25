@@ -62,7 +62,7 @@ struct CardsView: View {
             }
         }
         .foregroundColor(.black)
-        .navigationTitle(viewModel.properties.type)
+        .navigationTitle(viewModel.properties.type.addSpaceBeforeCapitalizedLetters.capitalized)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
@@ -171,7 +171,7 @@ struct CardsView: View {
         VStack {
             Text("Great job!")
                 .font(.system(size: 32, weight: .black))
-                .foregroundColor(.white.opacity(.Opacity.description.rawValue))
+                .foregroundColor(.white.opacity(.Opacity.separetor.rawValue))
                 .shadow(color:.black.opacity(0.1), radius: 10)
             Button {
                 viewModel.donePressed(viewModel.selectedOptions)

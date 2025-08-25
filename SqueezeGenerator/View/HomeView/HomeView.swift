@@ -21,7 +21,6 @@ struct HomeView: View {
                 .padding(.horizontal, 10)
                 .opacity(db.sheetPresenting ? 0 : 1)
                 .animation(.smooth, value: db.sheetPresenting)
-
         }
         .foregroundColor(.white)
         .animation(.smooth, value: viewModel.response != nil && viewModel.appResponse != nil)
@@ -67,7 +66,6 @@ struct HomeView: View {
     var buttonsView: some View {
         let needButton = viewModel.buttonsViewHeight
         let background1 = viewModel.backgroundProperties.backgroundGradient?.topLeft ?? String.HexColor.puroure2Light.rawValue
-        let background2 = viewModel.backgroundProperties.backgroundGradient?.bottomRight ?? String.HexColor.puroure2Light.rawValue
         let buttonBackground: UIColor = .init(hex: background1)!
         let isLight = buttonBackground.isLight
         let disabled = viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil)
@@ -78,7 +76,7 @@ struct HomeView: View {
             } label: {
                 Text(viewModel.response != nil ? "squeeze" : "Start")
                     .foregroundColor(isLight ? .black.opacity(0.7) : .white)
-                    .font(.system(size: 28, weight: .black))
+                    .font(.system(size: 28, weight: .regular))
                     .opacity(disabled ? 0.3 : 1)
                     .shadow(radius: 5)
             }
@@ -93,8 +91,8 @@ struct HomeView: View {
                 )
                 .overlay(content: {
                     RoundedRectangle(cornerRadius: 16)
-                        .stroke(isLight ? .black : .white, lineWidth: 2)
-                        .shadow(radius: 5)
+                        .stroke(Color(uiColor: buttonBackground), lineWidth: 2)
+                        .shadow(radius: 10)
                 })
                 .cornerRadius(16)
                 .disabled(disabled)

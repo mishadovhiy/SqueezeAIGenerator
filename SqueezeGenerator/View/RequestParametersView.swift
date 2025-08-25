@@ -52,7 +52,7 @@ struct RequestParametersView: View {
         Button {
             statPresenting = true
         } label: {
-            Image(.score)
+            Image(.chart)
                 .resizable()
                 .scaledToFit()
                 .shadow(radius: 5)
