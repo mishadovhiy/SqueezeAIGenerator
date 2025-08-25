@@ -112,20 +112,20 @@ struct DBDetailView: View {
 
     @ViewBuilder
     func actionsCollection(_ key: DataKey) -> some View {
-        let height = collectionHeights[key.id.uuidString] ?? 0
-        let selectedOprionForQuestion = self.item.save.questionResults[key]
-        CollectionView(
-            contentHeight: .init(get: {
-                height
-            }, set: {
-                collectionHeights.updateValue($0, forKey: key.id.uuidString)
-            }),
-            isopacityCells: false,
-            data: key.options.compactMap({
-                .init(title: $0.optionName, isSelected: $0 == selectedOprionForQuestion)
-            })
-        )
-        .frame(height: height >= 30 ? height - 30 : 0)
+        let selectedOption = self.item.save.questionResults[key]
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHGrid(rows: [.init()]) {
+                ForEach(key.options, id: \.id) { option in
+                    Text(option.optionName)
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(selectedOption == option ? .black : .white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(.white.opacity(selectedOption == option ? 1 : 0.15))
+                        .cornerRadius(9)
+                }
+            }
+        }
     }
 
     @ViewBuilder
