@@ -14,6 +14,9 @@ class CardsViewModel: ObservableObject {
     typealias Selection = [UUID: String]
     let donePressed: (Selection)->()
     var selectedOptions: Selection = [:]
+    @Published var viewAppeared = false
+    @Published var viewAnimationCompleted = false
+
     @Published var currentIndex: Int = 0 {
         willSet {
             let id = data.count - 1 >= currentIndex ?  data[currentIndex] : data.last

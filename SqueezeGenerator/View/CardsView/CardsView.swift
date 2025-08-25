@@ -18,7 +18,12 @@ struct CardsView: View {
         VStack {
             header
             Spacer()
-            cardsView
+            if viewModel.viewAppeared {
+                cardsView
+                    .scaleEffect(viewModel.viewAppeared ? 1 : 0)
+                    .transition(.move(edge: .bottom))
+                    .animation(.smooth(duration: !viewModel.viewAnimationCompleted ? 0.9 : 0.2))
+            }
             Spacer()
         }
         .overlay(content: {
@@ -59,7 +64,16 @@ struct CardsView: View {
         .foregroundColor(.black)
         .navigationTitle(viewModel.properties.type)
         .navigationBarTitleDisplayMode(.inline)
-
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
+                withAnimation(.bouncy(duration: 0.9)) {
+                    viewModel.viewAppeared = true
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900), execute: {
+                    viewModel.viewAnimationCompleted = true
+                })
+            })
+        }
     }
 
     var tintColor: UIColor {
@@ -70,7 +84,6 @@ struct CardsView: View {
     }
     var header: some View {
         VStack {
-
             progressView
         }
     }
@@ -88,7 +101,9 @@ struct CardsView: View {
 
             }
         }
-        .frame(height: 15)
+        .frame(height: viewModel.viewAppeared ? 15 : 0)
+        .opacity(viewModel.viewAppeared ? 1 : 0)
+        .animation(.smooth, value: viewModel.viewAppeared)
     }
 
     var cardsView: some View {
@@ -211,7 +226,7 @@ struct CardsView: View {
                     viewModel.didSelectButton(button: data.buttons[at ?? 0])
                 }
                 .frame(height: height >= 20 ? height - 20 : 0)
-                .animation(.bouncy(duration: 0.6), value: data.id == currentData?.id)
+                .animation(.bouncy(duration: 0.9), value: data.id == currentData?.id)
                 .transition(.move(edge: .bottom))
             }
 
