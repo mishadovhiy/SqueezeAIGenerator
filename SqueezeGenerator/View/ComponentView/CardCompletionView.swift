@@ -96,6 +96,16 @@ fileprivate struct PlanetIllustration: View {
                 .speed(0.9),
                 value: animate
             )
+            .overlay {
+                ZStack {
+                    star(width: 19)
+                        .offset(x: 130, y: 0)
+                    star(width: 9)
+                        .offset(x: 80, y: -30)
+                    star(width: 7)
+                        .offset(x: 110, y: 60)
+                }
+            }
             Spacer()
                 .frame(maxWidth: .infinity)
 
@@ -119,9 +129,25 @@ fileprivate struct PlanetIllustration: View {
                 .speed(0.3),
                 value: animate
             )
+            .overlay(content: {
+                ZStack {
+                    star(width: 18)
+                        .offset(y: -100)
+                    star(width: 8)
+                        .offset(x: 30, y: -70)
+                }
+            })
             Spacer()
                 .frame(maxWidth: .infinity)
         }
+        .overlay(content: {
+            ZStack {
+                star(width: 20)
+                    .offset(y: 40)
+                star(width: 8)
+                    .offset(x: -120, y: 70)
+            }
+        })
         .offset(x: -70)
 
     }
@@ -147,5 +173,19 @@ fileprivate struct PlanetIllustration: View {
         .offset(x: 70, y: needIllustration ? 70 : 150)
         .frame(maxHeight: needIllustration ? .infinity : 0)
         .animation(.smooth(duration: 1.8), value: needIllustration)
+    }
+
+    private func star(width: CGFloat) -> some View {
+        Image(.CardCompletionIllustration.Planet.star)
+            .resizable()
+            .scaledToFit()
+            .frame(width: width)
+            .scaleEffect(animate ? 1.3 : 0.9)
+            .animation(
+                .linear(duration: 2.9)
+                .repeatForever(autoreverses: true)
+                .speed([5.9, 2.3, 3.6, 4.5, 3.9, 3.2, 2.6, 2.9, 4.9].randomElement()!),
+                value: animate
+            )
     }
 }
