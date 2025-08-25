@@ -249,6 +249,7 @@ struct HomeCollectionView: View {
         VStack {
             headRowItem("count", "\(data?.subcategoriesCount ?? 0)/\(data?.completedSubcategoriesCount ?? 0)")
             Divider()
+                .background(.white.opacity(.Opacity.separetor.rawValue))
             headRowItem("score", "\(data?.avarageGrade ?? 0)%")
         }
         .opacity(.Opacity.description.rawValue)

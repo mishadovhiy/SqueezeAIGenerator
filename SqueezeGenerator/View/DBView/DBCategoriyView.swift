@@ -122,6 +122,7 @@ struct DBCategoriyView: View {
                 responseCell(response)
             }
             Divider()
+                .background(.white.opacity(.Opacity.separetor.rawValue))
         }
     }
 

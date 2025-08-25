@@ -95,7 +95,7 @@ struct DBDetailView: View {
                 progress: item.resultPercent,
                 widthMultiplier: scrollModifier.percent >= 0.2 ? scrollModifier.percent : 0.2)
             HStack {
-                headerRow(title: "Qnt", value: "\(item.response.questions.count)")
+                headerRow(title: "Questions", value: "\(item.response.questions.count)")
                 .frame(maxWidth: .infinity)
                 headerRow(title: "Category", value: item.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
                 .frame(maxWidth: scrollModifier.percent <= 0 ? .infinity : 0)
@@ -145,6 +145,7 @@ struct DBDetailView: View {
                 Spacer().frame(height: 25)
                 actionsCollection(key)
                 Divider()
+                    .background(.white.opacity(.Opacity.separetor.rawValue))
                     .padding(.vertical, 10)
             }
         }

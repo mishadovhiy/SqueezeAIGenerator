@@ -61,6 +61,7 @@ struct ResultView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
+                .background(.white.opacity(.Opacity.separetor.rawValue))
         }
     }
 

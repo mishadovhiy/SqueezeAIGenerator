@@ -13,6 +13,6 @@ extension Configuration.UI {
         case lightBackground = 0.05
         case description = 0.5
         case descriptionLight = 0.3
-
+        case separetor = 0.1
     }
 }
