@@ -542,10 +542,10 @@ class HomeViewModel: ObservableObject {
                 { button in
                     let selectedOption = response!.save.questionResults[question]
                     return .init(
-                        title: button.optionName,
+                        title: button.optionName, cellBackground: .white,
                         isSelected: selectedOption?.id == button.id,
                         id: button.id.uuidString,
-                        extraSmall: true
+                        extraSmall: false
                     )
                 })
         )

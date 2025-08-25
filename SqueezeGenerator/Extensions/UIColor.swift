@@ -55,4 +55,29 @@ extension UIColor {
             alpha: CGFloat(1.0)
         )
     }
+
+    var isLight: Bool {
+        let (r, g, b) = self.rgbInSRGB()
+        let brightness = (r * 299 + g * 587 + b * 114) / 1000
+        return brightness >= 0.6
+    }
+
+    // MARK: - Helpers
+    private func rgbInSRGB() -> (CGFloat, CGFloat, CGFloat) {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        if getRed(&r, green: &g, blue: &b, alpha: &a) { return (r, g, b) }
+
+        guard let srgb = cgColor.converted(
+            to: CGColorSpace(name: CGColorSpace.sRGB)!,
+            intent: .relativeColorimetric,
+            options: nil),
+              let comps = srgb.components
+        else { return (0, 0, 0) }
+
+        if comps.count == 2 {
+            return (comps[0], comps[0], comps[0])
+        } else {
+            return (comps[0], comps[1], comps[2])
+        }
+    }
 }

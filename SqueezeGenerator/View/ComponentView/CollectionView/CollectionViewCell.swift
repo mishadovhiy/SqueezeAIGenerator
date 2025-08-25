@@ -83,12 +83,23 @@ class CollectionViewCell: UICollectionViewCell {
         }
         label?.font =
             .systemFont(
-                ofSize: isWhite ? 9 : data.fontSize,
-                weight: isWhite ? .regular : data.fontWeight
+                ofSize: isWhite ? 13 : data.fontSize,
+                weight: isWhite ? .medium : data.fontWeight
             )
+        if let background = data.cellBackground {
+            backgroundColoredView?.backgroundColor = (data.isType ? background : .white)
+                .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.2 : 0.1))
 
-        label?.textColor = isWhite && data.isSelected ? .black : .white
-            .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.5 : 0.8))
+        } else {
+            backgroundColoredView?.backgroundColor = data.isType ? .red
+                .withAlphaComponent(isWhite ? 1 : 0.2) : .white
+                .withAlphaComponent(data.isSelected ? 1 : 0.1)
+        }
+        let isBackgroundLight = backgroundColoredView?.backgroundColor?.isLight ?? true
+        label?.textColor = isWhite && data.isSelected ? (isBackgroundLight ? .black : .white) : (
+            isWhite ? (isBackgroundLight ? UIColor.black : UIColor.white) : .white
+        )
+        .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.5 : 0.8))
         descriptionLabel?.text = data.description
         if data.title.isEmpty {
             descriptionLabel?.textColor = .white
@@ -102,15 +113,7 @@ class CollectionViewCell: UICollectionViewCell {
 //            descriptionLabel?.isHidden = data.description?.isEmpty ?? true
 //        }
 //        label?.attributedText = attributedString
-        if let background = data.cellBackground {
-            backgroundColoredView?.backgroundColor = (data.isType ? background : .white)
-                .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.2 : 0.1))
-
-        } else {
-            backgroundColoredView?.backgroundColor = data.isType ? .red
-                .withAlphaComponent(isWhite ? 1 : 0.2) : .white
-                .withAlphaComponent(data.isSelected ? 1 : 0.1)
-        }
+        //here
 //        if let texts = textStack,
 //           isWhite {
 //            texts.topAnchor.constraint(equalTo: texts.superview!.topAnchor, constant: 5).isActive = true

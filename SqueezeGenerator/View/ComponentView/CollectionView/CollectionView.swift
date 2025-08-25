@@ -166,14 +166,14 @@ extension [CollectionViewController.CollectionData] {
     
     fileprivate static var demos: Self {
         [
-            .init(title: "Proffessional Skills", extraSmall: true),
-            .init(title: "Nervious", extraSmall: true),
-            .init(title: "Shizophrenia Shizophrenia Shizophrenia", extraSmall: true),
-            .init(title: "sdffd", extraSmall: true),
-            .init(title: "cxvfasd cxvfasd cxvfasd cxvfasd cxvfasd cxvfasd cxvfasd", extraSmall: true),
-            .init(title: "rtegf", extraSmall: true),
-            .init(title: "5g4refw 5g4refw 5g4refw 5g4refw 5g4refw 5g4refw", extraSmall: true),
-            .init(title: "dfvc", extraSmall: true)
+            .init(title: "Proffessional Skills", cellBackground: .white, extraSmall: false),
+            .init(title: "Nervious", cellBackground: .white, extraSmall: false),
+            .init(title: "Shizophrenia Shizophrenia Shizophrenia", cellBackground: .white, extraSmall: false),
+            .init(title: "sdffd", cellBackground: .white, extraSmall: false),
+            .init(title: "cxvfasd cxvfasd cxvfasd cxvfasd cxvfasd cxvfasd cxvfasd", cellBackground: .white, extraSmall: false),
+            .init(title: "rtegf", cellBackground: .white, extraSmall: false),
+            .init(title: "5g4refw 5g4refw 5g4refw 5g4refw 5g4refw 5g4refw", cellBackground: .white, extraSmall: false),
+            .init(title: "dfvc", cellBackground: .white, extraSmall: false)
         ]
     }
 }
