@@ -112,7 +112,10 @@ struct CardsView: View {
             VStack {
                 Spacer().frame(height: 50)
                 ZStack(alignment: .center) {
-                    completionView
+                    CardCompletionView(
+                        viewModel: viewModel,
+                        tintColor: tintColor
+                    )
                     ForEach(viewModel.data.reversed(), id: \.id) { data in
                         cardView(data, viewSize: proxy.size)
                     }
@@ -164,35 +167,6 @@ struct CardsView: View {
             .animation(.smooth, value: actions.isEmpty)
         }
         .disabled(true)
-    }
-
-    @ViewBuilder
-    var completionView: some View {
-        let tintColor = tintColor
-        let isLight = tintColor.isLight
-        VStack {
-            Text("Great job!")
-                .font(.system(size: 32, weight: .black))
-                .foregroundColor(.white.opacity(.Opacity.separetor.rawValue))
-                .shadow(color:.black.opacity(0.1), radius: 10)
-            Button {
-                viewModel.donePressed(viewModel.selectedOptions)
-            } label: {
-                Text("Get Results")
-                    .font(.system(size: 14, weight: .semibold))
-                    .padding(.horizontal, 15)
-                    .padding(.vertical, 6)
-                    .foregroundColor(isLight ? .black : .white)
-            }
-            .background(Color(uiColor: tintColor))
-            .overlay {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(isLight ? .black : .white, lineWidth: 1)
-                    .opacity(0.2)
-            }
-            .cornerRadius(12)
-            .shadow(color: .init(uiColor: tintColor), radius: 12)
-        }
     }
 
     @ViewBuilder

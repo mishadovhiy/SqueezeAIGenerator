@@ -99,7 +99,14 @@ class HomeViewModel: ObservableObject {
     }
 
     var circleType: HomeBackgroundView.`Type` {
-        if appDataLoading || requestLoading || navValues.last == .empty {
+        let navLoading: Bool
+        switch navValues.last {
+        case .empty:
+            navLoading = true
+        default:
+            navLoading = false
+        }
+        if appDataLoading || requestLoading || navLoading {
             return .loading
         }
         if !navValues.isEmpty {
@@ -361,7 +368,7 @@ class HomeViewModel: ObservableObject {
         let selectedRequest = selectedCategory
 //        db.db.responses.append(response!)
         // navValues = []
-        self.navValues = [.empty]
+        self.navValues = [.empty(.init(title: "Analyzing your answers"))]
         DispatchQueue.main.async {
             Task(priority: .background) {
                 NetworkModel()
@@ -549,7 +556,7 @@ class HomeViewModel: ObservableObject {
                         })))
         } else {
             withAnimation {
-                navValues.append(.empty)
+                navValues.append(.empty())
                 startGenerationRequest(db: db)
             }
         }

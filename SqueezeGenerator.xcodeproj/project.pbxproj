@@ -15,6 +15,8 @@
 		8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8242881D2E305730000E12EB /* RequestParametersView.swift */; };
 		82555A642E46834600B69554 /* ResponsePreviewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82555A632E46834600B69554 /* ResponsePreviewModel.swift */; };
 		82719AFF2E5BB4CD00176AE4 /* CircularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719AFE2E5BB4CD00176AE4 /* CircularProgressView.swift */; };
+		82719B0D2E5CE9D700176AE4 /* LoadingTextualView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B0C2E5CE9D700176AE4 /* LoadingTextualView.swift */; };
+		82719B0F2E5CEB8E00176AE4 /* CardCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */; };
 		82A963BF2E59F45400F2A7A4 /* StartsSKSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A963BE2E59F45400F2A7A4 /* StartsSKSceneView.swift */; };
 		82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */; };
 		82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B692E2D2C4000CC3FAD /* String.swift */; };
@@ -86,6 +88,8 @@
 		8242881D2E305730000E12EB /* RequestParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestParametersView.swift; sourceTree = "<group>"; };
 		82555A632E46834600B69554 /* ResponsePreviewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsePreviewModel.swift; sourceTree = "<group>"; };
 		82719AFE2E5BB4CD00176AE4 /* CircularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressView.swift; sourceTree = "<group>"; };
+		82719B0C2E5CE9D700176AE4 /* LoadingTextualView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingTextualView.swift; sourceTree = "<group>"; };
+		82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCompletionView.swift; sourceTree = "<group>"; };
 		82A441FB2E256DD80086D5CE /* SqueezeGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqueezeGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442092E256DD90086D5CE /* SqueezeGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442132E256DD90086D5CE /* SqueezeGeneratorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +290,8 @@
 			isa = PBXGroup;
 			children = (
 				82719AFE2E5BB4CD00176AE4 /* CircularProgressView.swift */,
+				82719B0C2E5CE9D700176AE4 /* LoadingTextualView.swift */,
+				82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */,
 				82A963C02E59F46F00F2A7A4 /* SKScene */,
 				82AF8B9E2E2DD20500CC3FAD /* BaseView */,
 				82AF8B772E2D2C4000CC3FAD /* CollectionView */,
@@ -570,6 +576,7 @@
 				8239CD6A2E50F2E4009CBED6 /* ContentHomeCollectionView.swift in Sources */,
 				82C5E61C2E36F81E00A5EE27 /* BlurView.swift in Sources */,
 				8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */,
+				82719B0D2E5CE9D700176AE4 /* LoadingTextualView.swift in Sources */,
 				82BA59522E30222D009B8913 /* HomeViewModel.swift in Sources */,
 				82AF8B882E2D2C4000CC3FAD /* Request.swift in Sources */,
 				82BA59442E301EFB009B8913 /* TextView.swift in Sources */,
@@ -579,6 +586,7 @@
 				82AF8B892E2D2C4000CC3FAD /* SqueezeRequest.swift in Sources */,
 				82BA594E2E301F7C009B8913 /* ResultView.swift in Sources */,
 				82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */,
+				82719B0F2E5CEB8E00176AE4 /* CardCompletionView.swift in Sources */,
 				82BA0D1F2E4876C5009ECC61 /* Font_Configuration.swift in Sources */,
 				82A963BF2E59F45400F2A7A4 /* StartsSKSceneView.swift in Sources */,
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,

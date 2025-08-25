@@ -13,7 +13,7 @@ enum NavigationRout: Hashable {
     case question(NetworkResponse.AdviceResponse.QuestionResponse)
     case requestToGenerateParameters(Binding<NetworkRequest.SqueezeRequest?>, NetworkResponse.CategoriesResponse.Categories?)
     case requestGenerated(ReadyView.Presenter)
-    case empty
+    case empty(LoadingTextualView.Presenter = .init())
     case cardView(CardsView.Presenter)
     case resultResponse(AdviceQuestionModel)
 
@@ -56,20 +56,8 @@ enum NavigationRout: Hashable {
         case .requestGenerated(let presenter):
             ReadyView(presenter: presenter)
 
-        case .empty:
-            VStack(content: {
-                Spacer()
-                    .frame(maxHeight: .infinity)
-                Spacer()
-                    .frame(maxHeight: .infinity)
-                Text("Generating")
-                    .font(.Type.section.font)
-                    .opacity(.Opacity.descriptionLight.rawValue)
-                Spacer()
-                    .frame(maxHeight: .infinity)
-            })
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden()
+        case .empty(let presenter):
+            LoadingTextualView(presenter: presenter)
 
         case .cardView(let properties):
             CardsView(properties)

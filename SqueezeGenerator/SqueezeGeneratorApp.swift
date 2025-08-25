@@ -25,7 +25,13 @@ struct SqueezeGeneratorApp: App {
     var body: some Scene {
         WindowGroup {
 //            CardsView(.demo)
-            HomeView()
+//            HomeView()
+            CardCompletionView(
+                viewModel: .init(.init(type: "", selectedResponseItem: nil, data: []), donePressed: { _ in
+
+                }),
+                tintColor: .red
+            )
 //            IconsView()
                 .environment(\.colorScheme, .dark)
                 .preferredColorScheme(.dark)
