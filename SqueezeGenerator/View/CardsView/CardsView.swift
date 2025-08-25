@@ -114,7 +114,8 @@ struct CardsView: View {
                 ZStack(alignment: .center) {
                     CardCompletionView(
                         viewModel: viewModel,
-                        tintColor: tintColor
+                        tintColor: tintColor,
+                        needIllustration: .constant(viewModel.currentIndex >= viewModel.data.count)
                     )
                     ForEach(viewModel.data.reversed(), id: \.id) { data in
                         cardView(data, viewSize: proxy.size)
