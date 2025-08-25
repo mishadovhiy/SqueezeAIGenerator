@@ -23,7 +23,7 @@ struct CardsView: View {
                     .frame(maxWidth: 800)
                     .scaleEffect(viewModel.viewAppeared ? 1 : 0)
                     .transition(.move(edge: .bottom))
-                    .animation(.smooth(duration: !viewModel.viewAnimationCompleted ? 0.9 : 0.2))
+                    .animation(.smooth(duration: !viewModel.viewAnimationCompleted ? 0.9 : 0.2), value: viewModel.viewAppeared)
             }
             Spacer()
         }

@@ -38,5 +38,51 @@ struct CardCompletionView: View {
             .cornerRadius(12)
             .shadow(color: .init(uiColor: tintColor), radius: 12)
         }
+        .frame(maxHeight: .infinity)
+        .background {
+            VStack {
+                Spacer().frame(maxHeight: .infinity)
+                PlanetIllustration()
+            }
+            .ignoresSafeArea(.all)
+
+        }
+    }
+}
+
+fileprivate struct PlanetIllustration: View {
+
+    @State private var animate: Bool = false
+
+    var body: some View {
+        VStack(spacing: .zero) {
+            Spacer().frame(maxHeight: .infinity)
+            firstPlanet
+            Image(.CardCompletionIllustration.Planet.graund)
+        }
+        .onAppear {
+            animate.toggle()
+        }
+    }
+
+    private var firstPlanet: some View {
+        VStack {
+            VStack(content: {
+                Image(.CardCompletionIllustration.Planet.planet1)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 250, height: 250)
+            })
+            .rotationEffect(
+                .degrees(animate ? 360 : 0)
+            )
+            .animation(
+                .linear(duration: 5.9)
+                .repeatForever(autoreverses: false)
+                .speed(0.9),
+                value: animate
+            )
+        }
+        .offset(x: 70, y: 70)
     }
 }
