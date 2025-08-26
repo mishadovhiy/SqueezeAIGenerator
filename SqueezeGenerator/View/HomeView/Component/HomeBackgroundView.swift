@@ -11,6 +11,13 @@ struct HomeBackgroundView: View {
     @Binding var type: `Type`
     @Binding var properties: BakcgroundProperties
 
+    @State private var gradientCircleOpacity: CGFloat = 0
+    @State private var gradientCirclePosition: CGPoint = .zero
+    @State private var holder: Type?
+    private let gradient: AngularGradient = .init(gradient: .init(colors: [.pink, .purple, .red, .yellow, .orange, .blue]), center: .center)
+    @State private var animate: Bool = false
+    @State private var circleCount: Int = 4
+
     var body: some View {
         ZStack(content: {
             primaryGradient
@@ -44,47 +51,6 @@ struct HomeBackgroundView: View {
                 .ignoresSafeArea(.all)
         }
 
-    }
-
-    private var defaultBackgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
-        .init(
-            tint: nil,
-            topLeft: .HexColor.lightPink.rawValue,
-            top: .HexColor.puroure2Light.rawValue,
-            left: .HexColor.puroure2Light.rawValue,
-            right: .HexColor.lightPink.rawValue,
-            bottom: .HexColor.purpureLight.rawValue,
-            bottomRight: .HexColor.puroure2Light.rawValue
-        )
-    }
-
-    var backgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
-        properties.backgroundGradient ?? defaultBackgroundColors
-    }
-
-    var duration: TimeInterval {
-        if type == .loading {
-            return 3
-        }
-        return 5
-    }
-
-    var blurAlpha: CGFloat {
-        if let alpha = properties.blurAlpha {
-            return alpha
-        }
-        let ignorBlur: [Type] = [.loading, .regular, .topBig, .topRegular]
-        if ignorBlur.contains(type) {
-            return 0
-        }
-
-        return type.isBig || type.isTop  ? 20 : 0
-    }
-
-    var gradientOpacity: CGFloat {
-        let min = 0.3
-        let result = blurAlpha / 100
-        return result <= min ? result : min
     }
 
     var primaryGradient: some View {
@@ -129,23 +95,6 @@ struct HomeBackgroundView: View {
             animateGradientCircle()
         }
     }
-
-    func animateGradientCircle() {
-        withAnimation(.smooth(duration: 6)) {
-            gradientCircleOpacity = [0.9, 0.8, 0.6, 0.9].randomElement()!
-            gradientCirclePosition = .init(
-                x: animate ? [-30, -100, -30, 20, -5, 30, 25].randomElement()! : [20, 50, 10, -30].randomElement()!,
-                y: animate ? [40, -100, -20, 20, 50, 30, 25]
-                                                           .randomElement()! : [100, 105, 50, 90, 80, 120]
-                                                           .randomElement()!)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(6), execute: {
-            self.animateGradientCircle()
-        })
-    }
-
-    @State var gradientCircleOpacity: CGFloat = 0
-    @State var gradientCirclePosition: CGPoint = .zero
 
     func bottomTrailingGradient(_ color: NetworkResponse.CategoriesResponse.Categories.Color) -> some View {
         VStack {
@@ -216,22 +165,6 @@ struct HomeBackgroundView: View {
             .init(uiColor: .init(hex: backgroundColors.bottom)!)
         ], startPoint: .top, endPoint: .bottom)
     }
-
-    let gradient: AngularGradient = .init(gradient: .init(colors: [.pink, .purple, .red, .yellow, .orange, .blue]), center: .center)
-    @State var animate: Bool = false
-    var circleScale: CGFloat {
-        if type == .loading {
-            return animate ? 0.6 : 0.25
-        }
-        return animate ? 1.5 : 0.75
-    }
-    var opacity: CGFloat {
-        animate ? (type == .loading ? 0 : (type.isTop ? 0 : 0)) : 1
-    }
-    var angle: Angle {
-        .degrees(animate ? 0 : 360)
-    }
-    @State var circleCount: Int = 4
     
     @ViewBuilder
     var curclesOverlayView: some View {
@@ -282,19 +215,8 @@ struct HomeBackgroundView: View {
                     animate = true
                 })
             }
-            
         }
     }
-    @State var holder: Type?
-    func axis(_ i: Int) -> (x: CGFloat, y: CGFloat, z: CGFloat) {
-        switch i {
-        case 0: (x: 1, y: 0, z: 0)
-        case 1: (x: 0, y: 1, z: 1)
-        case 2: (x: 1, y: 0, z: 1)
-        default: (x: 1, y: 0, z: 0)
-        }
-    }
-
 }
 
 extension HomeBackgroundView {
@@ -318,6 +240,87 @@ extension HomeBackgroundView {
         var backgroundGradient: NetworkResponse.CategoriesResponse.Categories.Color? = nil
     }
 }
+
+extension HomeBackgroundView {
+    func axis(_ i: Int) -> (x: CGFloat, y: CGFloat, z: CGFloat) {
+        switch i {
+        case 0: (x: 1, y: 0, z: 0)
+        case 1: (x: 0, y: 1, z: 1)
+        case 2: (x: 1, y: 0, z: 1)
+        default: (x: 1, y: 0, z: 0)
+        }
+    }
+
+    var circleScale: CGFloat {
+        if type == .loading {
+            return animate ? 0.6 : 0.25
+        }
+        return animate ? 1.5 : 0.75
+    }
+    var opacity: CGFloat {
+        animate ? (type == .loading ? 0 : (type.isTop ? 0 : 0)) : 1
+    }
+    var angle: Angle {
+        .degrees(animate ? 0 : 360)
+    }
+
+    private var defaultBackgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
+        .init(
+            tint: nil,
+            topLeft: .HexColor.lightPink.rawValue,
+            top: .HexColor.puroure2Light.rawValue,
+            left: .HexColor.puroure2Light.rawValue,
+            right: .HexColor.lightPink.rawValue,
+            bottom: .HexColor.purpureLight.rawValue,
+            bottomRight: .HexColor.puroure2Light.rawValue
+        )
+    }
+
+    var backgroundColors: NetworkResponse.CategoriesResponse.Categories.Color {
+        properties.backgroundGradient ?? defaultBackgroundColors
+    }
+
+    var duration: TimeInterval {
+        if type == .loading {
+            return 3
+        }
+        return 5
+    }
+
+    var blurAlpha: CGFloat {
+        if let alpha = properties.blurAlpha {
+            return alpha
+        }
+        let ignorBlur: [Type] = [.loading, .regular, .topBig, .topRegular]
+        if ignorBlur.contains(type) {
+            return 0
+        }
+
+        return type.isBig || type.isTop  ? 20 : 0
+    }
+
+    var gradientOpacity: CGFloat {
+        let min = 0.3
+        let result = blurAlpha / 100
+        return result <= min ? result : min
+    }
+
+    func animateGradientCircle() {
+        withAnimation(.smooth(duration: 6)) {
+            gradientCircleOpacity = [0.9, 0.8, 0.6, 0.9].randomElement()!
+            gradientCirclePosition = .init(
+                x: animate ? [-30, -100, -30, 20, -5, 30, 25].randomElement()! : [20, 50, 10, -30].randomElement()!,
+                y: animate ? [40, -100, -20, 20, 50, 30, 25]
+                                                           .randomElement()! : [100, 105, 50, 90, 80, 120]
+                                                           .randomElement()!)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(6), execute: {
+            self.animateGradientCircle()
+        })
+    }
+
+}
+
 
 #Preview {
     HomeBackgroundView(

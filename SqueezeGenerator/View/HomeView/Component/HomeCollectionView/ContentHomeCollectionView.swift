@@ -7,13 +7,60 @@
 
 import SwiftUI
 
-struct ContentHomeCollectionView: View {
+struct ContentHomeCollectionView<Content: View>: View {
+
+    @EnvironmentObject private var viewModel: HomeViewModel
+
     let proxy: GeometryProxy
-    @EnvironmentObject var viewModel: HomeViewModel
+    var sectionHeader: Content
 
     var body: some View {
+        LazyVStack(pinnedViews: .sectionHeaders) {
+            Spacer()
+                .frame(
+                    height: (viewModel.spaceToBottom(proxy)))
+            appHeader
+            Spacer().frame(height: 10)
+            Section {
+                sectionContent
+            } header: {
+                sectionHeader
+            }
+        }
+    }
+
+    @ViewBuilder
+    var appHeader: some View {
         VStack {
-//            sections
+            ZStack(content: {
+                appTitle
+            })
+            .frame(maxWidth: .infinity,
+                   alignment: .leading)
+            Spacer()
+
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    @ViewBuilder
+    var appTitle: some View {
+        Text("Squeeze generator")
+            .multilineTextAlignment(.leading)
+            .foregroundColor(.white.opacity(0.1))
+            .padding(.horizontal, 15)
+            .lineSpacing(0)
+            .lineLimit(nil)
+            .font(
+                .system(
+                    size: Configuration.UI.FontType.extraLarge.rawValue,
+                    weight: .semibold
+                )
+            )
+    }
+
+    var sectionContent: some View {
+        VStack {
             Spacer().frame(height: 12)
             CollectionView(
                 contentHeight: $viewModel.contentHeight,
@@ -29,6 +76,4 @@ struct ContentHomeCollectionView: View {
 
         }
     }
-
-   
 }

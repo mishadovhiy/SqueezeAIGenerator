@@ -595,4 +595,13 @@ class HomeViewModel: ObservableObject {
         let multiplier = UIDevice.current.userInterfaceIdiom == .pad ? 0.85 : 0.63
         return (screenSize - safeArea) * multiplier
     }
+
+    var maxScroll: CGFloat {
+        let value = scrollPosition.percent
+        if value >= 1 {
+            return 1
+        } else {
+            return value
+        }
+    }
 }
