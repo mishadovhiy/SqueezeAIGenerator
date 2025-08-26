@@ -7,7 +7,6 @@ struct HomeView: View {
     var body: some View {
         let buttonsHeight = viewModel.buttonsViewHeight
         ZStack {
-//            headerView
             VStack(spacing: 0) {
                 navigationStack
                     .ignoresSafeArea(.all)
@@ -28,6 +27,9 @@ struct HomeView: View {
             networkResponseView
         }
         .opacity(viewModel.dbPresenting ? 0 : 1)
+        .background(content: {
+            HomeBackgroundView(type: .constant(viewModel.circleType), properties: .constant(viewModel.backgroundProperties))
+        })
         .animation(.smooth(duration: 1.2), value: viewModel.dbPresenting)
         .onChange(of: db.db.responses.count) { newValue in
             viewModel.dbHolder = db.db.responses
@@ -40,17 +42,25 @@ struct HomeView: View {
                 self.viewModel.dbUpdated(db)
             }
         }
-        .background(content: {
-            HomeBackgroundView(type: .constant(viewModel.circleType), properties: .constant(viewModel.backgroundProperties))
-        })
+        .onChange(of: viewModel.selectedIDs) { newValue in
+            self.viewModel.updateTableData()
+        }
         .sheet(isPresented: $viewModel.textPresenting) {
             TextView(text: viewModel.response?.response.textHolder ?? "??", needScroll: true)
         }
         .task(priority: .userInitiated) {
             viewModel.loadAppSettings(db: db)
         }
-        .onChange(of: viewModel.selectedIDs) { newValue in
-            self.viewModel.updateTableData()
+        .modifier(
+            PinchMaskedScrollModifier(
+                viewWidth: viewModel.viewWidth,
+                targedBackgroundView: SideBarView(),
+                dragPositionX: $viewModel.sidebarPosition
+            )
+        )
+        .background {
+            Color.black
+                .ignoresSafeArea(.all)
         }
     }
     

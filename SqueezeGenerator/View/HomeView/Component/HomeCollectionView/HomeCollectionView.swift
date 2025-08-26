@@ -19,9 +19,11 @@ struct HomeCollectionView: View {
             }
             .onAppear {
                 viewModel.viewSize = proxy.size.height
+                viewModel.viewWidth = proxy.size.width
             }
-            .onChange(of: proxy.size.height) { newValue in
-                viewModel.viewSize = newValue
+            .onChange(of: proxy.size) { newValue in
+                viewModel.viewSize = newValue.height
+                viewModel.viewWidth = newValue.width
             }
         }
     }

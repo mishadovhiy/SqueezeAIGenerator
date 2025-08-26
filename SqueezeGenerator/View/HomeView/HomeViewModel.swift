@@ -29,6 +29,8 @@ class HomeViewModel: ObservableObject {
 #warning("tood: refactor - rename")
     @Published var scrollPosition: ScrollReaderModifier.ScrollResult = .init()
     @Published var viewSize: CGFloat = .zero
+    @Published var viewWidth: CGFloat = .zero
+    @Published var sidebarPosition: CGFloat = .zero
     var statsPreview: [String: ResponsePreviewModel] = [:]
     var largeParentCollections: Bool {
         selectedGeneralKeyID == nil
@@ -427,9 +429,11 @@ class HomeViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.appResponse = response
                 self.updateTableData()
-                withAnimation {
-                    self.appDataLoading = false
-                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800), execute: {
+                    withAnimation(.smooth(duration: 0.8)) {
+                        self.appDataLoading = false
+                    }
+                })
             }
         }
     }

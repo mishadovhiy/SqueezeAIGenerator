@@ -18,6 +18,9 @@
 		82719B0D2E5CE9D700176AE4 /* LoadingTextualView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B0C2E5CE9D700176AE4 /* LoadingTextualView.swift */; };
 		82719B0F2E5CEB8E00176AE4 /* CardCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */; };
 		82719B112E5DC07400176AE4 /* OverlayNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B102E5DC07400176AE4 /* OverlayNoteView.swift */; };
+		82719B162E5DF84200176AE4 /* PinchMaskedScrollModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B152E5DF84200176AE4 /* PinchMaskedScrollModifier.swift */; };
+		82719B182E5DF9AB00176AE4 /* SideBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B172E5DF9AB00176AE4 /* SideBarView.swift */; };
+		82719B242E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B232E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift */; };
 		82A963BF2E59F45400F2A7A4 /* StartsSKSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A963BE2E59F45400F2A7A4 /* StartsSKSceneView.swift */; };
 		82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */; };
 		82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B692E2D2C4000CC3FAD /* String.swift */; };
@@ -92,6 +95,9 @@
 		82719B0C2E5CE9D700176AE4 /* LoadingTextualView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingTextualView.swift; sourceTree = "<group>"; };
 		82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCompletionView.swift; sourceTree = "<group>"; };
 		82719B102E5DC07400176AE4 /* OverlayNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayNoteView.swift; sourceTree = "<group>"; };
+		82719B152E5DF84200176AE4 /* PinchMaskedScrollModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchMaskedScrollModifier.swift; sourceTree = "<group>"; };
+		82719B172E5DF9AB00176AE4 /* SideBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarView.swift; sourceTree = "<group>"; };
+		82719B232E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchMaskedScrollModifierModel.swift; sourceTree = "<group>"; };
 		82A441FB2E256DD80086D5CE /* SqueezeGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqueezeGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442092E256DD90086D5CE /* SqueezeGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442132E256DD90086D5CE /* SqueezeGeneratorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,6 +212,23 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		82719B212E5E0E8200176AE4 /* PinchMaskedScrollModifier */ = {
+			isa = PBXGroup;
+			children = (
+				82719B152E5DF84200176AE4 /* PinchMaskedScrollModifier.swift */,
+				82719B232E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift */,
+			);
+			path = PinchMaskedScrollModifier;
+			sourceTree = "<group>";
+		};
+		82719B222E5E0E8700176AE4 /* ViewModifier */ = {
+			isa = PBXGroup;
+			children = (
+				82719B212E5E0E8200176AE4 /* PinchMaskedScrollModifier */,
+			);
+			path = ViewModifier;
+			sourceTree = "<group>";
+		};
 		82A441F22E256DD80086D5CE = {
 			isa = PBXGroup;
 			children = (
@@ -295,6 +318,7 @@
 				82719B0C2E5CE9D700176AE4 /* LoadingTextualView.swift */,
 				82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */,
 				82719B102E5DC07400176AE4 /* OverlayNoteView.swift */,
+				82719B222E5E0E8700176AE4 /* ViewModifier */,
 				82A963C02E59F46F00F2A7A4 /* SKScene */,
 				82AF8B9E2E2DD20500CC3FAD /* BaseView */,
 				82AF8B772E2D2C4000CC3FAD /* CollectionView */,
@@ -310,6 +334,7 @@
 				82C5E6182E36D12400A5EE27 /* DBView */,
 				8242881D2E305730000E12EB /* RequestParametersView.swift */,
 				82BA594B2E301F54009B8913 /* SqueezeView.swift */,
+				82719B172E5DF9AB00176AE4 /* SideBarView.swift */,
 				82BA594D2E301F7C009B8913 /* ResultView.swift */,
 				82BA59432E301EFB009B8913 /* TextView.swift */,
 				82AF8B782E2D2C4000CC3FAD /* ComponentView */,
@@ -561,6 +586,7 @@
 				82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */,
 				82E570652E34203F00922F5B /* CardsView.swift in Sources */,
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
+				82719B162E5DF84200176AE4 /* PinchMaskedScrollModifier.swift in Sources */,
 				82AF8B842E2D2C4000CC3FAD /* AdviceResponse.swift in Sources */,
 				82AF8B852E2D2C4000CC3FAD /* CategoriesResponse.swift in Sources */,
 				82BA0D1A2E487428009ECC61 /* Padding_Configuration.swift in Sources */,
@@ -592,12 +618,14 @@
 				82719B0F2E5CEB8E00176AE4 /* CardCompletionView.swift in Sources */,
 				82BA0D1F2E4876C5009ECC61 /* Font_Configuration.swift in Sources */,
 				82A963BF2E59F45400F2A7A4 /* StartsSKSceneView.swift in Sources */,
+				82719B182E5DF9AB00176AE4 /* SideBarView.swift in Sources */,
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,
 				82E5706A2E342AC100922F5B /* UIColor.swift in Sources */,
 				82BA59462E301F12009B8913 /* DBCategoriyNavView.swift in Sources */,
 				82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */,
 				82719B112E5DC07400176AE4 /* OverlayNoteView.swift in Sources */,
 				82BA594C2E301F54009B8913 /* SqueezeView.swift in Sources */,
+				82719B242E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift in Sources */,
 				82BA0D132E487230009ECC61 /* View.swift in Sources */,
 				82BA594A2E301F3C009B8913 /* DBDetailView.swift in Sources */,
 				82AF8B8D2E2D2C4000CC3FAD /* HomeView.swift in Sources */,
