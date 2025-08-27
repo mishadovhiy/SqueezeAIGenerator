@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var db: AppData
+    @EnvironmentObject var db: LocalDataBaseManager
     @StateObject var viewModel: HomeViewModel = .init()
 
     var body: some View {

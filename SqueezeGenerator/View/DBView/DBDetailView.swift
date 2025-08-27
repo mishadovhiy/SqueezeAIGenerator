@@ -11,7 +11,7 @@ struct DBDetailView: View {
 
     let item: AdviceQuestionModel
     @State var collectionHeights: [String: CGFloat] = [:]
-    @EnvironmentObject var db: AppData
+    @EnvironmentObject var db: LocalDataBaseManager
     @State var scrollModifier: ScrollReaderModifier.ScrollResult = .init()
     typealias DataKey = NetworkResponse.AdviceResponse.QuestionResponse
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DBCategoriyView: View {
 
-    @EnvironmentObject private var db: AppData
+    @EnvironmentObject private var db: LocalDataBaseManager
     let presenter: Presenter
     @State var scrollModifier: ScrollReaderModifier.ScrollResult = .init()
 

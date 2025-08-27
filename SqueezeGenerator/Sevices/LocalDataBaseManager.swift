@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class AppData:ObservableObject {
+class LocalDataBaseManager:ObservableObject {
     private let dbkey = "db8"
     @Published var deviceSize:CGSize = .zero
     static let adviceLimit:Int = 4
@@ -67,8 +67,41 @@ class AppData:ObservableObject {
 struct DataBase: Codable {
     var responses: [AdviceQuestionModel] = []
     var network: Network = .init()
-    
+
+    private var _tutorials: Tutorial?
+    var tutorials: Tutorial {
+        get {
+            _tutorials ?? .init()
+        }
+        set {
+            _tutorials = newValue
+        }
+    }
+
     struct Network: Codable {
         var settings: NetworkResponse.CategoriesResponse.AppData.Settings? = nil
+    }
+}
+
+extension DataBase {
+    struct Tutorial: Codable {
+        private var completed: [TutorialType] = []
+
+        func needPresenting(_ type: TutorialType = TutorialType.allCases.first!) -> Bool {
+            return !completed.contains(type)
+        }
+
+        mutating func complete(_ type: TutorialType) -> TutorialType? {
+            if needPresenting(type) {
+                completed.append(type)
+            }
+            return TutorialType.allCases.first(where: {
+                needPresenting($0)
+            })
+        }
+
+        enum TutorialType: String, Codable, CaseIterable {
+            case wellcome, home, selectParentCategory, selectType
+        }
     }
 }

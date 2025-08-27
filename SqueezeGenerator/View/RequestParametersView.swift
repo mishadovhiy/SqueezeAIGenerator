@@ -13,7 +13,7 @@ struct RequestParametersView: View {
 
     var selectedCategory:  NetworkResponse.CategoriesResponse.Categories?
     @State var statPresenting: Bool = false
-    @EnvironmentObject private var db: AppData
+    @EnvironmentObject private var db: LocalDataBaseManager
     var dbResponses: [AdviceQuestionModel]? {
         db.db.responses.filter( {
            $0.save.request?.type == request?.type

@@ -242,7 +242,7 @@ class HomeViewModel: ObservableObject {
         self.updateTableData()
     }
 
-    func dbUpdated(_ db: AppData) {
+    func dbUpdated(_ db: LocalDataBaseManager) {
         let db = db.db.responses
         self.statsPreview.removeAll()
         self.collectionData.forEach { data in
@@ -368,7 +368,7 @@ class HomeViewModel: ObservableObject {
     }
 
 
-    func savePressed(db: AppData) {
+    func savePressed(db: LocalDataBaseManager) {
         //        response?.save = .init(grade: totalGrade, category: "Shiz")
         var response = response
         let selectedRequest = selectedCategory
@@ -408,7 +408,7 @@ class HomeViewModel: ObservableObject {
         rqStarted && response == nil
     }
 
-    func startGenerationRequest(db: AppData) {
+    func startGenerationRequest(db: LocalDataBaseManager) {
         withAnimation(.smooth(duration: 0.3)) {
             self.rqStarted = true
         }
@@ -427,7 +427,7 @@ class HomeViewModel: ObservableObject {
         })
     }
 
-    func loadAppSettings(db: AppData) {
+    func loadAppSettings(db: LocalDataBaseManager) {
         NetworkModel().appData { response in
             db.db.network.settings = response?.appData.settings
             DispatchQueue.main.async {
@@ -546,7 +546,7 @@ class HomeViewModel: ObservableObject {
         )
     }
 
-    func primaryButtonPressed(db: AppData) {
+    func primaryButtonPressed(db: LocalDataBaseManager) {
         if response != nil {
             navValues.append(
                 .cardView(
@@ -570,7 +570,7 @@ class HomeViewModel: ObservableObject {
         }
     }
 
-    func cardsDonePressed(_ selection: CardsViewModel.Selection, db: AppData) {
+    func cardsDonePressed(_ selection: CardsViewModel.Selection, db: LocalDataBaseManager) {
         let questions = response?.response.questions ?? []
         response?.save = .init(date: .init(), category: category, request: selectedRequest, questionResults: [:])
         selection.forEach { (key: UUID, value: String) in

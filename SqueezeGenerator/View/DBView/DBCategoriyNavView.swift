@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct DBCategoriyNavView: View {
-    @EnvironmentObject private var db: AppData
+    @EnvironmentObject private var db: LocalDataBaseManager
     @Environment(\.dismiss) private var dismiss
 
     let selectedType: String
