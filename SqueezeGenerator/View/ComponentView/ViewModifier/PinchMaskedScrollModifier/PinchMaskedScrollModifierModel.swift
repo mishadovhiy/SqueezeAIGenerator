@@ -14,10 +14,19 @@ class PinchMaskedScrollModifierModel: ObservableObject {
     @Published var isScrollActive: Bool = false
     var lastPosition: CGFloat = 0
     @Published var isOpened = false
-
+    var scrollingToOpen: Bool = false
     var validatedPosition: CGFloat {
         dragPositionX >= 0 ? dragPositionX : 0
     }
+    var dragPercent: CGFloat {
+        let value = dragPositionX / (viewWidth * maxPercent)
+        if value >= .zero {
+            return value
+        } else {
+            return 0
+        }
+    }
+
     let maxPercent = 0.7
     let openPercent = 0.2
     /// percent to opened position
@@ -41,21 +50,49 @@ class PinchMaskedScrollModifierModel: ObservableObject {
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: { [weak self] in
                 guard let self else { return }
-                self.isOpened = isOpened
+                withAnimation(.smooth) {
+                    self.isOpened = isOpened
+                }
                 self.isScrollActive = false
 
             })
         }
     }
 
+    var toOpenScrollingPercent: CGFloat {
+        !isOpened ? 1 - dragPercent : (!scrollingToOpen ? (1 - dragPercent) : 0)
+    }
+
+    var toCloseScrollingPercent: CGFloat {
+        isOpened ? dragPercent : (scrollingToOpen ? dragPercent : 0)
+    }
+
     func scrollStarted() {
         if isScrollActive {
+            let multiplier = (isOpened ? (closePercent * maxPercent) : openPercent)
+            let dragPercent = dragPercent
+            let targetWidth = multiplier * viewWidth
+
+            if isOpened {
+                self.scrollingToOpen = !(dragPositionX < targetWidth)
+            } else {
+                self.scrollingToOpen = dragPositionX > targetWidth
+            }
             return
         }
         isScrollActive = true
         isOpened = lastPosition >= openPercent
-        print(isOpened, " yhrtgerfed")
     }
+
+    func toggleMenuPressed() {
+        let newPosition: CGFloat = isOpened ? .zero : (maxPercent * viewWidth)
+        withAnimation {
+            self.lastPosition = newPosition
+            self.dragPositionX = newPosition
+            self.isOpened.toggle()
+        }
+    }
+
     var maxScrollX: CGFloat {
         viewWidth * maxPercent
     }

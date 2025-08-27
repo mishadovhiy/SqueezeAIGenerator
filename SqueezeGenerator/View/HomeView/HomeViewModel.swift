@@ -32,6 +32,10 @@ class HomeViewModel: ObservableObject {
     @Published var viewWidth: CGFloat = .zero
     @Published var sidebarPosition: CGFloat = .zero
     var statsPreview: [String: ResponsePreviewModel] = [:]
+    var sheetPresenting: Bool {
+        [textPresenting]
+            .contains(true)
+    }
     var largeParentCollections: Bool {
         selectedGeneralKeyID == nil
     }

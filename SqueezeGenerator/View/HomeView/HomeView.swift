@@ -55,6 +55,7 @@ struct HomeView: View {
             PinchMaskedScrollModifier(
                 viewWidth: viewModel.viewWidth,
                 targedBackgroundView: SideBarView(),
+                disabled: !viewModel.navValues.isEmpty && !viewModel.sheetPresenting,
                 dragPositionX: $viewModel.sidebarPosition
             )
         )
@@ -63,7 +64,7 @@ struct HomeView: View {
                 .ignoresSafeArea(.all)
         }
     }
-    
+
     @ViewBuilder
     var networkResponseView: some View {
         if viewModel.appDataLoading || (viewModel.rqStarted && viewModel.response == nil) {
