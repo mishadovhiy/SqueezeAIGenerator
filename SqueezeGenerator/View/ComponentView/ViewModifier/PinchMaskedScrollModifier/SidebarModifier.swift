@@ -15,6 +15,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
     @StateObject var model: PinchMaskedScrollModifierModel = .init()
 
     func body(content: Content) -> some View {
+        let dragPercent = model.dragPercent
         ZStack {
             targedBackgroundView
                 .frame(maxWidth: model.maxScrollX, alignment: .leading)
@@ -23,11 +24,13 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
             content
                 .disabled(model.isOpened)
                 .mask({
-                    RoundedRectangle(cornerRadius: 16)
-                        .offset(x: model.validatedPosition)
+                    RoundedRectangle(cornerRadius: 32 * dragPercent)
+                        .offset(x: (model.viewWidth * 0.4) * dragPercent)
                         .ignoresSafeArea(.all)
-                        .opacity(disabled ? 0 : 1)
-                        .animation(.smooth, value: disabled)
+                        .padding(.top, 27 * dragPercent)
+                        .padding(.bottom, 33 * dragPercent)
+                        .rotationEffect(.degrees(5 * dragPercent))
+                        .animation(.smooth, value: model.isScrollActive)
                 })
 
                 .overlay(content: {

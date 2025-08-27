@@ -50,6 +50,10 @@ class PinchMaskedScrollModifierModel: ObservableObject {
         isOpened && !isScrollActive ? 9999 : 0
     }
 
+    var validViewOffset: CGFloat {
+        (viewWidth * 0.4) * dragPercent
+    }
+
     private var declaringPosition: CGFloat {
         let newPosition: CGFloat
         let openPosition = (maxPercent * viewWidth)
@@ -71,6 +75,11 @@ class PinchMaskedScrollModifierModel: ObservableObject {
                 guard let self else { return }
                 dragPositionX = newPosition
                 lastPosition = newPosition
+                if !isOpened {
+                    self.isOpened = isOpened
+                    self.isScrollActive = false
+
+                }
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500), execute: { [weak self] in
                 guard let self else { return }
@@ -102,10 +111,22 @@ class PinchMaskedScrollModifierModel: ObservableObject {
 
     func toggleMenuPressed() {
         let newPosition: CGFloat = isOpened ? .zero : (maxPercent * viewWidth)
-        withAnimation {
+        let isOpened = isOpened
+        withAnimation(.bouncy(duration: 0.46)) {
             self.lastPosition = newPosition
             self.dragPositionX = newPosition
-            self.isOpened.toggle()
+            if isOpened {
+                self.isOpened.toggle()
+                self.isScrollActive = false
+            }
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(460), execute: {
+            if !isOpened {
+                withAnimation {
+                    self.isOpened.toggle()
+                    self.isScrollActive = false
+                }
+            }
+        })
     }
 }
