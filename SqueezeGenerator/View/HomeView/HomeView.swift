@@ -52,11 +52,10 @@ struct HomeView: View {
             viewModel.loadAppSettings(db: db)
         }
         .modifier(
-            PinchMaskedScrollModifier(
+            SidebarModifier(
                 viewWidth: viewModel.viewWidth,
                 targedBackgroundView: SideBarView(),
-                disabled: !viewModel.navValues.isEmpty && !viewModel.sheetPresenting,
-                dragPositionX: $viewModel.sidebarPosition
+                disabled: !viewModel.navValues.isEmpty && !viewModel.sheetPresenting
             )
         )
         .background {

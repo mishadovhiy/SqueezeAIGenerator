@@ -9,12 +9,19 @@ import SwiftUI
 
 class PinchMaskedScrollModifierModel: ObservableObject {
     var viewWidth: CGFloat = 0
-    @Published var dragPositionX: CGFloat = 0
 
+    @Published var dragPositionX: CGFloat = 0
+    
     @Published var isScrollActive: Bool = false
-    var lastPosition: CGFloat = 0
     @Published var isOpened = false
+
+    var lastPosition: CGFloat = 0
     var scrollingToOpen: Bool = false
+    let maxPercent = 0.7
+    let openPercent = 0.2
+    /// percent to opened position
+    let closePercent = 0.74
+
     var validatedPosition: CGFloat {
         dragPositionX >= 0 ? dragPositionX : 0
     }
@@ -27,11 +34,23 @@ class PinchMaskedScrollModifierModel: ObservableObject {
         }
     }
 
-    let maxPercent = 0.7
-    let openPercent = 0.2
-    /// percent to opened position
-    let closePercent = 0.74
-    func scrollEnded() {
+    var toOpenScrollingPercent: CGFloat {
+        !isOpened ? 1 - dragPercent : (!scrollingToOpen ? (1 - dragPercent) : 0)
+    }
+
+    var toCloseScrollingPercent: CGFloat {
+        isOpened ? dragPercent : (scrollingToOpen ? dragPercent : 0)
+    }
+
+    var maxScrollX: CGFloat {
+        viewWidth * maxPercent
+    }
+
+    var sideBarZindex: CGFloat {
+        isOpened && !isScrollActive ? 9999 : 0
+    }
+
+    private var declaringPosition: CGFloat {
         let newPosition: CGFloat
         let openPosition = (maxPercent * viewWidth)
         let multiplier = (isOpened ? (closePercent * maxPercent) : openPercent)
@@ -41,6 +60,11 @@ class PinchMaskedScrollModifierModel: ObservableObject {
         } else {
             newPosition = dragPositionX > targetWidth ? openPosition : .zero
         }
+        return newPosition
+    }
+
+    func scrollEnded() {
+        let newPosition = declaringPosition
         DispatchQueue.main.async {
             let isOpened = newPosition >= self.openPercent
             withAnimation(.smooth(duration: 0.5)) { [weak self] in
@@ -57,14 +81,6 @@ class PinchMaskedScrollModifierModel: ObservableObject {
 
             })
         }
-    }
-
-    var toOpenScrollingPercent: CGFloat {
-        !isOpened ? 1 - dragPercent : (!scrollingToOpen ? (1 - dragPercent) : 0)
-    }
-
-    var toCloseScrollingPercent: CGFloat {
-        isOpened ? dragPercent : (scrollingToOpen ? dragPercent : 0)
     }
 
     func scrollStarted() {
@@ -91,9 +107,5 @@ class PinchMaskedScrollModifierModel: ObservableObject {
             self.dragPositionX = newPosition
             self.isOpened.toggle()
         }
-    }
-
-    var maxScrollX: CGFloat {
-        viewWidth * maxPercent
     }
 }

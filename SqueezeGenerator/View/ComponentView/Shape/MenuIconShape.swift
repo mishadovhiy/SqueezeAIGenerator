@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MenuIconShape: Shape {
-    var type: Type
+    var type: `Type`
 
     func path(in rect: CGRect) -> Path {
         var path = Path()
