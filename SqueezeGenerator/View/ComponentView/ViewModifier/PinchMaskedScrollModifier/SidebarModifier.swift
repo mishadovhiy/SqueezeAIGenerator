@@ -25,7 +25,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                 .disabled(model.isOpened)
                 .mask({
                     RoundedRectangle(cornerRadius: 32 * dragPercent)
-                        .offset(x: (model.viewWidth * 0.4) * dragPercent)
+                        .offset(x: model.dragPositionX)
                         .ignoresSafeArea(.all)
                         .padding(.top, 27 * dragPercent)
                         .padding(.bottom, 33 * dragPercent)

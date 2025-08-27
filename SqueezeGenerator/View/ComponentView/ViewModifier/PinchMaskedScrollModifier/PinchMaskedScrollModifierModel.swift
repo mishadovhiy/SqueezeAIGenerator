@@ -17,7 +17,7 @@ class PinchMaskedScrollModifierModel: ObservableObject {
 
     var lastPosition: CGFloat = 0
     var scrollingToOpen: Bool = false
-    let maxPercent = 0.7
+    let maxPercent = 0.55
     let openPercent = 0.2
     /// percent to opened position
     let closePercent = 0.74
@@ -95,7 +95,6 @@ class PinchMaskedScrollModifierModel: ObservableObject {
     func scrollStarted() {
         if isScrollActive {
             let multiplier = (isOpened ? (closePercent * maxPercent) : openPercent)
-            let dragPercent = dragPercent
             let targetWidth = multiplier * viewWidth
 
             if isOpened {
