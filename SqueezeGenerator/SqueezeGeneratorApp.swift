@@ -11,6 +11,7 @@ import Combine
 @main
 struct SqueezeGeneratorApp: App {
     @StateObject var db: LocalDataBaseManager = .init()
+    @StateObject var appServices: AppServiceManager = .init()
 
 #warning("todo: move to ServiceManager, @enviroment no combine")
     static var adPresenting = PassthroughSubject<Bool, Never>()
@@ -30,8 +31,11 @@ struct SqueezeGeneratorApp: App {
 //            IconsView()
                 .environment(\.colorScheme, .dark)
                 .preferredColorScheme(.dark)
-                .modifier(TutorialModifier())
+                .modifier(
+                    TutorialModifier()
+                )
                 .environmentObject(db)
+                .environmentObject(appServices)
                 .onAppear {
                     SqueezeGeneratorApp.adPresenting.sink { newValue in
                         self.db.adPresenting = newValue

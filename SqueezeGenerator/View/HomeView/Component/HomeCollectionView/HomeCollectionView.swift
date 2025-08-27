@@ -10,6 +10,8 @@ import SwiftUI
 struct HomeCollectionView: View {
 
     @EnvironmentObject private var viewModel: HomeViewModel
+    @EnvironmentObject private var appService: AppServiceManager
+
     typealias SectionModel = CollectionViewController.CollectionData
 
     var body: some View {
@@ -53,6 +55,11 @@ struct HomeCollectionView: View {
     @ViewBuilder
     func cell(_ item: SectionModel) -> some View {
         Button {
+            if appService.tutorialManager.current == .selectParentCategory {
+                withAnimation(.smooth) {
+                    appService.tutorialManager.current = nil
+                }
+            }
             viewModel.parentCollectionSelected(item)
         } label: {
             cellContent(item)

@@ -62,6 +62,10 @@
 		82CDB6EF2E5E545B00EE5CC4 /* MenuIconShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB6EE2E5E545B00EE5CC4 /* MenuIconShape.swift */; };
 		82CDB7102E5F62D300EE5CC4 /* TutorialNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB70F2E5F62D300EE5CC4 /* TutorialNavigationView.swift */; };
 		82CDB7132E5F62FD00EE5CC4 /* TutorialModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7122E5F62FD00EE5CC4 /* TutorialModifier.swift */; };
+		82CDB7162E5F78B600EE5CC4 /* AppServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7152E5F78B600EE5CC4 /* AppServiceManager.swift */; };
+		82CDB7182E5F78E000EE5CC4 /* TutorialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7172E5F78E000EE5CC4 /* TutorialManager.swift */; };
+		82CDB71A2E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7192E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift */; };
+		82CDB71C2E5F81B100EE5CC4 /* TapThroughtModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB71B2E5F81B100EE5CC4 /* TapThroughtModifier.swift */; };
 		82CE1E872E4FE09C008F28E8 /* HomeIllustrutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CE1E862E4FE09C008F28E8 /* HomeIllustrutionView.swift */; };
 		82E570652E34203F00922F5B /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E570642E34203E00922F5B /* CardsView.swift */; };
 		82E570672E342A7400922F5B /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E570662E342A7400922F5B /* CardData.swift */; };
@@ -146,6 +150,10 @@
 		82CDB6EE2E5E545B00EE5CC4 /* MenuIconShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuIconShape.swift; sourceTree = "<group>"; };
 		82CDB70F2E5F62D300EE5CC4 /* TutorialNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialNavigationView.swift; sourceTree = "<group>"; };
 		82CDB7122E5F62FD00EE5CC4 /* TutorialModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialModifier.swift; sourceTree = "<group>"; };
+		82CDB7152E5F78B600EE5CC4 /* AppServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServiceManager.swift; sourceTree = "<group>"; };
+		82CDB7172E5F78E000EE5CC4 /* TutorialManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialManager.swift; sourceTree = "<group>"; };
+		82CDB7192E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialTargetViewModifier.swift; sourceTree = "<group>"; };
+		82CDB71B2E5F81B100EE5CC4 /* TapThroughtModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapThroughtModifier.swift; sourceTree = "<group>"; };
 		82CE1E862E4FE09C008F28E8 /* HomeIllustrutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIllustrutionView.swift; sourceTree = "<group>"; };
 		82E570642E34203E00922F5B /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		82E570662E342A7400922F5B /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
@@ -231,6 +239,8 @@
 			isa = PBXGroup;
 			children = (
 				82CDB7122E5F62FD00EE5CC4 /* TutorialModifier.swift */,
+				82CDB7192E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift */,
+				82CDB71D2E5F98E800EE5CC4 /* BaseModifier */,
 				82719B212E5E0E8200176AE4 /* PinchMaskedScrollModifier */,
 			);
 			path = ViewModifier;
@@ -446,10 +456,20 @@
 			isa = PBXGroup;
 			children = (
 				82AF8B7B2E2D2C4000CC3FAD /* LocalDataBaseManager.swift */,
+				82CDB7152E5F78B600EE5CC4 /* AppServiceManager.swift */,
 				82AF8B802E2D2C4000CC3FAD /* StorekitModel.swift */,
+				82CDB7172E5F78E000EE5CC4 /* TutorialManager.swift */,
 				82AF8B742E2D2C4000CC3FAD /* NetworkModel */,
 			);
 			path = Sevices;
+			sourceTree = "<group>";
+		};
+		82CDB71D2E5F98E800EE5CC4 /* BaseModifier */ = {
+			isa = PBXGroup;
+			children = (
+				82CDB71B2E5F81B100EE5CC4 /* TapThroughtModifier.swift */,
+			);
+			path = BaseModifier;
 			sourceTree = "<group>";
 		};
 		82E570682E342A8100922F5B /* Model */ = {
@@ -620,6 +640,7 @@
 				82E570652E34203F00922F5B /* CardsView.swift in Sources */,
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
 				82CDB7132E5F62FD00EE5CC4 /* TutorialModifier.swift in Sources */,
+				82CDB7162E5F78B600EE5CC4 /* AppServiceManager.swift in Sources */,
 				82719B162E5DF84200176AE4 /* SidebarModifier.swift in Sources */,
 				82AF8B842E2D2C4000CC3FAD /* AdviceResponse.swift in Sources */,
 				82AF8B852E2D2C4000CC3FAD /* CategoriesResponse.swift in Sources */,
@@ -630,6 +651,7 @@
 				822A44322E400EC500B5CF32 /* UIApplication.swift in Sources */,
 				82C5E61A2E36DB3400A5EE27 /* AttributedLabel.swift in Sources */,
 				82BA0D1C2E487447009ECC61 /* Opacity_Configuration.swift in Sources */,
+				82CDB7182E5F78E000EE5CC4 /* TutorialManager.swift in Sources */,
 				82E5706D2E343A9100922F5B /* CardsViewModel.swift in Sources */,
 				82BA59502E301FD1009B8913 /* NavigationRout.swift in Sources */,
 				82BA0D112E484692009ECC61 /* ScrollReaderModifier.swift in Sources */,
@@ -637,6 +659,7 @@
 				82AF8B872E2D2C4000CC3FAD /* NetworkRequest.swift in Sources */,
 				82CE1E872E4FE09C008F28E8 /* HomeIllustrutionView.swift in Sources */,
 				82BA0D172E4873AD009ECC61 /* Configuration.swift in Sources */,
+				82CDB71A2E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift in Sources */,
 				8239CD6A2E50F2E4009CBED6 /* ContentHomeCollectionView.swift in Sources */,
 				82C5E61C2E36F81E00A5EE27 /* BlurView.swift in Sources */,
 				8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */,
@@ -666,6 +689,7 @@
 				82AF8B8D2E2D2C4000CC3FAD /* HomeView.swift in Sources */,
 				8239CD672E50F1D7009CBED6 /* HomeCollectionView.swift in Sources */,
 				82AF8B8E2E2D2C4000CC3FAD /* LocalDataBaseManager.swift in Sources */,
+				82CDB71C2E5F81B100EE5CC4 /* TapThroughtModifier.swift in Sources */,
 				82CDB7102E5F62D300EE5CC4 /* TutorialNavigationView.swift in Sources */,
 				82AF8B8F2E2D2C4000CC3FAD /* Keys.swift in Sources */,
 				82BA0D0E2E48168B009ECC61 /* CollectionData.swift in Sources */,

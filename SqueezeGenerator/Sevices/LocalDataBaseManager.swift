@@ -68,13 +68,13 @@ struct DataBase: Codable {
     var responses: [AdviceQuestionModel] = []
     var network: Network = .init()
 
-    private var _tutorials: Tutorial?
+    private var _tutorialssss: Tutorial?
     var tutorials: Tutorial {
         get {
-            _tutorials ?? .init()
+            _tutorialssss ?? .init()
         }
         set {
-            _tutorials = newValue
+            _tutorialssss = newValue
         }
     }
 
@@ -87,21 +87,24 @@ extension DataBase {
     struct Tutorial: Codable {
         private var completed: [TutorialType] = []
 
-        func needPresenting(_ type: TutorialType = TutorialType.allCases.first!) -> Bool {
-            return !completed.contains(type)
+        func needPresenting(_ type: [TutorialType] = TutorialType.allCases) -> TutorialType? {
+            return type.first(where: {
+                !completed.contains($0)
+            })
         }
 
         mutating func complete(_ type: TutorialType) -> TutorialType? {
-            if needPresenting(type) {
+            if needPresenting([type]) != nil {
                 completed.append(type)
             }
             return TutorialType.allCases.first(where: {
-                needPresenting($0)
+                needPresenting([$0]) != nil
             })
         }
 
         enum TutorialType: String, Codable, CaseIterable {
-            case wellcome, home, selectParentCategory, selectType
+            case selectParentCategory, selectType
+            //wellcome, home,
         }
     }
 }
