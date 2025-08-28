@@ -9,25 +9,26 @@ import SwiftUI
 
 struct RequestParametersView: View {
 #warning("refactor: replace 'request' with 'selectedCategory'")
-    @Binding var request: NetworkRequest.SqueezeRequest?
-
-    var selectedCategory:  NetworkResponse.CategoriesResponse.Categories?
-    @State var statPresenting: Bool = false
     @EnvironmentObject private var db: LocalDataBaseManager
-    var dbResponses: [AdviceQuestionModel]? {
-        db.db.responses.filter( {
-           $0.save.request?.type == request?.type
-       })
-    }
+    @EnvironmentObject private var appService: AppServiceManager
+    @Binding var request: NetworkRequest.SqueezeRequest?
+    var selectedCategory:  NetworkResponse.CategoriesResponse.Categories?
+
+    @State private var statPresenting: Bool = false
 
     var body: some View {
         VStack() {
             Spacer()
                 .frame(height: 40)
-            cardView
+            VStack {
+                scrollContentView
+                difficultiesView
+            }
+            .blurBackground()
+            .cornerRadius(32)
+            .frame(maxWidth: 820)
             Spacer()
                 .frame(height: 40)
-//                .padding(.horizontal, 10)
         }
         .padding(.horizontal, 12)
         .padding(.bottom, 30)
@@ -36,6 +37,7 @@ struct RequestParametersView: View {
             ToolbarItem(placement: .navigation) {
                 if let dbResponses, !dbResponses.isEmpty {
                     toolBar(dbResponses)
+                        .modifier(TutorialTargetViewModifier(targetType: .pressTypeDetailDB))
                 }
             }
         }
@@ -48,9 +50,17 @@ struct RequestParametersView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
+#warning("message could close down")
+    var dbResponses: [AdviceQuestionModel]? {
+        db.db.responses.filter( {
+           $0.save.request?.type == request?.type
+       })
+    }
+
     func toolBar(_ savedResponses: [AdviceQuestionModel]?) -> some View {
         Button {
             statPresenting = true
+            appService.tutorialManager.removeTypeWhenMatching(.pressTypeDetailDB)
         } label: {
             Image(.chart)
                 .resizable()
@@ -74,16 +84,6 @@ struct RequestParametersView: View {
         .padding(.trailing, 9)
         .frame(width: .Padding.smallButtonSize.rawValue, height: .Padding.smallButtonSize.rawValue)
         .blurBackground(cornerRadius: .CornerRadius.button.rawValue)
-    }
-
-    var cardView: some View {
-        VStack {
-            scrollContentView
-            difficultiesView
-        }
-        .blurBackground()
-        .cornerRadius(32)
-        .frame(maxWidth: 820)
     }
 
     var typeTitle: some View {
@@ -148,6 +148,7 @@ struct RequestParametersView: View {
         .animation(.bouncy(duration: 0.5), value: request?.difficulty)
         .padding(.bottom, 14)
         .padding(.horizontal, 10)
+        .modifier(TutorialTargetViewModifier(targetType: .difficulty))
     }
 
     var categoryImage: some View {
@@ -188,6 +189,7 @@ struct RequestParametersView: View {
         ForEach(NetworkRequest.SqueezeRequest.Difficulty.allCases,
                 id:\.rawValue) { difficulty in
             Button {
+                appService.tutorialManager.removeTypeWhenMatching(.difficulty)
                 withAnimation(.smooth) {
                     if request?.difficulty == difficulty {
                         request?.difficulty = nil

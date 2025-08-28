@@ -42,6 +42,7 @@ struct LoadingTextualView: View {
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
         .onAppear {
+#warning("stop: enviroment checker")
             animateDote()
         }
     }

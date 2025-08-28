@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var db: LocalDataBaseManager
+    @EnvironmentObject private var appService: AppServiceManager
     @StateObject var viewModel: HomeViewModel = .init()
 
     var body: some View {
@@ -82,6 +83,8 @@ struct HomeView: View {
         VStack {
             Spacer()
             Button {
+                appService.tutorialManager
+                    .removeTypeWhenMatching(.pressGenerate)
                 viewModel.primaryButtonPressed(db: db)
             } label: {
                 Text(viewModel.response != nil ? "squeeze" : "Start")
@@ -113,12 +116,16 @@ struct HomeView: View {
                     radius: 20,
                     x: 20, y: 15
                 )
+                .modifier(TutorialTargetViewModifier(targetType: .pressGenerate))
+
         }
         .padding(.horizontal, 5)
         .padding(.bottom, 15)
 //        actionButtonsView
     }
-    
+
+
+
     var actionButtonsView: some View {
         ForEach(viewModel.currentQuestion?.options ?? [], id: \.id) { option in
             Button(option.optionName + " (\(option.grade))") {
@@ -207,6 +214,9 @@ struct HomeView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.large)
+            .onAppear {
+                appService.tutorialManager.removeTypeWhenMatching(.waitingForSqueezeCompletion, .generateResult)
+            }
 
         }
         .tint(.white)

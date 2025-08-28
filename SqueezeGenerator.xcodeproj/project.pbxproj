@@ -333,7 +333,6 @@
 			children = (
 				82719AFE2E5BB4CD00176AE4 /* CircularProgressView.swift */,
 				82719B0C2E5CE9D700176AE4 /* LoadingTextualView.swift */,
-				82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */,
 				82719B102E5DC07400176AE4 /* OverlayNoteView.swift */,
 			);
 			path = ComponentView;
@@ -472,6 +471,14 @@
 			path = BaseModifier;
 			sourceTree = "<group>";
 		};
+		82CDB7222E5FE8A800EE5CC4 /* ComponentView */ = {
+			isa = PBXGroup;
+			children = (
+				82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */,
+			);
+			path = ComponentView;
+			sourceTree = "<group>";
+		};
 		82E570682E342A8100922F5B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -486,6 +493,7 @@
 			children = (
 				82E570642E34203E00922F5B /* CardsView.swift */,
 				82E5706C2E343A9100922F5B /* CardsViewModel.swift */,
+				82CDB7222E5FE8A800EE5CC4 /* ComponentView */,
 				823BCBD92E456487007E542C /* Model */,
 			);
 			path = CardsView;

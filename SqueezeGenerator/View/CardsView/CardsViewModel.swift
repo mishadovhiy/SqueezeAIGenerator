@@ -144,6 +144,24 @@ class CardsViewModel: ObservableObject {
     var inactiveCardPositionY: CGFloat {
         UIDevice.current.userInterfaceIdiom == .pad ? -500 : -100
     }
+
+    var tintColor: UIColor {
+        .init(
+            hex: properties.selectedResponseItem?.color?.top ?? ""
+        ) ?? UIColor
+            .white
+    }
+
+    func viewDidAppear() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
+            withAnimation(.bouncy(duration: 0.9)) { [weak self] in
+                self?.viewAppeared = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900), execute: { [weak self] in
+                self?.viewAnimationCompleted = true
+            })
+        })
+    }
 }
 
 extension CardsViewModel {

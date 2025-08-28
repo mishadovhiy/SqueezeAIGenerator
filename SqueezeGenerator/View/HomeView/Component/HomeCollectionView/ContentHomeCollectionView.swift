@@ -10,7 +10,8 @@ import SwiftUI
 struct ContentHomeCollectionView<Content: View>: View {
 
     @EnvironmentObject private var viewModel: HomeViewModel
-
+    @EnvironmentObject private var appService: AppServiceManager
+    
     let proxy: GeometryProxy
     var sectionHeader: Content
 
@@ -67,6 +68,12 @@ struct ContentHomeCollectionView<Content: View>: View {
                 contentHeight: $viewModel.contentHeight,
                 data: viewModel.collectionDataForKey,
                 didSelect: { at in
+                    if appService.tutorialManager.type == .selectTypeDB {
+                        appService.tutorialManager.type = nil
+                    }
+                    if appService.tutorialManager.type == .selectType {
+                        appService.tutorialManager.type = nil
+                    }
                 viewModel.collectionViewSelected(at: at ?? 0)
             })
             .padding(.leading, viewModel.collectionSubviewPaddings)
@@ -75,6 +82,7 @@ struct ContentHomeCollectionView<Content: View>: View {
             .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
             .modifier(ScrollReaderModifier(scrollPosition: $viewModel.scrollPosition))
             .modifier(TutorialTargetViewModifier(targetType: .selectType))
+            .modifier(TutorialTargetViewModifier(targetType: .selectTypeDB))
 
         }
     }

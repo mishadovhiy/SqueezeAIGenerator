@@ -68,13 +68,13 @@ struct DataBase: Codable {
     var responses: [AdviceQuestionModel] = []
     var network: Network = .init()
 
-    private var _tutorialssss: Tutorial?
+    private var _tutorialssssssssssssssssss: Tutorial?
     var tutorials: Tutorial {
         get {
-            _tutorialssss ?? .init()
+            _tutorialssssssssssssssssss ?? .init()
         }
         set {
-            _tutorialssss = newValue
+            _tutorialssssssssssssssssss = newValue
         }
     }
 
@@ -87,23 +87,54 @@ extension DataBase {
     struct Tutorial: Codable {
         private var completed: [TutorialType] = []
 
-        func needPresenting(_ type: [TutorialType] = TutorialType.allCases) -> TutorialType? {
-            return type.first(where: {
+        func needPresenting(
+            after: TutorialType?
+            //_ type: [TutorialType] = TutorialType.allCases
+        ) -> TutorialType? {
+            guard let type = after ?? nextInCompleted else {
+                return nil
+            }
+
+            if after == nil && !completed.isEmpty {
+                return TutorialType.allCases.first
+            }
+            let nextIndex = type.index + (after == nil ? 0 : 1)
+            if nextIndex <= TutorialType.allCases.count - 1 {
+                return TutorialType.allCases[nextIndex]
+            } else {
+                return nil
+            }
+        }
+
+        private var nextInCompleted: TutorialType? {
+            TutorialType.allCases.first(where: {//type.first(where: {
                 !completed.contains($0)
             })
         }
 
         mutating func complete(_ type: TutorialType) -> TutorialType? {
-            if needPresenting([type]) != nil {
+            if !completed.contains(type) {
                 completed.append(type)
             }
-            return TutorialType.allCases.first(where: {
-                needPresenting([$0]) != nil
-            })
+            return needPresenting(after: type)
+//            if needPresenting(after: type) != nil {
+//                completed.append(type)
+//            }
+//            return TutorialType.allCases.first(where: {
+//                needPresenting(after: $0) != nil
+//            })
         }
 
+        /// - upon completion, next type is setted, in the order declared in .allCases
         enum TutorialType: String, Codable, CaseIterable {
-            case selectParentCategory, selectType
+            case selectParentCategory, selectType, difficulty
+            case pressGenerate, selectOption, swipeOption,
+                 waitingForSqueezeCompletion, generateResult
+            case selectTypeDB, pressTypeDetailDB
+
+            var index: Int {
+                Self.allCases.firstIndex(of: self) ?? 0
+            }
             //wellcome, home,
         }
     }

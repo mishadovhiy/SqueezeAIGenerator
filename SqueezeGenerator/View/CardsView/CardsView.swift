@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CardsView: View {
-    @StateObject var viewModel: CardsViewModel
+    @StateObject private var viewModel: CardsViewModel
+    @EnvironmentObject private var appService: AppServiceManager
 
     init(_ presenter: Presenter) {
         _viewModel = StateObject(wrappedValue: .init(presenter.properties, donePressed: presenter.completedSqueeze))
@@ -16,84 +17,88 @@ struct CardsView: View {
 
     var body: some View {
         ZStack {
-            CardCompletionView(
-                viewModel: viewModel,
-                tintColor: tintColor,
-                needIllustration: .constant(viewModel.currentIndex >= viewModel.data.count)
-            )
-            .frame(maxHeight: .infinity)
-            VStack {
-                header
-                Spacer()
-                if viewModel.viewAppeared {
-                    cardsView
-                        .frame(maxWidth: 800)
-                        .scaleEffect(viewModel.viewAppeared ? 1 : 0)
-                        .transition(.move(edge: .bottom))
-                        .animation(.smooth(duration: !viewModel.viewAnimationCompleted ? 0.9 : 0.2), value: viewModel.viewAppeared)
-                }
-                Spacer()
+            cardCompletionView
+            contentView
+        }
+        .modifier(TutorialTargetViewModifier(targetType: .waitingForSqueezeCompletion))
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                removeLastActionButton
             }
-            .overlay(content: {
-                scrollLabelOverlay
-            })
-            .padding(10)
-            .toolbar {
-                ToolbarItem(placement: .navigation) {
-                    Button {
-                        withAnimation {
-                            viewModel.currentIndex -= 1
-                        }
-                    } label: {
-                        Color.clear
-                        .overlay {
-                            Image(.back)
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(
-                                    .init(
-                                        uiColor: tintColor)
-                                )
-                                .padding(.horizontal, 7)
-                                .opacity(0.6)
-                                .shadow(radius: 10)
-
-                        }
-                        .frame(width: 40, height: 40)
-                        .blurBackground()
-                        .background {
-                            RoundedRectangle(cornerRadius: .CornerRadius.large.rawValue)
-                                .stroke(Color(uiColor: tintColor).opacity(0.3), lineWidth: 1)
-                        }
-                    }
-                    .disabled(viewModel.currentIndex <= 0)
-                }
-            }
-            .foregroundColor(.black)
-            .navigationTitle(viewModel.properties.type.addSpaceBeforeCapitalizedLetters.capitalized)
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
-                    withAnimation(.bouncy(duration: 0.9)) {
-                        viewModel.viewAppeared = true
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(900), execute: {
-                        viewModel.viewAnimationCompleted = true
-                    })
-                })
-            }
+        }
+        .foregroundColor(.black)
+        .navigationTitle(viewModel.properties.type.addSpaceBeforeCapitalizedLetters.capitalized)
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            viewModel.viewDidAppear()
         }
     }
 
-    var tintColor: UIColor {
-        .init(
-            hex: viewModel.properties.selectedResponseItem?.color?.top ?? ""
-        ) ?? UIColor
-            .white
+    var cardCompletionView: some View {
+        CardCompletionView(
+            viewModel: viewModel,
+            tintColor: viewModel.tintColor,
+            needIllustration: .constant(viewModel.currentIndex >= viewModel.data.count)
+        )
+        .frame(maxHeight: .infinity)
     }
+
+    var contentView: some View {
+        VStack {
+            header
+            Spacer()
+            if viewModel.viewAppeared {
+                cardsView
+                    .frame(maxWidth: 800)
+                    .scaleEffect(viewModel.viewAppeared ? 1 : 0)
+                    .transition(.move(edge: .bottom))
+                    .animation(.smooth(duration: !viewModel.viewAnimationCompleted ? 0.9 : 0.2), value: viewModel.viewAppeared)
+            }
+            Spacer()
+        }
+        .overlay(content: {
+            scrollLabelOverlay
+        })
+        .padding(10)
+    }
+
     var header: some View {
         VStack {
             progressView
+        }
+    }
+
+    var removeLastActionButton: some View {
+        Button {
+            withAnimation {
+                viewModel.currentIndex -= 1
+            }
+        } label: {
+            removeLastActionButtonConten
+        }
+        .disabled(viewModel.currentIndex <= 0)
+    }
+
+    var removeLastActionButtonConten: some View {
+        Color.clear
+        .overlay {
+            Image(.back)
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(
+                    .init(
+                        uiColor: viewModel.tintColor)
+                )
+                .padding(.horizontal, 7)
+                .opacity(0.6)
+                .shadow(radius: 10)
+
+        }
+        .frame(width: 40, height: 40)
+        .blurBackground()
+        .background {
+            RoundedRectangle(cornerRadius: .CornerRadius.large.rawValue)
+                .stroke(Color(uiColor: viewModel.tintColor).opacity(0.3), lineWidth: 1)
         }
     }
 
@@ -101,9 +106,9 @@ struct CardsView: View {
         HStack {
             ForEach(0..<viewModel.data.count, id: \.self) { i in
                 RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color(uiColor: tintColor), lineWidth: 3)
+                    .stroke(Color(uiColor: viewModel.tintColor), lineWidth: 3)
                     .background {
-                        Color(uiColor: viewModel.currentIndex >= i ? tintColor  : .clear)
+                        Color(uiColor: viewModel.currentIndex >= i ? viewModel.tintColor  : .clear)
                     }
                     .cornerRadius(8)
                     .shadow(radius: 10)
@@ -181,33 +186,16 @@ struct CardsView: View {
         let isLightBackground = backgroundColor.isLight
         VStack {
             VStack {
-                VStack(spacing: 0) {
-                    Text(data.title)
-                        .foregroundColor(.black)
-                        .font(.typed(data.title.count >= 40 ? .text : .largeTitle))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .opacity(!isLightBackground ? 0.4 : 0.2)
-                    Spacer().frame(height: 5)
-                    Text(data.description)
-                        .foregroundColor(.black)
-                        .font(.typed(.section))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
+                cardTextualContentView(data, isLightBackground)
                 Spacer().frame(maxHeight: .infinity)
-
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             if data.id == currentData?.id {
-                CollectionView(contentHeight: .init(get: {
-                    height
-                }, set: {
-                    viewModel.collectionHeight.updateValue($0, forKey: data.id)
-                }), isopacityCells: false, canUpdate: false, data: data.buttons) { at in
-                    viewModel.didSelectButton(button: data.buttons[at ?? 0])
-                }
-                .frame(height: height >= 20 ? height - 20 : 0)
-                .animation(.bouncy(duration: 0.9), value: data.id == currentData?.id)
-                .transition(.move(edge: .bottom))
+                cardCollection(
+                    data,
+                    height: height,
+                    currentData: currentData
+                )
             }
 
         }
@@ -220,6 +208,43 @@ struct CardsView: View {
         .animation(.smooth, value: currentData)
         .cornerRadius(30)
         .shadow(radius: 20)
+    }
+
+    func cardTextualContentView(
+        _ data: CardData,
+        _ isLightBackground: Bool
+    ) -> some View {
+        VStack(spacing: 0) {
+            Text(data.title)
+                .foregroundColor(.black)
+                .font(.typed(data.title.count >= 40 ? .text : .largeTitle))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .opacity(!isLightBackground ? 0.4 : 0.2)
+            Spacer().frame(height: 5)
+            Text(data.description)
+                .foregroundColor(.black)
+                .font(.typed(.section))
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    func cardCollection(
+        _ data: CardData,
+        height: CGFloat,
+        currentData: CardData?
+    ) -> some View {
+        CollectionView(contentHeight: .init(get: {
+            height
+        }, set: {
+            viewModel.collectionHeight.updateValue($0, forKey: data.id)
+        }), isopacityCells: false, canUpdate: false, data: data.buttons) { at in
+            appService.tutorialManager.removeTypeWhenMatching(.selectOption)
+            viewModel.didSelectButton(button: data.buttons[at ?? 0])
+        }
+        .frame(height: height >= 20 ? height - 20 : 0)
+        .animation(.bouncy(duration: 0.9), value: data.id == currentData?.id)
+        .transition(.move(edge: .bottom))
+        .modifier(TutorialTargetViewModifier(targetType: .selectOption))
     }
 
     @ViewBuilder
@@ -242,6 +267,7 @@ struct CardsView: View {
                 cardGesture
             )
             .disabled(currentData?.id != data.id)
+            .modifier(TutorialTargetViewModifier(targetType: .swipeOption))
     }
 
     var cardGesture: some Gesture {
@@ -250,6 +276,7 @@ struct CardsView: View {
                 viewModel.dragPosition = .init(x: value.translation.width, y: value.translation.height)
             })
             .onEnded({ value in
+                appService.tutorialManager.removeTypeWhenMatching(.swipeOption)
                 if let first = viewModel.selectedActions.first {
                     viewModel.didSelectButton(button: first)
                 } else {
@@ -257,7 +284,6 @@ struct CardsView: View {
                         viewModel.dragPosition = .zero
                     }
                 }
-
             })
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 /// sets frame of the content, for current matching target.
 /// - frame used in 'TutorialModifier'
-struct TutorialTargetViewModifier: ViewModifier {
+struct TutorialTargetViewModifier: ViewModifier, TutorialModifierUIService {
     @EnvironmentObject var appService: AppServiceManager
     let targetType: DataBase.Tutorial.TutorialType
     
@@ -19,27 +19,33 @@ struct TutorialTargetViewModifier: ViewModifier {
                 GeometryReader { proxy in
                     Color.clear
                         .onAppear {
-                            if targetType == appService.tutorialManager.current {
-                                appService.tutorialManager.frame = proxy.frame(in: .global)
+                            if targetType == appService.tutorialManager.type {
+                                withAnimation(defaultAnimation) {
+                                    appService.tutorialManager.frame = proxy.frame(in: .global)
+                                }
                                 print(appService.tutorialManager.frame, " ytregfwd")
 
                             }
 
                         }
                         .onChange(of: proxy.frame(in: .global)) { newValue in
-                            if targetType == appService.tutorialManager.current {
-                                appService.tutorialManager.frame = newValue
+                            if targetType == appService.tutorialManager.type {
+                                withAnimation(defaultAnimation) {
+                                    appService.tutorialManager.frame = newValue
+                                }
                                 print(newValue, " ytregfwd")
                             }
 
                         }
-                        .onChange(of: appService.tutorialManager.current) { newValue in
+                        .onChange(of: appService.tutorialManager.type) { newValue in
                             print(newValue, " gyterfwdas ")
                             if newValue == targetType {
                                 if targetType == .selectType {
                                     print(proxy.frame(in: .global), " yterfweds ")
                                 }
-                                appService.tutorialManager.frame = proxy.frame(in: .global)
+                                withAnimation(defaultAnimation) {
+                                    appService.tutorialManager.frame = proxy.frame(in: .global)
+                                }
                             }
                         }
                 }

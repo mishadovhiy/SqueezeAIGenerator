@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct SideBarView: View {
+    @EnvironmentObject var db: LocalDataBaseManager
+    @EnvironmentObject var appService: AppServiceManager
+
     var body: some View {
         VStack {
             Text("Hello, World!")
-            Button("pr") {
-                
+            Button("restart tutorial") {
+                db.db.tutorials = .init()
+                appService.tutorialManager = .init()
             }
         }
     }

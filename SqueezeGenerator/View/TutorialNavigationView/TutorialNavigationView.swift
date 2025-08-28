@@ -36,7 +36,7 @@ struct TutorialNavigationView: View {
                     Spacer().frame(maxHeight: .infinity)
                 }
 
-                Text("Tutorial")
+                Text(appService.tutorialManager.type?.rawValue ?? "?")
                     .font(.title)
                     .disabled(true)
             }

@@ -11,6 +11,7 @@ struct CardCompletionView: View {
     let viewModel: CardsViewModel
     let tintColor: UIColor
     @Binding var needIllustration: Bool
+    @EnvironmentObject private var appService: AppServiceManager
 
     var body: some View {
         VStack {
@@ -20,6 +21,7 @@ struct CardCompletionView: View {
                     .foregroundColor(.white.opacity(.Opacity.separetor.rawValue))
                     .shadow(color:.black.opacity(0.1), radius: 10)
                 Button {
+                    appService.tutorialManager.removeTypeWhenMatching(.generateResult)
                     viewModel.donePressed(viewModel.selectedOptions)
                 } label: {
                     Text("Get Results")
@@ -36,6 +38,7 @@ struct CardCompletionView: View {
                 }
                 .cornerRadius(12)
                 .shadow(color: .init(uiColor: tintColor), radius: 12)
+                .modifier(TutorialTargetViewModifier(targetType: .generateResult))
             }
             .offset(y: -120)
         }
@@ -48,6 +51,12 @@ struct CardCompletionView: View {
             }
             .ignoresSafeArea(.all)
 
+        }
+        .onChange(of: needIllustration) { newValue in
+            if newValue {
+                appService.tutorialManager.removeTypeWhenMatching(.waitingForSqueezeCompletion)
+
+            }
         }
     }
 
