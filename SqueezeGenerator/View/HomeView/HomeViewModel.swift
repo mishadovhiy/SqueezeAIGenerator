@@ -18,6 +18,7 @@ class HomeViewModel: ObservableObject {
     @Published var category: String = ""
     @Published var description: String = ""
     @Published var type: String = ""
+#warning("todo: refactor navValue: move to View")
     @Published var navValues: [NavigationRout] = []
     @Published var rqStarted: Bool = false
     @Published var textPresenting: Bool = false
@@ -454,7 +455,12 @@ class HomeViewModel: ObservableObject {
         }
     }
 
-    func collectionViewSelected(at: Int?) {
+    func collectionViewSelected(at: Int?,
+                                didSelect: @escaping(
+                                    _ selectedCategory: NetworkResponse.CategoriesResponse.Categories?,
+                                    _ selectedRequest: NetworkRequest.SqueezeRequest?
+                                )->())
+    {
         let category = collectionDataForKey[at!]
 
         if let response = self.findSelectedCategory(cats: self.appResponse?.categories ?? [], selectedID: category.id) {
@@ -468,7 +474,7 @@ class HomeViewModel: ObservableObject {
                         self.selectedIDs.append(response.id)
                     }
                 }
-
+                didSelect(nil, nil)
             } else {
                 let resp = self.convertToAllLists(list: self.appResponse?.categories ?? [])
                 let selected = response
@@ -490,30 +496,22 @@ class HomeViewModel: ObservableObject {
                 let selectedCategory = appResponse?.categories.first(where: {
                     $0.id == self.selectedGeneralKeyID
                 })
+                 let selectedResult: NetworkRequest.SqueezeRequest = .init(
+                    type: selected.name,
+                    category: selectedCategory?.name ?? "",
+                    parentCategory: parentTitle ?? self.category,
+                    description: selected.description,
+                    color: selected.color ?? parent?.color
+                )
                 withAnimation {
-                    selectedRequest = .init(
-                        type: selected.name,
-                        category: selectedCategory?.name ?? "",
-                        parentCategory: parentTitle ?? self.category,
-                        description: selected.description,
-                        color: selected.color ?? parent?.color
-                    )
+                    selectedRequest = selectedResult
                 }
-                navValues
-                    .append(
-                        .requestToGenerateParameters(
-                            .init(get: {
-                                self.selectedRequest
-                            }, set: {
-                                self.selectedRequest = $0
-                            }), selected
-                        )
-                    )
+                didSelect(selected, selectedResult)
                 //                self.startGenerationRequest(selected.name, category: parentTitle ?? self.category, description: selected.description)
                 //go to difficulty
             }
         } else {
-            fatalError()
+            didSelect(nil, nil)
         }
     }
 

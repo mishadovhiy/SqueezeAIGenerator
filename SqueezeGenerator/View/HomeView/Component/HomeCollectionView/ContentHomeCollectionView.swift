@@ -68,13 +68,22 @@ struct ContentHomeCollectionView<Content: View>: View {
                 contentHeight: $viewModel.contentHeight,
                 data: viewModel.collectionDataForKey,
                 didSelect: { at in
-                    if appService.tutorialManager.type == .selectTypeDB {
-                        appService.tutorialManager.type = nil
-                    }
-                    if appService.tutorialManager.type == .selectType {
-                        appService.tutorialManager.type = nil
-                    }
-                viewModel.collectionViewSelected(at: at ?? 0)
+                    viewModel.collectionViewSelected(at: at ?? 0, didSelect: { selectedCategory, selectedRequest in
+                        guard let selectedCategory else {
+                            return
+                        }
+                        appService.tutorialManager.removeTypeWhenMatching(.selectType, .selectTypeDB)
+                        viewModel.navValues
+                            .append(
+                                .requestToGenerateParameters(
+                                    .init(get: {
+                                        self.viewModel.selectedRequest
+                                    }, set: {
+                                        self.viewModel.selectedRequest = $0
+                                    }), selectedCategory
+                                )
+                            )
+                    })
             })
             .padding(.leading, viewModel.collectionSubviewPaddings)
             .padding(.trailing, 5)

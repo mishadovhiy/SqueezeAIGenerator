@@ -55,11 +55,7 @@ struct HomeCollectionView: View {
     @ViewBuilder
     func cell(_ item: SectionModel) -> some View {
         Button {
-            if appService.tutorialManager.type == .selectParentCategory {
-                withAnimation(.smooth) {
-                    appService.tutorialManager.type = nil
-                }
-            }
+            appService.tutorialManager.removeTypeWhenMatching(.selectParentCategory)
             viewModel.parentCollectionSelected(item)
         } label: {
             cellContent(item)
