@@ -54,9 +54,15 @@ struct NetworkModel {
         }
     }
     
-    func fetchHTM(_ input:NetworkRequest.FetchHTMLRequest, completion:@escaping(_ response:NetworkResponse.FetchHTMLResponse)->()) {
+    func fetchHTM(
+        _ input:NetworkRequest.FetchHTMLRequest,
+        extractKeyStart: String? = nil, extractKeyEnd: String? = nil,
+        completion:@escaping(_ response:NetworkResponse.FetchHTMLResponse)->()
+    ) {
         Request(.fetchHTML(input)).perform { data in
-            completion(.init(data: data))
+            DispatchQueue.main.async {
+                completion(.init(data: data, extractedKeyStart: extractKeyStart, extractedKeyEnd: extractKeyEnd))
+            }
         }
     }
     

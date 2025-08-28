@@ -71,6 +71,8 @@
 		82E570672E342A7400922F5B /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E570662E342A7400922F5B /* CardData.swift */; };
 		82E5706A2E342AC100922F5B /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E570692E342AC100922F5B /* UIColor.swift */; };
 		82E5706D2E343A9100922F5B /* CardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E5706C2E343A9100922F5B /* CardsViewModel.swift */; };
+		82E60ABA2E60C687004CAD0C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E60AB92E60C687004CAD0C /* WebView.swift */; };
+		82E60ABC2E60C693004CAD0C /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E60ABB2E60C693004CAD0C /* SupportView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +161,8 @@
 		82E570662E342A7400922F5B /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
 		82E570692E342AC100922F5B /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		82E5706C2E343A9100922F5B /* CardsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
+		82E60AB92E60C687004CAD0C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		82E60ABB2E60C693004CAD0C /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -345,6 +349,8 @@
 				82C5E6182E36D12400A5EE27 /* DBView */,
 				8242881D2E305730000E12EB /* RequestParametersView.swift */,
 				82BA594B2E301F54009B8913 /* SqueezeView.swift */,
+				82E60AB92E60C687004CAD0C /* WebView.swift */,
+				82E60ABB2E60C693004CAD0C /* SupportView.swift */,
 				82719B172E5DF9AB00176AE4 /* SideBarView.swift */,
 				82BA594D2E301F7C009B8913 /* ResultView.swift */,
 				82CDB7112E5F62DB00EE5CC4 /* TutorialNavigationView */,
@@ -654,6 +660,7 @@
 				82AF8B962E2D51D900CC3FAD /* HomeBackgroundView.swift in Sources */,
 				82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */,
 				82E570652E34203F00922F5B /* CardsView.swift in Sources */,
+				82E60ABC2E60C693004CAD0C /* SupportView.swift in Sources */,
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
 				82CDB7132E5F62FD00EE5CC4 /* TutorialModifier.swift in Sources */,
 				82CDB7162E5F78B600EE5CC4 /* AppServiceManager.swift in Sources */,
@@ -682,6 +689,7 @@
 				82719B0D2E5CE9D700176AE4 /* LoadingTextualView.swift in Sources */,
 				82BA59522E30222D009B8913 /* HomeViewModel.swift in Sources */,
 				82AF8B882E2D2C4000CC3FAD /* Request.swift in Sources */,
+				82E60ABA2E60C687004CAD0C /* WebView.swift in Sources */,
 				82BA59442E301EFB009B8913 /* TextView.swift in Sources */,
 				82E570672E342A7400922F5B /* CardData.swift in Sources */,
 				82BA0D212E4877D6009ECC61 /* Font.swift in Sources */,

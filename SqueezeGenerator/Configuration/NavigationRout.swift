@@ -17,6 +17,8 @@ enum NavigationRout: Hashable {
     case cardView(CardsView.Presenter)
     case resultResponse(AdviceQuestionModel)
 
+    case support
+    case webview(WebView.ViewType)
     case dbDetail(AdviceQuestionModel)
 
     var needDoneButton: Bool {
@@ -41,6 +43,10 @@ enum NavigationRout: Hashable {
     @ViewBuilder
     func bodyContent(_ requestt: Binding<NetworkRequest.SqueezeRequest?>) -> some View {
         switch self {
+        case .support:
+            SupportView()
+        case .webview(let type):
+            WebView(type: type)
         case .resultResponse(let response):
             ResultView(saveModel: response)
 
