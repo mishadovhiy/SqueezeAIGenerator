@@ -238,8 +238,7 @@
 		82719B222E5E0E8700176AE4 /* ViewModifier */ = {
 			isa = PBXGroup;
 			children = (
-				82CDB7122E5F62FD00EE5CC4 /* TutorialModifier.swift */,
-				82CDB7192E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift */,
+				82CDB7232E5FF0E100EE5CC4 /* TutorialModifier */,
 				82CDB71D2E5F98E800EE5CC4 /* BaseModifier */,
 				82719B212E5E0E8200176AE4 /* PinchMaskedScrollModifier */,
 			);
@@ -477,6 +476,15 @@
 				82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */,
 			);
 			path = ComponentView;
+			sourceTree = "<group>";
+		};
+		82CDB7232E5FF0E100EE5CC4 /* TutorialModifier */ = {
+			isa = PBXGroup;
+			children = (
+				82CDB7122E5F62FD00EE5CC4 /* TutorialModifier.swift */,
+				82CDB7192E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift */,
+			);
+			path = TutorialModifier;
 			sourceTree = "<group>";
 		};
 		82E570682E342A8100922F5B /* Model */ = {
