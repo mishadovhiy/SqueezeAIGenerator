@@ -8,6 +8,18 @@
 import Foundation
 import SwiftUI
 
+class NavigationManager: ObservableObject {
+    @Published var routs: [NavigationRout] = []
+
+    func append(_ rout: NavigationRout) {
+        routs.append(rout)
+    }
+
+    func set(_ routs: [NavigationRout]) {
+        self.routs = routs
+    }
+}
+
 enum NavigationRout: Hashable {
     case result
     case question(NetworkResponse.AdviceResponse.QuestionResponse)

@@ -19,7 +19,7 @@ class HomeViewModel: ObservableObject {
     @Published var description: String = ""
     @Published var type: String = ""
 #warning("todo: refactor navValue: move to View")
-    @Published var navValues: [NavigationRout] = []
+    var navManager: NavigationManager = .init()
     @Published var rqStarted: Bool = false
     @Published var textPresenting: Bool = false
     @Published var dbPresenting: Bool = false
@@ -29,6 +29,7 @@ class HomeViewModel: ObservableObject {
     @Published var contentHeight: CGFloat = 0
 #warning("tood: refactor - rename")
     @Published var scrollPosition: ScrollReaderModifier.ScrollResult = .init()
+#warning("use cgsize")
     @Published var viewSize: CGFloat = .zero
     @Published var viewWidth: CGFloat = .zero
     @Published var sidebarPosition: CGFloat = .zero
@@ -103,6 +104,15 @@ class HomeViewModel: ObservableObject {
     let maxCollectionPaddings: CGFloat = .Padding.content.rawValue
     var collectionSubviewPaddings: CGFloat {
         maxCollectionPaddings - (selectedGeneralKeyID != nil ? 10 : 0)
+    }
+
+    var navValues: [NavigationRout] {
+        get {
+            navManager.routs
+        }
+        set {
+            navManager.routs = newValue
+        }
     }
 
     var circleType: HomeBackgroundView.`Type` {

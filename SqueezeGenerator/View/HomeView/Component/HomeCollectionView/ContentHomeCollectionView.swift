@@ -11,7 +11,7 @@ struct ContentHomeCollectionView<Content: View>: View {
 
     @EnvironmentObject private var viewModel: HomeViewModel
     @EnvironmentObject private var appService: AppServiceManager
-    
+    @EnvironmentObject private var navigationManager: NavigationManager
     let proxy: GeometryProxy
     var sectionHeader: Content
 
@@ -73,8 +73,7 @@ struct ContentHomeCollectionView<Content: View>: View {
                             return
                         }
                         appService.tutorialManager.removeTypeWhenMatching(.selectType, .selectTypeDB)
-                        viewModel.navValues
-                            .append(
+                        navigationManager.append(
                                 .requestToGenerateParameters(
                                     .init(get: {
                                         self.viewModel.selectedRequest

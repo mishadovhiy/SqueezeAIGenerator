@@ -4,6 +4,7 @@ struct HomeView: View {
     @EnvironmentObject var db: LocalDataBaseManager
     @EnvironmentObject private var appService: AppServiceManager
     @StateObject var viewModel: HomeViewModel = .init()
+    @StateObject var navigationManager: NavigationManager = .init()
 
     var body: some View {
         let buttonsHeight = viewModel.buttonsViewHeight
@@ -56,12 +57,16 @@ struct HomeView: View {
             SidebarModifier(
                 viewWidth: viewModel.viewWidth,
                 targedBackgroundView: SideBarView(),
-                disabled: !viewModel.navValues.isEmpty && !viewModel.sheetPresenting
+                disabled: !navigationManager.routs.isEmpty && !viewModel.sheetPresenting
             )
         )
         .background {
             Color.black
                 .ignoresSafeArea(.all)
+        }
+        .environmentObject(navigationManager)
+        .onAppear {
+            viewModel.navManager = self.navigationManager
         }
     }
 
@@ -165,8 +170,7 @@ struct HomeView: View {
                     .overlay {
                         VStack {
                             Button("cards") {
-                                viewModel.navValues
-                                    .append(
+                                navigationManager.append(
                                         .cardView(
                                             .init(
                                                 properties: .init(
@@ -187,26 +191,26 @@ struct HomeView: View {
             }
 
         }
-        .opacity(viewModel.navValues.isEmpty ? 1 : 0)
-        .animation(.smooth, value: viewModel.navValues.isEmpty)
+        .opacity(navigationManager.routs.isEmpty ? 1 : 0)
+        .animation(.smooth, value: navigationManager.routs.isEmpty)
     }
 
     var navigationStack: some View {
-        NavigationStack(path: $viewModel.navValues) {
+        NavigationStack(path: $navigationManager.routs) {
             homeRoot
             .navigationDestination(for: NavigationRout.self) { navRout in
                 navRout.body($viewModel.selectedRequest)
-                    .opacity(viewModel.navValues.last == navRout ? 1 : 0)
+                    .opacity(navigationManager.routs.last == navRout ? 1 : 0)
                     .background {
                         ClearBackgroundView()
                     }
-                    .animation(.smooth, value: viewModel.navValues.last == navRout)
+                    .animation(.smooth, value: navigationManager.routs.last == navRout)
 
             }
             .background {
                 ClearBackgroundView()
             }
-            .onChange(of: viewModel.navValues) { newValue in
+            .onChange(of: navigationManager.routs) { newValue in
                 if newValue.isEmpty && !viewModel.rqStarted {
                     withAnimation {
                         viewModel.selectedRequest = nil

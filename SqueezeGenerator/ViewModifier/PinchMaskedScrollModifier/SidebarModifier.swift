@@ -43,6 +43,15 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
         .onChange(of: viewWidth) { newValue in
             self.model.viewWidth = newValue
         }
+        .onChange(of: disabled) { newValue in
+            if model.isOpened {
+                withAnimation(.bouncy) {
+                    model.toggleMenuPressed()
+                }
+
+            }
+
+        }
         .onAppear {
             self.model.viewWidth = viewWidth
         }
