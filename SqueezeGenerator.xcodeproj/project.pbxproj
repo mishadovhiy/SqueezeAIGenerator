@@ -230,13 +230,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		82719B212E5E0E8200176AE4 /* PinchMaskedScrollModifier */ = {
+		82719B212E5E0E8200176AE4 /* SidebarModifier */ = {
 			isa = PBXGroup;
 			children = (
 				82719B152E5DF84200176AE4 /* SidebarModifier.swift */,
 				82719B232E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift */,
 			);
-			path = PinchMaskedScrollModifier;
+			path = SidebarModifier;
 			sourceTree = "<group>";
 		};
 		82719B222E5E0E8700176AE4 /* ViewModifier */ = {
@@ -244,7 +244,7 @@
 			children = (
 				82CDB7232E5FF0E100EE5CC4 /* TutorialModifier */,
 				82CDB71D2E5F98E800EE5CC4 /* BaseModifier */,
-				82719B212E5E0E8200176AE4 /* PinchMaskedScrollModifier */,
+				82719B212E5E0E8200176AE4 /* SidebarModifier */,
 			);
 			path = ViewModifier;
 			sourceTree = "<group>";

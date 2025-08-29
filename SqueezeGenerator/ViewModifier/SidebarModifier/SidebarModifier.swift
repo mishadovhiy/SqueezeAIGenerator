@@ -39,6 +39,8 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                         .animation(.smooth, value: disabled)
                 })
             sidebarButtonView
+                .opacity(disabled ? 0 : 1)
+                .animation(.bouncy, value: disabled)
         }
         .onChange(of: viewWidth) { newValue in
             self.model.viewWidth = newValue
@@ -83,7 +85,7 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
     var draggableView: some View {
         HStack {
             RoundedRectangle(cornerRadius: 15)
-                .fill(.white.opacity(0.05))
+                .fill(.white.opacity(0.001))
                 .frame(width: 30)
                 .offset(x: model.dragPositionX)
                 .gesture(
