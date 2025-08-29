@@ -155,16 +155,22 @@ class CollectionViewCell: UICollectionViewCell {
         let titleStack = UIStackView()
         let titleImage = UIImageView()
         titleStack.axis = .horizontal
-        titleStack.spacing = 2
+        titleStack.spacing = 5
         titleStack.alignment = .center
         valueLabel.addSubview(.init())
+        let imageBackground = UIView()
+        imageBackground.backgroundColor = .white.withAlphaComponent(0.2)
+        imageBackground.layer.cornerRadius = 8
+        imageBackground.layer.zPosition = -100
+        imageBackground.layer.masksToBounds = true
+        titleImage.addSubview(imageBackground)
         [titleImage, label, valueLabel].forEach {//titleImage,
             titleStack.addArrangedSubview($0)
         }
         [titleStack, descriptionLabel, progress].forEach {
             textStack.addArrangedSubview($0)
         }
-        textStack.spacing = 4
+        textStack.spacing = 8
         textStack.tag = 1
         textStack.axis = .vertical
         textStack.distribution = .fillProportionally
@@ -201,6 +207,8 @@ class CollectionViewCell: UICollectionViewCell {
         backgroundOutline.translatesAutoresizingMaskIntoConstraints = false
 //        imageStack.translatesAutoresizingMaskIntoConstraints = false
         textStack.translatesAutoresizingMaskIntoConstraints = false
+        imageBackground.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate(
 [
             titleImage.widthAnchor.constraint(equalToConstant: 16),
@@ -215,7 +223,11 @@ class CollectionViewCell: UICollectionViewCell {
 //            imageStack.leadingAnchor.constraint(equalTo: imageStack.superview!.leadingAnchor, constant: 0),
 //            imageStack.heightAnchor.constraint(equalToConstant: 35),
 //            imageStack.widthAnchor.constraint(equalToConstant: 100),
-            
+
+            imageBackground.leadingAnchor.constraint(equalTo: imageBackground.superview!.leadingAnchor, constant: -5),
+            imageBackground.trailingAnchor.constraint(equalTo: imageBackground.superview!.trailingAnchor, constant: 5),
+            imageBackground.bottomAnchor.constraint(equalTo: imageBackground.superview!.bottomAnchor, constant: 5),
+            imageBackground.topAnchor.constraint(equalTo: imageBackground.superview!.topAnchor, constant: -5),
             textStack.topAnchor.constraint(equalTo: textStack.superview!.topAnchor, constant: Configuration.Paddings.contentVertical),
             textStack.bottomAnchor
                 .constraint(

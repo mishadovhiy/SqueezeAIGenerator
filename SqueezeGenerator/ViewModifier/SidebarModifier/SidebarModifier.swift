@@ -65,15 +65,38 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
                 Button {
                     model.toggleMenuPressed()
                 } label: {
-                    ZStack(
-                        content: {
-                            menuIcon(.menu,
-                                     scrollPercent: model.toOpenScrollingPercent)
+                    HStack(spacing:0, content: {
+                        ZStack(
+                            content: {
+                                menuIcon(.menu,
+                                         scrollPercent: model.toOpenScrollingPercent)
 
-                            menuIcon(.close,
-                                     scrollPercent: model.toCloseScrollingPercent)
+                                menuIcon(.close,
+                                         scrollPercent: model.toCloseScrollingPercent)
+                            })
+                        .frame(width: 16, height: 16)
+                        .padding(5)
+                        .background(.white.opacity(0.5))
+                        .cornerRadius(6)
+                        .padding(3)
+                        ZStack(content: {
+                            Text("menu")
+                                .lineLimit(1)
+                                .frame(width: 50)
+                                .frame(maxWidth: .infinity)
+                                .foregroundColor(.dark)
+                                .shadow(radius: 10)
                         })
-                    .frame(width: 24, height: 24)
+                        .clipped()
+
+                            .frame(width: 50 * model.dragPercent, alignment: .leading)
+
+                    })
+
+                    .background(.white.opacity(0.2))
+                    .cornerRadius(7)
+                    .padding(.top, 5)
+                    .padding(.leading, 5)
                 }
 
                 Spacer().frame(maxWidth: .infinity)
@@ -123,7 +146,7 @@ fileprivate extension SidebarModifier {
         .trim(
             to: model.isScrollActive ? scrollPercent : iconActive ? 1 : 0
         )
-        .stroke(.white, lineWidth: 2)
+        .stroke(.dark, lineWidth: 2)
         .shadow(radius: 4)
         .scaleEffect(model.isScrollActive ? scrollPercent : iconActive ? 1 : 0.5)
         .animation(.smooth, value: model.isOpened)

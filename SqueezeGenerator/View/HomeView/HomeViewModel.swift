@@ -263,15 +263,17 @@ class HomeViewModel: ObservableObject {
             let newList = parentSubcategories(list: list)
             let parentDB = db.filter({ dbItem in
                 newList.contains(where: {
-                    $0.name == dbItem.save.request?.category
+                    $0.name == dbItem.save.request?.type
                 })
             })
+            print(parentDB, " rtgerfsda ", newList.count)
             //fetch all categories of the cat
             statsPreview.updateValue(
                 .init(newList,
                       parentDB: parentDB),
                 forKey: data.id)
         }
+        print(statsPreview, " yrtegrfwdas ")
     }
 
     func updateTableData() {
@@ -366,7 +368,7 @@ class HomeViewModel: ObservableObject {
         }
 
         return .init(
-            title: response.name.addSpaceBeforeCapitalizedLetters,
+            title: response.name,
             cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray),
             isSelected: self.selectedIDs.contains(response.id),
             id: response.id,
@@ -465,13 +467,12 @@ class HomeViewModel: ObservableObject {
         }
     }
 
-    func collectionViewSelected(at: Int?,
+    func collectionViewSelected(category: CollectionViewController.CollectionData,
                                 didSelect: @escaping(
                                     _ selectedCategory: NetworkResponse.CategoriesResponse.Categories?,
                                     _ selectedRequest: NetworkRequest.SqueezeRequest?
                                 )->())
     {
-        let category = collectionDataForKey[at!]
 
         if let response = self.findSelectedCategory(cats: self.appResponse?.categories ?? [], selectedID: category.id) {
             if response.list != nil {

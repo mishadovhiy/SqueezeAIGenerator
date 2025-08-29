@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import UIKit
 
 @main
 struct SqueezeGeneratorApp: App {
@@ -53,6 +54,29 @@ struct SqueezeGeneratorApp: App {
                     UINavigationBar.appearance().standardAppearance = appearance
                     UINavigationBar.appearance().scrollEdgeAppearance = appearance
                 }
+                .onChange(of: appServices.alertManager.currentMessage?.id.uuidString) { newValue in
+                    print(newValue, " hefrds ")
+                    guard let data = appServices.alertManager.currentMessage else {
+
+
+                        return
+                    }
+                    let vc = UIHostingController(rootView: AlertView(data: appServices.alertManager.currentMessage!, dismiss: {
+                        if let vc = UIApplication.shared.keyWindow?.rootViewController?.topViewController,
+                           vc.view.layer.name == "alert"
+                        {
+                            vc.dismiss(animated: true) {
+                                appServices.alertManager.dismiss()
+                            }
+                        }
+
+                    }))
+                    vc.view.layer.name = "alert"
+                    vc.modalPresentationStyle = .overFullScreen
+                    vc.modalTransitionStyle = .crossDissolve
+                    vc.view.backgroundColor = .clear
+                    UIApplication.shared.keyWindow?.rootViewController?.present(vc)
+                }
         }
     }
 }
@@ -69,6 +93,24 @@ extension UINavigationController: UIScrollViewDelegate, UINavigationControllerDe
         super.viewDidLayoutSubviews()
 #warning("no need: testing")
         SqueezeGeneratorApp.navigationHeight(with: navigationBar.frame.size.height ?? 0)
+    }
+}
+
+extension UIViewController {
+    func present(_ viewController: UIViewController) {
+        if let vc = self.presentedViewController {
+            vc.present(viewController)
+        } else {
+            self.present(viewController, animated: true)
+        }
+    }
+
+    var topViewController: UIViewController {
+        if let presentedViewController {
+            return presentedViewController.topViewController
+        } else {
+            return self
+        }
     }
 }
 

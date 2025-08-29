@@ -64,7 +64,7 @@ struct HomeCollectionView: View {
             cellBackground(item)
         })
         .blurBackground(
-            opacity: 0.1,
+            opacity: 0.05,
             cornerRadius: .CornerRadius.medium.rawValue
         )
         .cornerRadius(.CornerRadius.large.rawValue)
@@ -104,7 +104,7 @@ struct HomeCollectionView: View {
 fileprivate extension HomeCollectionView {
     @ViewBuilder
     func cellBackground(_ item: SectionModel) -> some View {
-        let opacity = item.id == viewModel.selectedGeneralKeyID ? 0.1 : 0
+        let opacity = item.id == viewModel.selectedGeneralKeyID ? 0.05 : 0
         Color.white.opacity(opacity)
             .animation(.smooth, value: viewModel.selectedGeneralKeyID)
             .cornerRadius(.CornerRadius.large.rawValue)

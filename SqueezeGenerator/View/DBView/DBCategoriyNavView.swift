@@ -10,6 +10,7 @@ import SwiftUI
 
 struct DBCategoriyNavView: View {
     @EnvironmentObject private var db: LocalDataBaseManager
+    @EnvironmentObject private var appService: AppServiceManager
     @Environment(\.dismiss) private var dismiss
 
     let selectedType: String
@@ -50,7 +51,13 @@ struct DBCategoriyNavView: View {
             .tint(.white)
             .padding(.top, -40)
         }
-
+        .onAppear(perform: {
+#warning("fix not appearing second")
+//            self.appService.alertManager.present(.init(title: "some error"))
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+//                self.appService.alertManager.present(.init(title: "some error 2"))
+//            })
+        })
         .background {
             ClearBackgroundView()
         }

@@ -73,6 +73,7 @@
 		82E5706D2E343A9100922F5B /* CardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E5706C2E343A9100922F5B /* CardsViewModel.swift */; };
 		82E60ABA2E60C687004CAD0C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E60AB92E60C687004CAD0C /* WebView.swift */; };
 		82E60ABC2E60C693004CAD0C /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E60ABB2E60C693004CAD0C /* SupportView.swift */; };
+		82E60ABE2E616160004CAD0C /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E60ABD2E616160004CAD0C /* AlertView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +164,7 @@
 		82E5706C2E343A9100922F5B /* CardsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
 		82E60AB92E60C687004CAD0C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		82E60ABB2E60C693004CAD0C /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
+		82E60ABD2E616160004CAD0C /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -349,9 +351,9 @@
 				82C5E6182E36D12400A5EE27 /* DBView */,
 				8242881D2E305730000E12EB /* RequestParametersView.swift */,
 				82BA594B2E301F54009B8913 /* SqueezeView.swift */,
-				82E60AB92E60C687004CAD0C /* WebView.swift */,
 				82E60ABB2E60C693004CAD0C /* SupportView.swift */,
 				82719B172E5DF9AB00176AE4 /* SideBarView.swift */,
+				82E60ABF2E616167004CAD0C /* ReusableView */,
 				82BA594D2E301F7C009B8913 /* ResultView.swift */,
 				82CDB7112E5F62DB00EE5CC4 /* TutorialNavigationView */,
 				82BA59432E301EFB009B8913 /* TextView.swift */,
@@ -511,6 +513,15 @@
 				823BCBD92E456487007E542C /* Model */,
 			);
 			path = CardsView;
+			sourceTree = "<group>";
+		};
+		82E60ABF2E616167004CAD0C /* ReusableView */ = {
+			isa = PBXGroup;
+			children = (
+				82E60ABD2E616160004CAD0C /* AlertView.swift */,
+				82E60AB92E60C687004CAD0C /* WebView.swift */,
+			);
+			path = ReusableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -702,6 +713,7 @@
 				82A963BF2E59F45400F2A7A4 /* StartsSKSceneView.swift in Sources */,
 				82719B182E5DF9AB00176AE4 /* SideBarView.swift in Sources */,
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,
+				82E60ABE2E616160004CAD0C /* AlertView.swift in Sources */,
 				82E5706A2E342AC100922F5B /* UIColor.swift in Sources */,
 				82BA59462E301F12009B8913 /* DBCategoriyNavView.swift in Sources */,
 				82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */,

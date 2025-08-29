@@ -61,19 +61,87 @@ struct ContentHomeCollectionView<Content: View>: View {
             )
     }
 
+    func cellImage(_ item: CollectionViewController.CollectionData) -> some View {
+        AsyncImage(url: .init(string: item.imageURL)) {
+            switch $0 {
+            case .empty:
+                ProgressView().progressViewStyle(.circular)
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFit()
+            default:
+                EmptyView()
+            }
+        }
+        .frame(width: 40)
+        .aspectRatio(1, contentMode: .fit)
+        .padding(10)
+        .blurBackground(count: 4)
+    }
+
+    func cell(_ item: CollectionViewController.CollectionData) -> some View {
+        VStack {
+            HStack(alignment: .top) {
+                cellImage(item)
+
+                Spacer().frame(maxWidth: .infinity)
+                if !item.isType {
+                    Image(.close)
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(.white)
+                        .frame(width: 20)
+                        .padding(10)
+                        .blurBackground()
+                        .frame(alignment: .top)
+                }
+            }
+            Spacer().frame(maxWidth: .infinity)
+            VStack(alignment: .leading) {
+                Text(item.title.addSpaceBeforeCapitalizedLetters.capitalized)
+                    .multilineTextAlignment(.leading)
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundColor(.white.opacity(0.5))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                //Double(item.percent ?? "0")
+                if let progressString = item.percent,
+                   let progress = Double(progressString) {
+                    ProgressView(value: progress / 100)
+                        .progressViewStyle(.linear)
+                }
+
+            }
+            .onAppear {
+                print(item.percent ?? "0", " yhrtgerfsed")
+            }
+        }
+        .padding(7)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .aspectRatio(0.8, contentMode: .fit)
+        .blurBackground()
+    }
+    
     var sectionContent: some View {
         VStack {
             Spacer().frame(height: 12)
-            CollectionView(
-                contentHeight: $viewModel.contentHeight,
-                data: viewModel.collectionDataForKey,
-                didSelect: { at in
-                    viewModel.collectionViewSelected(at: at ?? 0, didSelect: { selectedCategory, selectedRequest in
-                        guard let selectedCategory else {
-                            return
-                        }
-                        appService.tutorialManager.removeTypeWhenMatching(.selectType, .selectTypeDB)
-                        navigationManager.append(
+
+            LazyVGrid(
+                columns: [
+                .init(.flexible()),
+                .init(.flexible())
+            ],
+                spacing: viewModel.collectionSubviewPaddings,
+                content: {
+                ForEach(viewModel.collectionDataForKey, id: \.id) { item in
+
+                    Button {
+                        viewModel.collectionViewSelected(category: item, didSelect: { selectedCategory, selectedRequest in
+                            guard let selectedCategory else {
+                                return
+                            }
+                            appService.tutorialManager.removeTypeWhenMatching(.selectType, .selectTypeDB)
+                            navigationManager.append(
                                 .requestToGenerateParameters(
                                     .init(get: {
                                         self.viewModel.selectedRequest
@@ -82,16 +150,42 @@ struct ContentHomeCollectionView<Content: View>: View {
                                     }), selectedCategory
                                 )
                             )
-                    })
+                        })
+                    } label: {
+                        cell(item)
+                    }
+
+                }
             })
-            .padding(.leading, viewModel.collectionSubviewPaddings)
-            .padding(.trailing, 5)
-            .frame(height: viewModel.contentHeight)
-            .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
+//            CollectionView(
+//                contentHeight: $viewModel.contentHeight,
+//                data: viewModel.collectionDataForKey,
+//                didSelect: { at in
+//                    viewModel.collectionViewSelected(at: at ?? 0, didSelect: { selectedCategory, selectedRequest in
+//                        guard let selectedCategory else {
+//                            return
+//                        }
+//                        appService.tutorialManager.removeTypeWhenMatching(.selectType, .selectTypeDB)
+//                        navigationManager.append(
+//                                .requestToGenerateParameters(
+//                                    .init(get: {
+//                                        self.viewModel.selectedRequest
+//                                    }, set: {
+//                                        self.viewModel.selectedRequest = $0
+//                                    }), selectedCategory
+//                                )
+//                            )
+//                    })
+//            })
+//            .padding(.leading, viewModel.collectionSubviewPaddings)
+//            .padding(.trailing, 5)
+//            .frame(height: viewModel.contentHeight)
+//            .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
             .modifier(ScrollReaderModifier(scrollPosition: $viewModel.scrollPosition))
             .modifier(TutorialTargetViewModifier(targetType: .selectType))
             .modifier(TutorialTargetViewModifier(targetType: .selectTypeDB))
 
         }
+        .padding(.horizontal, viewModel.collectionSubviewPaddings)
     }
 }
