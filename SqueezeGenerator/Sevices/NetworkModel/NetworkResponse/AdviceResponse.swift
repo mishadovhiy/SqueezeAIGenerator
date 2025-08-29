@@ -26,6 +26,7 @@ struct AdviceQuestionModel: Codable, Equatable, Hashable {
         Int(resultPercent * 100)
     }
 
+#warning("todo: refactor")
     struct SaveModel: Codable, Equatable, Hashable {
         let date: Date
         var grade: Int {
@@ -37,7 +38,7 @@ struct AdviceQuestionModel: Codable, Equatable, Hashable {
         }
         /// change cat, after implementing cat from API json model
         var category: String = ""//no need
-        
+        var apiCategory: NetworkResponse.CategoriesResponse.Categories?
         var request: NetworkRequest.SqueezeRequest?
         var questionResults: [NetworkResponse.AdviceResponse.QuestionResponse: NetworkResponse.AdviceResponse.QuestionResponse.Option] = [:]
         var aiResult: NetworkResponse.ResultResponse?

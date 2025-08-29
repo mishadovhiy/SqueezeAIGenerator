@@ -74,6 +74,7 @@
 		82E60ABA2E60C687004CAD0C /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E60AB92E60C687004CAD0C /* WebView.swift */; };
 		82E60ABC2E60C693004CAD0C /* SupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E60ABB2E60C693004CAD0C /* SupportView.swift */; };
 		82E60ABE2E616160004CAD0C /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E60ABD2E616160004CAD0C /* AlertView.swift */; };
+		82E60AC52E62405A004CAD0C /* NavigationBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E60AC42E62405A004CAD0C /* NavigationBackgroundModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +166,7 @@
 		82E60AB92E60C687004CAD0C /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		82E60ABB2E60C693004CAD0C /* SupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportView.swift; sourceTree = "<group>"; };
 		82E60ABD2E616160004CAD0C /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		82E60AC42E62405A004CAD0C /* NavigationBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBackgroundModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -244,6 +246,7 @@
 		82719B222E5E0E8700176AE4 /* ViewModifier */ = {
 			isa = PBXGroup;
 			children = (
+				82E60AC42E62405A004CAD0C /* NavigationBackgroundModifier.swift */,
 				82CDB7232E5FF0E100EE5CC4 /* TutorialModifier */,
 				82CDB71D2E5F98E800EE5CC4 /* BaseModifier */,
 				82719B212E5E0E8200176AE4 /* SidebarModifier */,
@@ -672,6 +675,7 @@
 				82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */,
 				82E570652E34203F00922F5B /* CardsView.swift in Sources */,
 				82E60ABC2E60C693004CAD0C /* SupportView.swift in Sources */,
+				82E60AC52E62405A004CAD0C /* NavigationBackgroundModifier.swift in Sources */,
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
 				82CDB7132E5F62FD00EE5CC4 /* TutorialModifier.swift in Sources */,
 				82CDB7162E5F78B600EE5CC4 /* AppServiceManager.swift in Sources */,

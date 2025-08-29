@@ -15,6 +15,7 @@ class HomeViewModel: ObservableObject {
     @Published var collectionData: [CollectionViewController.CollectionData] = []
     @Published var response: AdviceQuestionModel?
     @Published var selectedRequest: NetworkRequest.SqueezeRequest?
+    var selectedCategoryResponse: NetworkResponse.CategoriesResponse.Categories?
     @Published var category: String = ""
     @Published var description: String = ""
     @Published var type: String = ""
@@ -425,13 +426,24 @@ class HomeViewModel: ObservableObject {
         withAnimation(.smooth(duration: 0.3)) {
             self.rqStarted = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300), execute: {
+        DispatchQueue.main.asyncAfter(
+deadline: .now() + .milliseconds(300),
+ execute: {
             Task(priority: .userInitiated) {
                 //            let request = NetworkRequest.SqueezeRequest.init(type: type, category: category, description: description)
                 NetworkModel().advice(self.selectedRequest!) { response in
                     DispatchQueue.main.async {
                         withAnimation {
-                            self.response = .init(response: response!, save: .init(date: .init(), category: self.selectedRequest!.category, request: self.selectedRequest!, questionResults: [:]))
+                            self.response = .init(
+                                response: response!,
+                                save: .init(
+                                    date: .init(),
+                                    category: self.selectedRequest!.category,
+                                    apiCategory: self.selectedCategoryResponse,
+                                    request: self.selectedRequest!,
+                                    questionResults: [:]
+                                )
+                            )
                             self.primaryButtonPressed(db: db)
                         }
                     }
@@ -514,6 +526,7 @@ class HomeViewModel: ObservableObject {
                     description: selected.description,
                     color: selected.color ?? parent?.color
                 )
+                self.selectedCategoryResponse = selected
                 withAnimation {
                     selectedRequest = selectedResult
                 }
@@ -581,7 +594,13 @@ class HomeViewModel: ObservableObject {
 
     func cardsDonePressed(_ selection: CardsViewModel.Selection, db: LocalDataBaseManager) {
         let questions = response?.response.questions ?? []
-        response?.save = .init(date: .init(), category: category, request: selectedRequest, questionResults: [:])
+        response?.save = .init(
+            date: .init(),
+            category: category,
+            apiCategory: selectedCategoryResponse,
+            request: selectedRequest,
+            questionResults: [:]
+        )
         selection.forEach { (key: UUID, value: String) in
             if let question = questions.first(where: {
                 $0.id == key

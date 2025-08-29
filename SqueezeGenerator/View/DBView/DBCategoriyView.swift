@@ -29,6 +29,7 @@ struct DBCategoriyView: View {
             ClearBackgroundView()
         }
         .navigationTitle(presenter.selectedCategory.addSpaceBeforeCapitalizedLetters.capitalized)
+        .modifier(NavigationBackgroundModifier())
     }
 
     var viewTitle: some View {
@@ -86,6 +87,7 @@ struct DBCategoriyView: View {
             HStack {
                 sortingOptions
             }
+            .padding(.top, 15)
             .padding(.leading, 30)
             .padding(.vertical, 10)
         })
@@ -96,6 +98,7 @@ struct DBCategoriyView: View {
                         cornerRadius: 0,
                         count: 5
         )
+        .padding(.top, -13)
     }
 
     func sortIndicator(_ isSelected: Bool) -> some View {

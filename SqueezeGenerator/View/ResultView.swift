@@ -25,6 +25,7 @@ struct ResultView: View {
                 contentView
             }
             .padding(.horizontal, 10)
+            .modifier(NavigationBackgroundModifier())
         } else {
             contentView
         }

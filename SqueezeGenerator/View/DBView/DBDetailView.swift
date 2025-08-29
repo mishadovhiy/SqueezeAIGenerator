@@ -26,6 +26,7 @@ struct DBDetailView: View {
         .background {
             ClearBackgroundView()
         }
+        .modifier(NavigationBackgroundModifier())
 //        .toolbar {
 //            if item.save.aiResult != nil {
 //                ToolbarItem {

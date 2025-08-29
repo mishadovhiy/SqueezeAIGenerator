@@ -25,10 +25,22 @@ struct SqueezeGeneratorApp: App {
         navigationHeight.send(newValue)
     }
 
+    init() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+//        appearance.titleTextAttributes = [.foregroundColor: UIColor.red]
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().compactScrollEdgeAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
     var body: some Scene {
         WindowGroup {
 //            CardsView(.demo)
             HomeView()
+//            DBCategoriyNavView(selectedType: "depression")
 //            IconsView()
                 .environment(\.colorScheme, .dark)
                 .preferredColorScheme(.dark)
@@ -46,13 +58,6 @@ struct SqueezeGeneratorApp: App {
                         self.db.navHeight = newValue
                     }.store(in: &db.navHeightValue)
 
-                    let appearance = UINavigationBarAppearance()
-                    appearance.configureWithTransparentBackground()
-                    appearance.backgroundColor = .clear
-                    appearance.shadowColor = .clear
-
-                    UINavigationBar.appearance().standardAppearance = appearance
-                    UINavigationBar.appearance().scrollEdgeAppearance = appearance
                 }
                 .onChange(of: appServices.alertManager.currentMessage?.id.uuidString) { newValue in
                     print(newValue, " hefrds ")
