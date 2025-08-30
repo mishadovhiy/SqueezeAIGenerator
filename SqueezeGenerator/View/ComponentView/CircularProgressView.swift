@@ -11,15 +11,19 @@ struct CircularProgressView: View {
     let progress: CGFloat
     let title: String
     let widthMultiplier: CGFloat
+    let imageURL: String?
 
     init(
         progress: CGFloat,
         title: String? = nil,
-        widthMultiplier: CGFloat = 1)
+        widthMultiplier: CGFloat = 1,
+        imageURL: String?
+    )
     {
         self.widthMultiplier = widthMultiplier
         self.progress = progress
         self.title = title ?? "Your score"
+        self.imageURL = imageURL
     }
 
     var body: some View {

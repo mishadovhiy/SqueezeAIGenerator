@@ -10,8 +10,9 @@ struct HomeView: View {
         let buttonsHeight = viewModel.buttonsViewHeight
         ZStack {
             VStack(spacing: 0) {
-                navigationStack
-                    .ignoresSafeArea(.all)
+               // navigationStack
+                   // .ignoresSafeArea(.all)
+                DBCategoriyNavView(selectedType:"Psychopathy")
                 if buttonsHeight > 0 {
                     Spacer().frame(height: buttonsHeight)
                 }

@@ -26,7 +26,7 @@ struct DBDetailView: View {
         .background {
             ClearBackgroundView()
         }
-        .modifier(NavigationBackgroundModifier())
+//        .modifier(NavigationBackgroundModifier())
 //        .toolbar {
 //            if item.save.aiResult != nil {
 //                ToolbarItem {
@@ -102,7 +102,7 @@ struct DBDetailView: View {
         HStack {
             CircularProgressView(
                 progress: item.resultPercent,
-                widthMultiplier: scrollModifier.percent >= 0.2 ? scrollModifier.percent : 0.2)
+                widthMultiplier: scrollModifier.percent >= 0.2 ? scrollModifier.percent : 0.2, imageURL: item.save.apiCategory?.imageURL)
             .frame(maxWidth: scrollModifier.percent <= 0.3 ? nil : .infinity)
             .animation(.bouncy, value: scrollModifier.percent <= 0.3)
 

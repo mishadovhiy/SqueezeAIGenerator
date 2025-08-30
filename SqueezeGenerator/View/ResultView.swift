@@ -34,7 +34,7 @@ struct ResultView: View {
     @ViewBuilder
     var contentHeader: some View {
         Spacer().frame(height: 40)
-        CircularProgressView(progress: saveModel.resultPercent)
+        CircularProgressView(progress: saveModel.resultPercent, imageURL: saveModel.save.apiCategory?.imageURL)
         Spacer()
             .frame(height: 40)
 
