@@ -31,7 +31,7 @@ struct NavigationBackgroundModifier: ViewModifier {
 
     func background(_ proxy: GeometryProxy) -> some View {
         ZStack {
-            Color(uiColor: .dark.withAlphaComponent(1))
+            Color(uiColor: .black.withAlphaComponent(1))
                 .frame(
                     height: proxy.safeAreaInsets
                         .top + (NavigationBackgroundModifier.cornerRadius + 8)

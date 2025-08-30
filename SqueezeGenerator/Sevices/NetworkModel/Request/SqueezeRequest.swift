@@ -41,7 +41,7 @@ extension NetworkRequest {
                 return nil
             }
 
-            case advice, gradeInNormalRange, description
+            case gradeInNormalRange, description, advice
 #warning("rawValue causes compiler error for some reasons")
             var key: String {
                 rawValue

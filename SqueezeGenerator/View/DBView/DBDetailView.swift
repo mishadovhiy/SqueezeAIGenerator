@@ -17,119 +17,90 @@ struct DBDetailView: View {
 
     var body: some View {
         ScrollView(.vertical) {
-            VStack {
-                noneFixedHeader
-                tableView
+            LazyVStack(pinnedViews: .sectionHeaders) {
+                Section {
+                    dataSection
+                } header: {
+                    sectionHeader
+                }
             }
+            .modifier(ScrollReaderModifier(scrollPosition: $scrollModifier))
         }
         .navigationTitle(item.save.request?.type.addSpaceBeforeCapitalizedLetters.capitalized ?? "-")
         .background {
             ClearBackgroundView()
         }
-//        .modifier(NavigationBackgroundModifier())
-//        .toolbar {
-//            if item.save.aiResult != nil {
-//                ToolbarItem {
-//                    NavigationLink(value: NavigationRout.resultResponse(item)) {
-//                        Text("result")
-//                    }
-//                }
-//            }
-//        }
+        .modifier(NavigationBackgroundModifier())
     }
-
-    var tableView: some View {
-        LazyVStack(pinnedViews: .sectionHeaders) {
-            Section {
-                dataSection
-
-            } header: {
-                sectionHeader
-                    .padding(.vertical, (5 * (scrollModifier.percentPositive + 1)))
-                    .background(.black.opacity(0.05 * (1 - scrollModifier.percentPositiveMax)))
-                    .blurBackground(
-                        .dark,
-                        opacityMultiplier: 1 - scrollModifier.percentPositiveMax,
-                        cornerRadius: 0,
-                        count: 5
-                    )
-                    .offset(y: -3)
-
-
-            }
-
+    
+    @ViewBuilder
+    var sectionHeader: some View {
+        let scr = scrollModifier.percent
+        let scrMax = scr <= 0 ? 0 : scr
+        HStack {
+            circleView(scr)
+            headGroupedSections(scr)
         }
+        .overlay(content: {
+            categoryLabel
+        })
+        .background {
+            headerBackgroundCircle(scr)
+        }
+        .background(content: {
+            headerBackgroundRactengle(scr)
+        })
+        .padding(.top, 15)
+        .padding(.vertical, 30 * (scr >= 0 ? scr : 0))
+        .padding(.trailing, 10)
+        .compositingGroup()
+        .shadow(radius: 10)
+        .padding(.vertical, (5 * (scrMax + 1)))
+        .background(.black.opacity(0.05 * (1 - scrMax)))
+        .blurBackground(
+            .dark,
+            opacityMultiplier: 1 - scrMax,
+            cornerRadius: 0,
+            count: 5
+        )
+        .padding(.top, -15)
+        .animation(.smooth, value: scr <= 0.3)
+    }
+    
+    @ViewBuilder
+    func headGroupedSections(_ scr: CGFloat) -> some View {
+        VStack(alignment: .trailing, spacing: 0) {
+            headerSections(scr)
+        }
+        .frame(maxWidth: scr >= 0.3 ? .infinity : .zero, maxHeight: scr >= 0.3 ? .infinity : .zero, alignment: .trailing)
+        .clipped()
+        .animation(.bouncy, value: scr <= 0)
+        
+        HStack(spacing: 10) {
+            headerSections(scr)
+        }
+        .frame(maxWidth: scr < 0.3 ? .infinity : .zero)
+        .clipped()
+        .frame(height: 40)
+        .animation(.bouncy, value: scr <= 0)
     }
 
     @ViewBuilder
-    var noneFixedHeader: some View {
-        HStack {
-            headerRow(title: "Category", value: item.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
-                .frame(maxWidth: .infinity)
-            Divider().background(.white.opacity(.Opacity.separetor.rawValue))
-            headerRow(title: "Date", value: item.save.date.stringDate(needTime: false))
+    func headerSections(_ scr: CGFloat) -> some View {
+        headerRow(title: "Questions", value: "\(item.response.questions.count)", scrollPercent: scr)
             .frame(maxWidth: .infinity)
-        }
-        .modifier(ScrollReaderModifier(scrollPosition: $scrollModifier))
-        .padding(10)
+        headerRow(
+            title: "Difficulty",
+            value: item.save.request?.difficulty?.rawValue.capitalized ?? "",
+            scrollPercent: scr
+        )
+        headerRow(
+            title: "Date",
+            value: item.save.date.stringDate(needTime: false),
+            scrollPercent: scr
+        )
     }
-
-    func headerRow(
-        title: String,
-        value: String,
-        hidden: Bool = false
-    ) -> some View {
-        VStack {
-            Text(title)
-                .font(.system(size: 9, weight: .regular))
-                .foregroundColor(.white.opacity(0.3))
-            Text(value)
-                .font(.system(size: 11, weight: .semibold))
-                .foregroundColor(.white.opacity(0.5))
-                .shadow(radius: 5)
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 4)
-        .background {
-            Color.clear
-                .blurBackground(opacityMultiplier: scrollModifier.percent <= 0 ? 1 : 1 - scrollModifier.percent)
-                .opacity(hidden ? 0 : 1)
-        }
-        .frame(maxWidth: hidden ? 0 : .infinity)
-    }
-
-    var sectionHeader: some View {
-        HStack {
-            CircularProgressView(
-                progress: item.resultPercent,
-                widthMultiplier: scrollModifier.percent >= 0.2 ? scrollModifier.percent : 0.2, imageURL: item.save.apiCategory?.imageURL)
-            .frame(maxWidth: scrollModifier.percent <= 0.3 ? nil : .infinity)
-            .animation(.bouncy, value: scrollModifier.percent <= 0.3)
-
-            HStack(spacing: 0) {
-                headerRow(title: "Questions", value: "\(item.response.questions.count)")
-                    .frame(maxWidth: .infinity)
-                headerRow(
-                    title: "Category",
-                    value: item.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "",
-                    hidden: !(scrollModifier.percent <= 0)
-                )
-                .animation(.bouncy, value: scrollModifier.percent <= 0)
-                headerRow(
-                    title: "Date",
-                    value: item.save.date.stringDate(needTime: false),
-                    hidden: !(scrollModifier.percent <= 0)
-                )
-                .animation(.bouncy, value: scrollModifier.percent <= 0)
-            }
-            .frame(maxWidth: .infinity)
-            .frame(height: 40)
-            .animation(.bouncy, value: scrollModifier.percent <= 0)
-        }
-        .animation(.bouncy, value: scrollModifier.percent <= 0.3)
-        .padding(.horizontal, 15)
-    }
-
+    
     @ViewBuilder
     func actionsCollection(_ key: DataKey) -> some View {
         let selectedOption = self.item.save.questionResults[key]
@@ -143,12 +114,135 @@ struct DBDetailView: View {
                         .padding(.vertical, 6)
                         .background(.white.opacity(selectedOption == option ? 1 : 0.15))
                         .cornerRadius(9)
+                        .shadow(radius: 10)
                 }
             }
             .padding(.horizontal, 10)
         }
     }
+    
+    var dataSection: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            ResultView(saveModel: item, canScroll: false)
+            Spacer().frame(height: 25)
+            
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Questions")
+                    .font(.system(size: 28, weight: .semibold))
+                    .foregroundColor(.white)
+                    .padding(.leading, 10)
+                questionList
+            }
+            .padding(.top, 10)
+            .blurBackground(.light, count: 4)
+            Spacer().frame(height: 20)
+        }
+        .padding(10)
+        .padding(.top, -20)
+    }
+    
+    @ViewBuilder
+    var questionList: some View {
+        ForEach(Array(item.save.questionResults.keys), id:\.id) { key in
+            VStack {
+                dataRow(key)
+                    .padding(.horizontal, 10)
+                Spacer().frame(height: 15)
+                actionsCollection(key)
+            }
+            .padding(.vertical, 10)
+            .background(.white.opacity(0.1))
+            .cornerRadius(12)
+            .shadow(radius: 10)
+            .padding(.horizontal, 10)
+            Divider()
+                .background(.white.opacity(.Opacity.separetor.rawValue))
+                .padding(.horizontal, 10)
+        }
+    }
+}
 
+fileprivate extension DBDetailView {
+    @ViewBuilder
+    func headerRow(
+        title: String,
+        value: String,
+        hidden: Bool = false,
+        scrollPercent: CGFloat
+    ) -> some View {
+        
+        let scroll = scrollPercent >= 0.5 ? scrollPercent : 0.5
+        VStack(alignment: .trailing) {
+            Text(title)
+                .font(.system(size: 9, weight: .regular))
+                .minimumScaleFactor(0.1)
+                .lineLimit(1)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .multilineTextAlignment(.trailing)
+                .foregroundColor(.white.opacity(0.3))
+            Text(value)
+                .font(.system(size: 18 * scroll, weight: .semibold))
+                .minimumScaleFactor(0.2)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .multilineTextAlignment(.trailing)
+                .lineLimit(1)
+                .foregroundColor(.white.opacity(0.5))
+                .shadow(radius: 5)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 4)
+        .frame(maxWidth: hidden ? 0 : .infinity,
+               alignment: .trailing)
+    }
+
+    
+    func circleView(_ scrollPercent: CGFloat) -> some View {
+        CircularProgressView(
+            progress: item.resultPercent,
+            widthMultiplier: scrollPercent >= 0.2 ? scrollPercent : 0.2,
+            imageURL: item.save.apiCategory?.imageURL, color: .init(hex: item.save.apiCategory?.color?.topLeft ?? "") ?? .red)
+        .frame(maxWidth: scrollPercent <= 0.3 ? nil : .infinity, alignment: .leading)
+        .padding(10)
+        .frame(maxHeight: .infinity)
+        .background {
+            Circle()
+                .fill()
+                .blendMode(.destinationOut)
+                .frame(maxHeight: .infinity)
+                .aspectRatio(1, contentMode: .fit)
+        }
+    }
+    
+    func headerBackgroundCircle(_ scr: CGFloat) -> some View {
+        HStack {
+            Circle()
+                .fill(.white)
+                .blendMode(.destinationOut)
+                .frame(width: scr <= 0.6 ? .zero : ((180) * (scr <= 0.2 ? 0.2 : scr)))
+                .aspectRatio(1, contentMode: .fit)
+            Spacer().frame(maxWidth: .infinity)
+        }
+    }
+    
+    func headerBackgroundRactengle(_ scr: CGFloat) -> some View {
+        HStack {
+            Spacer()
+                .frame(width: ((150 / 2) * (scr <= 0.9 ? 0.9 : scr)))
+            Color.white
+                .opacity(0.15 * scr)
+                .cornerRadius(24)
+        }
+    }
+    
+    var categoryLabel: some View {
+        VStack {
+            Spacer()
+            Text(item.save.request?.category.addSpaceBeforeCapitalizedLetters.capitalized ?? "")
+                .font(.system(size: 9, weight: .semibold))
+                .blendMode(.destinationOut)
+        }
+    }
+    
     @ViewBuilder
     func dataRow(_ key: DataKey) -> some View {
         Text(key.questionName)
@@ -157,28 +251,5 @@ struct DBDetailView: View {
         Text(key.description)
             .frame(maxWidth: .infinity, alignment: .leading)
             .opacity(.Opacity.description.rawValue)
-    }
-    
-    var dataSection: some View {
-        VStack {
-            VStack {
-                ForEach(Array(item.save.questionResults.keys), id:\.id) { key in
-                    dataRow(key)
-                        .padding(.horizontal, 10)
-                    Spacer().frame(height: 15)
-                    actionsCollection(key)
-                    Divider()
-                        .background(.white.opacity(.Opacity.separetor.rawValue))
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 10)
-                }
-            }
-            .padding(.top, 10)
-            .blurBackground(.light, count: 4)
-            
-            Spacer().frame(height: 50)
-            ResultView(saveModel: item, canScroll: false)
-        }
-        .padding(10)
     }
 }

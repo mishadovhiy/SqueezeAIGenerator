@@ -10,9 +10,8 @@ struct HomeView: View {
         let buttonsHeight = viewModel.buttonsViewHeight
         ZStack {
             VStack(spacing: 0) {
-               // navigationStack
-                   // .ignoresSafeArea(.all)
-                DBCategoriyNavView(selectedType:"Psychopathy")
+                navigationStack
+                    .ignoresSafeArea(.all)
                 if buttonsHeight > 0 {
                     Spacer().frame(height: buttonsHeight)
                 }
@@ -54,13 +53,13 @@ struct HomeView: View {
         .task(priority: .userInitiated) {
             viewModel.loadAppSettings(db: db)
         }
-        .modifier(
-            SidebarModifier(
-                viewWidth: viewModel.viewWidth,
-                targedBackgroundView: SideBarView(),
-                disabled: !navigationManager.routs.isEmpty && !viewModel.sheetPresenting
-            )
-        )
+//        .modifier(
+//            SidebarModifier(
+//                viewWidth: viewModel.viewWidth,
+//                targedBackgroundView: SideBarView(),
+//                disabled: !navigationManager.routs.isEmpty && !viewModel.sheetPresenting
+//            )
+//        )
         .background {
             Color.black
                 .ignoresSafeArea(.all)

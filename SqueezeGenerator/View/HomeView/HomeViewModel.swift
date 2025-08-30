@@ -570,7 +570,7 @@ deadline: .now() + .milliseconds(300),
 
     func primaryButtonPressed(db: LocalDataBaseManager) {
         if response != nil {
-            navValues.append(
+            navValues = [
                 .cardView(
                     .init(
                         properties: .init(
@@ -583,7 +583,8 @@ deadline: .now() + .milliseconds(300),
                         ),
                         completedSqueeze: { [weak self] selection in
                             self?.cardsDonePressed(selection, db: db)
-                        })))
+                        }))
+            ]
         } else {
             withAnimation {
                 navValues.append(.empty())

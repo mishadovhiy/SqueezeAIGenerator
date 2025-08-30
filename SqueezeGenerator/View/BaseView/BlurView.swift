@@ -8,7 +8,22 @@
 import UIKit
 import SwiftUI
 
-struct BlurView: UIViewRepresentable {
+struct BlurView: View {
+    
+    let count: Int
+    
+    init(count: Int = 1) {
+        self.count = count
+    }
+    
+    var body: some View {
+        ForEach(0..<count, id: \.self) { _ in
+            BlurViewRepresentable()
+        }
+    }
+}
+
+fileprivate struct BlurViewRepresentable: UIViewRepresentable {
     
     func makeUIView(context: Context) -> some UIView {
         let view = UIVisualEffectView(effect: UIBlurEffect(style: .init(rawValue: 999)!))

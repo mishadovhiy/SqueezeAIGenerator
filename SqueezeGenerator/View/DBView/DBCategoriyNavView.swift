@@ -42,7 +42,6 @@ struct DBCategoriyNavView: View {
                 path.body(.constant(nil))
                     .opacity(path == self.nav.last ? 1 : 0)
                     .animation(.smooth, value: path == self.nav.last)
-                    .toolbarColorScheme(.dark, for: .navigationBar)
                     .navigationBarTitleDisplayMode(.large)
 
             }
