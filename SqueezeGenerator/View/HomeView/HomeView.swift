@@ -50,6 +50,7 @@ struct HomeView: View {
         .task(priority: .userInitiated) {
             viewModel.loadAppSettings(db: db)
         }
+        .environmentObject(viewModel)
         .modifier(
             SidebarModifier(
                 viewWidth: viewModel.viewWidth,

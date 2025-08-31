@@ -41,6 +41,7 @@ struct SupportView: View {
                     .progressViewStyle(.circular)
             }
         }
+        .modifier(NavigationBackgroundModifier())
     }
     
     private var section: some View {
@@ -110,6 +111,7 @@ struct SupportView: View {
             .foregroundColor(.red)
             .animation(.smooth, value: title)
             .transition(.move(edge: .bottom))
+            .padding(.leading, 10)
     }
     
     @ViewBuilder

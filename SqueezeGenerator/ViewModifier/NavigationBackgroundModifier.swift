@@ -10,7 +10,8 @@ import SwiftUI
 struct NavigationBackgroundModifier: ViewModifier {
 
     @EnvironmentObject private var db: LocalDataBaseManager
-
+    @EnvironmentObject private var homeViewModel: HomeViewModel
+    
     static let cornerRadius: CGFloat = 24
     let largeNavigationHeight: CGFloat = 96
     let compactNavigationHeight: CGFloat = 44
@@ -26,12 +27,19 @@ struct NavigationBackgroundModifier: ViewModifier {
                     .ignoresSafeArea(.all)
                 }
             }
+            .onAppear {
+                self.tintColor = .init(hex: homeViewModel.backgroundProperties.backgroundGradient?.topLeft ?? "")? ?? UIColor.black
+            }
 
     }
 
+    @State private var tintColor: UIColor = .black
     func background(_ proxy: GeometryProxy) -> some View {
         ZStack {
-            Color(uiColor: .black.withAlphaComponent(1))
+            ZStack(content: {
+                Color(uiColor: .black)
+                Color(uiColor: tintColor).opacity(0.5)
+            })
                 .frame(
                     height: proxy.safeAreaInsets
                         .top + (NavigationBackgroundModifier.cornerRadius + 8)
