@@ -82,7 +82,7 @@ struct CardsView: View {
     var removeLastActionButtonConten: some View {
         Color.clear
         .overlay {
-            Image(.back)
+            Image(.undo)
                 .resizable()
                 .scaledToFit()
                 .foregroundColor(
