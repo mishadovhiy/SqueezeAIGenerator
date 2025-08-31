@@ -67,10 +67,6 @@ struct HomeView: View {
         .environmentObject(navigationManager)
         .onAppear {
             viewModel.navManager = self.navigationManager
-            appService.alertManager.present(.init(title: "s"))
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                appService.alertManager.present(.init(title: "se"))
-            })
         }
     }
 
