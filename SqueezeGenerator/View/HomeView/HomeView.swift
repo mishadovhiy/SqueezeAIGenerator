@@ -84,41 +84,47 @@ struct HomeView: View {
         let disabled = viewModel.selectedRequest == nil ? false : (viewModel.selectedRequest?.difficulty == nil)
         VStack {
             Spacer()
-            Button {
-                appService.tutorialManager
-                    .removeTypeWhenMatching(.pressGenerate)
-                viewModel.primaryButtonPressed(db: db)
-            } label: {
-                Text(viewModel.response != nil ? "squeeze" : "Start")
-                    .foregroundColor(isLight ? .black.opacity(0.7) : .white)
-                    .font(.system(size: 28, weight: .regular))
+            HStack {
+                Spacer()
+                Button {
+                    appService.tutorialManager
+                        .removeTypeWhenMatching(.pressGenerate)
+                    viewModel.primaryButtonPressed(db: db)
+                } label: {
+                    HStack {
+                        Text(viewModel.response != nil ? "squeeze" : "Start")
+                            .font(.system(size: 28, weight: .regular))
+                            .shadow(radius: 5)
+                    }
                     .opacity(disabled ? 0.3 : 1)
-                    .shadow(radius: 5)
-            }
-                .padding(.horizontal, 50)
-                .frame(height: needButton)
-                .frame(maxWidth: .infinity)
-                .clipped()
-                .background(
-                    Color(
-                        uiColor: buttonBackground
+                    .foregroundColor(isLight ? .black.opacity(0.7) : .white)
+
+
+                }
+                    .padding(.horizontal, 50)
+                    .frame(height: needButton)
+                    .clipped()
+                    .background(
+                        Color(
+                            uiColor: buttonBackground
+                        )
                     )
-                )
-                .overlay(content: {
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color(uiColor: buttonBackground), lineWidth: 2)
-                        .shadow(radius: 10)
-                })
-                .cornerRadius(16)
-                .disabled(disabled)
-                .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
-                .animation(.smooth, value: needButton > 0)
-                .shadow(
-                    color: Color(uiColor: buttonBackground),
-                    radius: 20,
-                    x: 20, y: 15
-                )
-                .modifier(TutorialTargetViewModifier(targetType: .pressGenerate))
+                    .overlay(content: {
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color(uiColor: buttonBackground), lineWidth: 2)
+                            .shadow(radius: 10)
+                    })
+                    .cornerRadius(16)
+                    .disabled(disabled)
+                    .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
+                    .animation(.smooth, value: needButton > 0)
+                    .shadow(
+                        color: Color(uiColor: buttonBackground),
+                        radius: 20,
+                        x: 20, y: 15
+                    )
+                    .modifier(TutorialTargetViewModifier(targetType: .pressGenerate))
+            }
 
         }
         .padding(.horizontal, 5)

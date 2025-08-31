@@ -81,7 +81,7 @@ class HomeViewModel: ObservableObject {
 
     //shows buttons view across navigations
     var buttonsViewHeight: CGFloat {
-        needButtonsView ? 55 : 0
+        needButtonsView ? 45 : 0
     }
 
     var gradientOpacity: CGFloat {

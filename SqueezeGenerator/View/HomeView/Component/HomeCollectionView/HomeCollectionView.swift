@@ -124,10 +124,10 @@ struct HomeCollectionView: View {
         let data = viewModel.statsPreview[item.id]
         let height: CGFloat = viewModel.largeParentCollections ? .infinity : .zero
         VStack {
-            cellParameters("count", "\(data?.subcategoriesCount ?? 0)/\(data?.completedSubcategoriesCount ?? 0)")
+            cellParameters("count", "\(data?.subcategoriesCount ?? 0)/\(data?.completedSubcategoriesCount ?? 0)", icon: .folders)
             Divider()
                 .background(.white.opacity(.Opacity.separetor.rawValue))
-            cellParameters("score", "\(data?.avarageGrade ?? 0)%")
+            cellParameters("score", "\(data?.avarageGrade ?? 0)%", icon: .scoreGraph)
         }
         .opacity(.Opacity.description.rawValue)
         .frame(
@@ -166,8 +166,12 @@ fileprivate extension HomeCollectionView {
             .padding(.horizontal, 22)
     }
 
-    func cellParameters(_ title: String, _ value: String) -> some View {
+    func cellParameters(_ title: String, _ value: String, icon: ImageResource) -> some View {
         HStack {
+            Image(icon)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 10)
             Text(title)
                 .font(.Type.small.font)
                 .multilineTextAlignment(.leading)
