@@ -9,7 +9,7 @@ import Foundation
 
 struct NetworkModel {
     func appData(completion: @escaping(_ response: NetworkResponse.CategoriesResponse?)->()) {
-        let request = Request(.fetchAppData)
+        let request = NetworkRequestManager(.fetchAppData)
         request.perform { data in
             do {
                 let response = try JSONDecoder().decode(NetworkResponse.CategoriesResponse.self, from: data ?? .init())
@@ -30,7 +30,7 @@ struct NetworkModel {
     
     func advice(_ input: NetworkRequest.SqueezeRequest,
                 completion: @escaping(NetworkResponse.AdviceResponse?)->()) {
-        let request = Request(.squeeze(input))
+        let request = NetworkRequestManager(.squeeze(input))
         request.perform(completionn: { response in
             completion(.init(response: .init(data: response ?? .init(), encoding: .utf8) ?? ""))
         })
@@ -39,7 +39,7 @@ struct NetworkModel {
 
     func result(_ input: NetworkRequest.ResultRequest,
                 completion: @escaping(NetworkResponse.ResultResponse?)->()) {
-        let request = Request(.result(input))
+        let request = NetworkRequestManager(.result(input))
         request.perform(completionn: { response in
             DispatchQueue.main.async {
                 completion(.init(response: .init(data: response ?? .init(), encoding: .utf8) ?? ""))
@@ -49,7 +49,7 @@ struct NetworkModel {
     }
 
     func support(_ input:NetworkRequest.SupportRequest, completion:@escaping(NetworkResponse.SupportResponse?)->()) {
-        Request.init(.support(input)).perform(data: "44fdcv8jf3") { data in
+        NetworkRequestManager.init(.support(input)).perform(data: "44fdcv8jf3") { data in
             completion(.init(data: data))
         }
     }
@@ -59,7 +59,7 @@ struct NetworkModel {
         extractKeyStart: String? = nil, extractKeyEnd: String? = nil,
         completion:@escaping(_ response:NetworkResponse.FetchHTMLResponse)->()
     ) {
-        Request(.fetchHTML(input)).perform { data in
+        NetworkRequestManager(.fetchHTML(input)).perform { data in
             DispatchQueue.main.async {
                 completion(.init(data: data, extractedKeyStart: extractKeyStart, extractedKeyEnd: extractKeyEnd))
             }

@@ -8,7 +8,7 @@
 import Foundation
 
 extension NetworkModel {
-    struct RequestManager {
+    struct NetworkRequestManager {
         var request:URLRequest?
         
         init(_ input: NetworkRequest, cashed: Bool = false) {
