@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		821FF99C2E64B056003E9B3E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF99B2E64B056003E9B3E /* AlertManager.swift */; };
+		821FF9A02E64B07E003E9B3E /* AlertContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF99F2E64B07E003E9B3E /* AlertContentModel.swift */; };
+		821FF9A62E64B0C2003E9B3E /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF9A52E64B0C2003E9B3E /* UIWindow.swift */; };
+		821FF9A82E64B0F2003E9B3E /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF9A72E64B0F2003E9B3E /* UINavigationController.swift */; };
+		821FF9AA2E64B10C003E9B3E /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF9A92E64B10C003E9B3E /* UIViewController.swift */; };
+		821FF9B82E64B322003E9B3E /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF9B72E64B322003E9B3E /* AlertModifier.swift */; };
 		822A44322E400EC500B5CF32 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A44312E400EC500B5CF32 /* UIApplication.swift */; };
 		822A44342E4019D400B5CF32 /* DBCategoriyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822A44332E4019D400B5CF32 /* DBCategoriyView.swift */; };
 		8239CD672E50F1D7009CBED6 /* HomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8239CD662E50F1D7009CBED6 /* HomeCollectionView.swift */; };
@@ -95,6 +101,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		821FF99B2E64B056003E9B3E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		821FF99F2E64B07E003E9B3E /* AlertContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertContentModel.swift; sourceTree = "<group>"; };
+		821FF9A52E64B0C2003E9B3E /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
+		821FF9A72E64B0F2003E9B3E /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
+		821FF9A92E64B10C003E9B3E /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		821FF9B72E64B322003E9B3E /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		822A44312E400EC500B5CF32 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		822A44332E4019D400B5CF32 /* DBCategoriyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCategoriyView.swift; sourceTree = "<group>"; };
 		8239CD662E50F1D7009CBED6 /* HomeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionView.swift; sourceTree = "<group>"; };
@@ -247,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				82E60AC42E62405A004CAD0C /* NavigationBackgroundModifier.swift */,
+				821FF9B72E64B322003E9B3E /* AlertModifier.swift */,
 				82CDB7232E5FF0E100EE5CC4 /* TutorialModifier */,
 				82CDB71D2E5F98E800EE5CC4 /* BaseModifier */,
 				82719B212E5E0E8200176AE4 /* SidebarModifier */,
@@ -289,6 +302,9 @@
 				822A44312E400EC500B5CF32 /* UIApplication.swift */,
 				82E570692E342AC100922F5B /* UIColor.swift */,
 				82BA0D122E487230009ECC61 /* View.swift */,
+				821FF9A52E64B0C2003E9B3E /* UIWindow.swift */,
+				821FF9A72E64B0F2003E9B3E /* UINavigationController.swift */,
+				821FF9A92E64B10C003E9B3E /* UIViewController.swift */,
 				82AF8B692E2D2C4000CC3FAD /* String.swift */,
 				82BA0D142E48737F009ECC61 /* CGFloat.swift */,
 				82BA0D202E4877D6009ECC61 /* Font.swift */,
@@ -466,6 +482,7 @@
 			children = (
 				82AF8B7B2E2D2C4000CC3FAD /* LocalDataBaseManager.swift */,
 				82CDB7152E5F78B600EE5CC4 /* AppServiceManager.swift */,
+				821FF99B2E64B056003E9B3E /* AlertManager.swift */,
 				82AF8B802E2D2C4000CC3FAD /* StorekitModel.swift */,
 				82CDB7172E5F78E000EE5CC4 /* TutorialManager.swift */,
 				82AF8B742E2D2C4000CC3FAD /* NetworkModel */,
@@ -503,6 +520,7 @@
 			children = (
 				82E570662E342A7400922F5B /* CardData.swift */,
 				82555A632E46834600B69554 /* ResponsePreviewModel.swift */,
+				821FF99F2E64B07E003E9B3E /* AlertContentModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -676,6 +694,7 @@
 				82E570652E34203F00922F5B /* CardsView.swift in Sources */,
 				82E60ABC2E60C693004CAD0C /* SupportView.swift in Sources */,
 				82E60AC52E62405A004CAD0C /* NavigationBackgroundModifier.swift in Sources */,
+				821FF9A62E64B0C2003E9B3E /* UIWindow.swift in Sources */,
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
 				82CDB7132E5F62FD00EE5CC4 /* TutorialModifier.swift in Sources */,
 				82CDB7162E5F78B600EE5CC4 /* AppServiceManager.swift in Sources */,
@@ -705,11 +724,14 @@
 				82BA59522E30222D009B8913 /* HomeViewModel.swift in Sources */,
 				82AF8B882E2D2C4000CC3FAD /* Request.swift in Sources */,
 				82E60ABA2E60C687004CAD0C /* WebView.swift in Sources */,
+				821FF9B82E64B322003E9B3E /* AlertModifier.swift in Sources */,
 				82BA59442E301EFB009B8913 /* TextView.swift in Sources */,
+				821FF9AA2E64B10C003E9B3E /* UIViewController.swift in Sources */,
 				82E570672E342A7400922F5B /* CardData.swift in Sources */,
 				82BA0D212E4877D6009ECC61 /* Font.swift in Sources */,
 				822A44342E4019D400B5CF32 /* DBCategoriyView.swift in Sources */,
 				82AF8B892E2D2C4000CC3FAD /* SqueezeRequest.swift in Sources */,
+				821FF9A82E64B0F2003E9B3E /* UINavigationController.swift in Sources */,
 				82BA594E2E301F7C009B8913 /* ResultView.swift in Sources */,
 				82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */,
 				82719B0F2E5CEB8E00176AE4 /* CardCompletionView.swift in Sources */,
@@ -719,8 +741,10 @@
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,
 				82E60ABE2E616160004CAD0C /* AlertView.swift in Sources */,
 				82E5706A2E342AC100922F5B /* UIColor.swift in Sources */,
+				821FF9A02E64B07E003E9B3E /* AlertContentModel.swift in Sources */,
 				82BA59462E301F12009B8913 /* DBCategoriyNavView.swift in Sources */,
 				82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */,
+				821FF99C2E64B056003E9B3E /* AlertManager.swift in Sources */,
 				82719B112E5DC07400176AE4 /* OverlayNoteView.swift in Sources */,
 				82BA594C2E301F54009B8913 /* SqueezeView.swift in Sources */,
 				82719B242E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift in Sources */,
