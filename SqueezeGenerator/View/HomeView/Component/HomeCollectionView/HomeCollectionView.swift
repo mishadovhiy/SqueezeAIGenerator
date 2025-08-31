@@ -71,7 +71,7 @@ struct HomeCollectionView: View {
     }
 
     func cellContent(_ item: SectionModel) -> some View {
-        VStack {
+        VStack(alignment: .leading) {
             cellTitle(item)
             Spacer()
                 .frame(maxHeight: .infinity)
@@ -79,8 +79,44 @@ struct HomeCollectionView: View {
                 .clipped()
                 .animation(.bouncy, value: viewModel.largeParentCollections)
         }
+        .frame(alignment: .leading)
+        .background(content: {
+            sectionImage(item)
+        })
         .padding(.horizontal, 8)
         .padding(.vertical, 8)
+    }
+    
+    @ViewBuilder
+    func sectionImage(_ item: SectionModel) -> some View {
+        VStack(alignment: .trailing) {
+            Spacer()
+                .frame(maxHeight: .infinity)
+            HStack {
+                Spacer()
+                    .frame(maxWidth: viewModel.selectedGeneralKeyID == nil ? .zero : .infinity)
+                    .animation(.smooth, value: viewModel.selectedGeneralKeyID)
+                if let url: URL = .init(string: item.imageURL) {
+                    AsyncImage(url: url) {
+                        switch $0 {
+                        case .empty:
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .opacity(0.9)
+                                .frame(alignment: .trailing)
+                        default:
+                            EmptyView()
+                        }
+                    }
+                    .shadow(radius: 15)
+                }
+            }
+        }
+        
     }
 
     @ViewBuilder
@@ -121,6 +157,8 @@ fileprivate extension HomeCollectionView {
                 value: viewModel.largeParentCollections
             )
         Text(item.title)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .multilineTextAlignment(.leading)
             .foregroundColor(
                 .white.opacity(opacity)
             )

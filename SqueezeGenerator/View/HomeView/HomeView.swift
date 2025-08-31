@@ -53,13 +53,13 @@ struct HomeView: View {
         .task(priority: .userInitiated) {
             viewModel.loadAppSettings(db: db)
         }
-//        .modifier(
-//            SidebarModifier(
-//                viewWidth: viewModel.viewWidth,
-//                targedBackgroundView: SideBarView(),
-//                disabled: !navigationManager.routs.isEmpty && !viewModel.sheetPresenting
-//            )
-//        )
+        .modifier(
+            SidebarModifier(
+                viewWidth: viewModel.viewWidth,
+                targedBackgroundView: SideBarView(),
+                disabled: !navigationManager.routs.isEmpty && !viewModel.sheetPresenting
+            )
+        )
         .background {
             Color.black
                 .ignoresSafeArea(.all)
