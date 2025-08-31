@@ -10,6 +10,7 @@ import SwiftUI
 extension View {
     @ViewBuilder
     func blurBackground(_ shema: ColorScheme = .light,
+                        color: UIColor? = nil,
                         opacityMultiplier: CGFloat = 1,
                         opacity: CGFloat? = nil,
                         cornerRadius: CGFloat = .CornerRadius.large.rawValue,
@@ -28,7 +29,7 @@ extension View {
             })
             .background(
                 (Color(
-                    uiColor: shema == .dark ? .black : .white)
+                    uiColor: color ?? (shema == .dark ? .black : .white))
                 ).opacity(
                     (opacity ?? defaultOpacity) * opacityMultiplier
                 )

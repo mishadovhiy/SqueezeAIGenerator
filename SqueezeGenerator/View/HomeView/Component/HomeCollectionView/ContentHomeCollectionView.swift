@@ -87,7 +87,7 @@ struct ContentHomeCollectionView<Content: View>: View {
 
                 Spacer().frame(maxWidth: .infinity)
                 if !item.isType {
-                    Image(.close)
+                    Image(.arrowDown)
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(.white)
@@ -95,6 +95,8 @@ struct ContentHomeCollectionView<Content: View>: View {
                         .padding(10)
                         .blurBackground()
                         .frame(alignment: .top)
+                        .rotationEffect(.degrees(item.id == viewModel.selectedGeneralKeyID ? -180 : 0))
+                        .animation(.smooth, value: item.id == viewModel.selectedGeneralKeyID)
                 }
             }
             Spacer().frame(maxWidth: .infinity)

@@ -20,7 +20,7 @@ struct AlertModifier: ViewModifier {
                     return
                 }
                 let vc = UIHostingController(rootView: AlertView(data: appServices.alertManager.currentMessage!, dismiss: {
-                    if let vc = UIApplication.shared.keyWindow?.rootViewController?.topViewController,
+                    if let vc = UIApplication.shared.activeWindow?.rootViewController?.topViewController,
                        vc.view.layer.name == "alert"
                     {
                         vc.dismiss(animated: true) {
@@ -33,7 +33,7 @@ struct AlertModifier: ViewModifier {
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
                 vc.view.backgroundColor = .clear
-                UIApplication.shared.keyWindow?.rootViewController?.present(vc)
+                UIApplication.shared.activeWindow?.rootViewController?.present(vc)
             }
     }
 }

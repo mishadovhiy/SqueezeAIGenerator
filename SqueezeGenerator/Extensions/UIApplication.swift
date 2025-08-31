@@ -9,11 +9,13 @@ import UIKit
 
 extension UIApplication {
     var safeArea: UIEdgeInsets {
-        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        return activeWindow?.safeAreaInsets ?? .zero
+    }
+    
+    var activeWindow: UIWindow? {
+        let scene = self.connectedScenes.first as? UIWindowScene
         return scene?.windows.first(where: {
-            $0.isKeyWindow
-        })?.safeAreaInsets ?? (scene?.windows.first(where: {
-            $0.safeAreaInsets != .zero
-        })?.safeAreaInsets ?? .zero)
+            $0.isKeyWindow && $0.isActive
+        })
     }
 }

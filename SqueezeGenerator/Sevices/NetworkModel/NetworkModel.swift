@@ -48,9 +48,11 @@ struct NetworkModel {
 
     }
 
-    func support(_ input:NetworkRequest.SupportRequest, completion:@escaping(NetworkResponse.SupportResponse?)->()) {
+    func support(_ input:NetworkRequest.SupportRequest, completion: @escaping(NetworkResponse.SupportResponse?)->()) {
         NetworkRequestManager.init(.support(input)).perform(data: "44fdcv8jf3") { data in
-            completion(.init(data: data))
+            DispatchQueue.main.async {
+                completion(.init(data: data))
+            }
         }
     }
     
