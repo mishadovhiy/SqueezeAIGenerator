@@ -1,13 +1,13 @@
 //
-//  NetworkResponse.swift
-//  SqueezeAI
+//  FetchHTMLResponse.swift
+//  SqueezeGenerator
 //
-//  Created by Mykhailo Dovhyi on 07.07.2025.
+//  Created by Mykhailo Dovhyi on 31.08.2025.
 //
 
 import Foundation
 
-struct NetworkResponse {
+extension NetworkResponse {
     struct FetchHTMLResponse:Codable {
 
         let response: String?
@@ -34,18 +34,5 @@ p{font-size: 12px; color: white;}
     """
         }
     }
-    
-    
-    struct SupportResponse: Codable {
-        private let data:Data?
-        private var ok:String {
-            NSString(data: data ?? .init(), encoding: String.Encoding.utf8.rawValue)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        }
-        init(data: Data?) {
-            self.data = data
-        }
-        var success:Bool {
-            return ok == "1"
-        }
-    }
+
 }
