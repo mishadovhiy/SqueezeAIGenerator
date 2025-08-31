@@ -56,7 +56,6 @@
 		82BA0D1C2E487447009ECC61 /* Opacity_Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D1B2E487447009ECC61 /* Opacity_Configuration.swift */; };
 		82BA0D1F2E4876C5009ECC61 /* Font_Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D1E2E4876C5009ECC61 /* Font_Configuration.swift */; };
 		82BA0D212E4877D6009ECC61 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA0D202E4877D6009ECC61 /* Font.swift */; };
-		82BA59442E301EFB009B8913 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59432E301EFB009B8913 /* TextView.swift */; };
 		82BA59462E301F12009B8913 /* DBCategoriyNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59452E301F12009B8913 /* DBCategoriyNavView.swift */; };
 		82BA594A2E301F3C009B8913 /* DBDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA59492E301F3C009B8913 /* DBDetailView.swift */; };
 		82BA594C2E301F54009B8913 /* SqueezeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BA594B2E301F54009B8913 /* SqueezeView.swift */; };
@@ -154,7 +153,6 @@
 		82BA0D1B2E487447009ECC61 /* Opacity_Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opacity_Configuration.swift; sourceTree = "<group>"; };
 		82BA0D1E2E4876C5009ECC61 /* Font_Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font_Configuration.swift; sourceTree = "<group>"; };
 		82BA0D202E4877D6009ECC61 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
-		82BA59432E301EFB009B8913 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		82BA59452E301F12009B8913 /* DBCategoriyNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCategoriyNavView.swift; sourceTree = "<group>"; };
 		82BA59492E301F3C009B8913 /* DBDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBDetailView.swift; sourceTree = "<group>"; };
 		82BA594B2E301F54009B8913 /* SqueezeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SqueezeView.swift; sourceTree = "<group>"; };
@@ -375,7 +373,6 @@
 				82E60ABF2E616167004CAD0C /* ReusableView */,
 				82BA594D2E301F7C009B8913 /* ResultView.swift */,
 				82CDB7112E5F62DB00EE5CC4 /* TutorialNavigationView */,
-				82BA59432E301EFB009B8913 /* TextView.swift */,
 				82AF8B9E2E2DD20500CC3FAD /* BaseView */,
 				82AF8B782E2D2C4000CC3FAD /* ComponentView */,
 			);
@@ -725,7 +722,6 @@
 				82AF8B882E2D2C4000CC3FAD /* Request.swift in Sources */,
 				82E60ABA2E60C687004CAD0C /* WebView.swift in Sources */,
 				821FF9B82E64B322003E9B3E /* AlertModifier.swift in Sources */,
-				82BA59442E301EFB009B8913 /* TextView.swift in Sources */,
 				821FF9AA2E64B10C003E9B3E /* UIViewController.swift in Sources */,
 				82E570672E342A7400922F5B /* CardData.swift in Sources */,
 				82BA0D212E4877D6009ECC61 /* Font.swift in Sources */,

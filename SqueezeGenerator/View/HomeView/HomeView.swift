@@ -47,9 +47,6 @@ struct HomeView: View {
         .onChange(of: viewModel.selectedIDs) { newValue in
             self.viewModel.updateTableData()
         }
-        .sheet(isPresented: $viewModel.textPresenting) {
-            TextView(text: viewModel.response?.response.textHolder ?? "??", needScroll: true)
-        }
         .task(priority: .userInitiated) {
             viewModel.loadAppSettings(db: db)
         }
