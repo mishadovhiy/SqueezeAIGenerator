@@ -17,9 +17,14 @@ struct SidebarModifier<SomeView: View>: ViewModifier {
     func body(content: Content) -> some View {
         let dragPercent = model.dragPercent
         ZStack {
-            targedBackgroundView
-                .frame(maxWidth: model.maxScrollX, alignment: .leading)
-                .zIndex(model.sideBarZindex)
+            HStack(content: {
+                targedBackgroundView
+                    .frame(maxWidth: model.maxScrollX, alignment: .leading)
+                Spacer().frame(maxWidth: .infinity)
+            })
+            .frame(maxWidth: .infinity)
+            .zIndex(model.sideBarZindex)
+
 
             content
                 .disabled(model.isOpened)
