@@ -157,6 +157,7 @@ struct RequestParametersView: View {
             CachedAsyncImage(url: selectedCategory?.imageURL ?? "")
             .padding(25)
             .blurBackground()
+            .frame(maxHeight: 140)
             .cornerRadius(100)
             Spacer()
         }

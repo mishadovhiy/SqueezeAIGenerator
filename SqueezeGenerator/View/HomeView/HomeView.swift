@@ -63,6 +63,9 @@ struct HomeView: View {
                 .ignoresSafeArea(.all)
         }
         .environmentObject(navigationManager)
+        .onAppear {
+            viewModel.navManager = self.navigationManager
+        }
     }
 
     @ViewBuilder

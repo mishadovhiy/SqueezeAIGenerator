@@ -20,7 +20,7 @@ class HomeViewModel: ObservableObject {
     @Published var description: String = ""
     @Published var type: String = ""
 #warning("todo: refactor navValue: move to View")
-    var navManager: NavigationManager = .init()
+    @Published var navManager: NavigationManager = .init()
     @Published var rqStarted: Bool = false
     @Published var textPresenting: Bool = false
     @Published var dbPresenting: Bool = false
@@ -590,6 +590,7 @@ deadline: .now() + .milliseconds(300),
                 navValues.append(.empty())
                 startGenerationRequest(db: db)
             }
+            print(navValues, " rfewdfrv ")
         }
     }
 
