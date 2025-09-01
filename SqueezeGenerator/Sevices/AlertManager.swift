@@ -7,29 +7,24 @@
 
 import SwiftUI
 
+// manages query of messages content data model
 struct AlertManager {
     private var messageHolder: [AlertContentModel] = []
 
     var currentMessage: AlertContentModel?
-
+    var dismissingMessage: AlertContentModel?
+    
+    mutating func dissmissAnimationCompleted() {
+        self.currentMessage = nil
+        self.dismissingMessage = nil
+        self.checkLast()
+    }
+    
     mutating func dismiss() {
-        print(messageHolder.count, " rtegrfwdsa ")
         if messageHolder.isEmpty {
             return
         }
-        messageHolder.removeFirst()
-        
-        self.currentMessage = nil
-        self.checkLast()
-//        DispatchQueue.main.async {
-//            withAnimation(.bouncy(duration: 0.3)) {
-//                self.currentMessage = nil
-//            }
-//            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(400), execute: {
-//                print("checklast")
-//                self.checkLast()
-//            })
-//        }
+        dismissingMessage = messageHolder.removeFirst()
     }
 
     mutating func present(_ message: AlertContentModel) {
@@ -42,7 +37,5 @@ struct AlertManager {
             return
         }
         currentMessage = messageHolder.first
-        print(currentMessage, " hyrtgerfwd ")
     }
-
 }

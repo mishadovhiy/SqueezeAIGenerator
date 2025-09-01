@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var db: LocalDataBaseManager
+    @EnvironmentObject private var db: LocalDataBaseManager
     @EnvironmentObject private var appService: AppServiceManager
     @StateObject var viewModel: HomeViewModel = .init()
     @StateObject var navigationManager: NavigationManager = .init()
@@ -65,6 +65,14 @@ struct HomeView: View {
         .environmentObject(navigationManager)
         .onAppear {
             viewModel.navManager = self.navigationManager
+            appService.alertManager.present(.init(title:  "Success", description: "Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support Request have been sent Support  Support Request have been sent Support Request have been sent Support  Support", imageName: .supportSuccess, buttons: [
+                .init(title: "sd"), .init(title: "sds"), .init(title: "sdds", pressed: {
+                    appService.alertManager.dismiss()
+                })
+            ]))
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
+                appService.alertManager.present(.init(title:  "Errror", description: "Error sending support request", imageName: .supportError))
+            })
         }
     }
 

@@ -16,6 +16,8 @@ extension UIApplication {
         let scene = self.connectedScenes.first as? UIWindowScene
         return scene?.windows.first(where: {
             $0.isKeyWindow && $0.isActive
+        }) ?? scene?.windows.first(where: {
+            $0.isKeyWindow
         })
     }
 }

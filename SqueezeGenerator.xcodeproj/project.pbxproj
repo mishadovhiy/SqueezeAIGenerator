@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8212299F2E656D6A00BCB83E /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8212299E2E656D6A00BCB83E /* UIFont.swift */; };
 		821FF99C2E64B056003E9B3E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF99B2E64B056003E9B3E /* AlertManager.swift */; };
 		821FF9A02E64B07E003E9B3E /* AlertContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF99F2E64B07E003E9B3E /* AlertContentModel.swift */; };
 		821FF9A62E64B0C2003E9B3E /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF9A52E64B0C2003E9B3E /* UIWindow.swift */; };
@@ -108,6 +109,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8212299E2E656D6A00BCB83E /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		821FF99B2E64B056003E9B3E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		821FF99F2E64B07E003E9B3E /* AlertContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertContentModel.swift; sourceTree = "<group>"; };
 		821FF9A52E64B0C2003E9B3E /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 			children = (
 				82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */,
 				822A44312E400EC500B5CF32 /* UIApplication.swift */,
+				8212299E2E656D6A00BCB83E /* UIFont.swift */,
 				82E570692E342AC100922F5B /* UIColor.swift */,
 				82BA0D122E487230009ECC61 /* View.swift */,
 				821FF9A52E64B0C2003E9B3E /* UIWindow.swift */,
@@ -779,6 +782,7 @@
 				82BA0D132E487230009ECC61 /* View.swift in Sources */,
 				82BA594A2E301F3C009B8913 /* DBDetailView.swift in Sources */,
 				82AF8B8D2E2D2C4000CC3FAD /* HomeView.swift in Sources */,
+				8212299F2E656D6A00BCB83E /* UIFont.swift in Sources */,
 				8239CD672E50F1D7009CBED6 /* HomeCollectionView.swift in Sources */,
 				82AF8B8E2E2D2C4000CC3FAD /* LocalDataBaseManager.swift in Sources */,
 				82CDB71C2E5F81B100EE5CC4 /* TapThroughtModifier.swift in Sources */,

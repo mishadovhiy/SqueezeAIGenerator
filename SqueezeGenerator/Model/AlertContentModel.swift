@@ -28,7 +28,6 @@ struct AlertContentModel {
             self.buttons = buttons
         }
         self.id = UUID.init()
-        print(id, " yhgtfrdes ")
     }
 
     struct Button {
