@@ -21,7 +21,7 @@ extension NetworkRequest {
             self.parentCategory = parentCategory
             self.category = category
             self.gradePercent = gradePercent
-            self.scoreDescription = scoreDescription ?? "the likelihood of having this condition"
+            self.scoreDescription = scoreDescription ?? "the level of knowledge"
         }
         enum ResponseStructure: String, Codable, CaseIterable, OpenAIPrompt {
             var keyDescription: String {

@@ -391,11 +391,15 @@ class HomeViewModel: ObservableObject {
         self.navValues = [.empty(.init(title: "Analyzing your answers"))]
         DispatchQueue.main.async {
             Task(priority: .background) {
+                let scoreDescription = self.appResponse?.categories.first(where: {
+                    $0.id == self.selectedGeneralKeyID
+                })
+                print(scoreDescription?.resultScoreDescription, " erfwdsax ")
                 NetworkModel()
                     .result(.init(parentCategory: response?.save.request?.parentCategory ?? "",
                                   category: response!.save.request?.type ?? "",
                                   gradePercent: "\(response?.resultPercentInt ?? 0)",
-                                  scoreDescription: selectedRequest?.resultScoreDescription)) { [weak self] respos in
+                                  scoreDescription: scoreDescription?.resultScoreDescription ?? selectedRequest?.resultScoreDescription)) { [weak self] respos in
                         response?.save.aiResult = respos
                         db.db.responses.append(response!)
                         DispatchQueue.main.async {
@@ -590,7 +594,13 @@ deadline: .now() + .milliseconds(300),
                 navValues.append(.empty())
                 startGenerationRequest(db: db)
             }
-            print(navValues, " rfewdfrv ")
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+//                self.navValues = [
+//                    .cardView(.init(properties: .init(type: "", selectedResponseItem: nil, data: .demo), completedSqueeze: { _ in
+//                        
+//                    }))
+//                ]
+//            })
         }
     }
 
