@@ -592,16 +592,19 @@ deadline: .now() + .milliseconds(300),
         } else {
             withAnimation {
                 navValues.append(.empty())
-//                startGenerationRequest(db: db)
+                startGenerationRequest(db: db)
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                self.navValues = [
-                    .cardView(.init(properties: .init(type: "", selectedResponseItem: nil, data: .demo), completedSqueeze: { _ in
-                        
-                    }))
-                ]
-            })
         }
+    }
+    
+    private func testCards() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            self.navValues = [
+                .cardView(.init(properties: .init(type: "", selectedResponseItem: nil, data: .demo), completedSqueeze: { _ in
+                    
+                }))
+            ]
+        })
     }
 
     func cardsDonePressed(_ selection: CardsViewModel.Selection, db: LocalDataBaseManager) {

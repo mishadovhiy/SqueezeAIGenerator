@@ -17,18 +17,18 @@ struct SideBarView: View {
             button("Support", image: .support) {
                 navigationManager.append(.support)
             }
+            
+            Spacer()
+//            button("Resturt tutorial", image: .tutorial) {
+//                db.db.tutorials = .init()
+//                appService.tutorialManager = .init()
+//            }
             button("App website", image: .globe) {
                 let url = URL(string: Keys.websiteURL.rawValue)
                 guard let url, UIApplication.shared.canOpenURL(url) else {
                     return
                 }
                 UIApplication.shared.open(url)
-            }
-            
-            Spacer()
-            button("Resturt tutorial", image: .tutorial) {
-                db.db.tutorials = .init()
-                appService.tutorialManager = .init()
             }
             
             button("Privacy policy", image: .privacy) {

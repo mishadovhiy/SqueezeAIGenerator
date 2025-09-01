@@ -47,7 +47,11 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
                 }
                 
                 if firstTutorial == nil {
-                    appService.tutorialManager.needTutorial = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                        withAnimation(.smooth(duration: 3), {
+                            appService.tutorialManager.needTutorial = false
+                        })
+                    })
                 }
             }
         }

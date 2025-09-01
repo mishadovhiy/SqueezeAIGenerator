@@ -13,8 +13,9 @@ struct TutorialNavigationView: View {
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                Color.black.opacity(0.8)
+                Color.black.opacity(appService.tutorialManager.type == nil ? 0.4 : 0.8)
                     .ignoresSafeArea(.all)
+                    .animation(.smooth, value: appService.tutorialManager.type == nil)
                 blendOutComposition
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -51,7 +52,7 @@ struct TutorialNavigationView: View {
         let frameY = appService.tutorialManager.frame
             .minY - 100
         VStack {
-            Text(appService.tutorialManager.type?.rawValue.addSpaceBeforeCapitalizedLetters.capitalized ?? "?")
+            Text(appService.tutorialManager.type?.rawValue.addSpaceBeforeCapitalizedLetters.capitalized ?? "Well done!\nTutorial Completed!")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.black)
                 .disabled(true)
