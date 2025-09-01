@@ -37,7 +37,7 @@ struct SqueezeGeneratorApp: App {
                 .environment(\.colorScheme, .dark)
                 .preferredColorScheme(.dark)
                 .modifier(
-                    TutorialModifier()
+                    TutorialPresenterModifier()
                 )
                 .modifier(
                     AlertModifier()

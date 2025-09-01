@@ -77,10 +77,10 @@
 		82C5E61C2E36F81E00A5EE27 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C5E61B2E36F81E00A5EE27 /* BlurView.swift */; };
 		82CDB6EF2E5E545B00EE5CC4 /* MenuIconShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB6EE2E5E545B00EE5CC4 /* MenuIconShape.swift */; };
 		82CDB7102E5F62D300EE5CC4 /* TutorialNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB70F2E5F62D300EE5CC4 /* TutorialNavigationView.swift */; };
-		82CDB7132E5F62FD00EE5CC4 /* TutorialModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7122E5F62FD00EE5CC4 /* TutorialModifier.swift */; };
+		82CDB7132E5F62FD00EE5CC4 /* TutorialPresenterModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7122E5F62FD00EE5CC4 /* TutorialPresenterModifier.swift */; };
 		82CDB7162E5F78B600EE5CC4 /* AppServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7152E5F78B600EE5CC4 /* AppServiceManager.swift */; };
 		82CDB7182E5F78E000EE5CC4 /* TutorialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7172E5F78E000EE5CC4 /* TutorialManager.swift */; };
-		82CDB71A2E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7192E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift */; };
+		82CDB71A2E5F7B3600EE5CC4 /* TutorialTargetModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB7192E5F7B3600EE5CC4 /* TutorialTargetModifier.swift */; };
 		82CDB71C2E5F81B100EE5CC4 /* TapThroughtModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CDB71B2E5F81B100EE5CC4 /* TapThroughtModifier.swift */; };
 		82CE1E872E4FE09C008F28E8 /* HomeIllustrutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CE1E862E4FE09C008F28E8 /* HomeIllustrutionView.swift */; };
 		82E570652E34203F00922F5B /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E570642E34203E00922F5B /* CardsView.swift */; };
@@ -186,10 +186,10 @@
 		82C5E61B2E36F81E00A5EE27 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		82CDB6EE2E5E545B00EE5CC4 /* MenuIconShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuIconShape.swift; sourceTree = "<group>"; };
 		82CDB70F2E5F62D300EE5CC4 /* TutorialNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialNavigationView.swift; sourceTree = "<group>"; };
-		82CDB7122E5F62FD00EE5CC4 /* TutorialModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialModifier.swift; sourceTree = "<group>"; };
+		82CDB7122E5F62FD00EE5CC4 /* TutorialPresenterModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialPresenterModifier.swift; sourceTree = "<group>"; };
 		82CDB7152E5F78B600EE5CC4 /* AppServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServiceManager.swift; sourceTree = "<group>"; };
 		82CDB7172E5F78E000EE5CC4 /* TutorialManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialManager.swift; sourceTree = "<group>"; };
-		82CDB7192E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialTargetViewModifier.swift; sourceTree = "<group>"; };
+		82CDB7192E5F7B3600EE5CC4 /* TutorialTargetModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialTargetModifier.swift; sourceTree = "<group>"; };
 		82CDB71B2E5F81B100EE5CC4 /* TapThroughtModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapThroughtModifier.swift; sourceTree = "<group>"; };
 		82CE1E862E4FE09C008F28E8 /* HomeIllustrutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeIllustrutionView.swift; sourceTree = "<group>"; };
 		82E570642E34203E00922F5B /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
@@ -539,8 +539,8 @@
 		82CDB7232E5FF0E100EE5CC4 /* TutorialModifier */ = {
 			isa = PBXGroup;
 			children = (
-				82CDB7122E5F62FD00EE5CC4 /* TutorialModifier.swift */,
-				82CDB7192E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift */,
+				82CDB7122E5F62FD00EE5CC4 /* TutorialPresenterModifier.swift */,
+				82CDB7192E5F7B3600EE5CC4 /* TutorialTargetModifier.swift */,
 			);
 			path = TutorialModifier;
 			sourceTree = "<group>";
@@ -728,7 +728,7 @@
 				82E60AC52E62405A004CAD0C /* NavigationBackgroundModifier.swift in Sources */,
 				821FF9A62E64B0C2003E9B3E /* UIWindow.swift in Sources */,
 				82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */,
-				82CDB7132E5F62FD00EE5CC4 /* TutorialModifier.swift in Sources */,
+				82CDB7132E5F62FD00EE5CC4 /* TutorialPresenterModifier.swift in Sources */,
 				82CDB7162E5F78B600EE5CC4 /* AppServiceManager.swift in Sources */,
 				82719B162E5DF84200176AE4 /* SidebarModifier.swift in Sources */,
 				821229A42E658FFC00BCB83E /* CachedAsyncImage.swift in Sources */,
@@ -750,7 +750,7 @@
 				82AF8B872E2D2C4000CC3FAD /* NetworkRequest.swift in Sources */,
 				82CE1E872E4FE09C008F28E8 /* HomeIllustrutionView.swift in Sources */,
 				82BA0D172E4873AD009ECC61 /* Configuration.swift in Sources */,
-				82CDB71A2E5F7B3600EE5CC4 /* TutorialTargetViewModifier.swift in Sources */,
+				82CDB71A2E5F7B3600EE5CC4 /* TutorialTargetModifier.swift in Sources */,
 				8239CD6A2E50F2E4009CBED6 /* ContentHomeCollectionView.swift in Sources */,
 				82C5E61C2E36F81E00A5EE27 /* BlurView.swift in Sources */,
 				8242881E2E305730000E12EB /* RequestParametersView.swift in Sources */,

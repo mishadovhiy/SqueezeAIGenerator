@@ -37,7 +37,7 @@ struct RequestParametersView: View {
             ToolbarItem(placement: .navigation) {
                 if let dbResponses, !dbResponses.isEmpty {
                     toolBar(dbResponses)
-                        .modifier(TutorialTargetViewModifier(targetType: .pressTypeDetailDB))
+                        .modifier(TutorialTargetModifier(targetType: .pressTypeDetailDB))
                 }
             }
         }
@@ -148,7 +148,7 @@ struct RequestParametersView: View {
         .animation(.bouncy(duration: 0.5), value: request?.difficulty)
         .padding(.bottom, 14)
         .padding(.horizontal, 10)
-        .modifier(TutorialTargetViewModifier(targetType: .difficulty))
+        .modifier(TutorialTargetModifier(targetType: .selectDifficulty))
     }
 
     var categoryImage: some View {
@@ -175,7 +175,7 @@ struct RequestParametersView: View {
         ForEach(NetworkRequest.SqueezeRequest.Difficulty.allCases,
                 id:\.rawValue) { difficulty in
             Button {
-                appService.tutorialManager.removeTypeWhenMatching(.difficulty)
+                appService.tutorialManager.removeTypeWhenMatching(.selectDifficulty)
                 withAnimation(.smooth) {
                     if request?.difficulty == difficulty {
                         request?.difficulty = nil

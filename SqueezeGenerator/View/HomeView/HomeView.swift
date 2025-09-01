@@ -124,7 +124,7 @@ struct HomeView: View {
                         radius: 20,
                         x: 20, y: 15
                     )
-                    .modifier(TutorialTargetViewModifier(targetType: .pressGenerate))
+                    .modifier(TutorialTargetModifier(targetType: .pressGenerate))
             }
 
         }

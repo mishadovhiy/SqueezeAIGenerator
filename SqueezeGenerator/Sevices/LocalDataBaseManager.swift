@@ -127,13 +127,39 @@ extension DataBase {
 
         /// - upon completion, next type is setted, in the order declared in .allCases
         enum TutorialType: String, Codable, CaseIterable {
-            case selectParentCategory, selectType, difficulty
+            case selectParentCategory, selectType, selectDifficulty
             case pressGenerate, selectOption, swipeOption,
                  waitingForSqueezeCompletion, generateResult
             case selectTypeDB, pressTypeDetailDB
 
             var index: Int {
                 Self.allCases.firstIndex(of: self) ?? 0
+            }
+            
+            var isLocalX: Bool {
+                switch self {
+                case .pressGenerate: false
+                default: true
+                }
+            }
+            
+            var xPositionFromStart: Bool {
+                switch self {
+                case .pressGenerate, .pressTypeDetailDB: true
+                default: false
+                }
+            }
+            
+            var screen: Screen {
+                switch self {
+                case .selectType, .selectTypeDB, .selectParentCategory: .home
+                case .selectDifficulty, .pressTypeDetailDB: .requestParameters
+                case .pressGenerate, .swipeOption, .selectOption, .waitingForSqueezeCompletion, .generateResult: .card
+                }
+            }
+            
+            enum Screen {
+                case home, requestParameters, card
             }
             //wellcome, home,
         }

@@ -20,7 +20,7 @@ struct CardsView: View {
             cardCompletionView
             contentView
         }
-        .modifier(TutorialTargetViewModifier(targetType: .waitingForSqueezeCompletion))
+        .modifier(TutorialTargetModifier(targetType: .waitingForSqueezeCompletion))
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 removeLastActionButton
@@ -244,7 +244,7 @@ struct CardsView: View {
         .frame(height: height >= 20 ? height - 20 : 0)
         .animation(.bouncy(duration: 0.9), value: data.id == currentData?.id)
         .transition(.move(edge: .bottom))
-        .modifier(TutorialTargetViewModifier(targetType: .selectOption))
+        .modifier(TutorialTargetModifier(targetType: .selectOption))
     }
 
     @ViewBuilder
@@ -267,7 +267,7 @@ struct CardsView: View {
                 cardGesture
             )
             .disabled(currentData?.id != data.id)
-            .modifier(TutorialTargetViewModifier(targetType: .swipeOption))
+            .modifier(TutorialTargetModifier(targetType: .swipeOption))
     }
 
     var cardGesture: some Gesture {

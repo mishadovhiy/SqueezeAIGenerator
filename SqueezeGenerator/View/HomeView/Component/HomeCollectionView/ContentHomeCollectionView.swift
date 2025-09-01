@@ -26,7 +26,7 @@ struct ContentHomeCollectionView<Content: View>: View {
                 sectionContent
             } header: {
                 sectionHeader
-                    .modifier(TutorialTargetViewModifier(targetType: .selectParentCategory))
+                    .modifier(TutorialTargetModifier(targetType: .selectParentCategory))
             }
         }
     }
@@ -173,8 +173,8 @@ struct ContentHomeCollectionView<Content: View>: View {
 //            .frame(height: viewModel.contentHeight)
 //            .animation(.bouncy, value: viewModel.selectedGeneralKeyID)
             .modifier(ScrollReaderModifier(scrollPosition: $viewModel.scrollPosition))
-            .modifier(TutorialTargetViewModifier(targetType: .selectType))
-            .modifier(TutorialTargetViewModifier(targetType: .selectTypeDB))
+            .modifier(TutorialTargetModifier(targetType: .selectType))
+            .modifier(TutorialTargetModifier(targetType: .selectTypeDB))
 
         }
         .padding(.horizontal, viewModel.collectionSubviewPaddings)

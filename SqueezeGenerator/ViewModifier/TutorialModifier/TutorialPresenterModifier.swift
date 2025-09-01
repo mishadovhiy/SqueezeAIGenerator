@@ -8,7 +8,7 @@
 import SwiftUI
 
 ///- waits for TutorialType to be setted to nil
-struct TutorialModifier: ViewModifier, TutorialModifierUIService {
+struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
     @EnvironmentObject var appService: AppServiceManager
     @EnvironmentObject var db: LocalDataBaseManager
     @State var appAppeared: Bool = false
@@ -78,7 +78,7 @@ protocol TutorialModifierUIService { }
 
 extension ViewModifier  where Self: TutorialModifierUIService {
     var defaultAnimation: Animation {
-        .bouncy(duration: 0.4)
+        .smooth(duration: 0.4)
     }
     
     var animationDuration: CGFloat { 0.4 }

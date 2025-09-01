@@ -38,7 +38,7 @@ struct CardCompletionView: View {
                 }
                 .cornerRadius(12)
                 .shadow(color: .init(uiColor: tintColor), radius: 12)
-                .modifier(TutorialTargetViewModifier(targetType: .generateResult))
+                .modifier(TutorialTargetModifier(targetType: .generateResult))
             }
             .offset(y: -120)
         }
