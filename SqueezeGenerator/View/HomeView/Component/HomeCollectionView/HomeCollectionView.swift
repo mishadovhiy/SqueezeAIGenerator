@@ -97,21 +97,7 @@ struct HomeCollectionView: View {
                     .frame(maxWidth: viewModel.selectedGeneralKeyID == nil ? .zero : .infinity)
                     .animation(.smooth, value: viewModel.selectedGeneralKeyID)
                 if let url: URL = .init(string: item.imageURL) {
-                    AsyncImage(url: url) {
-                        switch $0 {
-                        case .empty:
-                            ProgressView()
-                                .progressViewStyle(.circular)
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .opacity(0.9)
-                                .frame(alignment: .trailing)
-                        default:
-                            EmptyView()
-                        }
-                    }
+                    CachedAsyncImage(url: item.imageURL)
                     .shadow(radius: 15)
                 }
             }

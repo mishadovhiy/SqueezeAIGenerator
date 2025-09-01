@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8212299F2E656D6A00BCB83E /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8212299E2E656D6A00BCB83E /* UIFont.swift */; };
+		821229A22E658E5F00BCB83E /* SqueezeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821229A12E658E5F00BCB83E /* SqueezeRequest.swift */; };
+		821229A42E658FFC00BCB83E /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821229A32E658FFC00BCB83E /* CachedAsyncImage.swift */; };
 		821FF99C2E64B056003E9B3E /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF99B2E64B056003E9B3E /* AlertManager.swift */; };
 		821FF9A02E64B07E003E9B3E /* AlertContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF99F2E64B07E003E9B3E /* AlertContentModel.swift */; };
 		821FF9A62E64B0C2003E9B3E /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821FF9A52E64B0C2003E9B3E /* UIWindow.swift */; };
@@ -44,7 +46,7 @@
 		82AF8B862E2D2C4000CC3FAD /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B6D2E2D2C4000CC3FAD /* NetworkResponse.swift */; };
 		82AF8B872E2D2C4000CC3FAD /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B6F2E2D2C4000CC3FAD /* NetworkRequest.swift */; };
 		82AF8B882E2D2C4000CC3FAD /* NetworkRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B702E2D2C4000CC3FAD /* NetworkRequestManager.swift */; };
-		82AF8B892E2D2C4000CC3FAD /* SqueezeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B712E2D2C4000CC3FAD /* SqueezeRequest.swift */; };
+		82AF8B892E2D2C4000CC3FAD /* ResultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B712E2D2C4000CC3FAD /* ResultRequest.swift */; };
 		82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B732E2D2C4000CC3FAD /* NetworkModel.swift */; };
 		82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B752E2D2C4000CC3FAD /* CollectionView.swift */; };
 		82AF8B8C2E2D2C4000CC3FAD /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B762E2D2C4000CC3FAD /* CollectionViewCell.swift */; };
@@ -110,6 +112,9 @@
 
 /* Begin PBXFileReference section */
 		8212299E2E656D6A00BCB83E /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
+		821229A02E658A9F00BCB83E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		821229A12E658E5F00BCB83E /* SqueezeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SqueezeRequest.swift; sourceTree = "<group>"; };
+		821229A32E658FFC00BCB83E /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
 		821FF99B2E64B056003E9B3E /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		821FF99F2E64B07E003E9B3E /* AlertContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertContentModel.swift; sourceTree = "<group>"; };
 		821FF9A52E64B0C2003E9B3E /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
@@ -149,7 +154,7 @@
 		82AF8B6D2E2D2C4000CC3FAD /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
 		82AF8B6F2E2D2C4000CC3FAD /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		82AF8B702E2D2C4000CC3FAD /* NetworkRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestManager.swift; sourceTree = "<group>"; };
-		82AF8B712E2D2C4000CC3FAD /* SqueezeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SqueezeRequest.swift; path = ../../Sevices/NetworkModel/Request/SqueezeRequest.swift; sourceTree = "<group>"; };
+		82AF8B712E2D2C4000CC3FAD /* ResultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResultRequest.swift; path = ../../Sevices/NetworkModel/Request/ResultRequest.swift; sourceTree = "<group>"; };
 		82AF8B732E2D2C4000CC3FAD /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		82AF8B752E2D2C4000CC3FAD /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		82AF8B762E2D2C4000CC3FAD /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
@@ -242,7 +247,8 @@
 				821FF9C52E64B928003E9B3E /* FetchHTMLRequest.swift */,
 				821FF9C12E64B6F4003E9B3E /* SupportRequest.swift */,
 				821FF9C72E64B930003E9B3E /* SqueezeResultRequest.swift */,
-				82AF8B712E2D2C4000CC3FAD /* SqueezeRequest.swift */,
+				82AF8B712E2D2C4000CC3FAD /* ResultRequest.swift */,
+				821229A12E658E5F00BCB83E /* SqueezeRequest.swift */,
 			);
 			path = NetworkRequest;
 			sourceTree = "<group>";
@@ -407,6 +413,7 @@
 		82AF8B812E2D2C4000CC3FAD /* SqueezeGenerator */ = {
 			isa = PBXGroup;
 			children = (
+				821229A02E658A9F00BCB83E /* Info.plist */,
 				82AF8B7F2E2D2C4000CC3FAD /* SqueezeGeneratorApp.swift */,
 				82BA0D182E4873ED009ECC61 /* Configuration */,
 				82E570682E342A8100922F5B /* Model */,
@@ -435,6 +442,7 @@
 			children = (
 				82AF8B982E2DCE2600CC3FAD /* ClearBackgroundView.swift */,
 				82BA0D102E484692009ECC61 /* ScrollReaderModifier.swift */,
+				821229A32E658FFC00BCB83E /* CachedAsyncImage.swift */,
 				82C5E61B2E36F81E00A5EE27 /* BlurView.swift */,
 				82C5E6192E36DB3400A5EE27 /* AttributedLabel.swift */,
 				82CDB6F02E5E548600EE5CC4 /* Shape */,
@@ -723,6 +731,7 @@
 				82CDB7132E5F62FD00EE5CC4 /* TutorialModifier.swift in Sources */,
 				82CDB7162E5F78B600EE5CC4 /* AppServiceManager.swift in Sources */,
 				82719B162E5DF84200176AE4 /* SidebarModifier.swift in Sources */,
+				821229A42E658FFC00BCB83E /* CachedAsyncImage.swift in Sources */,
 				82AF8B842E2D2C4000CC3FAD /* AdviceQuestionModel.swift in Sources */,
 				82AF8B852E2D2C4000CC3FAD /* CategoriesResponse.swift in Sources */,
 				82BA0D1A2E487428009ECC61 /* Padding_Configuration.swift in Sources */,
@@ -755,8 +764,9 @@
 				82E570672E342A7400922F5B /* CardData.swift in Sources */,
 				821FF9CA2E64B948003E9B3E /* OpenAIPrompt.swift in Sources */,
 				82BA0D212E4877D6009ECC61 /* Font.swift in Sources */,
+				821229A22E658E5F00BCB83E /* SqueezeRequest.swift in Sources */,
 				822A44342E4019D400B5CF32 /* DBCategoriyView.swift in Sources */,
-				82AF8B892E2D2C4000CC3FAD /* SqueezeRequest.swift in Sources */,
+				82AF8B892E2D2C4000CC3FAD /* ResultRequest.swift in Sources */,
 				821FF9A82E64B0F2003E9B3E /* UINavigationController.swift in Sources */,
 				82BA594E2E301F7C009B8913 /* ResultView.swift in Sources */,
 				82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */,
@@ -953,6 +963,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SqueezeGenerator/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -993,6 +1004,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SqueezeGenerator/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

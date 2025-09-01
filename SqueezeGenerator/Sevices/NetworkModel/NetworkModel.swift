@@ -80,4 +80,22 @@ struct NetworkModel {
         }
         sesson.resume()
     }
+    
+    func loadFile(url: String, cacheOnly: Bool = false, completion: @escaping(_ image: Data?)->()) {
+        guard let urlResult: URL = .init(string: url) else {
+            completion(nil)
+            return
+        }
+        let request: URLRequest = .init(url: urlResult, cachePolicy: cacheOnly ? .returnCacheDataDontLoad : .returnCacheDataElseLoad)
+        let sesson = URLSession.shared.dataTask(with: request) { data, response, error in
+            if data?.isEmpty ?? true && !cacheOnly {
+                self.loadFile(url: url, cacheOnly: true, completion: completion)
+                return
+            }
+            DispatchQueue.main.async {
+                completion(data)
+            }
+        }
+        sesson.resume()
+    }
 }

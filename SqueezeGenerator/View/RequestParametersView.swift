@@ -154,22 +154,7 @@ struct RequestParametersView: View {
     var categoryImage: some View {
         HStack {
             Spacer()
-            AsyncImage(url: .init(string: selectedCategory?.imageURL ?? "")) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 80)
-                default:
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(.red)
-                        .frame(width: 60)
-                }
-            }
+            CachedAsyncImage(url: selectedCategory?.imageURL ?? "")
             .padding(25)
             .blurBackground()
             .cornerRadius(100)

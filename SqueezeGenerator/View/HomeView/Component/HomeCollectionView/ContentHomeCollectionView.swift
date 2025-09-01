@@ -62,18 +62,7 @@ struct ContentHomeCollectionView<Content: View>: View {
     }
 
     func cellImage(_ item: CollectionViewController.CollectionData) -> some View {
-        AsyncImage(url: .init(string: item.imageURL)) {
-            switch $0 {
-            case .empty:
-                ProgressView().progressViewStyle(.circular)
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFit()
-            default:
-                EmptyView()
-            }
-        }
+        CachedAsyncImage(url: item.imageURL)
         .frame(width: 40)
         .aspectRatio(1, contentMode: .fit)
         .padding(10)
