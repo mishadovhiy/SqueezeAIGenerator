@@ -9,11 +9,12 @@ import SwiftUI
 
 ///- waits for TutorialType to be setted to nil
 struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
-    @EnvironmentObject var appService: AppServiceManager
-    @EnvironmentObject var db: LocalDataBaseManager
-    @State var appAppeared: Bool = false
+    
+    @EnvironmentObject private var appService: AppServiceManager
+    @EnvironmentObject private var db: LocalDataBaseManager
+    @State private var appAppeared: Bool = false
     @State private var currentService: DataBase.Tutorial.TutorialType?
-
+    
     func body(content: Content) -> some View {
         content
             .overlay {
@@ -22,46 +23,11 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
                         .transition(.asymmetric(insertion: .opacity, removal: .scale))
                         .animation(.spring(), value: appAppeared)
                         .onAppear {
-                            Task(priority: .background) {
-                                let firstTutorial = db.db.tutorials.needPresenting(after: nil)
-                                await MainActor.run {
-                                    withAnimation(defaultAnimation) {
-            #warning("remove test, set to from db")
-                                        appService.tutorialManager.type = firstTutorial
-                                    }
-
-                                    if firstTutorial == nil {
-                                        appService.tutorialManager.needTutorial = false
-                                    }
-                                }
-                            }
+                            checkIfNeedTutorial()
                         }
                         .onChange(of: appService.tutorialManager.type) { newValue in
                             if newValue == nil {
-                                print("servicenil")
-                                withAnimation(defaultAnimation) {
-                                    appService.tutorialManager.frame = .zero
-                                }
-                                DispatchQueue.main
-                                    .asyncAfter(deadline: .now() + .milliseconds(Int(self.animationDuration * 100)), execute: {
-                                    Task(priority: .background) {
-                                        if let currentService {
-                                            let type = db.db.tutorials.complete(currentService)
-                                            if let value = db.db.tutorials.needPresenting(after: currentService) {
-                                                print(value, " yregfwedsax ")
-                                                await MainActor.run {
-                                                    withAnimation(self.defaultAnimation) {
-                                                        appService.tutorialManager.type = type
-                                                    }
-                                                }
-                                            } else {
-                                                appService.tutorialManager.needTutorial = false
-                                            }
-                                        }
-
-                                    }
-                                })
-
+                                completeTutorial()
                             } else {
                                 currentService = newValue
                             }
@@ -69,8 +35,51 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
                         .opacity(appService.tutorialManager.type == nil ? 0 : 1)
                         .animation(.smooth, value: appService.tutorialManager.type == nil)
                 }
-
             }
+    }
+    
+    func checkIfNeedTutorial() {
+        Task(priority: .background) {
+            let firstTutorial = db.db.tutorials.needPresenting(after: nil)
+            await MainActor.run {
+                withAnimation(defaultAnimation) {
+                    appService.tutorialManager.type = firstTutorial
+                }
+                
+                if firstTutorial == nil {
+                    appService.tutorialManager.needTutorial = false
+                }
+            }
+        }
+    }
+    
+    func completeTutorial() {
+        withAnimation(defaultAnimation) {
+            appService.tutorialManager.frame = .zero
+        }
+        DispatchQueue.main
+            .asyncAfter(deadline: .now() + .milliseconds(Int(self.animationDuration * 100)), execute: {
+                completedTutorialDB()
+            })
+    }
+    
+    func completedTutorialDB() {
+        Task(priority: .background) {
+            if let currentService {
+                let type = db.db.tutorials.complete(currentService)
+                if let value = db.db.tutorials.needPresenting(after: currentService) {
+                    await MainActor.run {
+                        withAnimation(self.defaultAnimation) {
+                            appService.tutorialManager.type = type
+                        }
+                    }
+                } else {
+                    await MainActor.run() {
+                        appService.tutorialManager.needTutorial = false
+                    }
+                }
+            }
+        }
     }
 }
 
