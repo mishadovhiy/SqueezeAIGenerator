@@ -5,7 +5,7 @@ struct HomeView: View {
     @EnvironmentObject private var appService: AppServiceManager
     @StateObject var viewModel: HomeViewModel = .init()
     @StateObject var navigationManager: NavigationManager = .init()
-
+    
     var body: some View {
         let buttonsHeight = viewModel.buttonsViewHeight
         ZStack {
@@ -67,7 +67,7 @@ struct HomeView: View {
             viewModel.navManager = self.navigationManager
         }
     }
-
+    
     @ViewBuilder
     var networkResponseView: some View {
         if viewModel.appDataLoading || (viewModel.rqStarted && viewModel.response == nil) {
@@ -99,42 +99,42 @@ struct HomeView: View {
                     }
                     .opacity(disabled ? 0.3 : 1)
                     .foregroundColor(isLight ? .black.opacity(0.7) : .white)
-
-
+                    
+                    
                 }
-                    .padding(.horizontal, 50)
-                    .frame(height: needButton)
-                    .clipped()
-                    .background(
-                        Color(
-                            uiColor: buttonBackground
-                        )
+                .padding(.horizontal, 50)
+                .frame(height: needButton)
+                .clipped()
+                .background(
+                    Color(
+                        uiColor: buttonBackground
                     )
-                    .overlay(content: {
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(Color(uiColor: buttonBackground), lineWidth: 2)
-                            .shadow(radius: 10)
-                    })
-                    .cornerRadius(16)
-                    .disabled(disabled)
-                    .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
-                    .animation(.smooth, value: needButton > 0)
-                    .shadow(
-                        color: Color(uiColor: buttonBackground),
-                        radius: 20,
-                        x: 20, y: 15
-                    )
-                    .modifier(TutorialTargetModifier(targetType: .pressGenerate))
+                )
+                .overlay(content: {
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color(uiColor: buttonBackground), lineWidth: 2)
+                        .shadow(radius: 10)
+                })
+                .cornerRadius(16)
+                .disabled(disabled)
+                .foregroundColor(.white.opacity(viewModel.selectedRequest?.difficulty == nil && viewModel.selectedRequest != nil ? 0.5 : 1))
+                .animation(.smooth, value: needButton > 0)
+                .shadow(
+                    color: Color(uiColor: buttonBackground),
+                    radius: 20,
+                    x: 20, y: 15
+                )
+                .modifier(TutorialTargetModifier(targetType: .pressGenerate))
             }
-
+            
         }
         .padding(.horizontal, 5)
         .padding(.bottom, 15)
-//        actionButtonsView
+        //        actionButtonsView
     }
-
-
-
+    
+    
+    
     var actionButtonsView: some View {
         ForEach(viewModel.currentQuestion?.options ?? [], id: \.id) { option in
             Button(option.optionName + " (\(option.grade))") {
@@ -157,7 +157,7 @@ struct HomeView: View {
         .animation(.smooth, value: viewModel.response != nil)
         .clipped()
     }
-
+    
     var homeRoot: some View {
         VStack {
             if viewModel.response != nil {
@@ -167,65 +167,66 @@ struct HomeView: View {
                         viewModel.rqStarted = false
                     }
                 }))
-
+                
             } else {
                 HomeCollectionView()
                     .environmentObject(viewModel)
-                    .overlay {
-                        VStack {
-                            Button("cards") {
-                                navigationManager.append(
-                                        .cardView(
-                                            .init(
-                                                properties: .init(
-                                                    type: "demo",
-                                                    selectedResponseItem: nil,
-                                                    data: .demo
-                                                ),
-                                                completedSqueeze: { selection in
-
-                                        })
-)
-                                    )
-                            }
-                            .frame(height: 40)
-                            Spacer()
-                        }
-                    }
             }
-
+            
         }
         .opacity(navigationManager.routs.isEmpty ? 1 : 0)
         .animation(.smooth, value: navigationManager.routs.isEmpty)
     }
-
+    
+    var testCardsButton: some View {
+        VStack {
+            Button("cards") {
+                navigationManager.append(
+                    .cardView(
+                        .init(
+                            properties: .init(
+                                type: "demo",
+                                selectedResponseItem: nil,
+                                data: .demo
+                            ),
+                            completedSqueeze: { selection in
+                                
+                            })
+                    )
+                )
+            }
+            .frame(height: 40)
+            Spacer()
+        }
+    }
+    
     var navigationStack: some View {
         NavigationStack(path: $navigationManager.routs) {
             homeRoot
-            .navigationDestination(for: NavigationRout.self) { navRout in
-                navRout.body($viewModel.selectedRequest)
-                    .opacity(navigationManager.routs.last == navRout ? 1 : 0)
-                    .background {
-                        ClearBackgroundView()
-                    }
-                    .animation(.smooth, value: navigationManager.routs.last == navRout)
-
-            }
-            .background {
-                ClearBackgroundView()
-            }
-            .onChange(of: navigationManager.routs) { newValue in
-                if newValue.isEmpty && !viewModel.rqStarted {
-                    withAnimation {
-                        viewModel.selectedRequest = nil
+                .navigationDestination(for: NavigationRout.self) { navRout in
+                    navRout.body($viewModel.selectedRequest)
+                        .opacity(navigationManager.routs.last == navRout ? 1 : 0)
+                        .background {
+                            ClearBackgroundView()
+                        }
+                        .animation(.smooth, value: navigationManager.routs.last == navRout)
+                    
+                }
+                .background {
+                    ClearBackgroundView()
+                }
+                .onChange(of: navigationManager.routs) { newValue in
+                    if newValue.isEmpty && !viewModel.rqStarted {
+                        withAnimation {
+                            viewModel.selectedRequest = nil
+                        }
                     }
                 }
-            }
-            .navigationBarTitleDisplayMode(.large)
-            .onAppear {
-                appService.tutorialManager.removeTypeWhenMatching(.waitingForSqueezeCompletion, .generateResult)
-            }
-
+                .navigationBarTitleDisplayMode(.large)
+                .onAppear {
+                    appService.tutorialManager.removeTypeWhenMatching(.waitingForSqueezeCompletion, .generateResult)
+                }
+            
         }
         .tint(.white)
         .navigationViewStyle(StackNavigationViewStyle())
