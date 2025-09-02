@@ -13,6 +13,7 @@ struct CollectionView: UIViewControllerRepresentable {
     @Binding var contentHeight:CGFloat
     var isopacityCells: Bool = true
     var canUpdate = true
+    var isDark: Bool = false
     let data: [CollectionViewController.CollectionData]
     var didSelect:((_ at:Int?)->())?
 
@@ -23,6 +24,7 @@ struct CollectionView: UIViewControllerRepresentable {
         layout.minimumLineSpacing = 12
         let vc = CollectionViewController(collectionViewLayout: layout)
         vc.data = data
+        vc.isDark = isDark
         vc.isopacityCells = isopacityCells
         vc.dataUpdated = false
         vc.contentHeightUpdated = {
@@ -57,6 +59,7 @@ class CollectionViewController: UICollectionViewController {
     var didSelectRow:((_ row:Int?) -> ())?
     var dataUpdated = false
     var dict:(CGFloat,Int) = (0,0)
+    var isDark: Bool = false
 
     var contentHeightUpdated:((_ newHeight:CGFloat)->())?
     private var heightHolder:CGFloat = 0 {
@@ -113,7 +116,7 @@ class CollectionViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .init(describing: CollectionViewCell.self), for: indexPath) as! CollectionViewCell
-        cell.set(data[indexPath.row], isWhite: !isopacityCells)
+        cell.set(data[indexPath.row], isWhite: !isopacityCells, isDark: !isDark)
         return cell
     }
     
@@ -131,7 +134,7 @@ class FlowLayout: UICollectionViewFlowLayout {
         self.minimumInteritemSpacing = minimumInteritemSpacing
         self.minimumLineSpacing = minimumLineSpacing
         self.sectionInset = sectionInset
-        sectionInsetReference = .fromSafeArea
+        sectionInsetReference = .fromContentInset
     }
     
     required init?(coder aDecoder: NSCoder) {

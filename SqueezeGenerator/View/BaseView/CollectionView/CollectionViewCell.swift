@@ -70,7 +70,7 @@ class CollectionViewCell: UICollectionViewCell {
     }
 
     func set(_ data: CollectionViewController.CollectionData,
-             isWhite: Bool) {
+             isWhite: Bool, isDark: Bool) {
         label?.text = data.title.capitalized
         let progress = Float(data.percent ?? "") ?? 0
         progressView!.isHidden = progress == 0
@@ -82,21 +82,22 @@ class CollectionViewCell: UICollectionViewCell {
         }
         label?.font =
             .systemFont(
-                ofSize: isWhite ? 13 : data.fontSize,
-                weight: isWhite ? .medium : data.fontWeight
+                ofSize: 11,
+                weight: .medium
             )
-        if let background = data.cellBackground {
-            backgroundColoredView?.backgroundColor = (data.isType ? background : .white)
-                .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.2 : 0.1))
+        backgroundColoredView?.backgroundColor = data.isType ? .red
+        : (isDark ? UIColor.init(hex: "29466A")! : .white)
+        let isBackgroundLight = backgroundColoredView?.backgroundColor?.isLight ?? true
+        if isBackgroundLight {
+            backgroundColoredView?.layer.borderColor = UIColor(hex: "29466A")!.cgColor
 
         } else {
-            backgroundColoredView?.backgroundColor = data.isType ? .red
-                .withAlphaComponent(isWhite ? 1 : 0.2) : .white
-                .withAlphaComponent(data.isSelected ? 1 : 0.1)
+            backgroundColoredView?.layer.borderColor = UIColor.white.cgColor
+
         }
-        let isBackgroundLight = backgroundColoredView?.backgroundColor?.isLight ?? true
-        label?.textColor = isWhite && data.isSelected ? (isBackgroundLight ? .black : .white) : (
-            isWhite ? (isBackgroundLight ? UIColor.black : UIColor.white) : .white
+        backgroundColoredView?.layer.borderWidth = 2
+        label?.textColor = isWhite && data.isSelected ? (isBackgroundLight ? UIColor(hex: "29466A")! : .white) : (
+            isWhite ? (isBackgroundLight ? UIColor(hex: "29466A")! : UIColor.white) : .white
         )
         .withAlphaComponent(isWhite ? 1 : (!data.isType ? 0.5 : 0.8))
         descriptionLabel?.text = data.description

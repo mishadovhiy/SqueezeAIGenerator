@@ -10,7 +10,7 @@ import SwiftUI
 struct CardView: View {
     let viewSize: CGSize
     let data: CardData
-    let viewModel: CardsViewModel
+    @EnvironmentObject private var viewModel: CardsViewModel
     @EnvironmentObject private var appService: AppServiceManager
 
     var body: some View {
@@ -41,30 +41,43 @@ struct CardView: View {
         let currentData = viewModel.currentData
         let backgroundColor = data.color
         let isLightBackground = backgroundColor.isLight
+        let isDark = (viewModel.data.firstIndex(of: data) ?? 0) % 2 == 0
         VStack {
-            VStack {
-                cardTextualContentView(data, isLightBackground)
-                Spacer().frame(maxHeight: .infinity)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            cardTextualContentView(data, isLightBackground)
+            Spacer()
             if data.id == currentData?.id {
                 cardCollection(
                     data,
                     height: height,
-                    currentData: currentData
+                    currentData: currentData, isDark: isDark
                 )
             }
 
         }
-        .padding(.top, 25)
-        .padding(.horizontal, 10)
-        .padding(.bottom, 10)
+        .padding(.top, 15)
+        .padding(.horizontal, 30)
+        .padding(.bottom, 20)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: backgroundColor.withAlphaComponent(0.2)).opacity(0.3))
-        .background(.white)
+        .background(content: {
+            ZStack(content: {
+                if isDark {
+                    Color.init(uiColor: .init(hex: "29466A")!)
+                }
+                Color.white
+                    .cornerRadius(30)
+                    .padding(isDark ? 20 : 0)
+                if !isDark {
+                    Color.init(uiColor: .init(hex: "29466A")!)
+                        .cornerRadius(30)
+                        .padding(20)
+
+                }
+
+            })
+            .cornerRadius(30)
+            .shadow(radius: 20)
+        })
         .animation(.smooth, value: currentData)
-        .cornerRadius(30)
-        .shadow(radius: 20)
     }
 
     var cardGesture: some Gesture {
@@ -87,17 +100,18 @@ struct CardView: View {
     func cardCollection(
         _ data: CardData,
         height: CGFloat,
-        currentData: CardData?
+        currentData: CardData?, isDark: Bool
     ) -> some View {
         CollectionView(contentHeight: .init(get: {
             height
         }, set: {
             viewModel.collectionHeight.updateValue($0, forKey: data.id)
-        }), isopacityCells: false, canUpdate: false, data: data.buttons) { at in
+        }), isopacityCells: false, canUpdate: false, isDark: isDark, data: data.buttons) { at in
             appService.tutorialManager.removeTypeWhenMatching(.selectOption)
             viewModel.didSelectButton(button: data.buttons[at ?? 0])
         }
         .frame(height: height >= 20 ? height - 20 : 0)
+        .frame(maxWidth: .infinity)
         .animation(.bouncy(duration: 0.9), value: data.id == currentData?.id)
         .transition(.move(edge: .bottom))
         .modifier(TutorialTargetModifier(targetType: .selectOption))
@@ -107,17 +121,46 @@ struct CardView: View {
         _ data: CardData,
         _ isLightBackground: Bool
     ) -> some View {
-        VStack(spacing: 0) {
-            Text(data.title)
-                .foregroundColor(.black)
-                .font(.typed(data.title.count >= 40 ? .text : .largeTitle))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .opacity(!isLightBackground ? 0.4 : 0.2)
-            Spacer().frame(height: 5)
+        VStack(spacing: -54) {
+            HStack {
+                titleLabel
+                Spacer()
+            }
             Text(data.description)
                 .foregroundColor(.black)
-                .font(.typed(.section))
+                .font(.system(size: 15, weight: .semibold))
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(8)
+                .background(.white)
+                .cornerRadius(18)
+                .padding(.top, 5)
+                .padding(.leading, 4)
+                .padding(.trailing, 29)
+                .padding(.bottom, 8)
+                .background(.blue)
+                .cornerRadius(19)
+                .padding(.leading, 10)
+            
         }
+        .offset(y: -54)
+
+    }
+    
+    var titleLabel: some View {
+        Text(data.title)
+            .foregroundColor(.black)
+            .font(.typed(data.title.count >= 40 ? .text : .largeTitle))
+            .padding(.bottom, 54)
+            .padding(.horizontal, 19)
+            .padding(.top, 13)
+            .background(.white)
+            .cornerRadius(13)
+            .padding(.trailing, 4)
+            .padding(.leading, 17)
+            .padding(.top, 7)
+            .padding(.bottom, 8)
+            .background(.red)
+            .cornerRadius(14)
+            .offset(x: -20)
     }
 }

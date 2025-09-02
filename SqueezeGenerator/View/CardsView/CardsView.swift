@@ -35,6 +35,7 @@ struct CardsView: View {
         .onAppear {
             viewModel.viewDidAppear()
         }
+        .environmentObject(viewModel)
     }
 
     var cardCompletionView: some View {
@@ -129,7 +130,7 @@ struct CardsView: View {
                 Spacer().frame(height: 50)
                 ZStack(alignment: .center) {
                     ForEach(viewModel.data.reversed(), id: \.id) { data in
-                        CardView(viewSize: proxy.size, data: data, viewModel: viewModel)
+                        CardView(viewSize: proxy.size, data: data)
                     }
                 }
                 .frame(alignment: .center)
