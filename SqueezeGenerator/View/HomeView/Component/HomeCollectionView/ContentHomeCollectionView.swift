@@ -47,7 +47,7 @@ struct ContentHomeCollectionView<Content: View>: View {
 
     @ViewBuilder
     var appTitle: some View {
-        Text("Squeeze generator")
+        Text("Quiz generator")
             .multilineTextAlignment(.leading)
             .foregroundColor(.white.opacity(0.1))
             .padding(.horizontal, 15)

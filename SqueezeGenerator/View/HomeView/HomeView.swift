@@ -94,7 +94,7 @@ struct HomeView: View {
                     viewModel.primaryButtonPressed(db: db)
                 } label: {
                     HStack {
-                        Text(viewModel.response != nil ? "squeeze" : "Start")
+                        Text(viewModel.response != nil ? "quiz" : "Start")
                             .font(.system(size: 28, weight: .regular))
                             .shadow(radius: 5)
                     }
