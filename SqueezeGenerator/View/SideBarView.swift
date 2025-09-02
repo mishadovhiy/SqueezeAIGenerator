@@ -18,7 +18,9 @@ struct SideBarView: View {
                 navigationManager.append(.support)
             }
             
-            Spacer()
+            button("Rate us", image: .chart) {
+                StorekitModel().requestReview()
+            }
             button("Restart tutorial", image: .tutorial) {
                 DispatchQueue(label: "db", qos: .userInitiated).async {
                     db.db.tutorials = .init()
@@ -28,6 +30,8 @@ struct SideBarView: View {
                     }
                 }
             }
+            
+            Spacer()
             button("App website", image: .globe) {
                 let url = URL(string: Keys.websiteURL.rawValue)
                 guard let url, UIApplication.shared.canOpenURL(url) else {
