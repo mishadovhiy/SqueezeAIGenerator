@@ -149,6 +149,7 @@ struct ContentHomeCollectionView<Content: View>: View {
 
                 }
             })
+            .frame(maxWidth: 550)
 //            CollectionView(
 //                contentHeight: $viewModel.contentHeight,
 //                data: viewModel.collectionDataForKey,
