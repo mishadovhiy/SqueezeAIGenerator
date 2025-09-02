@@ -14,6 +14,7 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
     @EnvironmentObject private var db: LocalDataBaseManager
     @State private var appAppeared: Bool = false
     @State private var currentService: DataBase.Tutorial.TutorialType?
+    let appDataLoaded: Bool
     
     func body(content: Content) -> some View {
         content
@@ -22,10 +23,6 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
                     TutorialNavigationView()
                         .transition(.asymmetric(insertion: .opacity, removal: .scale))
                         .animation(.spring(), value: appAppeared)
-                        .onAppear {
-                            print(" gtefrwdassc")
-                            checkIfNeedTutorial()
-                        }
                         .onChange(of: appService.tutorialManager.type) { newValue in
                             appService.haptic.play()
                             if newValue == nil {
@@ -37,6 +34,11 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
                         .opacity(appService.tutorialManager.type == nil ? 0 : 1)
                         .animation(.smooth, value: appService.tutorialManager.type == nil)
                 }
+            }
+            .onChange(of: appDataLoaded) { newValue in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    checkIfNeedTutorial()
+                })
             }
     }
     

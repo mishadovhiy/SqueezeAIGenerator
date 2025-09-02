@@ -645,7 +645,7 @@ deadline: .now() + .milliseconds(300),
         let safeArea = proxy.safeAreaInsets.top + (safeAreaBottom == 0 ? 170 : safeAreaBottom)
         let screenSize = proxy.frame(in: .global).size.height
         let multiplier = UIDevice.current.userInterfaceIdiom == .pad ? 0.85 : 0.63
-        return (screenSize - safeArea) * multiplier
+        return (screenSize - safeArea) * (appDataLoading ? 1.5 : multiplier)
     }
 
     var maxScroll: CGFloat {

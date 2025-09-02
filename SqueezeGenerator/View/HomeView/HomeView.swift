@@ -5,6 +5,7 @@ struct HomeView: View {
     @EnvironmentObject private var appService: AppServiceManager
     @StateObject var viewModel: HomeViewModel = .init()
     @StateObject var navigationManager: NavigationManager = .init()
+    @Binding var appDataLoaded: Bool
     
     var body: some View {
         let buttonsHeight = viewModel.buttonsViewHeight
@@ -42,6 +43,11 @@ struct HomeView: View {
         .onChange(of: viewModel.collectionData) { newValue in
             if self.viewModel.statsPreview.isEmpty {
                 self.viewModel.dbUpdated(db)
+            }
+        }
+        .onChange(of: viewModel.appDataLoading) { newValue in
+            if !newValue {
+                appDataLoaded = true
             }
         }
         .onChange(of: viewModel.selectedIDs) { newValue in
@@ -160,7 +166,7 @@ struct HomeView: View {
                 }))
                 
             } else {
-                HomeCollectionView()
+                CategoryCollectionView()
                     .environmentObject(viewModel)
             }
             

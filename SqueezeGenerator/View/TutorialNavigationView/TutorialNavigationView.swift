@@ -64,18 +64,26 @@ struct TutorialNavigationView: View {
                 appService.tutorialManager.skipPressed = true
                 appService.tutorialManager.type = nil
             } label: {
-                Text("Skip")
-                    .padding(.horizontal, 15)
-                    .padding(.vertical, 4)
-                    .background(.blue)
-                    .cornerRadius(5)
-                    .foregroundColor(.white)
+                VStack {
+                    Text("Skip")
+                        .font(.system(size: 12, weight: .medium))
+                    Text("You can restart later")
+                        .font(.system(size: 7, weight: .light))
+                        .opacity(0.4)
+                }
+                .padding(.horizontal, 15)
+                .padding(.vertical, 4)
+                .foregroundColor(.white)
+                .background(.blue)
+                .cornerRadius(5)
             }
             .frame(alignment: .trailing)
+            .shadow(radius: 9)
             Spacer()
         }
         .opacity(appService.tutorialManager.type == DataBase.Tutorial.TutorialType.allCases.first ? 1 : 0)
         .animation(.smooth, value: appService.tutorialManager.type == DataBase.Tutorial.TutorialType.allCases.first)
+        .padding(.top, 5)
     }
     
     var blendOutComposition: some View {
@@ -143,6 +151,8 @@ struct TutorialNavigationView: View {
                 .background(content: {
                     Color.white
                         .cornerRadius(6)
+                        .opacity(0.4)
+                        .shadow(radius: 10)
                 })
                 .offset(y: frameY >= 0 ? frameY : 0)
 

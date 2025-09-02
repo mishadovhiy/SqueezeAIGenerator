@@ -14,7 +14,7 @@ struct SqueezeGeneratorApp: App {
     #warning("move to app service: test changes")
     @StateObject var db: LocalDataBaseManager = .init()
     @StateObject var appServices: AppServiceManager = .init()
-
+    @State var appDataLoaded: Bool = false
 #warning("todo: move to ServiceManager, @enviroment no combine")
     static var adPresenting = PassthroughSubject<Bool, Never>()
     static func triggerAdPresenting(with newValue: Bool = false) {
@@ -33,11 +33,11 @@ struct SqueezeGeneratorApp: App {
     
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView(appDataLoaded: $appDataLoaded)
                 .environment(\.colorScheme, .dark)
                 .preferredColorScheme(.dark)
                 .modifier(
-                    TutorialPresenterModifier()
+                    TutorialPresenterModifier(appDataLoaded: appDataLoaded)
                 )
                 .modifier(
                     AlertModifier()

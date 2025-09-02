@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentHomeCollectionView<Content: View>: View {
+struct DetailHomeCollectionView<Content: View>: View {
 
     @EnvironmentObject private var viewModel: HomeViewModel
     @EnvironmentObject private var appService: AppServiceManager

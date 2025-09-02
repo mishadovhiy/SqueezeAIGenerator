@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeCollectionView: View {
+struct CategoryCollectionView: View {
 
     @EnvironmentObject private var viewModel: HomeViewModel
     @EnvironmentObject private var appService: AppServiceManager
@@ -17,7 +17,10 @@ struct HomeCollectionView: View {
     var body: some View {
         GeometryReader { proxy in
             ScrollView(.vertical, showsIndicators: false) {
-                ContentHomeCollectionView(proxy: proxy, sectionHeader: sectionList)
+                DetailHomeCollectionView(
+                    proxy: proxy,
+                    sectionHeader: sectionListView
+                )
             }
             .onAppear {
                 viewModel.viewSize = proxy.size.height
@@ -31,7 +34,7 @@ struct HomeCollectionView: View {
     }
 
     @ViewBuilder
-    var sectionList: some View {
+    var sectionListView: some View {
         let paddings = viewModel.collectionSubviewPaddings
         let height: CGFloat = viewModel.largeParentCollections ? 120 : 50
         let spacing = viewModel.maxCollectionPaddings * 0.6
@@ -69,18 +72,26 @@ struct HomeCollectionView: View {
             cornerRadius: .CornerRadius.medium.rawValue
         )
         .cornerRadius(.CornerRadius.large.rawValue)
+        .compositingGroup()
     }
 
     func cellContent(_ item: SectionModel) -> some View {
         VStack(alignment: .leading) {
             cellTitle(item)
             Spacer()
-                .frame(maxHeight: .infinity)
-            progress(item)
-                .clipped()
-                .animation(.bouncy, value: viewModel.largeParentCollections)
+            Spacer()
+                .frame(height: viewModel.largeParentCollections ? Configuration.progressBarHeight : 0)
+                .animation(.smooth, value: viewModel.selectedGeneralKeyID)
         }
-        .frame(alignment: .leading)
+        .overlay(content: {
+            VStack {
+                Spacer().frame(maxHeight: .infinity)
+                progress(item)
+                    .clipped()
+                    .animation(.bouncy, value: viewModel.largeParentCollections)
+            }
+        })
+        .frame(maxWidth: 250, alignment: .leading)
         .background(content: {
             sectionImage(item)
         })
@@ -91,17 +102,21 @@ struct HomeCollectionView: View {
     @ViewBuilder
     func sectionImage(_ item: SectionModel) -> some View {
         VStack(alignment: .trailing) {
-            Spacer()
-                .frame(maxHeight: .infinity)
             HStack {
                 Spacer()
                     .frame(maxWidth: viewModel.selectedGeneralKeyID == nil ? .zero : .infinity)
                     .animation(.smooth, value: viewModel.selectedGeneralKeyID)
-                if let url: URL = .init(string: item.imageURL) {
+                if let _: URL = .init(string: item.imageURL) {
                     CachedAsyncImage(url: item.imageURL)
                     .shadow(radius: 15)
+                    .frame(maxWidth: Configuration.maxImageWidth)
                 }
+                Spacer()
+                    .frame(maxWidth: viewModel.selectedGeneralKeyID != nil ? .zero : .infinity)
+                    .animation(.smooth, value: viewModel.selectedGeneralKeyID)
             }
+            Spacer()
+                .frame(maxHeight: .infinity)
         }
         
     }
@@ -110,12 +125,15 @@ struct HomeCollectionView: View {
     func progress(_ item: SectionModel) -> some View {
         let data = viewModel.statsPreview[item.id]
         let height: CGFloat = viewModel.largeParentCollections ? .infinity : .zero
-        VStack {
-            cellParameters("count", "\(data?.subcategoriesCount ?? 0)/\(data?.completedSubcategoriesCount ?? 0)", icon: .folders)
-            Divider()
-                .background(.white.opacity(.Opacity.separetor.rawValue))
-            cellParameters("score", "\(data?.avarageGrade ?? 0)%", icon: .scoreGraph)
-        }
+        VStack(content: {
+            Spacer().frame(maxHeight: .infinity)
+            HStack {
+                cellParameters("count", "\(data?.completedSubcategoriesCount ?? 0)/\(data?.subcategoriesCount ?? 0)", icon: .folders)
+//                Divider()
+//                    .background(.white.opacity(.Opacity.separetor.rawValue))
+                cellParameters("score", "\(data?.avarageGrade ?? 0)%", icon: .scoreGraph)
+            }
+        })
         .opacity(.Opacity.description.rawValue)
         .frame(
             maxWidth: .infinity,
@@ -124,7 +142,7 @@ struct HomeCollectionView: View {
     }
 }
 
-fileprivate extension HomeCollectionView {
+fileprivate extension CategoryCollectionView {
     @ViewBuilder
     func cellBackground(_ item: SectionModel) -> some View {
         let opacity = item.id == viewModel.selectedGeneralKeyID ? 0.05 : 0
@@ -143,18 +161,27 @@ fileprivate extension HomeCollectionView {
                 .bouncy,
                 value: viewModel.largeParentCollections
             )
-        Text(item.title)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .multilineTextAlignment(.leading)
-            .foregroundColor(
-                .white.opacity(opacity)
-            )
-            .font(.Type.section.font)
-            .padding(.horizontal, 22)
+        HStack {
+            Spacer().frame(width: viewModel.selectedGeneralKeyID == nil ? Configuration.maxImageWidth - 10 : .zero)
+                .animation(.smooth, value: viewModel.selectedGeneralKeyID == nil)
+            Text(item.title.addSpaceBeforeCapitalizedLetters.capitalized)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .multilineTextAlignment(.leading)
+                .foregroundColor(
+                    .white.opacity(opacity)
+                )
+                .font(.Type.section.font)
+                .padding(.horizontal, 22)
+                .shadow(radius: 5)
+                .minimumScaleFactor(0.3)
+            Spacer()
+                .frame(width: viewModel.selectedGeneralKeyID != nil ? Configuration.maxImageWidth / 5 : .zero)
+                .animation(.smooth, value: viewModel.selectedGeneralKeyID == nil)
+        }
     }
 
     func cellParameters(_ title: String, _ value: String, icon: ImageResource) -> some View {
-        HStack {
+        HStack(spacing: 4) {
             Image(icon)
                 .resizable()
                 .scaledToFit()
@@ -163,11 +190,25 @@ fileprivate extension HomeCollectionView {
                 .font(.Type.small.font)
                 .multilineTextAlignment(.leading)
                 .frame(alignment: .leading)
-            Spacer()
+//            Spacer()
             Text(value)
+                .font(.Type.small.font(weight: .semibold))
                 .multilineTextAlignment(.leading)
                 .frame(alignment: .trailing)
+            Spacer()
         }
+        .padding(.leading, 5)
         .frame(maxWidth: .infinity)
+        .frame(height: Configuration.progressBarHeight)
+        .background(.white.opacity(0.1))
+        .cornerRadius(5)
+    }
+}
+
+
+fileprivate extension CategoryCollectionView {
+    struct Configuration {
+        static let maxImageWidth: CGFloat = 40
+        static let progressBarHeight: CGFloat = 25
     }
 }

@@ -29,7 +29,11 @@ extension Configuration.UI {
         }
 
         var font: Font {
-            .system(size: rawValue, weight: fontWeight)
+            font(weight: fontWeight)
+        }
+        
+        func font(weight: Font.Weight) -> Font {
+            .system(size: rawValue, weight: weight)
         }
 
         var opacity: CGFloat {
