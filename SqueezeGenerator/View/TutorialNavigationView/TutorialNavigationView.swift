@@ -19,6 +19,9 @@ struct TutorialNavigationView: View {
                 blendOutComposition
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay {
+                rulesView
+            }
             .compositingGroup()
             .allowsHitTesting(false)
             .ignoresSafeArea(.all)
@@ -29,6 +32,30 @@ struct TutorialNavigationView: View {
                 skipButton
             }
         }
+    }
+    
+    var attributedString: AttributedString {
+        let mut: NSMutableAttributedString = .init()
+        mut.append(.init(string: "Generate Queez", attributes: [
+            .font: UIFont.systemFont(ofSize: 28, weight: .semibold)
+        ]))
+        mut.append(.init(string: " on any category", attributes: [
+            .font: UIFont.systemFont(ofSize: 14, weight: .medium)
+        ]))
+        return .init(mut)
+    }
+    
+    var rulesView: some View {
+        VStack(alignment: .leading) {
+            Text(attributedString)//on any category - small
+            Text("Generating with AI")
+                .font(.system(size: 12, weight: .regular))
+        }
+        .frame(alignment: .leading)
+        .padding(.horizontal, 10)
+        .blendMode(.destinationOut)
+        .opacity(appService.tutorialManager.type == DataBase.Tutorial.TutorialType.allCases.first ? 1 : 0)
+        .animation(.smooth, value: appService.tutorialManager.type == DataBase.Tutorial.TutorialType.allCases.first)
     }
     
     var skipButton: some View {
