@@ -133,7 +133,8 @@ class CollectionViewCell: UICollectionViewCell {
         valueLabel.tag = 2
         let progress = UIProgressView()
         progress.tintColor = .white
-        label.numberOfLines = 1
+        label.numberOfLines = 0
+       
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.3
         label.lineBreakMode = .byClipping
@@ -277,6 +278,11 @@ class CollectionViewCell: UICollectionViewCell {
         valueLabel.subviews.first?.layer.cornerRadius = 6
         valueLabel.font = .systemFont(ofSize: 9, weight: .semibold)
         valueLabel.textColor = .white
+        
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.preferredMaxLayoutWidth = 280//(UIApplication.shared.activeWindow?.frame.size.width ?? 0) - 50
+
 
     }
 

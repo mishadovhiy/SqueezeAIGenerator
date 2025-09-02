@@ -43,7 +43,7 @@ struct CardView: View {
         let isLightBackground = backgroundColor.isLight
         let isDark = (viewModel.data.firstIndex(of: data) ?? 0) % 2 == 0
         VStack {
-            cardTextualContentView(data, isLightBackground)
+            cardTextualContentView(data, !isDark)
             Spacer()
             if data.id == currentData?.id {
                 cardCollection(
@@ -54,7 +54,7 @@ struct CardView: View {
             }
 
         }
-        .padding(.top, 15)
+        .padding(.top, 30)
         .padding(.horizontal, 30)
         .padding(.bottom, 20)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -121,28 +121,27 @@ struct CardView: View {
         _ data: CardData,
         _ isLightBackground: Bool
     ) -> some View {
-        VStack(spacing: -54) {
-            HStack {
-                titleLabel
-                Spacer()
-            }
+        VStack(spacing: 5) {
+            Text(data.title)
+                .foregroundColor(!isLightBackground ? Color(uiColor: .init(hex: "29466A")!) : .white)
+                .font(.typed(data.title.count >= 80 ? .text : .largeTitle))
             Text(data.description)
-                .foregroundColor(.black)
+                .foregroundColor(!isLightBackground ? Color(uiColor: .init(hex: "29466A")!) : .white)
+                .multilineTextAlignment(.center)
                 .font(.system(size: 15, weight: .semibold))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(8)
-                .background(.white)
-                .cornerRadius(18)
-                .padding(.top, 5)
-                .padding(.leading, 4)
-                .padding(.trailing, 29)
-                .padding(.bottom, 8)
-                .background(.blue)
-                .cornerRadius(19)
-                .padding(.leading, 10)
+                .frame(maxWidth: .infinity)
+//                .padding(8)
+//                .background(.white)
+//                .cornerRadius(18)
+//                .padding(.top, 5)
+//                .padding(.leading, 4)
+//                .padding(.trailing, 29)
+//                .padding(.bottom, 8)
+//                .background(.blue)
+//                .cornerRadius(19)
+//                .padding(.leading, 10)
             
         }
-        .offset(y: -54)
 
     }
     
@@ -150,6 +149,8 @@ struct CardView: View {
         Text(data.title)
             .foregroundColor(.black)
             .font(.typed(data.title.count >= 40 ? .text : .largeTitle))
+            .frame(maxHeight: 60)
+            .minimumScaleFactor(0.2)
             .padding(.bottom, 54)
             .padding(.horizontal, 19)
             .padding(.top, 13)

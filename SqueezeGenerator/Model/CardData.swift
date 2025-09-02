@@ -31,13 +31,13 @@ extension [CardData] {
         .init(title: "Phihopasy", description: """
             Will Generate questions on: deep, obvious symptoms that strongly represents illness
             """, color: .random, buttons: .demo),
-        .init(title: "Phihopasy", description: """
+        .init(title: "Phihopasy Phihopasy Phihopasy Phihopasy Phihopasy ", description: """
             Will Generate questions on: deep, obvious symptoms that strongly represents illness
             """, color: .random, buttons: .demo),
-        .init(title: "Phihopasy", description: """
+        .init(title: "Will Generate questions on: deep, obvious symptoms that strongly represents illness", description: """
             Will Generate questions on: deep, obvious symptoms that strongly represents illness
             """, color: .random, buttons: .demo),
-        .init(title: "Phihopasy", description: """
+        .init(title: "Will Generate questions on: deep, obvious symptoms that strongly represents illness Will Generate questions on: deep, obvious symptoms that strongly represents illness", description: """
             Will Generate questions on: deep, obvious symptoms that strongly represents illness
             """, color: .random, buttons: .demo),
         .init(title: "Phihopasy", description: """
