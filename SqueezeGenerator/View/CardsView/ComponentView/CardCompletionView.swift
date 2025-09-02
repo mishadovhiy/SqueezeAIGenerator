@@ -21,6 +21,7 @@ struct CardCompletionView: View {
                     .foregroundColor(.white.opacity(.Opacity.separetor.rawValue))
                     .shadow(color:.black.opacity(0.1), radius: 10)
                 Button {
+                    appService.haptic.play()
                     appService.tutorialManager.removeTypeWhenMatching(.generateResult)
                     viewModel.donePressed(viewModel.selectedOptions)
                 } label: {

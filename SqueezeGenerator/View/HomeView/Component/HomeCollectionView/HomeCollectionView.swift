@@ -55,6 +55,7 @@ struct HomeCollectionView: View {
     @ViewBuilder
     func cell(_ item: SectionModel) -> some View {
         Button {
+            appService.haptic.play()
             appService.tutorialManager.removeTypeWhenMatching(.selectParentCategory)
             viewModel.parentCollectionSelected(item)
         } label: {

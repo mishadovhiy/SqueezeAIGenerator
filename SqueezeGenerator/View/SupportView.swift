@@ -58,14 +58,15 @@ struct SupportView: View {
         HStack {
             Spacer().frame(maxWidth: .infinity)
             Button {
+                appService.haptic.play()
                 sendPressed()
             } label: {
                 Text("Send")
             }
             .font(.system(size: 14, weight: .medium))
             .tint(.white)
-            .padding(.vertical, 5)
-            .padding(.horizontal, 15)
+            .padding(.vertical, 8)
+            .padding(.horizontal, 25)
             .blurBackground()
         }
     }

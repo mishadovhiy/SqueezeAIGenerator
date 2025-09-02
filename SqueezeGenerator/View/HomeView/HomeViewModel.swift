@@ -427,6 +427,7 @@ class HomeViewModel: ObservableObject {
     }
 
     func startGenerationRequest(db: LocalDataBaseManager) {
+        #warning("sometimes called when done not pressed")
         withAnimation(.smooth(duration: 0.3)) {
             self.rqStarted = true
         }

@@ -15,6 +15,7 @@ class LocalDataBaseManager:ObservableObject {
     @Published var db:DataBase = .init() {
         didSet {
             if dataLoaded {
+                print("updatingdbdd: ", self.db.tutorials.needPresenting(after: nil))
                 if Thread.isMainThread {
                     DispatchQueue(label: "db", qos: .userInitiated).async {
                         UserDefaults.standard.set(self.db.decode ?? .init(), forKey: self.dbkey)
@@ -91,6 +92,7 @@ extension DataBase {
             after: TutorialType?
             //_ type: [TutorialType] = TutorialType.allCases
         ) -> TutorialType? {
+            print(completed, " ygterfwedaws ")
             guard let type = after ?? nextInCompleted else {
                 return nil
             }
@@ -115,6 +117,11 @@ extension DataBase {
         mutating func complete(_ type: TutorialType) -> TutorialType? {
             if !completed.contains(type) {
                 completed.append(type)
+            }
+            if type == TutorialType.allCases.last {
+                print("completealllll")
+                completed = TutorialType.allCases
+                print(needPresenting(after: nil), " yrgterfwedaws ")
             }
             return needPresenting(after: type)
 //            if needPresenting(after: type) != nil {

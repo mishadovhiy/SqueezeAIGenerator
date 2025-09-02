@@ -38,6 +38,7 @@
 		82719B162E5DF84200176AE4 /* SidebarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B152E5DF84200176AE4 /* SidebarModifier.swift */; };
 		82719B182E5DF9AB00176AE4 /* SideBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B172E5DF9AB00176AE4 /* SideBarView.swift */; };
 		82719B242E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B232E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift */; };
+		82A105252E667980004C7293 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A105242E667980004C7293 /* HapticService.swift */; };
 		82A963BF2E59F45400F2A7A4 /* StartsSKSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A963BE2E59F45400F2A7A4 /* StartsSKSceneView.swift */; };
 		82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */; };
 		82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B692E2D2C4000CC3FAD /* String.swift */; };
@@ -143,6 +144,7 @@
 		82719B152E5DF84200176AE4 /* SidebarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarModifier.swift; sourceTree = "<group>"; };
 		82719B172E5DF9AB00176AE4 /* SideBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarView.swift; sourceTree = "<group>"; };
 		82719B232E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchMaskedScrollModifierModel.swift; sourceTree = "<group>"; };
+		82A105242E667980004C7293 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
 		82A441FB2E256DD80086D5CE /* SqueezeGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqueezeGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442092E256DD90086D5CE /* SqueezeGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442132E256DD90086D5CE /* SqueezeGeneratorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -515,6 +517,7 @@
 				821FF99B2E64B056003E9B3E /* AlertManager.swift */,
 				82AF8B802E2D2C4000CC3FAD /* StorekitModel.swift */,
 				82CDB7172E5F78E000EE5CC4 /* TutorialManager.swift */,
+				82A105242E667980004C7293 /* HapticService.swift */,
 				82AF8B742E2D2C4000CC3FAD /* NetworkModel */,
 			);
 			path = Sevices;
@@ -775,6 +778,7 @@
 				821FF9CD2E64BAAE003E9B3E /* Date.swift in Sources */,
 				821FF9C82E64B930003E9B3E /* SqueezeResultRequest.swift in Sources */,
 				82A963BF2E59F45400F2A7A4 /* StartsSKSceneView.swift in Sources */,
+				82A105252E667980004C7293 /* HapticService.swift in Sources */,
 				82719B182E5DF9AB00176AE4 /* SideBarView.swift in Sources */,
 				82AF8B8B2E2D2C4000CC3FAD /* CollectionView.swift in Sources */,
 				82E60ABE2E616160004CAD0C /* AlertView.swift in Sources */,

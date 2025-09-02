@@ -88,6 +88,7 @@ struct HomeView: View {
             HStack {
                 Spacer()
                 Button {
+                    appService.haptic.play()
                     appService.tutorialManager
                         .removeTypeWhenMatching(.pressGenerate)
                     viewModel.primaryButtonPressed(db: db)
@@ -131,16 +132,6 @@ struct HomeView: View {
         .padding(.horizontal, 5)
         .padding(.bottom, 15)
         //        actionButtonsView
-    }
-    
-    
-    
-    var actionButtonsView: some View {
-        ForEach(viewModel.currentQuestion?.options ?? [], id: \.id) { option in
-            Button(option.optionName + " (\(option.grade))") {
-                viewModel.actionButtonPressed(option)
-            }
-        }
     }
     
     

@@ -175,6 +175,7 @@ struct RequestParametersView: View {
         ForEach(NetworkRequest.SqueezeRequest.Difficulty.allCases,
                 id:\.rawValue) { difficulty in
             Button {
+                appService.haptic.play()
                 appService.tutorialManager.removeTypeWhenMatching(.selectDifficulty)
                 withAnimation(.smooth) {
                     if request?.difficulty == difficulty {

@@ -9,6 +9,7 @@ import Foundation
 
 struct TutorialManager {
     var type: DataBase.Tutorial.TutorialType? = nil
+    var skipPressed = false
     var frame: CGRect = .zero
     var completedSqueezeTypeID: String?
     var needTutorial: Bool = true

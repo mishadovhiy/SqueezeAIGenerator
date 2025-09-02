@@ -19,10 +19,15 @@ struct SideBarView: View {
             }
             
             Spacer()
-//            button("Resturt tutorial", image: .tutorial) {
-//                db.db.tutorials = .init()
-//                appService.tutorialManager = .init()
-//            }
+            button("Restart tutorial", image: .tutorial) {
+                DispatchQueue(label: "db", qos: .userInitiated).async {
+                    db.db.tutorials = .init()
+                    DispatchQueue.main.async {
+                        appService.tutorialManager = .init()
+                        appService.tutorialManager.type = DataBase.Tutorial.TutorialType.allCases.first
+                    }
+                }
+            }
             button("App website", image: .globe) {
                 let url = URL(string: Keys.websiteURL.rawValue)
                 guard let url, UIApplication.shared.canOpenURL(url) else {

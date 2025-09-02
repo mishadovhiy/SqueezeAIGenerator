@@ -29,6 +29,9 @@ struct CardsView: View {
         .foregroundColor(.black)
         .navigationTitle(viewModel.properties.type.addSpaceBeforeCapitalizedLetters.capitalized)
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: viewModel.currentIndex) { newValue in
+            appService.haptic.play()
+        }
         .onAppear {
             viewModel.viewDidAppear()
         }

@@ -23,9 +23,11 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
                         .transition(.asymmetric(insertion: .opacity, removal: .scale))
                         .animation(.spring(), value: appAppeared)
                         .onAppear {
+                            print(" gtefrwdassc")
                             checkIfNeedTutorial()
                         }
                         .onChange(of: appService.tutorialManager.type) { newValue in
+                            appService.haptic.play()
                             if newValue == nil {
                                 completeTutorial()
                             } else {
@@ -58,6 +60,7 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
     }
     
     func completeTutorial() {
+        print("completingegrfwda")
         withAnimation(defaultAnimation) {
             appService.tutorialManager.frame = .zero
         }
@@ -70,7 +73,11 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
     func completedTutorialDB() {
         Task(priority: .background) {
             if let currentService {
-                let type = db.db.tutorials.complete(currentService)
+                print("db completedd")
+
+                let currentService = appService.tutorialManager.skipPressed ? DataBase.Tutorial.TutorialType.allCases.last! : currentService
+                print(currentService, " tg4refwdas ")
+                let type = db.db.tutorials.complete( currentService)
                 if let value = db.db.tutorials.needPresenting(after: currentService) {
                     await MainActor.run {
                         withAnimation(self.defaultAnimation) {
@@ -79,6 +86,7 @@ struct TutorialPresenterModifier: ViewModifier, TutorialModifierUIService {
                     }
                 } else {
                     await MainActor.run() {
+                        print("dont need tutorial")
                         appService.tutorialManager.needTutorial = false
                     }
                 }

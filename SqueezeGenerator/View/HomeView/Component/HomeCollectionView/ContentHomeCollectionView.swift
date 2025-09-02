@@ -127,6 +127,7 @@ struct ContentHomeCollectionView<Content: View>: View {
                 ForEach(viewModel.collectionDataForKey, id: \.id) { item in
 
                     Button {
+                        appService.haptic.play(style: item.isType ? .medium : .heavy)
                         viewModel.collectionViewSelected(category: item, didSelect: { selectedCategory, selectedRequest in
                             guard let selectedCategory else {
                                 return
