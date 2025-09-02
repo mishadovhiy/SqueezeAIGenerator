@@ -39,6 +39,7 @@
 		82719B182E5DF9AB00176AE4 /* SideBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B172E5DF9AB00176AE4 /* SideBarView.swift */; };
 		82719B242E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82719B232E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift */; };
 		82A105252E667980004C7293 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A105242E667980004C7293 /* HapticService.swift */; };
+		82A105292E66CDE6004C7293 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A105282E66CDE6004C7293 /* CardView.swift */; };
 		82A963BF2E59F45400F2A7A4 /* StartsSKSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A963BE2E59F45400F2A7A4 /* StartsSKSceneView.swift */; };
 		82AF8B822E2D2C4000CC3FAD /* Decodable+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B682E2D2C4000CC3FAD /* Decodable+Encodable.swift */; };
 		82AF8B832E2D2C4000CC3FAD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AF8B692E2D2C4000CC3FAD /* String.swift */; };
@@ -145,6 +146,7 @@
 		82719B172E5DF9AB00176AE4 /* SideBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarView.swift; sourceTree = "<group>"; };
 		82719B232E5E0E9A00176AE4 /* PinchMaskedScrollModifierModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchMaskedScrollModifierModel.swift; sourceTree = "<group>"; };
 		82A105242E667980004C7293 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
+		82A105282E66CDE6004C7293 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		82A441FB2E256DD80086D5CE /* SqueezeGenerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqueezeGenerator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442092E256DD90086D5CE /* SqueezeGeneratorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A442132E256DD90086D5CE /* SqueezeGeneratorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SqueezeGeneratorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -535,6 +537,7 @@
 			isa = PBXGroup;
 			children = (
 				82719B0E2E5CEB8E00176AE4 /* CardCompletionView.swift */,
+				82A105282E66CDE6004C7293 /* CardView.swift */,
 			);
 			path = ComponentView;
 			sourceTree = "<group>";
@@ -771,6 +774,7 @@
 				822A44342E4019D400B5CF32 /* DBCategoriyView.swift in Sources */,
 				82AF8B892E2D2C4000CC3FAD /* ResultRequest.swift in Sources */,
 				821FF9A82E64B0F2003E9B3E /* UINavigationController.swift in Sources */,
+				82A105292E66CDE6004C7293 /* CardView.swift in Sources */,
 				82BA594E2E301F7C009B8913 /* ResultView.swift in Sources */,
 				82AF8B8A2E2D2C4000CC3FAD /* NetworkModel.swift in Sources */,
 				82719B0F2E5CEB8E00176AE4 /* CardCompletionView.swift in Sources */,

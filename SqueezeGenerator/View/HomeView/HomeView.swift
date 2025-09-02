@@ -48,6 +48,9 @@ struct HomeView: View {
         .onChange(of: viewModel.appDataLoading) { newValue in
             if !newValue {
                 appDataLoaded = true
+                self.navigationManager.append(.cardView(.init(properties: .init(type: "", selectedResponseItem: nil, data: .demo), completedSqueeze: { _ in
+                    
+                })))
             }
         }
         .onChange(of: viewModel.selectedIDs) { newValue in
@@ -168,6 +171,9 @@ struct HomeView: View {
             } else {
                 CategoryCollectionView()
                     .environmentObject(viewModel)
+                    .overlay {
+                        testCardsButton
+                    }
             }
             
         }
