@@ -34,6 +34,9 @@ struct WebView: View {
                             urlContent = response.response ?? "no response from the server"
                         }
             }
+            .cornerRadius(12)
+            .padding(10)
+            .shadow(radius: 5)
     }
 }
 
@@ -73,6 +76,7 @@ struct WebViewRepresentable: UIViewRepresentable {
         let webView = WKWebView()
         webView.backgroundColor = .clear
         webView.loadHTMLString(html, baseURL: nil)
+        webView.isFindInteractionEnabled = true
         return webView
     }
 

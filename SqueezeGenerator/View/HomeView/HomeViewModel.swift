@@ -76,7 +76,7 @@ class HomeViewModel: ObservableObject {
 
     //shows buttons view across navigations
     private var needButtonsView: Bool {
-        navValues.last?.needDoneButton ?? false || (response != nil && navValues.isEmpty)
+        navValues.last?.needDoneButton ?? false
     }
 
     //shows buttons view across navigations
@@ -461,7 +461,10 @@ deadline: .now() + .milliseconds(300),
         selectedRequest = nil
         rqStarted = false
         response = nil
+        scrollToItemID = "header"
     }
+    
+    @Published var scrollToItemID: String? = nil
 
     func loadAppSettings(db: LocalDataBaseManager) {
         NetworkModel().appData { response in

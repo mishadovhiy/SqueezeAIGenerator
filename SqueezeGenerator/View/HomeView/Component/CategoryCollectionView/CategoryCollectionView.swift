@@ -16,12 +16,20 @@ struct CategoryCollectionView: View {
 
     var body: some View {
         GeometryReader { proxy in
-            ScrollView(.vertical, showsIndicators: false) {
-                DetailHomeCollectionView(
-                    proxy: proxy,
-                    sectionHeader: sectionListView
-                )
-            }
+            ScrollViewReader(content: { scrollProxy in
+                ScrollView(.vertical, showsIndicators: false) {
+                    DetailHomeCollectionView(
+                        proxy: proxy,
+                        sectionHeader: sectionListView
+                    )
+                }
+                .onChange(of: viewModel.scrollToItemID) { newValue in
+                    if let newValue {
+                        scrollProxy.scrollTo(newValue)
+                        viewModel.scrollToItemID = nil
+                    }
+                }
+            })
             .onAppear {
                 viewModel.viewSize = proxy.size.height
                 viewModel.viewWidth = proxy.size.width

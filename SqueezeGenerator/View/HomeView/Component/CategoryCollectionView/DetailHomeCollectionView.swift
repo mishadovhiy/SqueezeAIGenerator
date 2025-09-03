@@ -43,6 +43,7 @@ struct DetailHomeCollectionView<Content: View>: View {
 
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .id("header")
     }
 
     @ViewBuilder
@@ -148,7 +149,7 @@ struct DetailHomeCollectionView<Content: View>: View {
                     } label: {
                         cell(item)
                     }
-
+                    .id(item.id)
                 }
             })
             .frame(maxWidth: 550)
