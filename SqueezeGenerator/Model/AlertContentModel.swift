@@ -32,6 +32,7 @@ struct AlertContentModel {
 
     struct Button {
         let title: String
+        var close: Bool = true
         let pressed: (()->())?
 
         init(title: String,

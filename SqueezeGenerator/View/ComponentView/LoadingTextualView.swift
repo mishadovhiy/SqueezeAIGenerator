@@ -16,6 +16,8 @@ struct LoadingTextualView: View {
         self.title = presenter.title
     }
 
+    @State private var isDisapeared = false
+
     var body: some View {
         VStack(content: {
             Spacer()
@@ -42,13 +44,18 @@ struct LoadingTextualView: View {
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
         .onAppear {
-#warning("stop: enviroment checker")
             animateDote()
+        }
+        .onDisappear {
+            isDisapeared = true
         }
     }
 
 
     func animateDote() {
+        if isDisapeared {
+            return
+        }
         if dotes.count >= 3 {
             dotes = ""
         } else {

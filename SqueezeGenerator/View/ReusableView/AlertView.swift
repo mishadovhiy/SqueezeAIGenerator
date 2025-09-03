@@ -98,6 +98,9 @@ struct AlertView: View {
             Button {
                 if let action = button.pressed {
                     action()
+                    if button.close {
+                        dismiss()
+                    }
                 } else {
                     dismiss()
                 }

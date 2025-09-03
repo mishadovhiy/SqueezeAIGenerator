@@ -10,7 +10,8 @@ import SwiftUI
 struct CardsView: View {
     @StateObject private var viewModel: CardsViewModel
     @EnvironmentObject private var appService: AppServiceManager
-
+    @EnvironmentObject private var navigationManager: NavigationManager
+    
     init(_ presenter: Presenter) {
         _viewModel = StateObject(wrappedValue: .init(presenter.properties, donePressed: presenter.completedSqueeze))
     }
@@ -22,7 +23,10 @@ struct CardsView: View {
         }
         .modifier(TutorialTargetModifier(targetType: .waitingForSqueezeCompletion))
         .toolbar {
-            ToolbarItem(placement: .navigation) {
+            ToolbarItem(placement: .topBarLeading) {
+                closeButton
+            }
+            ToolbarItem(placement: .topBarTrailing) {
                 removeLastActionButton
             }
         }
@@ -36,15 +40,21 @@ struct CardsView: View {
             viewModel.viewDidAppear()
         }
         .environmentObject(viewModel)
+        .navigationBarBackButtonHidden()
     }
 
+    @ViewBuilder
     var cardCompletionView: some View {
-        CardCompletionView(
-            viewModel: viewModel,
-            tintColor: viewModel.tintColor,
-            needIllustration: .constant(viewModel.currentIndex >= viewModel.data.count)
-        )
-        .frame(maxHeight: .infinity)
+        if viewModel.viewAppeared {
+            CardCompletionView(
+                viewModel: viewModel,
+                tintColor: viewModel.tintColor,
+                needIllustration: .constant(viewModel.currentIndex >= viewModel.data.count)
+            )
+            .frame(maxHeight: .infinity)
+            .transition(.move(edge: .bottom))
+            .animation(.bouncy, value: viewModel.viewAppeared)
+        }
     }
 
     var contentView: some View {
@@ -72,6 +82,25 @@ struct CardsView: View {
         }
     }
 
+    var closeButton: some View {
+        Button {
+            appService.alertManager.present(.init(title: "Are you sure?", description: "Your progress would be lost", buttons: [
+                .init(title: "Cancel"),
+                .init(title: "Yes", pressed: {
+                    withAnimation(.smooth) {
+                        navigationManager.routs.removeAll()
+                    }
+                })
+            ]))
+        } label: {
+            Image(.close)
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.white)
+                .frame(width: 20, height: 20)
+        }
+    }
+    
     var removeLastActionButton: some View {
         Button {
             withAnimation {

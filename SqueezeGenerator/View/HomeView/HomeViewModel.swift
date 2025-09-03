@@ -456,6 +456,12 @@ deadline: .now() + .milliseconds(300),
             }
         })
     }
+    
+    func removeRequest() {
+        selectedRequest = nil
+        rqStarted = false
+        response = nil
+    }
 
     func loadAppSettings(db: LocalDataBaseManager) {
         NetworkModel().appData { response in

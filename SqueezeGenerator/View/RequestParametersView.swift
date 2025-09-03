@@ -216,7 +216,7 @@ struct RequestParametersView: View {
         text.append(.init(string: "Will Generate questions", attributes: [
             .font: UIFont.systemFont(ofSize: 16, weight: .regular)
         ]))
-        text.append(.init(string: " on" + (request?.description ?? ""), attributes: [
+        text.append(.init(string: " on " + (request?.description ?? ""), attributes: [
             .font: UIFont.systemFont(ofSize: 16, weight: .bold),
         ]))
         return .init(text)

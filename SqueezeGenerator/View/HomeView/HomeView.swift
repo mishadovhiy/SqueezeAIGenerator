@@ -45,6 +45,13 @@ struct HomeView: View {
                 self.viewModel.dbUpdated(db)
             }
         }
+        .onChange(of: navigationManager.routs.count) { newValue in
+            if newValue == 0 {
+                withAnimation(.smooth) {
+                    viewModel.removeRequest()
+                }
+            }
+        }
         .onChange(of: viewModel.appDataLoading) { newValue in
             if !newValue {
                 appDataLoaded = true
@@ -160,21 +167,21 @@ struct HomeView: View {
     
     var homeRoot: some View {
         VStack {
-            if viewModel.response != nil {
-                ReadyView(presenter: .init(cancelPressed: {
-                    withAnimation {
-                        viewModel.response = nil
-                        viewModel.rqStarted = false
-                    }
-                }))
-                
-            } else {
+//            if viewModel.response != nil {
+//                ReadyView(presenter: .init(cancelPressed: {
+//                    withAnimation {
+//                        viewModel.response = nil
+//                        viewModel.rqStarted = false
+//                    }
+//                }))
+//                
+//            } else {
                 CategoryCollectionView()
                     .environmentObject(viewModel)
 //                    .overlay {
 //                        testCardsButton
 //                    }
-            }
+//            }
             
         }
         .opacity(navigationManager.routs.isEmpty ? 1 : 0)
