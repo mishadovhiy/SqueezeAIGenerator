@@ -90,6 +90,8 @@ struct DetailHomeCollectionView<Content: View>: View {
             }
             Spacer().frame(maxWidth: .infinity)
             VStack(alignment: .leading) {
+//                Text(item.description ?? "")
+//                    .font(.system(size: 9))
                 Text(item.title.addSpaceBeforeCapitalizedLetters.capitalized)
                     .multilineTextAlignment(.leading)
                     .font(.system(size: 18, weight: .semibold))

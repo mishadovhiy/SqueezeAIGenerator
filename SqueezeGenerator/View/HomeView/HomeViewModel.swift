@@ -369,7 +369,7 @@ class HomeViewModel: ObservableObject {
         }
 
         return .init(
-            title: response.name,
+            title: response.name, description: response.description,
             cellBackground: isListSelected ? .yellow : (response.resultType != nil ? .white : .gray),
             isSelected: self.selectedIDs.contains(response.id),
             id: response.id,

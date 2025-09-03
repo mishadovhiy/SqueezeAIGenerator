@@ -48,9 +48,8 @@ struct HomeView: View {
         .onChange(of: viewModel.appDataLoading) { newValue in
             if !newValue {
                 appDataLoaded = true
-                self.navigationManager.append(.cardView(.init(properties: .init(type: "", selectedResponseItem: nil, data: .demo), completedSqueeze: { _ in
-                    
-                })))
+//                print("\n\n")
+//                print(viewModel.convertToAllLists(list: viewModel.appResponse?.categories ?? []).compactMap({$0.name}), " rgterfwedfrgr")
             }
         }
         .onChange(of: viewModel.selectedIDs) { newValue in
@@ -114,6 +113,7 @@ struct HomeView: View {
                 }
                 .padding(.horizontal, 50)
                 .frame(height: needButton)
+                .disabled(needButton == 0)
                 .clipped()
                 .background(
                     Color(
@@ -171,9 +171,9 @@ struct HomeView: View {
             } else {
                 CategoryCollectionView()
                     .environmentObject(viewModel)
-                    .overlay {
-                        testCardsButton
-                    }
+//                    .overlay {
+//                        testCardsButton
+//                    }
             }
             
         }
